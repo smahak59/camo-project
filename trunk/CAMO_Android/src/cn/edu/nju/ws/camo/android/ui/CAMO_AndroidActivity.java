@@ -1,5 +1,6 @@
-package cn.edu.nju.ws.camo.android;
+package cn.edu.nju.ws.camo.android.ui;
 
+import cn.edu.nju.ws.camo.android.R;
 import android.app.Activity;
 import android.os.Bundle;
 
