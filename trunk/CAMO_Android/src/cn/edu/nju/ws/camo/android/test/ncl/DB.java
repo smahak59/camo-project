@@ -6,7 +6,7 @@ import java.sql.Statement;
 
 
 public class DB {
-	private static final String uri = "jdbc:mysql://114.212/android";
+	private static final String uri = "jdbc:mysql://114.212.81.80/android";
 	private static final String user="root";
 	private static final String password = "mysql";
 
