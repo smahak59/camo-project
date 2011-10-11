@@ -1,5 +1,6 @@
 package cn.edu.nju.ws.camo.android.util;
 
+
 /**
  * @author Hang Zhang
  *
