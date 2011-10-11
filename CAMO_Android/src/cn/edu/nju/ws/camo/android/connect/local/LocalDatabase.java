@@ -2,6 +2,7 @@ package cn.edu.nju.ws.camo.android.connect.local;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 public class LocalDatabase {
@@ -59,6 +60,18 @@ public class LocalDatabase {
 		db.update("u_recommend", value, "u_id=?",new String[]{Integer.toString(u_id)});
 	}
 	
+	public Cursor queryFromu_id(int u_id){
+		DatabaseHelper dbHelper = new DatabaseHelper(context,"CAMO_db");
+		SQLiteDatabase db= dbHelper.getWritableDatabase();
+		Cursor cursor = db.query("u_recommend", new String[]{"u_id","nickname","trigger_inst1","trigger_inst2","rule"}, "u_id=?", new String[]{Integer.toString(u_id)}, null, null, null);
+		return cursor;
+	}
 	
-
+	public Cursor queryFromNickname(String nickname){
+		DatabaseHelper dbHelper = new DatabaseHelper(context,"CAMO_db");
+		SQLiteDatabase db= dbHelper.getWritableDatabase();
+		Cursor cursor = db.query("u_recommend", new String[]{"u_id","nickname","trigger_inst1","trigger_inst2","rule"}, "nickname=?", new String[]{nickname}, null, null, null);
+		return cursor;
+	}
 }
+
