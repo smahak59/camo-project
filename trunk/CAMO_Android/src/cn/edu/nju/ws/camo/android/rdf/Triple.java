@@ -1,4 +1,4 @@
-package cn.edu.nju.ws.camo.android.util;
+package cn.edu.nju.ws.camo.android.rdf;
 
 /**
  * @author Hang Zhang
