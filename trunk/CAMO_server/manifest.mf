@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Main-Class: cn.edu.nju.ws.camo.service.Publisher
+Main-Class: cn.edu.nju.ws.camo.webservice.Publisher
 Class-Path: lib/arq-2.8.8.jar
   lib/arq-2.8.7.jar
   lib/arq-2.8.7-tests.jar

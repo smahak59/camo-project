@@ -3,8 +3,6 @@ package cn.edu.nju.ws.camo.webservice;
 import javax.xml.ws.Endpoint;
 
 import cn.edu.nju.ws.camo.webservice.connect.Config;
-import cn.edu.nju.ws.camo.webservice.user.IUserService;
-import cn.edu.nju.ws.camo.webservice.user.UserService;
 
 public class Publisher {
 
