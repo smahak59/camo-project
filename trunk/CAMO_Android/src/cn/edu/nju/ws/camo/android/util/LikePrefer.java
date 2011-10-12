@@ -8,7 +8,7 @@ public class LikePrefer extends Preference {
 
 	private boolean subscribe;
 	
-	LikePrefer(User user, RdfInstance inst, boolean sub) {
+	LikePrefer(User user, UriInstance inst, boolean sub) {
 		super(user, inst);
 		this.subscribe = sub;
 	}
