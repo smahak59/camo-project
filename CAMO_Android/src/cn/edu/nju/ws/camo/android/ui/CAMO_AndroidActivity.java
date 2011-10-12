@@ -28,6 +28,7 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 		case R.id.button_viewRdfInstance:
 			Intent i = new Intent(this, RdfInstanceViewer.class);
 			startActivity(i);
+			break;
 		}
 	}
 }
