@@ -33,7 +33,7 @@ public class LocalDatabase {
 	public void insert(int u_id,String nickname,String trigger_inst1,String trigger_inst2,int rule){
 		ContentValues value = new ContentValues();
 		value.put("u_id",u_id);
-		value.put("nichname",nickname);
+		value.put("nickname",nickname);
 		value.put("trigger_inst1",trigger_inst1);
 		value.put("trigger_inst2",trigger_inst2);
 		value.put("rule",rule);
