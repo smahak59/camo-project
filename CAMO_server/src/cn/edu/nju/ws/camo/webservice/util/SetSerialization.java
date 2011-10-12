@@ -73,4 +73,9 @@ public class SetSerialization {
 		}
 		return result;
 	}
+	
+	public static String rmIllegal(String str) {
+		String newStr = str.replaceAll("\"", "").replaceAll("'", "");
+		return newStr;
+	}
 }
