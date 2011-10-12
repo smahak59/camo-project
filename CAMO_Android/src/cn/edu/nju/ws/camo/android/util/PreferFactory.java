@@ -17,11 +17,11 @@ public class PreferFactory {
 		return instance;
 	}
 	
-	public Preference createLike(User user, RdfInstance inst, boolean sub) {
+	public Preference createLike(User user, UriInstance inst, boolean sub) {
 		return new LikePrefer(user, inst, sub);
 	}
 	
-	public Preference createDislike(User user, RdfInstance inst) {
+	public Preference createDislike(User user, UriInstance inst) {
 		return new DislikePrefer(user, inst);
 	}
 }

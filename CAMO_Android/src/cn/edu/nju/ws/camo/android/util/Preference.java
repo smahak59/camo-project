@@ -7,9 +7,9 @@ package cn.edu.nju.ws.camo.android.util;
 public class Preference {
 
 	private User user;
-	private RdfInstance inst;
+	private UriInstance inst;
 	
-	Preference(User user, RdfInstance inst) {
+	Preference(User user, UriInstance inst) {
 		this.user = user;
 		this.inst = inst;
 	}
@@ -18,7 +18,7 @@ public class Preference {
 		return user;
 	}
 
-	public RdfInstance getInst() {
+	public UriInstance getInst() {
 		return inst;
 	}
 

@@ -6,7 +6,7 @@ package cn.edu.nju.ws.camo.android.util;
  */
 public class DislikePrefer extends Preference{
 	
-	DislikePrefer(User user, RdfInstance inst) {
+	DislikePrefer(User user, UriInstance inst) {
 		super(user, inst);
 	}
 }
