@@ -1,4 +1,4 @@
-package cn.edu.nju.ws.camo.webservice.inject;
+package cn.edu.nju.ws.camo.webservice.view;
 
 import java.util.ArrayList;
 import java.util.List;
