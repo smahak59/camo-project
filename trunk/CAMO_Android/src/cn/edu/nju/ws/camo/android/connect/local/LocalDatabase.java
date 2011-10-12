@@ -52,7 +52,7 @@ public class LocalDatabase {
 	public void update(int u_id,String nickname,String trigger_inst1,String trigger_inst2){
 		ContentValues value = new ContentValues();
 		//value.put("u_id",u_id);
-		if(nickname!=null)value.put("nichname",nickname);
+		if(nickname!=null)value.put("nickname",nickname);
 		if(trigger_inst1!=null)value.put("trigger_inst1",trigger_inst1);
 		if(trigger_inst2!=null)value.put("trigger_inst2",trigger_inst2);
 		DatabaseHelper dbHelper = new DatabaseHelper(context,"CAMO_db");
@@ -62,7 +62,7 @@ public class LocalDatabase {
 	public void update(int u_id,String nickname,String trigger_inst1,String trigger_inst2,int rule){
 		ContentValues value = new ContentValues();
 		//value.put("u_id",u_id);
-		if(nickname!=null)value.put("nichname",nickname);
+		if(nickname!=null)value.put("nickname",nickname);
 		if(trigger_inst1!=null)value.put("trigger_inst1",trigger_inst1);
 		if(trigger_inst2!=null)value.put("trigger_inst2",trigger_inst2);
 		value.put("rule",rule);
