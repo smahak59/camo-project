@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" name="connect1" size="825,965" id="cn.edu.nju.ws.camo.model.connect" metadata="uml2-1.0" initialized="true" scrolledY="392" tag="1000" key="32303037303533312D313030302043414D4F2F776875">
+  <children xsi:type="editmodel:ClassEditModel" name="AbsDBConn" location="50,689" size="116,103" id="cn.edu.nju.ws.camo.model.connect/AbsDBConn" runTimeClassModel="sdbConnect(),connect(),shutdown()">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="88,54">
+      <children xsi:type="editmodel:MethodEditModel" name="connect" id="cn.edu.nju.ws.camo.model.connect/AbsDBConn#connect()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="sdbConnect" id="cn.edu.nju.ws.camo.model.connect/AbsDBConn#sdbConnect()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="shutdown" id="cn.edu.nju.ws.camo.model.connect/AbsDBConn#shutdown()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="JenaSPARQLOp" location="555,725" size="144,67" id="cn.edu.nju.ws.camo.model.connect/JenaSPARQLOp" runTimeClassModel="query(Ljava.lang.String;Ljava.lang.String;)">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="58,18">
+      <children xsi:type="editmodel:MethodEditModel" name="query" id="cn.edu.nju.ws.camo.model.connect/JenaSPARQLOp#query(Ljava.lang.String;Ljava.lang.String;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="SDBConnFactory" location="660,177" size="149,265" id="cn.edu.nju.ws.camo.model.connect/SDBConnFactory" runTimeClassModel="sdbConnectType(I),jMD_CONN,getInstance(),dBP_CONN,lMDB_CONN,wDF_CONN,shutdown(I),jHP_CONN,tROP_CONN,sdbConnect(I),mAG_CONN,sdbConnectName(I)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="99,126">
+      <children xsi:type="editmodel:AttributeEditModel" name="dBP_CONN" id="cn.edu.nju.ws.camo.model.connect/SDBConnFactory#dBP_CONN"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="jHP_CONN" id="cn.edu.nju.ws.camo.model.connect/SDBConnFactory#jHP_CONN"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="jMD_CONN" id="cn.edu.nju.ws.camo.model.connect/SDBConnFactory#jMD_CONN"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="lMDB_CONN" id="cn.edu.nju.ws.camo.model.connect/SDBConnFactory#lMDB_CONN"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="mAG_CONN" id="cn.edu.nju.ws.camo.model.connect/SDBConnFactory#mAG_CONN"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="tROP_CONN" id="cn.edu.nju.ws.camo.model.connect/SDBConnFactory#tROP_CONN"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="wDF_CONN" id="cn.edu.nju.ws.camo.model.connect/SDBConnFactory#wDF_CONN"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="115,90">
+      <children xsi:type="editmodel:MethodEditModel" name="getInstance" id="cn.edu.nju.ws.camo.model.connect/SDBConnFactory#getInstance()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="sdbConnect" id="cn.edu.nju.ws.camo.model.connect/SDBConnFactory#sdbConnect(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="sdbConnectName" id="cn.edu.nju.ws.camo.model.connect/SDBConnFactory#sdbConnectName(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="sdbConnectType" id="cn.edu.nju.ws.camo.model.connect/SDBConnFactory#sdbConnectType(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="shutdown" id="cn.edu.nju.ws.camo.model.connect/SDBConnFactory#shutdown(I)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.4/@sourceConnections.0 //@children.5/@sourceConnections.0" name="Param" location="268,177" size="173,615" id="cn.edu.nju.ws.camo.model.connect/Param" runTimeClassModel="iMAGE_SQLS,iMAGE_URLS,mYSQL_DB_DRV,mOVIE_URLS,jMD_SQL,mOVIE_SQLS,mAG_SQL,dBP_SQL,mYSQL_DB_PWD,tROP_SQL,jMD_URL,dB_PWDS,mUSIC_URLS,wDF_URL,tROP_URL,wDF_SQL,pGSQL_DB_USR,lMDB_SQL,dB_USRS,jHP_URL,fUSE_SQL,dB_DRVS,mUSIC_SQLS,lMDB_URL,dBP_URL,mYSQL_DB_USR,cONFIG,pGSQL_DB_DRV,fUSE_URL,mAG_URL,jHP_SQL,pGSQL_DB_PWD">
+    <children xsi:type="editmodel:CompartmentEditModel" size="150,576">
+      <children xsi:type="editmodel:AttributeEditModel" name="cONFIG" id="cn.edu.nju.ws.camo.model.connect/Param#cONFIG"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="dBP_SQL" id="cn.edu.nju.ws.camo.model.connect/Param#dBP_SQL"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="dBP_URL" id="cn.edu.nju.ws.camo.model.connect/Param#dBP_URL"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="dB_DRVS" id="cn.edu.nju.ws.camo.model.connect/Param#dB_DRVS"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="dB_PWDS" id="cn.edu.nju.ws.camo.model.connect/Param#dB_PWDS"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="dB_USRS" id="cn.edu.nju.ws.camo.model.connect/Param#dB_USRS"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="fUSE_SQL" id="cn.edu.nju.ws.camo.model.connect/Param#fUSE_SQL"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="fUSE_URL" id="cn.edu.nju.ws.camo.model.connect/Param#fUSE_URL"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="iMAGE_SQLS" id="cn.edu.nju.ws.camo.model.connect/Param#iMAGE_SQLS"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="iMAGE_URLS" id="cn.edu.nju.ws.camo.model.connect/Param#iMAGE_URLS"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="jHP_SQL" id="cn.edu.nju.ws.camo.model.connect/Param#jHP_SQL"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="jHP_URL" id="cn.edu.nju.ws.camo.model.connect/Param#jHP_URL"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="jMD_SQL" id="cn.edu.nju.ws.camo.model.connect/Param#jMD_SQL"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="jMD_URL" id="cn.edu.nju.ws.camo.model.connect/Param#jMD_URL"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="lMDB_SQL" id="cn.edu.nju.ws.camo.model.connect/Param#lMDB_SQL"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="lMDB_URL" id="cn.edu.nju.ws.camo.model.connect/Param#lMDB_URL"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="mAG_SQL" id="cn.edu.nju.ws.camo.model.connect/Param#mAG_SQL"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="mAG_URL" id="cn.edu.nju.ws.camo.model.connect/Param#mAG_URL"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="mOVIE_SQLS" id="cn.edu.nju.ws.camo.model.connect/Param#mOVIE_SQLS"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="mOVIE_URLS" id="cn.edu.nju.ws.camo.model.connect/Param#mOVIE_URLS"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="mUSIC_SQLS" id="cn.edu.nju.ws.camo.model.connect/Param#mUSIC_SQLS"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="mUSIC_URLS" id="cn.edu.nju.ws.camo.model.connect/Param#mUSIC_URLS"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="mYSQL_DB_DRV" id="cn.edu.nju.ws.camo.model.connect/Param#mYSQL_DB_DRV"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="mYSQL_DB_PWD" id="cn.edu.nju.ws.camo.model.connect/Param#mYSQL_DB_PWD"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="mYSQL_DB_USR" id="cn.edu.nju.ws.camo.model.connect/Param#mYSQL_DB_USR"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="pGSQL_DB_DRV" id="cn.edu.nju.ws.camo.model.connect/Param#pGSQL_DB_DRV"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="pGSQL_DB_PWD" id="cn.edu.nju.ws.camo.model.connect/Param#pGSQL_DB_PWD"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="pGSQL_DB_USR" id="cn.edu.nju.ws.camo.model.connect/Param#pGSQL_DB_USR"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="tROP_SQL" id="cn.edu.nju.ws.camo.model.connect/Param#tROP_SQL"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="tROP_URL" id="cn.edu.nju.ws.camo.model.connect/Param#tROP_URL"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="wDF_SQL" id="cn.edu.nju.ws.camo.model.connect/Param#wDF_SQL"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="wDF_URL" id="cn.edu.nju.ws.camo.model.connect/Param#wDF_URL"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="Config" location="50,177" size="107,103" id="cn.edu.nju.ws.camo.model.connect/Config" runTimeClassModel="main([Ljava.lang.String;),echoParam(),initParam()">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="84,54">
+      <children xsi:type="editmodel:MethodEditModel" name="echoParam" id="cn.edu.nju.ws.camo.model.connect/Config#echoParam()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="initParam" id="cn.edu.nju.ws.camo.model.connect/Config#initParam()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="main" id="cn.edu.nju.ws.camo.model.connect/Config#main([Ljava.lang.String;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="cn.edu.nju.ws.camo.model.connect/Config->Soyatec::Access" source="//@children.4" target="//@children.3" targetEnd="//@children.4/@sourceConnections.0/@children.2" label="//@children.4/@sourceConnections.0/@children.0" sourceEnd="//@children.4/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Import, Access, Instantiate»" size="139,14" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="104,51" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,51"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="JenaSDBOp" location="488,303" size="118,121" id="cn.edu.nju.ws.camo.model.connect/JenaSDBOp" runTimeClassModel="install(Ljava.lang.String;Lcom.hp.hpl.jena.sdb.store.DatabaseType;),truncate(Ljava.lang.String;Lcom.hp.hpl.jena.sdb.store.DatabaseType;),query(Lcom.hp.hpl.jena.sdb.sql.SDBConnection;Lcom.hp.hpl.jena.sdb.store.DatabaseType;Ljava.lang.String;),load(Ljava.lang.String;Lcom.hp.hpl.jena.sdb.store.DatabaseType;Ljava.lang.String;Ljava.lang.String;)">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="70,72">
+      <children xsi:type="editmodel:MethodEditModel" name="install" id="cn.edu.nju.ws.camo.model.connect/JenaSDBOp#install(Ljava.lang.String;Lcom.hp.hpl.jena.sdb.store.DatabaseType;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="load" id="cn.edu.nju.ws.camo.model.connect/JenaSDBOp#load(Ljava.lang.String;Lcom.hp.hpl.jena.sdb.store.DatabaseType;Ljava.lang.String;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="query" id="cn.edu.nju.ws.camo.model.connect/JenaSDBOp#query(Lcom.hp.hpl.jena.sdb.sql.SDBConnection;Lcom.hp.hpl.jena.sdb.store.DatabaseType;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="truncate" id="cn.edu.nju.ws.camo.model.connect/JenaSDBOp#truncate(Ljava.lang.String;Lcom.hp.hpl.jena.sdb.store.DatabaseType;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="cn.edu.nju.ws.camo.model.connect/JenaSDBOp-Soyatec::Access->cn.edu.nju.ws.camo.model.connect/Param" source="//@children.5" target="//@children.3" targetEnd="//@children.5/@sourceConnections.0/@children.2" label="//@children.5/@sourceConnections.0/@children.0" sourceEnd="//@children.5/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Access»" size="50,14" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,60" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="173,186"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <diagramOptions xsi:type="options:ClassDiagramOptions" level="-1" showScope="InPackage" properties="wireOptions=7;Product=eUML2"/>
+  <boardSetting snapToGeometry="true" gridEnabled="true" gridSpacing="15,15" gridOrigin="0,0" rulerUnit="pixel" gridVisibility="false">
+    <leftRuler/>
+    <topRuler/>
+  </boardSetting>
+  <classDiagramPreferences xsi:type="editmodel:UMLClassDiagramPreference" showPopupBars="true" showConnectionHandles="true" attributeSorter="Natural" methodSorter="Natural" showClassStereotype="true" showPackageStereotype="true" showDependencyStereotype="true" showInterfaceStereotype="true" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+</editmodel:ClassDiagramEditModel>
