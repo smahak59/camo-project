@@ -1,5 +1,8 @@
 package cn.edu.nju.ws.camo.android.ui;
-
+/**
+ * @author Cunxin Jia
+ *
+ */
 import cn.edu.nju.ws.camo.android.R;
 import android.app.Activity;
 import android.os.Bundle;
