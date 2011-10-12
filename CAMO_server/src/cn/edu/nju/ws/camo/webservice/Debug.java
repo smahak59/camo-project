@@ -2,7 +2,6 @@ package cn.edu.nju.ws.camo.webservice;
 
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 
-import cn.edu.nju.ws.camo.webservice.user.IUserService;
 
 public class Debug {
 	

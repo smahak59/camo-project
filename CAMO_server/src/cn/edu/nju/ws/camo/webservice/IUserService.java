@@ -1,4 +1,4 @@
-package cn.edu.nju.ws.camo.webservice.user;
+package cn.edu.nju.ws.camo.webservice;
 
 
 import javax.jws.WebService;
