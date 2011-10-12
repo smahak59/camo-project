@@ -4,5 +4,7 @@
   android:orientation="vertical"
   android:layout_width="match_parent"
   android:layout_height="match_parent">
+    <Button android:layout_height="wrap_content" android:text="Like" android:id="@+id/button_like" android:layout_width="match_parent"></Button>
+    <Button android:layout_height="wrap_content" android:text="Dislike" android:id="@+id/button_dislike" android:layout_width="match_parent"></Button>
     
 </LinearLayout>
