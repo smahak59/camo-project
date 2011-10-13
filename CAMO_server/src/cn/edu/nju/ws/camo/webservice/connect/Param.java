@@ -57,14 +57,16 @@ public class Param
 	public static String WDF_URL = null;
 	public static String WDF_SQL = null;
 	
-	public String[] IMAGE_URLS = { DBP_URL, WDF_URL };
-	public String[] IMAGE_SQLS = { DBP_SQL, WDF_SQL };
-	
+	// fuse
 	public static String FUSE_URL = null;
 	public static String FUSE_SQL = null;
 	
+	// user
 	public static String USER_URL = null;
 	public static String USER_SQL = null;
+	
+	//server address
+	public static String SERVER_ADDRE = null;
 	
 	public static final String DBP = "DBP";
 	public static final String JMD = "JMD";

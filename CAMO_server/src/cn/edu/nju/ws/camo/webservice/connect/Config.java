@@ -37,6 +37,7 @@ public class Config
 		setDBP(prop);
 		setFUSE(prop);
 		setUSER(prop);
+		setSERVER(prop);
 	}
 	
 	public static void echoParam()
@@ -61,11 +62,6 @@ public class Config
 			System.out.println("MOVIE_URL" + i + "=" + param.MOVIE_URLS[i]);
 		for (int j = 0; j < param.MOVIE_SQLS.length; ++j)
 			System.out.println("MOVIE_URL" + j + "=" + param.MOVIE_SQLS[j]);
-		
-		for (int i = 0; i < param.IMAGE_URLS.length; ++i)
-			System.out.println("IMAGE_URL" + i + "=" + param.IMAGE_URLS[i]);
-		for (int j = 0; j < param.IMAGE_SQLS.length; ++j)
-			System.out.println("IMAGE_SQL" + j + "=" + param.IMAGE_SQLS[j]);
 		
 		System.out.println("FUSE_URL=" + Param.FUSE_URL);
 		System.out.println("FUSE_SQL=" + Param.FUSE_SQL);
@@ -206,6 +202,14 @@ public class Config
 		String s2 = prop.getProperty("user_sql");
 		if (s2 != null && s2.trim().length() != 0)
 			Param.USER_SQL = s2;
+	}
+	
+	private static void setSERVER(Properties prop)
+	{
+		String s1 = prop.getProperty("server_url");
+		if (s1 != null && s1.trim().length() != 0)
+			Param.SERVER_ADDRE = s1;
+		
 	}
 	
 	public static void main(String args[])

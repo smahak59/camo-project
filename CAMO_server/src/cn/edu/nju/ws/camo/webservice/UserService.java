@@ -11,7 +11,7 @@ import javax.jws.WebService;
 import cn.edu.nju.ws.camo.webservice.connect.DBConnFactory;
 import cn.edu.nju.ws.camo.webservice.util.SetSerialization;
 
-@WebService(endpointInterface="cn.edu.nju.ws.camo.webservice.user.IUserService") 
+@WebService(endpointInterface="cn.edu.nju.ws.camo.webservice.IUserService") 
 public class UserService implements IUserService {
 
 	public void addPreference(int uid, String inst, String mediaType,

@@ -5,9 +5,11 @@ import java.util.Collection;
 
 public class SetSerialization {
 	
-	private static final String LEVEL1 = ":::";
-	private static final String LEVEL2 = "###";
-	private static final String LEVEL3 = "#::#";
+	private static final String LEVEL1 = "#:#";
+	private static final String LEVEL2 = "#::#";
+	private static final String LEVEL3 = "#:::#";
+	private static final String LEVEL4 = "#::::#";
+	private static final String LEVEL5 = "#:::::#";
 
 	private SetSerialization(){}
 	
@@ -18,7 +20,7 @@ public class SetSerialization {
 			result += string;
 		}
 		if(result.length()>0) {
-			result = result.substring(1);
+			result = result.substring(LEVEL1.length());
 		}
 		return result;
 	}
@@ -30,7 +32,7 @@ public class SetSerialization {
 			result += string;
 		}
 		if(result.length()>0) {
-			result = result.substring(1);
+			result = result.substring(LEVEL2.length());
 		}
 		return result;
 	}
@@ -42,7 +44,31 @@ public class SetSerialization {
 			result += string;
 		}
 		if(result.length()>0) {
-			result = result.substring(1);
+			result = result.substring(LEVEL3.length());
+		}
+		return result;
+	}
+	
+	public static String serialize4(Collection<String> stringSet) {
+		String result = "";
+		for(String string : stringSet) {
+			result += LEVEL4;
+			result += string;
+		}
+		if(result.length()>0) {
+			result = result.substring(LEVEL4.length());
+		}
+		return result;
+	}
+	
+	public static String serialize5(Collection<String> stringSet) {
+		String result = "";
+		for(String string : stringSet) {
+			result += LEVEL5;
+			result += string;
+		}
+		if(result.length()>0) {
+			result = result.substring(LEVEL5.length());
 		}
 		return result;
 	}
@@ -68,6 +94,24 @@ public class SetSerialization {
 	public static ArrayList<String> deserialize3(String se) {
 		ArrayList<String> result = new ArrayList<String>();
 		String[] set = se.split(LEVEL3);
+		for(String string: set) {
+			result.add(string);
+		}
+		return result;
+	}
+	
+	public static ArrayList<String> deserialize4(String se) {
+		ArrayList<String> result = new ArrayList<String>();
+		String[] set = se.split(LEVEL4);
+		for(String string: set) {
+			result.add(string);
+		}
+		return result;
+	}
+	
+	public static ArrayList<String> deserialize5(String se) {
+		ArrayList<String> result = new ArrayList<String>();
+		String[] set = se.split(LEVEL5);
 		for(String string: set) {
 			result.add(string);
 		}
