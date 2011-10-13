@@ -1,4 +1,4 @@
-package cn.edu.nju.ws.camo.android.operate.comand;
+package cn.edu.nju.ws.camo.android.operate;
 
 import cn.edu.nju.ws.camo.android.util.DislikePrefer;
 
