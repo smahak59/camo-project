@@ -3,6 +3,10 @@ package cn.edu.nju.ws.camo.android.util;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * @author Hang Zhang
+ *
+ */
 public class SetSerialization {
 	
 	private static final String LEVEL1 = "#:#";

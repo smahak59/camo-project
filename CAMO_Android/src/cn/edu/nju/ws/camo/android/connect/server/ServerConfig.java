@@ -3,6 +3,10 @@ package cn.edu.nju.ws.camo.android.connect.server;
 import java.io.*;
 import java.util.*;
 
+/**
+ * @author Hang Zhang
+ *
+ */
 public class ServerConfig 
 {
 	private static Properties getProperties()

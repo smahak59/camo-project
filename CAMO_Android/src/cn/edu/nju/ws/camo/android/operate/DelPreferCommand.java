@@ -9,6 +9,10 @@ import cn.edu.nju.ws.camo.android.connect.server.ServerParam;
 import cn.edu.nju.ws.camo.android.connect.server.WebService;
 import cn.edu.nju.ws.camo.android.util.Preference;
 
+/**
+ * @author Hang Zhang
+ *
+ */
 public class DelPreferCommand implements Command {
 
 	private Preference prefer;

@@ -1,5 +1,9 @@
 package cn.edu.nju.ws.camo.android.rdf;
 
+/**
+ * @author Hang Zhang
+ *
+ */
 public class Property extends Resource {
 
 	private String uri;
