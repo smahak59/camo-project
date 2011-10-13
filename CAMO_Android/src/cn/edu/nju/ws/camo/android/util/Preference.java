@@ -6,7 +6,7 @@ import cn.edu.nju.ws.camo.android.rdf.UriInstance;
  * @author Hang Zhang
  *
  */
-public class Preference {
+public abstract class Preference {
 
 	private User user;
 	private UriInstance inst;

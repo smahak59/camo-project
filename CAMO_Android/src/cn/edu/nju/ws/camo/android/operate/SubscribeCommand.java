@@ -8,23 +8,19 @@ import cn.edu.nju.ws.camo.android.connect.server.ServerParam;
 import cn.edu.nju.ws.camo.android.connect.server.WebService;
 import cn.edu.nju.ws.camo.android.util.LikePrefer;
 
-/**
- * @author Hang Zhang
- * 
- */
-public class LikeCommand implements Command {
+public class SubscribeCommand implements Command  {
 
 	private LikePrefer prefer;
-
-	LikeCommand(LikePrefer prefer) {
+	
+	SubscribeCommand(LikePrefer prefer) {
 		this.prefer = prefer;
 	}
-
+	
 	public void execute() {
 		Object[] paramValues = { prefer.getUser().getId(),
 				prefer.getInst().getUri(), prefer.getInst().getMediaType(),
 				prefer.getInst().getClassType(), prefer.getInst().getName(), CommandFactory.LIKE,
-				CommandFactory.DISSUBSCRIBE };
+				CommandFactory.SUBSCRIBE };
 		try {
 			WebService.getInstance().runFunction(ServerParam.USER_URL, "addPreference", paramValues);
 		} catch (NumberFormatException e) {

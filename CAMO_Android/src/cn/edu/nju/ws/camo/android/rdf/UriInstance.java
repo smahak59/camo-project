@@ -1,6 +1,5 @@
 package cn.edu.nju.ws.camo.android.rdf;
 
-import java.util.ArrayList;
 
 /**
  * @author Hang Zhang
@@ -9,11 +8,9 @@ import java.util.ArrayList;
 public class UriInstance extends Resource {
 	
 	
-	private String uri;
-	private String classType;
-	private String name;
-	private ArrayList<Triple> infosDown = new ArrayList<Triple>();
-	private ArrayList<Triple> infosUp = new ArrayList<Triple>();
+	private String uri = "";
+	private String classType = "";
+	private String name = "";
 	
 	UriInstance(String uri, String mediaType) {
 		super(mediaType);
@@ -38,34 +35,6 @@ public class UriInstance extends Resource {
 
 	public String getUri() {
 		return uri;
-	}
-	
-	public void addInfoDown(Triple triple) {
-		infosDown.add(triple);
-	}
-	
-	public void addInfoUp(Triple triple) {
-		infosUp.add(triple);
-	}
-	
-	public ArrayList<Triple> getInfosDown() {
-		return this.infosDown;
-	}
-	
-	public ArrayList<Triple> getInfosUp() {
-		return this.infosUp;
-	}
-	
-	public boolean hasInfosDown() {
-		if(infosDown.size() == 0)
-			return false;
-		return true;
-	}
-	
-	public boolean hasInfosUp() {
-		if(infosUp.size() == 0) 
-			return false;
-		return true;
 	}
 	
 	@Override
