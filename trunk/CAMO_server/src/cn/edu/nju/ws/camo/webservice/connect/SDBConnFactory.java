@@ -21,6 +21,17 @@ public class SDBConnFactory
 	public static final int JHP_CONN = 9;
 	public static final int MAG_CONN = 10;
 	
+	public static final String MUSIC = "music";
+	public static final String MOVIE = "movie";
+	public static final String PHOTO = "photo";
+	public static final String DBP_PREFIX = "http://dbpedia.org";
+	public static final String JMD_PREFIX = "http://dbtune.org/jamendo";
+	public static final String MAG_PREFIX = "http://dbtune.org/magnatune";
+	public static final String JHP_PREFIX = "http://dbtune.org/bbc/peel";
+	public static final String LMDB_PREFIX = "http://data.linkedmdb.org";
+	public static final String TROP_PREFIX = "http://dbtropes.org";
+	public static final String WDF_PREFIX = "http://www.bbc.co.uk/nature";
+	
 
 	private static Map<Model, SDBConnection> connMap;
 	private static Map<Model, DatabaseType> typeMap;
@@ -183,5 +194,54 @@ public class SDBConnFactory
 				connMap.remove(model);
 			}
 		}
+	}
+	
+	public static String getMediaType(int connType) 
+	{
+		String mediaType = "";
+		switch (connType) {
+			case SDBConnFactory.JMD_CONN:
+				mediaType = MUSIC;
+				break;
+			case SDBConnFactory.MAG_CONN:
+				mediaType = MUSIC;
+				break;
+			case SDBConnFactory.JHP_CONN:
+				mediaType = MUSIC;
+				break;
+			case SDBConnFactory.LMDB_CONN:
+				mediaType = MOVIE;
+				break;
+			case SDBConnFactory.TROP_CONN:
+				mediaType = MOVIE;
+				break;
+			case SDBConnFactory.WDF_CONN:
+				mediaType = PHOTO;
+				break;
+		}
+		return mediaType;
+	}
+	
+	public static int getConnType(String uri) throws Throwable 
+	{
+		uri = uri.trim();
+		int connType = -1;
+		if (uri.startsWith(DBP_PREFIX)) {
+			connType = SDBConnFactory.DBP_CONN;
+		} else if (uri.startsWith(JMD_PREFIX)) {
+			connType = SDBConnFactory.JMD_CONN;
+		} else if (uri.startsWith(MAG_PREFIX)) {
+			connType = SDBConnFactory.MAG_CONN;
+		} else if (uri.startsWith(JHP_PREFIX)) {
+			connType = SDBConnFactory.JHP_CONN;
+		} else if (uri.startsWith(LMDB_PREFIX)) {
+			connType = SDBConnFactory.LMDB_CONN;
+		} else if (uri.startsWith(TROP_PREFIX)) {
+			connType = SDBConnFactory.TROP_CONN;
+		} else if (uri.startsWith(WDF_PREFIX)) {
+			connType = SDBConnFactory.WDF_CONN;
+		}
+		
+		return connType;
 	}
 }

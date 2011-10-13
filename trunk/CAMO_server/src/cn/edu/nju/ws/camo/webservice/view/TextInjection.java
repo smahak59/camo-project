@@ -50,29 +50,31 @@ public class TextInjection
 		Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.FUSE_CONN);
 
 		String sqlStr1 = "SELECT uri FROM inst_" + mediaType
-					   + " WHERE MATCH(uri) AGAINST (? IN BOOLEAN MODE) LIMIT 3";
+					   + " WHERE MATCH(uri) AGAINST (? IN BOOLEAN MODE) or MATCH(label) AGAINST (? IN BOOLEAN MODE) LIMIT 3";
 		PreparedStatement stmt1 = sourceConn.prepareStatement(sqlStr1);
 		stmt1.setString(1, searchWords);
+		stmt1.setString(2, searchWords);
 		ResultSet rs1 = stmt1.executeQuery();
 		while (rs1.next()) 
 			instSet.add(rs1.getString(1).trim());
 		rs1.close();
 		stmt1.close();
 
-		String sqlStr2 = "SELECT uri FROM inst_" + mediaType
-					   + " WHERE MATCH(label) AGAINST (? IN BOOLEAN MODE) LIMIT 3";
-		PreparedStatement stmt2 = sourceConn.prepareStatement(sqlStr2);
-		stmt2.setString(1, searchWords);
-		ResultSet rs2 = stmt2.executeQuery();
-		while (rs2.next()) 
-			instSet.add(rs2.getString(1).trim());
-		rs2.close();
-		stmt2.close();
+//		String sqlStr2 = "SELECT uri FROM inst_" + mediaType
+//					   + " WHERE MATCH(label) AGAINST (? IN BOOLEAN MODE) LIMIT 3";
+//		PreparedStatement stmt2 = sourceConn.prepareStatement(sqlStr2);
+//		stmt2.setString(1, searchWords);
+//		ResultSet rs2 = stmt2.executeQuery();
+//		while (rs2.next()) 
+//			instSet.add(rs2.getString(1).trim());
+//		rs2.close();
+//		stmt2.close();
 
 		String sqlStr3 = "SELECT uri FROM inst_dbpedia " 
-					   + "WHERE MATCH(uri) AGAINST (? IN BOOLEAN MODE) LIMIT 3";
+					   + "WHERE MATCH(uri) AGAINST (? IN BOOLEAN MODE) or MATCH(label) AGAINST (? IN BOOLEAN MODE) LIMIT 3";
 		PreparedStatement stmt3 = sourceConn.prepareStatement(sqlStr3);
 		stmt3.setString(1, searchWords);
+		stmt3.setString(2, searchWords);
 		ResultSet rs3 = stmt3.executeQuery();
 		while (rs3.next()) {
 			String s = rs3.getString(1).trim();
@@ -84,20 +86,20 @@ public class TextInjection
 		rs3.close();
 		stmt3.close();
 
-		String sqlStr4 = "SELECT uri FROM inst_dbpedia " 
-					   + "WHERE MATCH(label) AGAINST (? IN BOOLEAN MODE) LIMIT 3";
-		PreparedStatement stmt4 = sourceConn.prepareStatement(sqlStr4);
-		stmt4.setString(1, searchWords);
-		ResultSet rs4 = stmt4.executeQuery();
-		while (rs4.next()) {
-			String s = rs4.getString(1).trim();
-			instSet.add(s);
-			MediaInstChecker mediaChecker = new MediaInstChecker(s);
-			threadExec.execute(mediaChecker);
-			mediaCheckerList.add(mediaChecker);
-		}
-		rs4.close();
-		stmt4.close();
+//		String sqlStr4 = "SELECT uri FROM inst_dbpedia " 
+//					   + "WHERE MATCH(label) AGAINST (? IN BOOLEAN MODE) LIMIT 3";
+//		PreparedStatement stmt4 = sourceConn.prepareStatement(sqlStr4);
+//		stmt4.setString(1, searchWords);
+//		ResultSet rs4 = stmt4.executeQuery();
+//		while (rs4.next()) {
+//			String s = rs4.getString(1).trim();
+//			instSet.add(s);
+//			MediaInstChecker mediaChecker = new MediaInstChecker(s);
+//			threadExec.execute(mediaChecker);
+//			mediaCheckerList.add(mediaChecker);
+//		}
+//		rs4.close();
+//		stmt4.close();
 		threadExec.shutdown();
 		while (!threadExec.isTerminated()) {
 			Thread.sleep(300);
@@ -172,9 +174,9 @@ public class TextInjection
 	{
 		Config.initParam(); 
 		TextInjection query = new TextInjection();
-		query.setQueryMode(TextInjection.MODE_ALL);	//down, up, all
+		query.setQueryMode(TextInjection.MODE_DOWN);	//down, up, all
 		
-		Iterator<Entry<String, Map<String, List<String[]>>>> queryItr = query.query("Norman Granz").entrySet().iterator();
+		Iterator<Entry<String, Map<String, List<String[]>>>> queryItr = query.query("Cannes Film Festival").entrySet().iterator();
 		while(queryItr.hasNext()) {
 			Entry<String, Map<String, List<String[]>>> queryEntry = queryItr.next();
 			if(queryEntry.getValue().size()>0)

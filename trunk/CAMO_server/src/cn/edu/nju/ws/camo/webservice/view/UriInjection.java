@@ -8,29 +8,26 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import com.hp.hpl.jena.query.QueryExecution;
+import com.hp.hpl.jena.query.QuerySolution;
+import com.hp.hpl.jena.query.ResultSet;
+import com.hp.hpl.jena.sdb.sql.SDBConnection;
+import com.hp.hpl.jena.util.URIref;
+import com.hp.hpl.jena.vocabulary.RDF;
+
 import cn.edu.nju.ws.camo.webservice.connect.*;
+import cn.edu.nju.ws.camo.webservice.util.SetSerialization;
 
 public class UriInjection 
 {
-	public static final String DBP_PREFIX = "http://dbpedia.org";
-	public static final String JMD_PREFIX = "http://dbtune.org/jamendo";
-	public static final String MAG_PREFIX = "http://dbtune.org/magnatune";
-	public static final String JHP_PREFIX = "http://dbtune.org/bbc/peel";
-	public static final String LMDB_PREFIX = "http://data.linkedmdb.org";
-	public static final String TROP_PREFIX = "http://dbtropes.org";
-	public static final String WDF_PREFIX = "http://www.bbc.co.uk/nature";
 	
-	private static final String MUSIC = "music";
-	private static final String MOVIE = "movie";
-	private static final String PHOTO = "photo";
-	
-	private String[] mediaTypeSet = { MUSIC, MOVIE, PHOTO };
+	private String[] mediaTypeSet = { SDBConnFactory.MUSIC, SDBConnFactory.MOVIE, SDBConnFactory.PHOTO };
 	private String inst;
 	private Map<String, Integer> corefs;	// (inst, {prop, value})
 	private String mediaType;
 	
 	public UriInjection(String uri) throws Throwable {
-		int connType = getConnType(uri);
+		int connType = SDBConnFactory.getConnType(uri);
 		this.inst = uri;
 		corefs = new HashMap<String, Integer>();
 		if (connType == -1)
@@ -52,7 +49,7 @@ public class UriInjection
 				}
 			}
 		} else {
-			mediaType = getMediaType(connType);
+			mediaType = SDBConnFactory.getMediaType(connType);
 			if (mediaType.equals(""))
 				return;
 			CorefFinder newThread = new CorefFinder(inst, mediaType);
@@ -64,79 +61,6 @@ public class UriInjection
 			corefs.put(inst, connType);
 		
 		System.out.println(corefs + "\n");
-	}
-	
-	private static String getMediaType(int connType) 
-	{
-		String mediaType = "";
-		switch (connType) {
-			case SDBConnFactory.JMD_CONN:
-				mediaType = MUSIC;
-				break;
-			case SDBConnFactory.MAG_CONN:
-				mediaType = MUSIC;
-				break;
-			case SDBConnFactory.JHP_CONN:
-				mediaType = MUSIC;
-				break;
-			case SDBConnFactory.LMDB_CONN:
-				mediaType = MOVIE;
-				break;
-			case SDBConnFactory.TROP_CONN:
-				mediaType = MOVIE;
-				break;
-			case SDBConnFactory.WDF_CONN:
-				mediaType = PHOTO;
-				break;
-		}
-		return mediaType;
-	}
-	
-	private int getConnType(String uri) throws Throwable 
-	{
-		uri = uri.trim();
-		int connType = -1;
-		if (uri.startsWith(DBP_PREFIX)) {
-			connType = SDBConnFactory.DBP_CONN;
-		} else if (uri.startsWith(JMD_PREFIX)) {
-			connType = SDBConnFactory.JMD_CONN;
-		} else if (uri.startsWith(MAG_PREFIX)) {
-			connType = SDBConnFactory.MAG_CONN;
-		} else if (uri.startsWith(JHP_PREFIX)) {
-			connType = SDBConnFactory.JHP_CONN;
-		} else if (uri.startsWith(LMDB_PREFIX)) {
-			connType = SDBConnFactory.LMDB_CONN;
-		} else if (uri.startsWith(TROP_PREFIX)) {
-			connType = SDBConnFactory.TROP_CONN;
-		} else if (uri.startsWith(WDF_PREFIX)) {
-			connType = SDBConnFactory.WDF_CONN;
-		}
-		
-		if (connType == -1) 
-			connType = getConnTypeFromDB(uri, MUSIC);
-		if (connType == -1) 
-			connType = getConnTypeFromDB(uri, MOVIE);
-		if (connType == -1) 
-			connType = getConnTypeFromDB(uri, PHOTO);
-		
-		return connType;
-	}
-	
-	private int getConnTypeFromDB(String uri, String mediaType) throws Throwable 
-	{
-		int connType = -1;
-		Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.FUSE_CONN);
-		String sqlStr = "SELECT source FROM inst_" + mediaType + " WHERE uri=?";
-		PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
-		stmt.setString(1, uri);
-		ResultSet rs = stmt.executeQuery();
-		if (rs.next()) 
-			connType = rs.getInt(1);
-		
-		rs.close();
-		stmt.close();
-		sourceConn.close();
-		return connType;
 	}
 	
 	private void rmProp(Map<String, List<String[]>> instPropList, String inst, String prop) 
