@@ -14,14 +14,21 @@ public interface IUserService {
 	 * @param name
 	 * @param email
 	 * @param sex
+	 * @return 0:error; 1:success
 	 */
-	public void addUser(String name, String email, String sex);
+	public String addUser(String name, String email, String sex);
 	
 	/**
 	 * @param uid user id
 	 * @return (u_id,name,email,sex): sex:male/female
 	 */
-	public String getUser(int uid);
+	public String getUserById(int uid);
+	
+	/**
+	 * @param email
+	 * @return (u_id,name,email,sex): sex:male/female
+	 */
+	public String getUserByMail(String email);
 	
 	/**
 	 * @param uid
@@ -30,8 +37,18 @@ public interface IUserService {
 	 * @param instType
 	 * @param uAction
 	 * @param subscribe
+	 * @return 0:error; 1:success
+	 * 
 	 */
-	public void addPreference(int uid, String inst, String mediaType, String instType, int uAction, int subscribe);
+	public String addPreference(int uid, String inst, String mediaType, String instType, String labelName, int uAction, int subscribe);
+	
+	
+	/**
+	 * @param uid
+	 * @param inst
+	 * @return
+	 */
+	public String delPreference(int uid, String inst);
 	
 	/**
 	 * @param uid
