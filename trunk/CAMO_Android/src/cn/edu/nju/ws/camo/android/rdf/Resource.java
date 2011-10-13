@@ -4,7 +4,7 @@ package cn.edu.nju.ws.camo.android.rdf;
  * @author Hang Zhang
  *
  */
-public class Resource {
+public abstract class Resource {
 
 	public static final String MOVIE_TYPE ="movie";
 	public static final String MUSIC_TYPE ="music";

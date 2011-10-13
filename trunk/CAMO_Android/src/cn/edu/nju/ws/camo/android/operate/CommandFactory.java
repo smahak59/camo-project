@@ -2,12 +2,18 @@ package cn.edu.nju.ws.camo.android.operate;
 
 import cn.edu.nju.ws.camo.android.util.DislikePrefer;
 import cn.edu.nju.ws.camo.android.util.LikePrefer;
+import cn.edu.nju.ws.camo.android.util.Preference;
 
 /**
  * @author Hang Zhang
  *
  */
 public class CommandFactory {
+	
+	public static final int LIKE = 1;
+	public static final int DISLIKE = 0;
+	public static final int SUBSCRIBE = 1;
+	public static final int DISSUBSCRIBE = 0;
 
 	private static CommandFactory instance = null;
 	
@@ -26,5 +32,13 @@ public class CommandFactory {
 	
 	public Command createLikeCmd(LikePrefer prefer) {
 		return new LikeCommand(prefer);
+	}
+	
+	public Command createSubscribeCmd(LikePrefer prefer) {
+		return new SubscribeCommand(prefer);
+	}
+	
+	public Command createCancelPreferCmd(Preference prefer) {
+		return new DelPreferCommand(prefer);
 	}
 }

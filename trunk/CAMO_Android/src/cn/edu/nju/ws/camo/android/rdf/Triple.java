@@ -6,21 +6,21 @@ package cn.edu.nju.ws.camo.android.rdf;
  */
 public class Triple {
 
-	private Resource s;
-	private Resource p;
+	private UriInstance s;
+	private Property p;
 	private Resource o;
 	
-	public Triple(Resource subj, Resource pred, Resource obj) {
+	Triple(UriInstance subj, Property pred, Resource obj) {
 		s = subj;
 		p = pred;
 		o = obj;
 	}
 
-	public Resource getSubject() {
+	public UriInstance getSubject() {
 		return s;
 	}
 
-	public Resource getPredicate() {
+	public Property getPredicate() {
 		return p;
 	}
 

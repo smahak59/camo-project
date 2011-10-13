@@ -1,5 +1,7 @@
 package cn.edu.nju.ws.camo.android.rdf;
 
+import java.util.ArrayList;
+
 
 /**
  * @author Hang Zhang
@@ -30,5 +32,21 @@ public class RdfFactory {
 		newInst.setClassType(classType);
 		newInst.setName(name);
 		return newInst;
+	}
+	
+	public UriInstWithNeigh createInstWithNeigh(UriInstance inst) {
+		return new UriInstWithNeigh(inst);
+	}
+	
+	public UriInstWithNeigh createInstWithNeigh(UriInstance inst, ArrayList<Triple> infosDown, ArrayList<Triple> infosUp) {
+		return new UriInstWithNeigh(inst, infosDown, infosUp);
+	}
+	
+	public Property createProperty(String uri, String mediaType) {
+		return new Property(uri, mediaType);
+	}
+	
+	public Triple createTriple(UriInstance subj, Property pred, Resource obj) {
+		return new Triple(subj, pred, obj);
 	}
 }

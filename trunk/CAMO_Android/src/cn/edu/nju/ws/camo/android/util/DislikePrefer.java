@@ -8,7 +8,7 @@ import cn.edu.nju.ws.camo.android.rdf.UriInstance;
  */
 public class DislikePrefer extends Preference{
 	
-	DislikePrefer(User user, UriInstance inst) {
+	public DislikePrefer(User user, UriInstance inst) {
 		super(user, inst);
 	}
 }
