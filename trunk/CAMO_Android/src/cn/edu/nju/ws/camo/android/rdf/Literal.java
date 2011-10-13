@@ -1,6 +1,10 @@
 package cn.edu.nju.ws.camo.android.rdf;
 
 
+/**
+ * @author Hang Zhang
+ *
+ */
 public class Literal extends Resource {
 
 	private String name;

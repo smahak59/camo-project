@@ -8,6 +8,10 @@ import cn.edu.nju.ws.camo.android.connect.server.ServerParam;
 import cn.edu.nju.ws.camo.android.connect.server.WebService;
 import cn.edu.nju.ws.camo.android.util.LikePrefer;
 
+/**
+ * @author Hang Zhang
+ *
+ */
 public class SubscribeCommand implements Command  {
 
 	private LikePrefer prefer;

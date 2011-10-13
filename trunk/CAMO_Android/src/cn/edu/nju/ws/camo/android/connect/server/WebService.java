@@ -9,6 +9,10 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 import org.xmlpull.v1.XmlPullParserException;
 
+/**
+ * @author Hang Zhang
+ *
+ */
 public class WebService {
 
 	private static WebService instance = null;

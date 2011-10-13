@@ -2,6 +2,10 @@ package cn.edu.nju.ws.camo.android.rdf;
 
 import java.util.ArrayList;
 
+/**
+ * @author Hang Zhang
+ *
+ */
 public class UriInstWithNeigh extends UriInstance {
 
 	private ArrayList<Triple> triplesDown = new ArrayList<Triple>();

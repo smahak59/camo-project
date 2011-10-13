@@ -1,5 +1,9 @@
 package cn.edu.nju.ws.camo.android.connect.server;
 
+/**
+ * @author Hang Zhang
+ *
+ */
 public class ServerParam
 {	
 	// Config
