@@ -33,7 +33,7 @@ public class DBPrep_MySQL
 		String sqlTabStr1 = "CREATE TABLE user (id int NOT NULL AUTO_INCREMENT, name varchar(255) NOT NULL, email varchar(255) DEFAULT NULL, sex bit(1) DEFAULT NULL,"
 						  + " PRIMARY KEY (id))" 
 						  + " ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin";
-		String sqlTabStr2 = "CREATE TABLE preference (uid int NOT NULL, inst text , media_type varchar(255) DEFAULT NULL, inst_type text, u_action int(11) DEFAULT NULL, subscribe bit(1) DEFAULT NULL, u_time timestamp DEFAULT NULL, KEY uid_idx (uid))"
+		String sqlTabStr2 = "CREATE TABLE preference (uid int NOT NULL, inst text , media_type varchar(255) DEFAULT NULL, inst_type text, label_name text, u_action int(11) DEFAULT NULL, subscribe bit(1) DEFAULT NULL, u_time timestamp DEFAULT NULL, KEY uid_idx (uid))"
 						  + " ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin";
 		Connection conn = null;
 		try {
