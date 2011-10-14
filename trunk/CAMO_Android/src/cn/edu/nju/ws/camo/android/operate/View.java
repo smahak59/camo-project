@@ -183,7 +183,7 @@ public class View {
 					subject = RdfFactory.getInstance().createInstance(subjectStr, mediaType);
 				}
 				Triple triple = RdfFactory.getInstance().createTriple(subject, property, inst);
-				instWithNeigh.addTripleDown(triple);
+				instWithNeigh.addTripleUp(triple);
 			}
 			result.put(inst, instWithNeigh);
 		}
