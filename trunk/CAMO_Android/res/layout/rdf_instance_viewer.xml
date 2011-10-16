@@ -5,37 +5,51 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent">
 	<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout2" android:orientation="vertical">
-		<TextView android:text="Name:" 
+		<TextView android:text="Name:Christina Aguilera" 
 				android:id="@+id/textView1" 
 				android:layout_width="wrap_content" 
 				android:layout_height="wrap_content">
 		</TextView>
-		<TextView android:text="URI:" 
-				android:id="@+id/textView1" 
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content">
-		</TextView>
-		<TextView android:text="Type:" 
+		<TextView android:text="Type:person" 
 				android:id="@+id/textView1" 
 				android:layout_width="wrap_content" 
 				android:layout_height="wrap_content">
 		</TextView>
-	</LinearLayout>   
-
-    <TableLayout android:layout_height="wrap_content"
+		<TableLayout android:layout_height="wrap_content"
     			android:layout_gravity="center" 
     			android:stretchColumns="*"
     			android:id="@+id/tableLayout1" 
     			android:layout_width="wrap_content">
-        <TableRow>        			
-            <Button android:text="Like" 
-            		android:id="@+id/button_like">
-            </Button>
-            <Button android:text="Dislike" 
-            		android:id="@+id/button_dislike">
-            </Button>
-        </TableRow>       
-    </TableLayout>
+	        <TableRow>        			
+	            <Button android:text="Like" 
+	            		android:id="@+id/button_like">
+	            </Button>
+	            <Button android:text="Dislike" 
+	            		android:id="@+id/button_dislike">
+	            </Button>
+	        </TableRow>       
+    	</TableLayout>
+	</LinearLayout>
+	
+	<TabHost android:id="@+id/tab_host"
+        android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <RelativeLayout
+        android:layout_width="fill_parent" android:layout_height="fill_parent">   
+      		<FrameLayout android:id="@android:id/tabcontent"
+            android:layout_width="fill_parent" android:layout_height="fill_parent"
+            android:layout_above="@android:id/tabs">            
+            	<ListView android:id="@+id/listView_Down" android:layout_width="match_parent" android:layout_height="wrap_content"></ListView>
+         	  	<ListView android:id="@+id/listView_Up" android:layout_width="match_parent" android:layout_height="wrap_content"></ListView>            	
+            </FrameLayout>
+            <TabWidget android:id="@android:id/tabs"
+                android:layout_width="fill_parent" android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:layout_alignParentBottom="true"
+                />
+        </RelativeLayout>
+    </TabHost>   
+
+
     
    
     

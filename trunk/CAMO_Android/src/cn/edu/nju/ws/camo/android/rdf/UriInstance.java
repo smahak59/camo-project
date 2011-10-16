@@ -1,11 +1,13 @@
 package cn.edu.nju.ws.camo.android.rdf;
 
+import java.io.Serializable;
+
 
 /**
  * @author Hang Zhang
  *
  */
-public class UriInstance extends Resource {
+public class UriInstance extends Resource implements Serializable {
 	
 	
 	private String uri = "";

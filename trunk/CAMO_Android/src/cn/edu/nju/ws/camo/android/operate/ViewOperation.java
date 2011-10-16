@@ -26,7 +26,7 @@ import cn.edu.nju.ws.camo.android.util.User;
  * @author Hang Zhang
  *
  */
-public class View {
+public class ViewOperation {
 	
 	/**
 	 * @param inst
@@ -34,7 +34,7 @@ public class View {
 	 * @throws IOException
 	 * @throws XmlPullParserException
 	 */
-	public UriInstWithNeigh viewInstDown(UriInstance inst) throws IOException, XmlPullParserException {
+	public static UriInstWithNeigh viewInstDown(UriInstance inst) throws IOException, XmlPullParserException {
 		UriInstWithNeigh instWithNeigh = RdfFactory.getInstance().createInstWithNeigh(inst);
 		String mediaType = inst.getMediaType();
 		Object[] params = {inst.getUri()};
@@ -69,7 +69,7 @@ public class View {
 	 * @throws IOException
 	 * @throws XmlPullParserException
 	 */
-	public UriInstWithNeigh viewInstUp(UriInstance inst) throws IOException, XmlPullParserException {
+	public static UriInstWithNeigh viewInstUp(UriInstance inst) throws IOException, XmlPullParserException {
 		UriInstWithNeigh instWithNeigh = RdfFactory.getInstance().createInstWithNeigh(inst);
 		String mediaType = inst.getMediaType();
 		Object[] params = {inst.getUri()};
@@ -101,7 +101,7 @@ public class View {
 	 * @throws IOException
 	 * @throws XmlPullParserException
 	 */
-	public Map<UriInstance, UriInstWithNeigh> searchInstDown(String searchText, String mediaType) throws IOException, XmlPullParserException {
+	public static Map<UriInstance, UriInstWithNeigh> searchInstDown(String searchText, String mediaType) throws IOException, XmlPullParserException {
 		Map<UriInstance, UriInstWithNeigh> result = new HashMap<UriInstance, UriInstWithNeigh>();
 		Object[] params = {searchText, mediaType};
 		String naiveResult = WebService.getInstance().runFunction(ServerParam.VIEW_URL, "textViewDown", params);
@@ -151,7 +151,7 @@ public class View {
 	 * @throws IOException
 	 * @throws XmlPullParserException
 	 */
-	public Map<UriInstance, UriInstWithNeigh> searchInstUp(String searchText, String mediaType) throws IOException, XmlPullParserException {
+	public static Map<UriInstance, UriInstWithNeigh> searchInstUp(String searchText, String mediaType) throws IOException, XmlPullParserException {
 		Map<UriInstance, UriInstWithNeigh> result = new HashMap<UriInstance, UriInstWithNeigh>();
 		Object[] params = {searchText, mediaType};
 		String naiveResult = WebService.getInstance().runFunction(ServerParam.VIEW_URL, "textViewUp", params);
@@ -197,7 +197,7 @@ public class View {
 	 * @param instType 如果instType为null，则返回mediaType的like记录
 	 * @return
 	 */
-	public List<LikePrefer> viewLike(User user, String mediaType, String instType) {
+	public static List<LikePrefer> viewLike(User user, String mediaType, String instType) {
 		List<LikePrefer> likes = new ArrayList<LikePrefer>();
 		Object[] paramValues = {user.getId(),mediaType,instType,CommandFactory.LIKE};
 		try {
@@ -227,7 +227,7 @@ public class View {
 	 * @param instType 如果instType为null，则返回mediaType的dislike记录
 	 * @return
 	 */
-	public List<DislikePrefer> viewDislike(User user, String mediaType, String instType) {
+	public static List<DislikePrefer> viewDislike(User user, String mediaType, String instType) {
 		List<DislikePrefer> dislikes = new ArrayList<DislikePrefer>();
 		Object[] paramValues = {user.getId(),mediaType,instType,CommandFactory.DISLIKE};
 		try {
@@ -253,7 +253,7 @@ public class View {
 	 * @param instType 如果instType为null，则返回mediaType的订阅记录
 	 * @return
 	 */
-	public List<LikePrefer> viewSubscribe(User user, String mediaType, String instType) {
+	public static List<LikePrefer> viewSubscribe(User user, String mediaType, String instType) {
 		List<LikePrefer> likes = new ArrayList<LikePrefer>();
 		Object[] paramValues = {user.getId(),mediaType,instType};
 		try {
