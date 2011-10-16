@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="fill_parent" 
+    android:layout_height="fill_parent"> 
+ 
+    <ListView android:id="@+id/listView_likeViewer_All" 
+    	android:layout_width="wrap_content" 
+  		android:layout_height="wrap_content">
+    </ListView>
+    <ListView android:id="@+id/listView_likeViewer_Music" 
+    	android:layout_width="wrap_content" 
+  		android:layout_height="wrap_content">
+    </ListView>
+    <ListView android:id="@+id/listView_likeViewer_Movie" 
+    	android:layout_width="wrap_content" 
+  		android:layout_height="wrap_content">
+    </ListView>
+    <ListView android:id="@+id/listView_likeViewer_Photo" 
+    	android:layout_width="wrap_content" 
+  		android:layout_height="wrap_content">
+    </ListView> 
+</FrameLayout> 
