@@ -8,11 +8,10 @@ import cn.edu.nju.ws.camo.android.rdf.UriInstance;
  */
 public class LikePrefer extends Preference {
 
-	private boolean subscribe;
+	private boolean subscribe = false;
 	
-	public LikePrefer(User user, UriInstance inst, boolean sub) {
+	public LikePrefer(User user, UriInstance inst) {
 		super(user, inst);
-		this.subscribe = sub;
 	}
 	
 	public boolean isSubscribed() {
