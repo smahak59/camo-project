@@ -29,7 +29,6 @@ public class WebService {
 	public String runFunction(String url, String methodName,
 			Object[] paramValues) throws IOException, XmlPullParserException {
 		String result = "";
-		ServerConfig.initParam();
 		SoapObject request = new SoapObject(ServerParam.NAMESPACE, methodName);
 		int paramIdx = 0;
 		if (paramValues != null) {
@@ -44,11 +43,10 @@ public class WebService {
 		envelope.setOutputSoapObject(request);
 		HttpTransportSE ht = new HttpTransportSE(url);
 		ht.call(null, envelope);
-		if (envelope.getResponse() != null) {
+		if (envelope.getResponse() != null && envelope.getResponse() instanceof SoapPrimitive) {
 			SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
 			result = response.toString();
 		}
 		return result;
 	}
 }
-
