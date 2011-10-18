@@ -20,7 +20,7 @@ public class CommandFactory {
 	private CommandFactory() {
 	}
 	
-	public CommandFactory getInstance() {
+	public static CommandFactory getInstance() {
 		if(instance == null)
 			instance = new CommandFactory();
 		return instance;
