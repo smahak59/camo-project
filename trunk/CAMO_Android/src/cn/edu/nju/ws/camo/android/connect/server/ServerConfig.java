@@ -1,9 +1,7 @@
 package cn.edu.nju.ws.camo.android.connect.server;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Properties;
 
 import cn.edu.nju.ws.camo.android.util.UtilParam;
