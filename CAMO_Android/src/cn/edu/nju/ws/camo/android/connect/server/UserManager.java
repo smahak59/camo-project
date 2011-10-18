@@ -2,6 +2,8 @@ package cn.edu.nju.ws.camo.android.connect.server;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -37,8 +39,16 @@ public class UserManager {
 	 * @throws IOException 
 	 */
 	public int addUser(String name, String email, String sex) throws IOException, XmlPullParserException {
+		int result = 0;
+		if((sex.equals("male") == false && sex.equals("female") == false) || isEmail(email) == false)
+			return 0;
+		if(name.contains("'") || name.contains("\""))
+			return 0;
+		if(getUser(email) != null)
+			return 0;
+		
 		Object[] paramValues = {name,email,sex};
-		int result = Integer.valueOf(WebService.getInstance().runFunction(ServerParam.USER_URL, ADD_USER, paramValues));
+		result = Integer.valueOf(WebService.getInstance().runFunction(ServerParam.USER_URL, ADD_USER, paramValues));
 		return result;
 	}
 	
@@ -56,10 +66,12 @@ public class UserManager {
 		if(naiveUser.equals(""))
 			return null;
 		List<String> userInfo = SetSerialization.deserialize1(naiveUser);
-		user = new User(uid);
-		user.setName(userInfo.get(1));
-		user.setEmail(userInfo.get(2));
-		user.setSex(userInfo.get(3));
+		if(userInfo.size()>0) {
+			user = new User(uid);
+			user.setName(userInfo.get(1));
+			user.setEmail(userInfo.get(2));
+			user.setSex(userInfo.get(3));
+		}
 		return user;
 	}
 	
@@ -72,15 +84,25 @@ public class UserManager {
 	 */
 	public User getUser(String email) throws IOException, XmlPullParserException {
 		User user = null;
+		if(isEmail(email) == false)
+			return null;
 		Object[] paramValues = {email};
 		String naiveUser = WebService.getInstance().runFunction(ServerParam.USER_URL, GET_USER_MAIL, paramValues);
 		if(naiveUser.equals(""))
 			return null;
 		List<String> userInfo = SetSerialization.deserialize1(naiveUser);
-		user = new User(Integer.valueOf(userInfo.get(0)));
-		user.setName(userInfo.get(1));
-		user.setEmail(email);
-		user.setSex(userInfo.get(3));
+		if(userInfo != null && userInfo.size()>0) {
+			user = new User(Integer.valueOf(userInfo.get(0)));
+			user.setName(userInfo.get(1));
+			user.setEmail(email);
+			user.setSex(userInfo.get(3));
+		}
 		return user;
+	}
+	
+	private boolean isEmail(String email) {
+		Pattern p = Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
+		Matcher matcher = p.matcher(email);
+		return matcher.matches();
 	}
 }
