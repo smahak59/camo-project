@@ -66,5 +66,5 @@ public interface IUserService {
 	 * @param instType
 	 * @return (uid,inst,media_type,inst_type,u_action,u_time)
 	 */
-	public String getSubscribe(int uid, String mediaType, String instType);
+//	public String getSubscribe(int uid, String mediaType, String instType);
 }
