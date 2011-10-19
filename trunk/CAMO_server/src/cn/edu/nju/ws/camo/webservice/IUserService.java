@@ -28,7 +28,13 @@ public interface IUserService {
 	 * @param email
 	 * @return (u_id,name,email,sex): sex:male/female
 	 */
-	public String getUserByMail(String email, String pwd);
+	public String getUserByMail(String email);
+	
+	/**
+	 * @param email
+	 * @return
+	 */
+	public String getUserByPwd(String email, String pwd);
 	
 	/**
 	 * @param uid

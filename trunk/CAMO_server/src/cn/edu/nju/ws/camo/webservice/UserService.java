@@ -260,7 +260,7 @@ public class UserService implements IUserService {
 	
 	
 	
-	public String getUserByMail(String email, String pwd) {
+	public String getUserByPwd(String email, String pwd) {
 		String userInfo = "";
 		email = SetSerialization.rmIllegal(email);
 		pwd = SetSerialization.rmIllegal(pwd);
@@ -293,6 +293,37 @@ public class UserService implements IUserService {
 		return userInfo;
 	}
 	
+	public String getUserByMail(String email) {
+		String userInfo = "";
+		email = SetSerialization.rmIllegal(email);
+		ArrayList<String> valueList = new ArrayList<String>();
+		try {
+			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.USER_CONN);
+			String sqlStr = "select * from user where email=?";
+			PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
+			stmt.setString(1, email);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				String sex = "male";
+				if(rs.getInt("sex")==0)
+					sex = "female";
+				valueList.add(rs.getString("id"));
+				valueList.add(rs.getString("name"));
+				valueList.add(email);
+				valueList.add(sex);
+			}
+			rs.close();
+			stmt.close();
+			sourceConn.close();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+		if(valueList.size()>0) {
+			userInfo = SetSerialization.serialize1(valueList);
+		}
+		return userInfo;
+	}
+
 	public String addFriend(int uid1, int uid2) {
 		try {
 			if(isFriend(uid1, uid2))
