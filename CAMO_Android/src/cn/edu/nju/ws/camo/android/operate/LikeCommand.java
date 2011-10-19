@@ -23,16 +23,9 @@ public class LikeCommand implements Command {
 	public void execute() {
 		Object[] paramValues = { prefer.getUser().getId(),
 				prefer.getInst().getUri(), prefer.getInst().getMediaType(),
-				prefer.getInst().getClassType(), prefer.getInst().getName(), CommandFactory.LIKE,
-				CommandFactory.DISSUBSCRIBE };
-		try {
-			WebService.getInstance().runFunction(ServerParam.USER_URL, "addPreference", paramValues);
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (XmlPullParserException e) {
-			e.printStackTrace();
-		} 
+				prefer.getInst().getClassType(), prefer.getInst().getName(),
+				CommandFactory.LIKE, CommandFactory.DISSUBSCRIBE };
+		WebService.getInstance().runFunction(ServerParam.USER_URL,
+				"addPreference", paramValues);
 	}
 }
