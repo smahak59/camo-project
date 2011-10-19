@@ -52,7 +52,7 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 		case R.id.button_viewInstance:
 			Intent viewInstanceIntent = new Intent(this, RdfInstanceViewer.class);
 			Bundle newBundle = new Bundle();
-			UriInstance uri = RdfFactory.getInstance().createInstance("prime", "");
+			UriInstance uri = RdfFactory.getInstance().createInstance("http://dbpedia.org/resource/Christina_Aguilera", "");
 			newBundle.putSerializable(RdfInstanceViewer.SER_KEY, uri);
 			viewInstanceIntent.putExtras(newBundle);
 			startActivity(viewInstanceIntent);

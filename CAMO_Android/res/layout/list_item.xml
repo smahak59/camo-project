@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:orientation="vertical"
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android" 
   android:layout_width="match_parent"
-  android:layout_height="wrap_content">
-  <TextView android:id="@+id/textView_subject"
-  	android:layout_width="match_parent"
-  	android:layout_height="wrap_content"
-  	android:text="subject">
-  </TextView>
+  android:layout_height="wrap_content">  
   <TextView android:id="@+id/textView_predicate"
   	android:layout_width="match_parent"
   	android:layout_height="wrap_content"
-  	android:text="predicate">
+  	android:text="predicate"
+  	android:textColor="#C60">
   </TextView>
   <TextView android:id="@+id/textView_object"
   	android:layout_width="match_parent"
   	android:layout_height="wrap_content"
-  	android:text="object">
+  	android:text="object"
+  	android:textSize="30dip"
+  	android:layout_below="@+id/textView_predicate">
   </TextView>
     
-</LinearLayout>
+</RelativeLayout>
