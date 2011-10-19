@@ -1,9 +1,5 @@
 package cn.edu.nju.ws.camo.android.operate;
 
-import java.io.IOException;
-
-import org.xmlpull.v1.XmlPullParserException;
-
 import cn.edu.nju.ws.camo.android.connect.server.ServerParam;
 import cn.edu.nju.ws.camo.android.connect.server.WebService;
 import cn.edu.nju.ws.camo.android.util.DislikePrefer;
