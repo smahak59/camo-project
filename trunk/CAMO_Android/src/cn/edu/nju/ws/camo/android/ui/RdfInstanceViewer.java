@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import org.xmlpull.v1.XmlPullParserException;
 
 import cn.edu.nju.ws.camo.android.R;
+import cn.edu.nju.ws.camo.android.operate.CommandFactory;
 import cn.edu.nju.ws.camo.android.operate.InstViewOperation;
 import cn.edu.nju.ws.camo.android.rdf.Property;
 import cn.edu.nju.ws.camo.android.rdf.RdfFactory;
@@ -16,6 +17,9 @@ import cn.edu.nju.ws.camo.android.rdf.Resource;
 import cn.edu.nju.ws.camo.android.rdf.Triple;
 import cn.edu.nju.ws.camo.android.rdf.UriInstWithNeigh;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
+import cn.edu.nju.ws.camo.android.util.DislikePrefer;
+import cn.edu.nju.ws.camo.android.util.LikePrefer;
+import cn.edu.nju.ws.camo.android.util.User;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -35,11 +39,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class RdfInstanceViewer extends Activity implements OnClickListener{
-	public final static String SER_KEY = "SER_URI";
+	public final static String SER_URI = "SER_URI";
+	public final static String SER_USER = "SER_USER";
+	private User currentUser;
 	private UriInstance currentUri;
 	private TabHost tabHost;
 	private ListView listView_Down;
 	private ListView listView_Up;
+	private TextView textView_UriTitle;
 	private Button button_like;
 	private Button button_dislike;
 	private ArrayList<Triple> triplesDown;
@@ -50,10 +57,10 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 		setContentView(R.layout.rdf_instance_viewer);
 		setTitle("RDF Instance Viwer");
 		Intent intent = getIntent();
-		currentUri = (UriInstance) intent.getSerializableExtra(SER_KEY);
+		currentUri = (UriInstance) intent.getSerializableExtra(SER_URI);
+		currentUser = (User) intent.getSerializableExtra(SER_USER);
 		setTitle(currentUri.getUri());
-		//triplesDown = SampleTriples.getSampleTriplesV1();
-		//triplesUp = SampleTriples.getSampleTriplesV2();
+		
 		initTriplesDown();
 		initTriplesUp();
 		initLists();
@@ -88,7 +95,7 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 		
 		
 	}
-	private void initLists() {
+	private void initLists() {		
 		listView_Down = (ListView) findViewById(R.id.listView_Down);
 		listView_Up = (ListView) findViewById(R.id.listView_Up);
 		ListViewAdapter downAdapter = new ListViewAdapter(ListViewAdapter.VIEW_DOWN_ADAPTER);
@@ -104,7 +111,8 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 				if(selected instanceof UriInstance) {
 					Intent newUriIntent = new Intent(RdfInstanceViewer.this,RdfInstanceViewer.class);
 					Bundle newUriBundle = new Bundle();
-					newUriBundle.putSerializable(SER_KEY, selected);
+					newUriBundle.putSerializable(SER_URI, selected);
+					newUriBundle.putSerializable(SER_USER, currentUser);
 					newUriIntent.putExtras(newUriBundle);
 					startActivity(newUriIntent);
 				}
@@ -115,11 +123,12 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub				
-				Resource selected = triplesUp.get(arg2).getObject();
+				Resource selected = triplesUp.get(arg2).getSubject();
 				if(selected instanceof UriInstance) {
 					Intent newUriIntent = new Intent(RdfInstanceViewer.this,RdfInstanceViewer.class);
 					Bundle newUriBundle = new Bundle();
-					newUriBundle.putSerializable(SER_KEY, selected);
+					newUriBundle.putSerializable(SER_URI, selected);
+					newUriBundle.putSerializable(SER_USER, currentUser);
 					newUriIntent.putExtras(newUriBundle);
 					startActivity(newUriIntent);
 				}
@@ -130,6 +139,8 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 	private void initButtons() {
 		button_like = (Button)findViewById(R.id.button_like);
 		button_dislike = (Button)findViewById(R.id.button_dislike);
+		textView_UriTitle = (TextView) findViewById(R.id.textView_uriTitle);
+		textView_UriTitle.setText(currentUri.getName());
 		button_like.setOnClickListener(this);
 		button_dislike.setOnClickListener(this);
 	}
@@ -154,18 +165,29 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 		switch(v.getId()) {
 		case R.id.button_dislike:
 			button_dislike.setClickable(false);
-			button_dislike.setText("Disliked");			
+			button_dislike.setText("Disliked");
+			dislikeCurrentInstance();
 			Toast.makeText(RdfInstanceViewer.this, "Dislike!", Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.button_like:
 			button_like.setClickable(false);
 			button_like.setText("Liked");
+			likeCurrentInstance();
 			Toast.makeText(RdfInstanceViewer.this, "Like!", Toast.LENGTH_SHORT).show();
 			break;
 		}
 	}
 	
-	public class ListViewAdapter extends BaseAdapter {
+	private void likeCurrentInstance() {
+		CommandFactory.getInstance().createLikeCmd(new LikePrefer(currentUser, currentUri)).execute();		
+	}
+
+	private void dislikeCurrentInstance() {
+		CommandFactory.getInstance().createDislikeCmd(new DislikePrefer(currentUser, currentUri)).execute();
+		
+	}
+
+	private class ListViewAdapter extends BaseAdapter {
 		final static int VIEW_DOWN_ADAPTER = 1;
 		final static int VIEW_UP_ADAPTER = 2;
 		View[] itemViews;
@@ -184,7 +206,7 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 		private void initViewUpAdapter() {						
 			itemViews = new View[triplesUp.size()];
 			for(int i = 0; i < triplesUp.size(); i++) {
-				itemViews[i] = makeItemView(triplesUp.get(i));
+				itemViews[i] = makeItemViewUp(triplesUp.get(i));
 			}	
 			
 		}
@@ -192,11 +214,11 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 		private void initViewDownAdapter() {				
 			itemViews = new View[triplesDown.size()];
 			for(int i = 0; i < triplesDown.size(); i++) {
-				itemViews[i] = makeItemView(triplesDown.get(i));
+				itemViews[i] = makeItemViewDown(triplesDown.get(i));
 			}		
 		}
 
-		private View makeItemView(Triple triple) {
+		private View makeItemViewDown(Triple triple) {
 			LayoutInflater inflater = (LayoutInflater)RdfInstanceViewer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View itemView = inflater.inflate(R.layout.list_item, null);			
 			String subjectString = triple.getSubject().getUri();
@@ -206,6 +228,19 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 			TextView textView_object = (TextView) itemView.findViewById(R.id.textView_object);			
 			textView_predicate.setText(predicateString);
 			textView_object.setText(objectString);			
+			return itemView;
+		}
+		
+		private View makeItemViewUp(Triple triple) {
+			LayoutInflater inflater = (LayoutInflater)RdfInstanceViewer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View itemView = inflater.inflate(R.layout.list_item, null);			
+			String subjectString = triple.getSubject().getName();
+			String predicateString = triple.getSubject().getClassType();//triple.getPredicate().getUri();
+			String objectString = triple.getObject().getName();			
+			TextView textView_predicate = (TextView) itemView.findViewById(R.id.textView_predicate);
+			TextView textView_object = (TextView) itemView.findViewById(R.id.textView_object);			
+			textView_predicate.setText(predicateString);
+			textView_object.setText(subjectString);			
 			return itemView;
 		}
 

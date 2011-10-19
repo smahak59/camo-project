@@ -6,7 +6,7 @@
   android:layout_height="match_parent">
 	<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout2" android:orientation="vertical">
 		<TextView android:text="Christina Aguilera" 
-				android:id="@+id/textView1" 
+				android:id="@+id/textView_uriTitle" 
 				android:layout_width="fill_parent" 
 				android:layout_height="wrap_content"
 				android:gravity="center"								
