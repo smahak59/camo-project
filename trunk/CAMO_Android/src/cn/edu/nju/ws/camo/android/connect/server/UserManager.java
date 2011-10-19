@@ -19,6 +19,7 @@ public class UserManager {
 	private static final String ADD_USER = "addUser";
 	private static final String GET_USER_ID = "getUserById";
 	private static final String GET_USER_MAIL = "getUserByMail";
+	private static final String GET_USER_PWD = "getUserByPwd";
 
 	private static UserManager instance = null;
 	private UserManager(){}
@@ -29,7 +30,6 @@ public class UserManager {
 		return instance;
 	}
 	
-	
 	/**
 	 * @param name
 	 * @param email
@@ -38,7 +38,7 @@ public class UserManager {
 	 * @throws XmlPullParserException 
 	 * @throws IOException 
 	 */
-	public int addUser(String name, String email, String sex) throws IOException, XmlPullParserException {
+	public int addUser(String name, String pwd, String email, String sex) throws IOException, XmlPullParserException {
 		int result = 0;
 		if((sex.equals("male") == false && sex.equals("female") == false) || isEmail(email) == false)
 			return 0;
@@ -47,11 +47,10 @@ public class UserManager {
 		if(getUser(email) != null)
 			return 0;
 		
-		Object[] paramValues = {name,email,sex};
+		Object[] paramValues = {name,pwd,email,sex};
 		result = Integer.valueOf(WebService.getInstance().runFunction(ServerParam.USER_URL, ADD_USER, paramValues));
 		return result;
 	}
-	
 	
 	/**
 	 * @param uid: user id
@@ -75,6 +74,24 @@ public class UserManager {
 		return user;
 	}
 	
+	public User getUser(String email) throws IOException, XmlPullParserException {
+		User user = null;
+		if(isEmail(email) == false)
+			return null;
+		Object[] paramValues = {email};
+		String naiveUser = WebService.getInstance().runFunction(ServerParam.USER_URL, GET_USER_MAIL, paramValues);
+		if(naiveUser.equals(""))
+			return null;
+		List<String> userInfo = SetSerialization.deserialize1(naiveUser);
+		if(userInfo != null && userInfo.size()>0) {
+			user = new User(Integer.valueOf(userInfo.get(0)));
+			user.setName(userInfo.get(1));
+			user.setEmail(email);
+			user.setSex(userInfo.get(3));
+		}
+		return user;
+	}
+	
 	
 	/**
 	 * @param email
@@ -82,12 +99,12 @@ public class UserManager {
 	 * @throws IOException
 	 * @throws XmlPullParserException
 	 */
-	public User getUser(String email) throws IOException, XmlPullParserException {
+	public User getUser(String email, String pwd) throws IOException, XmlPullParserException {
 		User user = null;
 		if(isEmail(email) == false)
 			return null;
-		Object[] paramValues = {email};
-		String naiveUser = WebService.getInstance().runFunction(ServerParam.USER_URL, GET_USER_MAIL, paramValues);
+		Object[] paramValues = {email,pwd};
+		String naiveUser = WebService.getInstance().runFunction(ServerParam.USER_URL, GET_USER_PWD, paramValues);
 		if(naiveUser.equals(""))
 			return null;
 		List<String> userInfo = SetSerialization.deserialize1(naiveUser);
