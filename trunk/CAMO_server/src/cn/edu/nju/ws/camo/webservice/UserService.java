@@ -88,10 +88,11 @@ public class UserService implements IUserService {
 		return String.valueOf(line);
 	}
 
-	public String addUser(String name, String email, String sex) {
+	public String addUser(String name, String pwd, String email, String sex) {
 		name = SetSerialization.rmIllegal(name);
 		email = SetSerialization.rmIllegal(email);
 		sex = SetSerialization.rmIllegal(sex);
+		pwd = SetSerialization.rmIllegal(pwd);
 		int sexInt = -1;
 		sex = sex.toLowerCase();
 		if(sex.equals("male")) {
@@ -103,11 +104,12 @@ public class UserService implements IUserService {
 		}
 		try {
 			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.USER_CONN);
-			String sqlStr = "insert into user(name,email,sex) values(?,?,?)";
+			String sqlStr = "insert into user(pwd,name,email,sex) values(?,?,?,?)";
 			PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
-			stmt.setString(1, name);
-			stmt.setString(2, email);
-			stmt.setInt(3, sexInt);
+			stmt.setString(1, pwd);
+			stmt.setString(2, name);
+			stmt.setString(3, email);
+			stmt.setInt(4, sexInt);
 			stmt.executeUpdate();
 			stmt.close();
 			sourceConn.close();
@@ -256,14 +258,19 @@ public class UserService implements IUserService {
 		return userInfo;
 	}
 	
-	public String getUserByMail(String email) {
+	
+	
+	public String getUserByMail(String email, String pwd) {
 		String userInfo = "";
+		email = SetSerialization.rmIllegal(email);
+		pwd = SetSerialization.rmIllegal(pwd);
 		ArrayList<String> valueList = new ArrayList<String>();
 		try {
 			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.USER_CONN);
-			String sqlStr = "select * from user where email=?";
+			String sqlStr = "select * from user where email=? and pwd=?";
 			PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
 			stmt.setString(1, email);
+			stmt.setString(2, pwd);
 			ResultSet rs = stmt.executeQuery();
 			if (rs.next()) {
 				String sex = "male";

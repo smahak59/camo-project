@@ -16,7 +16,7 @@ public interface IUserService {
 	 * @param sex
 	 * @return 0:error; 1:success
 	 */
-	public String addUser(String name, String email, String sex);
+	public String addUser(String name, String pwd, String email, String sex);
 	
 	/**
 	 * @param uid user id
@@ -28,7 +28,7 @@ public interface IUserService {
 	 * @param email
 	 * @return (u_id,name,email,sex): sex:male/female
 	 */
-	public String getUserByMail(String email);
+	public String getUserByMail(String email, String pwd);
 	
 	/**
 	 * @param uid
