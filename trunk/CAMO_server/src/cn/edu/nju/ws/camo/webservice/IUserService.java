@@ -61,10 +61,23 @@ public interface IUserService {
 	
 	
 	/**
-	 * @param uid
-	 * @param mediaType
-	 * @param instType
-	 * @return (uid,inst,media_type,inst_type,u_action,u_time)
+	 * @param uid1
+	 * @param uid2
+	 * @return 0:error; 1:success
 	 */
-//	public String getSubscribe(int uid, String mediaType, String instType);
+	public String addFriend(int uid1, int uid2);	
+	
+	/**
+	 * @param uid1
+	 * @param uid2
+	 * @return
+	 */
+	public String delFriend(int uid1, int uid2);
+	
+	
+	/**
+	 * @param uid1
+	 * @return
+	 */
+	public String getAllFriends(int uid1);
 }
