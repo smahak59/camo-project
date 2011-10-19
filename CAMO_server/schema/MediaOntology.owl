@@ -1,0 +1,612 @@
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" > 
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/gross">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Film"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">gross ($)</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/recordDate">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/MusicalWork"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">record date</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/TelevisionShow">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://dbpedia.org/ontology/Work"/>
+    <rdfs:label xml:lang="fr">émission de télévision</rdfs:label>
+    <rdfs:label xml:lang="en">television show</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/lyrics">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Musical"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Person"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">lyrics</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/brand">
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/TelevisionShow"/>
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/WrestlingEvent"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">brand</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/narrator">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Film"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Person"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">narrator</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/FictionalCharacter">
+    <rdfs:subClassOf rdf:resource="http://dbpedia.org/ontology/Person"/>
+    <rdfs:label xml:lang="fr">personnage de fiction</rdfs:label>
+    <rdfs:label xml:lang="en">fictional character</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/Album">
+    <rdfs:subClassOf rdf:resource="http://dbpedia.org/ontology/MusicalWork"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="fr">album</rdfs:label>
+    <rdfs:label xml:lang="de">Album</rdfs:label>
+    <rdfs:label xml:lang="en">album</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/trackNumber">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Song"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#positiveInteger"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">track number</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/laurenceOlivierAward">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Actor"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Award"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">Laurence Olivier Award</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/naacpImageAward">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Actor"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Award"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">NAACP Image Award</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/amgid">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Film"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">amgId</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/coProducer">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/TelevisionShow"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Person"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">co producer</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/Person">
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:label xml:lang="fr">personne</rdfs:label>
+    <rdfs:label xml:lang="pt">pessoa</rdfs:label>
+    <rdfs:label xml:lang="de">Person</rdfs:label>
+    <rdfs:label xml:lang="en">person</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/MilitaryUnit">
+    <rdfs:subClassOf rdf:resource="http://dbpedia.org/ontology/Organisation"/>
+    <rdfs:label xml:lang="fr">unité militaire</rdfs:label>
+    <rdfs:label xml:lang="en">military unit</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/review">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Album"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">review</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/editing">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Film"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Person"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">editing</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/Musical">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://dbpedia.org/ontology/Work"/>
+    <rdfs:label xml:lang="fr">musique</rdfs:label>
+    <rdfs:label xml:lang="en">musical</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/TelevisionEpisode">
+    <rdfs:subClassOf rdf:resource="http://dbpedia.org/ontology/Work"/>
+    <rdfs:comment xml:lang="en">A television episode is a part of serial television program.</rdfs:comment>
+    <rdfs:label xml:lang="fr">épisode télévisé</rdfs:label>
+    <rdfs:label xml:lang="en">television episode</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/stylisticOrigin">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/MusicGenre"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/MusicGenre"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="pt">origens estilísticas</rdfs:label>
+    <rdfs:label xml:lang="en">stylistic origin</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/nationalFilmAward">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Actor"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Award"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">National Film Award</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/Actor">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://dbpedia.org/ontology/Artist"/>
+    <rdfs:comment xml:lang="en">An actor or actress is a person who acts in a dramatic production and who works in film, television, theatre, or radio in that capacity.</rdfs:comment>
+    <rdfs:label xml:lang="fr">acteur</rdfs:label>
+    <rdfs:label xml:lang="de">Schauspieler</rdfs:label>
+    <rdfs:label xml:lang="en">actor</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/musicalBand">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Single"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Band"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">musical band</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/filmPolskiId">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Film"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">FilmPolski.pl id</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/MusicGenre">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:label xml:lang="pt">género musical</rdfs:label>
+    <rdfs:label xml:lang="fr">genre musical</rdfs:label>
+    <rdfs:label xml:lang="en">music genre</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/presenter">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/TelevisionShow"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Person"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">presenter</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/tvComId">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/TelevisionShow"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">tv.com id</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/openingFilm">
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Film"/>
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/FilmFestival"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">opening film</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/march">
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/MusicalWork"/>
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/MilitaryUnit"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">march</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/WrestlingEvent">
+    <rdfs:subClassOf rdf:resource="http://dbpedia.org/ontology/SportsEvent"/>
+    <rdfs:label xml:lang="fr">match de catch</rdfs:label>
+    <rdfs:label xml:lang="en">wrestling event</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/thumbnail">
+    <rdfs:label xml:lang="en">thumbnail</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/britishComedyAwards">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Comedian"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Award"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">British Comedy Awards</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/musicBy">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Musical"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Person"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">music by</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/show">
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/TelevisionShow"/>
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/TelevisionEpisode"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">show</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/FilmFestival">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://dbpedia.org/ontology/Event"/>
+    <rdfs:label xml:lang="fr">festival du film</rdfs:label>
+    <rdfs:label xml:lang="en">film festival</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/imdbId">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Film"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">IMDB id</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/AdultActor">
+    <rdfs:subClassOf rdf:resource="http://dbpedia.org/ontology/Actor"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="de">erwachsener Schauspieler</rdfs:label>
+    <rdfs:label xml:lang="fr">acteur adulte</rdfs:label>
+    <rdfs:label xml:lang="en">adult actor</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/musicalArtist">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Single"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/MusicalArtist"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">musical artist</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/Comedian">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://dbpedia.org/ontology/Artist"/>
+    <rdfs:label xml:lang="fr">comédien</rdfs:label>
+    <rdfs:label xml:lang="en">comedian</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/aSide">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Single"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">a side</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/Song">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://dbpedia.org/ontology/MusicalWork"/>
+    <rdfs:label xml:lang="fr">chanson</rdfs:label>
+    <rdfs:label xml:lang="en">song</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/storyEditor">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/TelevisionShow"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Person"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">story editor</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/closingFilm">
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Film"/>
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/FilmFestival"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">closing film</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/coExecutiveProducer">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/TelevisionShow"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Person"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">co executive producer</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/certification">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Single"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">certification</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/goldenCalfAward">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Actor"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Award"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">Golden Calf Award</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/ComicsCreator">
+    <rdfs:subClassOf rdf:resource="http://dbpedia.org/ontology/Artist"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="fr">créateur de bandes dessinées</rdfs:label>
+    <rdfs:label xml:lang="en">comics creator</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/iftaAward">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Actor"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Award"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">IFTA Award</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/endingTheme">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/TelevisionShow"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Work"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">ending theme</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/SportsEvent">
+    <rdfs:subClassOf rdf:resource="http://dbpedia.org/ontology/Event"/>
+    <rdfs:label xml:lang="fr">évènement sportif</rdfs:label>
+    <rdfs:label xml:lang="en">sports event</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/cinematography">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Film"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Person"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">cinematography</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/olivierAward">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Comedian"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Award"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">Olivier Award</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/goldenRaspberryAward">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Actor"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Award"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">Golden Raspberry Award</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/musicians">
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/MusicalArtist"/>
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Instrument"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">musicians</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/bSide">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Single"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">b side</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/americanComedyAward">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Comedian"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Award"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">American Comedy Award</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/Artist">
+    <rdfs:subClassOf rdf:resource="http://dbpedia.org/ontology/Person"/>
+    <rdfs:label xml:lang="de">Künstler</rdfs:label>
+    <rdfs:label xml:lang="fr">artiste</rdfs:label>
+    <rdfs:label xml:lang="en">artist</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/musicComposer">
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/MusicalArtist"/>
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Work"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">music composer</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/peabodyAward">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Comedian"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Award"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">Peabody Award</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/derivative">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/MusicGenre"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/MusicGenre"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">derivative</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/Instrument">
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:comment xml:lang="en">Describes all musical instrument</rdfs:comment>
+    <rdfs:label xml:lang="fr">instrument de musique</rdfs:label>
+    <rdfs:label xml:lang="en">Instrument</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/compiler">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Album"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Person"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment xml:lang="en">For compilation albums: the person or entity responsible for selecting the album's track listing.</rdfs:comment>
+    <rdfs:label xml:lang="en">compiler</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/Broadcast">
+    <rdfs:subClassOf rdf:resource="http://dbpedia.org/ontology/Organisation"/>
+    <rdfs:label xml:lang="fr">Émission de télévision</rdfs:label>
+    <rdfs:label xml:lang="en">broadcast</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/recordedIn">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/MusicalWork"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/PopulatedPlace"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">recorded in</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/longtype">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Album"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment xml:lang="en">can be used to include more informations e.g. the name of the artist that a tribute album is in honor of</rdfs:comment>
+    <rdfs:label xml:lang="en">longtype</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/Film">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://dbpedia.org/ontology/Work"/>
+    <rdfs:label xml:lang="fr">film</rdfs:label>
+    <rdfs:label xml:lang="el">ταινία</rdfs:label>
+    <rdfs:label xml:lang="en">film</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/arielAward">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Actor"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Award"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">Ariel Award</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/geminiAward">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Actor"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Award"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">Gemini Award</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/EurovisionSongContestEntry">
+    <rdfs:subClassOf rdf:resource="http://dbpedia.org/ontology/Song"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="fr">concours Eurovision de la chanson</rdfs:label>
+    <rdfs:label xml:lang="en">Eurovision song contest entry</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/eTeatrId">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Film"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">e-teatr.pl id</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/VoiceActor">
+    <rdfs:subClassOf rdf:resource="http://dbpedia.org/ontology/Actor"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="fr">acteur de doublage</rdfs:label>
+    <rdfs:label xml:lang="en">voice actor</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/creativeDirector">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/TelevisionShow"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Person"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">creative director</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/Award">
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:label xml:lang="fr">récompense</rdfs:label>
+    <rdfs:label xml:lang="en">award</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/film">
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Film"/>
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/FilmFestival"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">film</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/ComicsCharacter">
+    <rdfs:subClassOf rdf:resource="http://dbpedia.org/ontology/FictionalCharacter"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="fr">personnage de bandes dessinées</rdfs:label>
+    <rdfs:label xml:lang="en">comics character</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/musicFusionGenre">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/MusicGenre"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/MusicGenre"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">music fusion genre</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/MusicalWork">
+    <rdfs:subClassOf rdf:resource="http://dbpedia.org/ontology/Work"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="fr">œuvre musicale</rdfs:label>
+    <rdfs:label xml:lang="en">musical work</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/channel">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/TelevisionShow"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Broadcast"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">channel</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/musicSubgenre">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/MusicGenre"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/MusicGenre"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">music subgenre</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/screenActorsGuildAward">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Actor"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Award"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">Screen Actors Guild Award</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/certificationDate">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/Single"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">certification date</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/Single">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://dbpedia.org/ontology/MusicalWork"/>
+    <rdfs:label xml:lang="fr">single</rdfs:label>
+    <rdfs:label xml:lang="en">single</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/voice">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/TelevisionShow"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Person"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">voice</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/Band">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://dbpedia.org/ontology/Organisation"/>
+    <rdfs:label xml:lang="pt">banda</rdfs:label>
+    <rdfs:label xml:lang="fr">groupe de musique</rdfs:label>
+    <rdfs:label xml:lang="de">Musikgruppe</rdfs:label>
+    <rdfs:label xml:lang="en">Band</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/numberOfFilms">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/AdultActor"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#nonNegativeInteger"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">number of films</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/showJudge">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/TelevisionShow"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Person"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">showJudge</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/MusicalArtist">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://dbpedia.org/ontology/Artist"/>
+    <rdfs:label xml:lang="pt">artista musical</rdfs:label>
+    <rdfs:label xml:lang="fr">musicien</rdfs:label>
+    <rdfs:label xml:lang="en">musical artist</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/ontology/openingTheme">
+    <rdfs:domain rdf:resource="http://dbpedia.org/ontology/TelevisionShow"/>
+    <rdfs:range rdf:resource="http://dbpedia.org/ontology/Work"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en">opening theme</rdfs:label>
+  </rdf:Description>
+</rdf:RDF>
