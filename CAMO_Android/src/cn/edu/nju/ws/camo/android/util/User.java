@@ -1,11 +1,13 @@
 package cn.edu.nju.ws.camo.android.util;
 
+import java.io.Serializable;
+
 
 /**
  * @author Hang Zhang
  *
  */
-public class User {
+public class User implements Serializable {
 	
 	private int id;
 	private String email;

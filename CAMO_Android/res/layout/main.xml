@@ -3,8 +3,10 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    >
-<Button android:id="@+id/button_viewLike" android:text="View My Likes" android:layout_height="wrap_content" android:layout_width="match_parent"></Button>
-<Button android:id="@+id/button_viewDislike" android:text="View My Dislikes" android:layout_height="wrap_content" android:layout_width="match_parent"></Button>
-<Button android:id="@+id/button_viewInstance" android:text="View Instance" android:layout_height="wrap_content" android:layout_width="match_parent"></Button>
+    android:weightSum="1">
+    <ImageView android:id="@+id/imageView1" android:src="@drawable/logo" android:layout_height="248dp" android:layout_width="match_parent"></ImageView>
+<Button android:id="@+id/button_viewLike" android:text="My Likes" android:layout_height="wrap_content" android:layout_width="match_parent"></Button>
+<Button android:id="@+id/button_viewDislike" android:text="My Dislikes" android:layout_height="wrap_content" android:layout_width="match_parent"></Button>
+<Button android:id="@+id/button_viewInstance" android:layout_height="wrap_content" android:text="View Instance" android:layout_width="match_parent"></Button>
+<Button android:id="@+id/button_search" android:layout_height="wrap_content" android:text="Search" android:layout_width="match_parent"></Button>
 </LinearLayout>
