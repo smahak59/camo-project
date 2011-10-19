@@ -14,4 +14,5 @@ public class ServerParam
 	public static String VIEW_URL = null;
 	public static String NAMESPACE = null;
 	
+	public static String NETWORK_ERROR1 = "network_error#1";
 }
