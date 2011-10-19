@@ -8,5 +8,5 @@
 <Button android:id="@+id/button_viewLike" android:text="My Likes" android:layout_height="wrap_content" android:layout_width="match_parent"></Button>
 <Button android:id="@+id/button_viewDislike" android:text="My Dislikes" android:layout_height="wrap_content" android:layout_width="match_parent"></Button>
 <Button android:id="@+id/button_viewInstance" android:layout_height="wrap_content" android:text="View Instance" android:layout_width="match_parent"></Button>
-<Button android:id="@+id/button_search" android:layout_height="wrap_content" android:text="Search" android:layout_width="match_parent"></Button>
+<Button android:id="@+id/button_viewSearch" android:layout_height="wrap_content" android:text="Search" android:layout_width="match_parent"></Button>
 </LinearLayout>
