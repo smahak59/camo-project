@@ -34,10 +34,6 @@ public class CommandFactory {
 		return new LikeCommand(prefer);
 	}
 	
-	public Command createSubscribeCmd(LikePrefer prefer) {
-		return new SubscribeCommand(prefer);
-	}
-	
 	public Command createCancelPreferCmd(Preference prefer) {
 		return new DelPreferCommand(prefer);
 	}
