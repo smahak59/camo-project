@@ -93,6 +93,8 @@ public class UserService implements IUserService {
 		email = SetSerialization.rmIllegal(email);
 		sex = SetSerialization.rmIllegal(sex);
 		pwd = SetSerialization.rmIllegal(pwd);
+		if(pwd.length()>200)
+			return "0";
 		int sexInt = -1;
 		sex = sex.toLowerCase();
 		if(sex.equals("male")) {
