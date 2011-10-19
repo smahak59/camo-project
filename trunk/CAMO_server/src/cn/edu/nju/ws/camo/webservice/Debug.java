@@ -10,6 +10,6 @@ public class Debug {
 		soapFactoryBean.setAddress("http://114.212.87.172:8580/user");
 		soapFactoryBean.setServiceClass(IUserService.class);
 		IUserService userService = (IUserService) soapFactoryBean.create();
-		userService.addFriend(7, 8);
+		System.out.println(userService.getAllFriends(7));
 	}
 }

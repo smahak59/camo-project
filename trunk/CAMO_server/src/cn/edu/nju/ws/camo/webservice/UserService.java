@@ -352,7 +352,7 @@ public class UserService implements IUserService {
 		List<String> friendList = new ArrayList<String>();
 		try {
 			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.USER_CONN);
-			String sqlStr = "select user1.id as id1, user1.name as name1, user1.email as mail1, user1.sex as sex1, user2.id as id2, user2.name as name2, user2.email as mail2, user2.sex as sex2, friends.f_time  from friends join(user as user1, user as user2) on(friends.u_id1=user1.id and friends.u_id2=user2.id) where friends.u_id1=? or friends.u_id2=? order by f_time desc";
+			String sqlStr = "select user1.id as id1, user1.name as name1, user1.email as mail1, user1.sex as sex1, user2.id as id2, user2.name as name2, user2.email as mail2, user2.sex as sex2, friends.f_time as f_time from friends join(user as user1, user as user2) on(friends.u_id1=user1.id and friends.u_id2=user2.id) where friends.u_id1=? or friends.u_id2=? order by f_time desc";
 			PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
 			stmt.setInt(1, uid1);
 			stmt.setInt(2, uid1);
