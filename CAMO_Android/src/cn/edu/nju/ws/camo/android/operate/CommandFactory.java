@@ -1,6 +1,7 @@
 package cn.edu.nju.ws.camo.android.operate;
 
 import cn.edu.nju.ws.camo.android.util.DislikePrefer;
+import cn.edu.nju.ws.camo.android.util.Friends;
 import cn.edu.nju.ws.camo.android.util.LikePrefer;
 import cn.edu.nju.ws.camo.android.util.Preference;
 
@@ -36,5 +37,13 @@ public class CommandFactory {
 	
 	public Command createCancelPreferCmd(Preference prefer) {
 		return new DelPreferCommand(prefer);
+	}
+	
+	public Command createAddFriendCmd(Friends friends) {
+		return new AddFriendCommand(friends.getUser1().getId(), friends.getUser2().getId());
+	}
+	
+	public Command createDelFriendCmd(Friends friends) {
+		return new DelFriendCommand(friends.getUser1().getId(), friends.getUser2().getId());
 	}
 }
