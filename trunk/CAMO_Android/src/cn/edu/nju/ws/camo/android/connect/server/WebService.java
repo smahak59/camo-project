@@ -27,7 +27,7 @@ public class WebService {
 	}
 
 	public String runFunction(String url, String methodName,
-			Object[] paramValues) throws IOException, XmlPullParserException {
+			Object[] paramValues)  {
 		String result = "";
 		SoapObject request = new SoapObject(ServerParam.NAMESPACE, methodName);
 		int paramIdx = 0;
@@ -42,11 +42,18 @@ public class WebService {
 		envelope.dotNet = false;
 		envelope.setOutputSoapObject(request);
 		HttpTransportSE ht = new HttpTransportSE(url);
-		ht.call(null, envelope);
-		if (envelope.getResponse() != null && envelope.getResponse() instanceof SoapPrimitive) {
-			SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
-			result = response.toString();
+		try {
+			ht.call(null, envelope);
+			if (envelope.getResponse() != null && envelope.getResponse() instanceof SoapPrimitive) {
+				SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+				result = response.toString();
+			}
+		} catch (IOException e) {
+			return "network_error#1";
+		} catch (XmlPullParserException e) {
+			return "network_error#1";
 		}
+		
 		return result;
 	}
 }
