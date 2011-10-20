@@ -263,6 +263,7 @@ public class InstViewOperation {
 		if (endIdx > 0)
 			result = str.substring(0, str.indexOf("@en"));
 		result.replaceAll("%", " ");
+		result.replaceAll("_", " ");
 		return result;
 	}
 }

@@ -18,14 +18,6 @@ public class ServerConfig
 		try {
 			InputStream in = UtilParam.assets.open("camo.properties");
 			prop.load(in);
-//			BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-//			String line;
-//			while((line = reader.readLine()) != null) {
-//				String[] tokens = line.split("=", 2);
-//				if(tokens.length == 2) {
-//					prop.setProperty(tokens[0], tokens[1]);
-//				}
-//			}
 			in.close();
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
