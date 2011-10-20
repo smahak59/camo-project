@@ -86,7 +86,7 @@ public class LabelAndTypeFinder extends Thread {
 						labelName = labelName.substring(0, endIdx);
 				}
 				if(type.length() == 0 && tmpProp.equals(RDF.type.getURI())) {
-					if(qs.get("o").toString().trim().equals("http://www.w3.org/2002/07/owl#Thing"))
+					if(qs.get("o").toString().trim().equals("http://www.w3.org/2002/07/owl#Thing") || qs.get("o").toString().trim().equals("http://dbpedia.org/ontology/Person"))
 						continue;
 					type = qs.get("o").toString().trim();
 				}
