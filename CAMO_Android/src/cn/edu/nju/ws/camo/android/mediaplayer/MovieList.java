@@ -38,10 +38,11 @@ public class MovieList {
 
 	public UriInstance getInstance(int k){
 		Iterator<UriInstance> it=list.iterator();
+		UriInstance ins = null;
 		for(int i=0;i<k;i++){
-			it.next();
+			ins=it.next();
 		}
-		return it.next();
+		return ins;
 	}
 	
 	public void exit(Context context){
