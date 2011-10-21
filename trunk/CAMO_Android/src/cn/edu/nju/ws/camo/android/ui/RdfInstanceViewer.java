@@ -23,6 +23,7 @@ import cn.edu.nju.ws.camo.android.util.User;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,11 +62,26 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 		currentUser = (User) intent.getSerializableExtra(SER_USER);
 		setTitle(currentUri.getUri());
 		
-		initTriplesDown();
-		initTriplesUp();
-		initLists();
-		initButtons();		
-		initTabs();
+		new LoadTask().execute("");
+		
+		
+	}
+	class LoadTask extends AsyncTask<String,Void,String> {
+
+		@Override
+		protected String doInBackground(String... params) {
+			initTriplesDown();
+			initTriplesUp();
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+			initLists();
+			initButtons();		
+			initTabs();
+		}
+		
 	}
 	
 	private void initTriplesDown() {
