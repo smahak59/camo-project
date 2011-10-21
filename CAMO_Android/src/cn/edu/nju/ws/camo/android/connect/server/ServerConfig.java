@@ -16,7 +16,7 @@ public class ServerConfig
 	{
 		Properties prop = new Properties();
 		try {
-			InputStream in = UtilParam.assets.open("camo.properties");
+			InputStream in = UtilParam.ASSETS.open("camo.properties");
 			prop.load(in);
 			in.close();
 		} catch (IOException e) {
