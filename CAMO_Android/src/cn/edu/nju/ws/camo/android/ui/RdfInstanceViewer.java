@@ -218,6 +218,7 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 			likeButtonStatus = false;
 			button_like.setImageDrawable(getResources().getDrawable(R.drawable.like_off));
 			deleteLikePrefer();
+			Toast.makeText(RdfInstanceViewer.this, "\"Like " + currentUri.getName() + "\" canceled!", Toast.LENGTH_SHORT).show();
 		}
 		else {
 			if(dislikeButtonStatus == true) {
@@ -227,7 +228,7 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 			likeButtonStatus = true;
 			button_like.setImageDrawable(getResources().getDrawable(R.drawable.like_on));
 			likeCurrentInstance();
-			Toast.makeText(RdfInstanceViewer.this, "Like!", Toast.LENGTH_SHORT).show();		
+			Toast.makeText(RdfInstanceViewer.this, "Liked: " + currentUri.getName() + " !", Toast.LENGTH_SHORT).show();		
 		}
 	}
 	
@@ -236,6 +237,7 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 			dislikeButtonStatus = false;
 			button_dislike.setImageDrawable(getResources().getDrawable(R.drawable.dislike_off));
 			deleteDislikePrefer();
+			Toast.makeText(RdfInstanceViewer.this, "\"Dislike " + currentUri.getName() + "\" canceled!", Toast.LENGTH_SHORT).show();
 		}
 		else {
 			if(likeButtonStatus == true) {
@@ -245,7 +247,7 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 			dislikeButtonStatus = true;
 			button_dislike.setImageDrawable(getResources().getDrawable(R.drawable.dislike_on));
 			dislikeCurrentInstance();
-			Toast.makeText(RdfInstanceViewer.this, "Dislike!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(RdfInstanceViewer.this, "Disliked: " + currentUri.getName() + " !", Toast.LENGTH_SHORT).show();
 		}
 	}
 	

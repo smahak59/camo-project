@@ -43,6 +43,7 @@ public class LikeViewer extends TabActivity implements OnItemClickListener, OnIt
 	
     protected void onCreate(Bundle savedInstanceState) { 
         super.onCreate(savedInstanceState);
+        setTitle("My Likes");
         initTabs();
         initUser();
         initPreferList();

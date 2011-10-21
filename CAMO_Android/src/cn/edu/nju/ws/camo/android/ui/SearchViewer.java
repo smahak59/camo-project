@@ -46,6 +46,7 @@ public class SearchViewer extends Activity {
 	private ExpandableListViewAdapter expandableListViewAdapter;
     public void onCreate(Bundle savedInstanceState) {    
     	super.onCreate(savedInstanceState);
+    	setTitle("Search");
         setContentView(R.layout.search_viewer);
     	initComponents();
     }
@@ -54,7 +55,6 @@ public class SearchViewer extends Activity {
 		imageButton_search = (ImageButton) findViewById(R.id.button_search);
 		editText_searchKey = (EditText) findViewById(R.id.editText_searchKey);
 		imageButton_search.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				LinearLayout linearLayout_loading=(LinearLayout)findViewById(R.id.linearLayout_loading);
@@ -80,35 +80,37 @@ public class SearchViewer extends Activity {
 					
 					protected void onPostExecute(String result) {
 						LinearLayout linearLayout_loading = (LinearLayout)findViewById(R.id.linearLayout_loading);
-						linearLayout_loading.setVisibility(View.GONE);						
-						expandableListViewAdapter = new ExpandableListViewAdapter();
+						linearLayout_loading.setVisibility(View.GONE);
 						
-						expandableListView_searchResult.setOnChildClickListener(new OnChildClickListener() {
-
-							@Override
-							public boolean onChildClick(
-									ExpandableListView parent, View v,
-									int groupPosition, int childPosition,
-									long id) {
-								
-								UriInstance targetUri = (UriInstance) expandableListViewAdapter.getChild(groupPosition, childPosition);								
-								new RdfInstanceLoader(SearchViewer.this, targetUri).loadRdfInstance();
-								return false;
-							}
-							
-						});						
-						expandableListView_searchResult.setAdapter(expandableListViewAdapter);
-						expandableListView_searchResult.setVisibility(View.VISIBLE);
-						for(int i = 0; i < expandableListViewAdapter.getGroupCount(); i++) {
-							expandableListView_searchResult.expandGroup(i);
+						expandableListViewAdapter = new ExpandableListViewAdapter();
+						if(expandableListViewAdapter.getGroupCount() == 0) {
+							String errInfo = "Sorry! \"" + editText_searchKey.getText().toString() + "\" not found!";
+							Toast.makeText(SearchViewer.this, errInfo, Toast.LENGTH_SHORT).show();
+							return;
 						}
-				     } 
-				        
-				
+						else {
+							expandableListView_searchResult.setOnChildClickListener(new OnChildClickListener() {
+	
+								@Override
+								public boolean onChildClick(
+										ExpandableListView parent, View v,
+										int groupPosition, int childPosition,
+										long id) {
+									UriInstance targetUri = (UriInstance) expandableListViewAdapter.getChild(groupPosition, childPosition);								
+									new RdfInstanceLoader(SearchViewer.this, targetUri).loadRdfInstance();
+									return false;
+								}
+							});						
+							expandableListView_searchResult.setAdapter(expandableListViewAdapter);
+							expandableListView_searchResult.setVisibility(View.VISIBLE);
+							for(int i = 0; i < expandableListViewAdapter.getGroupCount(); i++) {
+								expandableListView_searchResult.expandGroup(i);
+							}
+						}
 					}
+				}
 				new SearchTask().execute("");						
-			}
-			
+			}			
 		});		
 	}
 	

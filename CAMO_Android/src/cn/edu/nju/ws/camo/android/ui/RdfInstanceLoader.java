@@ -92,10 +92,9 @@ public class RdfInstanceLoader {
 				try {
 					neigh = InstViewOperation.viewInstUp(currentUri);
 					if(neigh == null)
-						triplesDown = new ArrayList<Triple>();
+						triplesUp = new ArrayList<Triple>();
 					else
-						triplesDown = neigh.getTriplesDown();
-					triplesUp = neigh.getTriplesUp();
+						triplesUp = neigh.getTriplesUp();				
 					for(int i = 0; i < triplesUp.size(); i++) {
 						UriInstance inst = triplesUp.get(i).getSubject();
 						if(!inst.canShowed()) {
