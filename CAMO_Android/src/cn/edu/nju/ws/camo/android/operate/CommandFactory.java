@@ -4,6 +4,7 @@ import cn.edu.nju.ws.camo.android.util.DislikePrefer;
 import cn.edu.nju.ws.camo.android.util.Friends;
 import cn.edu.nju.ws.camo.android.util.LikePrefer;
 import cn.edu.nju.ws.camo.android.util.Preference;
+import cn.edu.nju.ws.camo.android.util.User;
 
 /**
  * @author Hang Zhang
@@ -40,10 +41,14 @@ public class CommandFactory {
 	}
 	
 	public Command createAddFriendCmd(Friends friends) {
-		return new AddFriendCommand(friends.getUser1().getId(), friends.getUser2().getId());
+		return new AddFriendCommand(friends.getUser1(), friends.getUser2());
 	}
 	
 	public Command createDelFriendCmd(Friends friends) {
-		return new DelFriendCommand(friends.getUser1().getId(), friends.getUser2().getId());
+		return new DelFriendCommand(friends.getUser1(), friends.getUser2());
+	}
+	
+	public Command createAddFriendReqCmd(User user1, User user2) {
+		return new DelFriendCommand(user1, user2);
 	}
 }

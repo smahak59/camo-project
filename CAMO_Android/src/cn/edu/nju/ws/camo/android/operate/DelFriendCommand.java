@@ -2,19 +2,20 @@ package cn.edu.nju.ws.camo.android.operate;
 
 import cn.edu.nju.ws.camo.android.connect.server.ServerParam;
 import cn.edu.nju.ws.camo.android.connect.server.WebService;
+import cn.edu.nju.ws.camo.android.util.User;
 
 public class DelFriendCommand implements Command  {
 
-	private int uid1;
-	private int uid2;
+	private User user1;
+	private User user2;
 	
-	DelFriendCommand(int uid1, int uid2) {
-		this.uid1 = uid1;
-		this.uid2 = uid2;
+	DelFriendCommand(User user1, User user2) {
+		this.user1 = user1;
+		this.user2 = user2;
 	}
 	
 	public void execute() {
-		Object[] paramValues = {uid1,uid2};
+		Object[] paramValues = {user1.getId(),user2.getId()};
 		WebService.getInstance().runFunction(ServerParam.USER_URL,
 				"delFriend", paramValues);
 	}
