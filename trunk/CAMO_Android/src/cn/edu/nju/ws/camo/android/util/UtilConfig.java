@@ -1,6 +1,7 @@
 package cn.edu.nju.ws.camo.android.util;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -18,6 +19,7 @@ public class UtilConfig {
 	public static void initParam() {
 		setPropToName();
 		setExcludedProps();
+		setMediaCls();
 	}
 	
 	private static void setPropToName() {
@@ -34,7 +36,6 @@ public class UtilConfig {
 			}
 			br.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -51,8 +52,26 @@ public class UtilConfig {
 			}
 			br.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+	
+	private static void setMediaCls() {
+		UtilParam.MEDIA_CLASS = new HashSet<String>();
+		try {
+			InputStream in = UtilParam.ASSETS.open("media.cls");
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+			String line = "";
+			while((line = br.readLine()) != null) {
+				if(line.trim().equals("") == false)
+					UtilParam.MEDIA_CLASS.add(line.trim());
+			}
+			br.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 }
