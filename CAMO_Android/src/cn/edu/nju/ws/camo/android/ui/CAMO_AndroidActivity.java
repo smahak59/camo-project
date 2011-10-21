@@ -8,6 +8,7 @@ import cn.edu.nju.ws.camo.android.connect.server.ServerConfig;
 import cn.edu.nju.ws.camo.android.rdf.RdfFactory;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 import cn.edu.nju.ws.camo.android.util.User;
+import cn.edu.nju.ws.camo.android.util.UtilConfig;
 import cn.edu.nju.ws.camo.android.util.UtilParam;
 import android.app.Activity;
 import android.content.Intent;
@@ -39,7 +40,8 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 	}
 
 	private void initServerParams() {
-    	UtilParam.assets = getAssets();
+    	UtilParam.ASSETS = getAssets();
+    	UtilConfig.initParam();
     	ServerConfig.initParam();
 		
 	}
