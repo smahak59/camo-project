@@ -42,6 +42,7 @@ public class DislikeViewer extends TabActivity implements OnItemClickListener{
 	
     protected void onCreate(Bundle savedInstanceState) { 
         super.onCreate(savedInstanceState);
+        setTitle("My Dislikes");
         initTabs();
         initUser();	        
         initPrefLists();
