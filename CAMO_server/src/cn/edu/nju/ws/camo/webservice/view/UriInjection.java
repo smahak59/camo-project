@@ -1,22 +1,20 @@
 package cn.edu.nju.ws.camo.webservice.view;
 
-import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import com.hp.hpl.jena.query.QueryExecution;
-import com.hp.hpl.jena.query.QuerySolution;
-import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.sdb.sql.SDBConnection;
-import com.hp.hpl.jena.util.URIref;
-import com.hp.hpl.jena.vocabulary.RDF;
-
-import cn.edu.nju.ws.camo.webservice.connect.*;
-import cn.edu.nju.ws.camo.webservice.util.SetSerialization;
+import cn.edu.nju.ws.camo.webservice.connect.Config;
+import cn.edu.nju.ws.camo.webservice.connect.SDBConnFactory;
 
 public class UriInjection 
 {
@@ -129,10 +127,8 @@ public class UriInjection
 		Iterator<Entry<String, List<String[]>>> itr2 = instPropList.entrySet().iterator();
 		while (itr2.hasNext()) {
 			Entry<String, List<String[]>> entry = itr2.next();
-//			ipvList.addAll(entry.getValue());
 			for (String[] pv : entry.getValue()) {
 				ipvList.add(new String[]{inst,pv[0],pv[1]});
-//				System.out.println(inst + "\n" + pv[0] + "\n" + pv[1] + "\n");
 			}
 		}
 		return ipvList;
@@ -214,15 +210,17 @@ public class UriInjection
 		return getInst();
 	}
 	
+	
+	
 	public static void main(String[] args) throws Throwable 
 	{
 		Config.initParam(); 
-		UriInjection query = new UriInjection("http://dbpedia.org/resource/Norman_Granz");
-//		System.out.println("\n==========Query Down=========\n");
-//		List<String[]> triplesDown = query.queryDown();
-//		for(String[] triple : triplesDown) {
-//			System.out.println(triple[0] + "\n" + triple[1] + "\n" + triple[2] + "\n");
-//		}
+		UriInjection query = new UriInjection("http://dbpedia.org/resource/Christina_Aguilera");
+		System.out.println("\n==========Query Down=========\n");
+		List<String[]> triplesDown = query.queryDown();
+		for(String[] triple : triplesDown) {
+			System.out.println(triple[0] + "\n" + triple[1] + "\n" + triple[2] + "\n");
+		}
 		System.out.println("\n==========Query Up=========\n");
 		List<String[]> triplesUp = query.queryUp();
 		for(String[] triple : triplesUp) {

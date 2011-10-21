@@ -18,6 +18,8 @@ public class LabelAndTypeFinder extends Thread {
 
 	private String uri;
 	private String result;
+	private String type;
+	private String label;
 	
 	private static String[] NAME_PROPS = {
 		"http://xmlns.com/foaf/0.1/name",
@@ -108,6 +110,8 @@ public class LabelAndTypeFinder extends Thread {
 		labelAndType.add(uri);
 		labelAndType.add(labelName);
 		labelAndType.add(type);
+		this.label = labelName;
+		this.type = type;
 		this.result = SetSerialization.serialize1(labelAndType);
 	}
 	
@@ -115,6 +119,18 @@ public class LabelAndTypeFinder extends Thread {
 		return this.result;
 	}
 	
+	public String getUri() {
+		return uri;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public String getLabel() {
+		return label;
+	}
+
 	public static void main(String[] args) throws Throwable  {
 		Config.initParam();
 		LabelAndTypeFinder finder = new LabelAndTypeFinder("http://dbpedia.org/resource/Verve_Records");

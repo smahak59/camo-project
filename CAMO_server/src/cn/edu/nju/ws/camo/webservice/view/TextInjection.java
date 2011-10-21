@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.*;
 
 import cn.edu.nju.ws.camo.webservice.connect.*;
+import cn.edu.nju.ws.camo.webservice.util.SetSerialization;
 
 public class TextInjection 
 {
@@ -60,16 +61,6 @@ public class TextInjection
 		rs1.close();
 		stmt1.close();
 
-//		String sqlStr2 = "SELECT uri FROM inst_" + mediaType
-//					   + " WHERE MATCH(label) AGAINST (? IN BOOLEAN MODE) LIMIT 3";
-//		PreparedStatement stmt2 = sourceConn.prepareStatement(sqlStr2);
-//		stmt2.setString(1, searchWords);
-//		ResultSet rs2 = stmt2.executeQuery();
-//		while (rs2.next()) 
-//			instSet.add(rs2.getString(1).trim());
-//		rs2.close();
-//		stmt2.close();
-
 		String sqlStr3 = "SELECT uri FROM inst_dbpedia " 
 					   + "WHERE MATCH(uri) AGAINST (? IN BOOLEAN MODE) or MATCH(label) AGAINST (? IN BOOLEAN MODE) LIMIT 3";
 		PreparedStatement stmt3 = sourceConn.prepareStatement(sqlStr3);
@@ -86,23 +77,9 @@ public class TextInjection
 		rs3.close();
 		stmt3.close();
 
-//		String sqlStr4 = "SELECT uri FROM inst_dbpedia " 
-//					   + "WHERE MATCH(label) AGAINST (? IN BOOLEAN MODE) LIMIT 3";
-//		PreparedStatement stmt4 = sourceConn.prepareStatement(sqlStr4);
-//		stmt4.setString(1, searchWords);
-//		ResultSet rs4 = stmt4.executeQuery();
-//		while (rs4.next()) {
-//			String s = rs4.getString(1).trim();
-//			instSet.add(s);
-//			MediaInstChecker mediaChecker = new MediaInstChecker(s);
-//			threadExec.execute(mediaChecker);
-//			mediaCheckerList.add(mediaChecker);
-//		}
-//		rs4.close();
-//		stmt4.close();
 		threadExec.shutdown();
 		while (!threadExec.isTerminated()) {
-			Thread.sleep(300);
+			Thread.sleep(100);
 		}
 		
 		rmNotMedia(instSet, mediaCheckerList, mediaType);
@@ -127,7 +104,98 @@ public class TextInjection
 		}
 		return ipvSet;
 	}
+	
+	public Map<String, String[]> queryForUri(String searchStr, String mediaType) throws Throwable {
+		String searchWords = initSearchWords(searchStr);
+		Map<String, String[]> instSet = new HashMap<String, String[]>();
+		List<MediaInstChecker> mediaCheckerList = new ArrayList<MediaInstChecker>();
+		
+		BlockingQueue<Runnable> bkQueue = new LinkedBlockingQueue<Runnable>();
+		ThreadPoolExecutor threadExec = new ThreadPoolExecutor(10, 12, 7, TimeUnit.DAYS, bkQueue);
+		if (searchWords.equals(""))
+			return instSet;
 
+		Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.FUSE_CONN);
+
+		String sqlStr1 = "SELECT uri FROM inst_" + mediaType
+					   + " WHERE MATCH(uri) AGAINST (? IN BOOLEAN MODE) or MATCH(label) AGAINST (? IN BOOLEAN MODE) LIMIT 3";
+		PreparedStatement stmt1 = sourceConn.prepareStatement(sqlStr1);
+		stmt1.setString(1, searchWords);
+		stmt1.setString(2, searchWords);
+		ResultSet rs1 = stmt1.executeQuery();
+		while (rs1.next()) {
+			String[] value = {"",""};
+			instSet.put(rs1.getString(1).trim(), value);
+		}
+		rs1.close();
+		stmt1.close();
+
+		String sqlStr3 = "SELECT uri FROM inst_dbpedia " 
+					   + "WHERE MATCH(uri) AGAINST (? IN BOOLEAN MODE) or MATCH(label) AGAINST (? IN BOOLEAN MODE) LIMIT 3";
+		PreparedStatement stmt3 = sourceConn.prepareStatement(sqlStr3);
+		stmt3.setString(1, searchWords);
+		stmt3.setString(2, searchWords);
+		ResultSet rs3 = stmt3.executeQuery();
+		while (rs3.next()) {
+			String s = rs3.getString(1).trim();
+			String[] value = {"",""};
+			instSet.put(rs3.getString(1).trim(), value);
+			MediaInstChecker mediaChecker = new MediaInstChecker(s);
+			threadExec.execute(mediaChecker);
+			mediaCheckerList.add(mediaChecker);
+		}
+		rs3.close();
+		stmt3.close();
+
+		threadExec.shutdown();
+		while (!threadExec.isTerminated()) {
+			Thread.sleep(100);
+		}
+		
+		rmNotMedia(instSet, mediaCheckerList, mediaType);
+		rmCorefs(instSet, mediaType);
+		initLabelAndType(instSet);
+		
+		return instSet;
+	}
+	
+	private void initLabelAndType(Map<String, String[]> instSet) throws InterruptedException {
+		BlockingQueue<Runnable> bkQueue = new LinkedBlockingQueue<Runnable>();
+		ThreadPoolExecutor threadExec = new ThreadPoolExecutor(10, 12, 7, TimeUnit.DAYS, bkQueue);
+		List<LabelAndTypeFinder> finderList = new ArrayList<LabelAndTypeFinder>();
+		for(String inst : instSet.keySet()) {
+			LabelAndTypeFinder finder = new LabelAndTypeFinder(inst);
+			threadExec.execute(finder);
+			finderList.add(finder);
+		}
+		threadExec.shutdown();
+		while (!threadExec.isTerminated()) {
+			Thread.sleep(20);
+		}
+		for(LabelAndTypeFinder finder : finderList) {
+			String[] value = instSet.get(finder.getUri());
+			value[0] = finder.getLabel();
+			value[1] = finder.getType();
+		}
+	}
+	
+	private void rmNotMedia(Map<String, String[]> instSet, List<MediaInstChecker> mediaCheckerList, String mediaType) {
+		for (MediaInstChecker checker : mediaCheckerList) {
+			String inst = checker.getInst();
+			if (checker.isMedia() == false) {
+				instSet.remove(inst);
+			} else {
+				if(mediaType.equals("movie") && checker.isMovie() == 0){
+					instSet.remove(inst);
+				} else if(mediaType.equals("music") && checker.isMusic() == 0) {
+					instSet.remove(inst);
+				} else if(mediaType.equals("photo") && checker.isPhoto() == 0) {
+					instSet.remove(inst);
+				}
+			}
+		}
+	}
+	
 	private void rmNotMedia(Set<String> instSet, List<MediaInstChecker> mediaCheckerList, String mediaType) 
 	{
 		for (MediaInstChecker checker : mediaCheckerList) {
@@ -141,6 +209,25 @@ public class TextInjection
 					instSet.remove(inst);
 				} else if(mediaType.equals("photo") && checker.isPhoto() == 0) {
 					instSet.remove(inst);
+				}
+			}
+		}
+	}
+	
+	private void rmCorefs(Map<String, String[]> instSet, String mediaType) throws Throwable {
+		List<CorefFinder> finderList = new ArrayList<CorefFinder>();
+		for (String inst : instSet.keySet()) {
+			CorefFinder coFinder = new CorefFinder(inst, mediaType);
+			coFinder.start();
+			finderList.add(coFinder);
+		}
+		for (CorefFinder tmpFinder : finderList) {
+			tmpFinder.join();
+			if (instSet.containsKey(tmpFinder.getURI())) {
+				Map<String, Integer> corefs = tmpFinder.getCorefs();
+				for (Entry<String, Integer> entry : corefs.entrySet()) {
+					if (!tmpFinder.getURI().equals(entry.getKey()))
+						instSet.remove(entry.getKey());
 				}
 			}
 		}

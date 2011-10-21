@@ -112,6 +112,32 @@ public class ViewService implements IViewService {
 		result = SetSerialization.serialize3(resultList);
 		return result;
 	}
+	
+	public String textView(String searchText, String mediaType) {
+		String result = "";
+		ArrayList<String> resultList = new ArrayList<String>();
+		try {
+			TextInjection query = new TextInjection();
+			query.setQueryMode(TextInjection.MODE_DOWN);	//down, up, all
+			Map<String, String[]> instToTriples = query.queryForUri(searchText, mediaType);
+			Iterator<Entry<String, String[]>> itr = instToTriples.entrySet().iterator();
+			while(itr.hasNext()) {
+				Entry<String, String[]> entry = itr.next();
+				List<String> termList = new ArrayList<String>();
+				String inst = entry.getKey();
+				String label = entry.getValue()[0];
+				String clsType = entry.getValue()[1];
+				termList.add(inst);
+				termList.add(label);
+				termList.add(clsType);
+				resultList.add(SetSerialization.serialize1(termList));
+			}
+			result = SetSerialization.serialize2(resultList);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 
 	public String textViewDown(String searchText, String mediaType) {
 		// TODO Auto-generated method stub
@@ -230,6 +256,6 @@ public class ViewService implements IViewService {
 	
 	public static void main(String[] args) {
 		Config.initParam();
-		System.out.println(new ViewService().textViewDown("While Paris Sleeps", "movie"));
+		System.out.println(new ViewService().textView("Cannes Film Festival", "movie"));
 	}
 }

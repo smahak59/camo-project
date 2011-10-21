@@ -1,5 +1,7 @@
 package cn.edu.nju.ws.camo.webservice.connect;
 
+import java.util.Set;
+
 public class Param
 {	
 	// Config
@@ -75,4 +77,6 @@ public class Param
 	public static final String LMDB = "LMDB";
 	public static final String TROP = "TROP";
 	public static final String WDF = "WDF";
+	
+//	public static Set<String> MEDIA_CLASS = null;
 }
