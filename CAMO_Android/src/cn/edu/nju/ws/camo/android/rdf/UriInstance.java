@@ -40,7 +40,7 @@ public class UriInstance extends Resource implements Serializable {
 		return uri;
 	}
 	
-	public boolean isShowed() {
+	public boolean canShowed() {
 		if(classType.trim().length()>0) {
 			return UtilParam.MEDIA_CLASS.contains(classType);
 		}
