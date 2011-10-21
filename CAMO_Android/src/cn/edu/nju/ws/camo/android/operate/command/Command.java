@@ -1,4 +1,4 @@
-package cn.edu.nju.ws.camo.android.operate;
+package cn.edu.nju.ws.camo.android.operate.command;
 
 /**
  * @author Hang Zhang

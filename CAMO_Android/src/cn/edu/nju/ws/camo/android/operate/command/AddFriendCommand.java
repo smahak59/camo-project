@@ -1,4 +1,4 @@
-package cn.edu.nju.ws.camo.android.operate;
+package cn.edu.nju.ws.camo.android.operate.command;
 
 import cn.edu.nju.ws.camo.android.connect.server.ServerParam;
 import cn.edu.nju.ws.camo.android.connect.server.WebService;
