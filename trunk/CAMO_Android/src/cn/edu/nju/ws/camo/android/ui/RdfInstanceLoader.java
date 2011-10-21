@@ -67,7 +67,10 @@ public class RdfInstanceLoader {
 			private void initTriplesDown() {
 				try {
 					UriInstWithNeigh neigh = InstViewOperation.viewInstDown(currentUri);
-					triplesDown = neigh.getTriplesDown();
+					if(neigh == null)
+						triplesDown = new ArrayList<Triple>();
+					else
+						triplesDown = neigh.getTriplesDown();
 					for(int i = 0; i < triplesDown.size(); i++) {
 						Resource obj = triplesDown.get(i).getObject();
 						if(obj instanceof UriInstance) {
@@ -88,6 +91,10 @@ public class RdfInstanceLoader {
 				UriInstWithNeigh neigh;
 				try {
 					neigh = InstViewOperation.viewInstUp(currentUri);
+					if(neigh == null)
+						triplesDown = new ArrayList<Triple>();
+					else
+						triplesDown = neigh.getTriplesDown();
 					triplesUp = neigh.getTriplesUp();
 					for(int i = 0; i < triplesUp.size(); i++) {
 						UriInstance inst = triplesUp.get(i).getSubject();
