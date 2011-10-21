@@ -86,4 +86,24 @@ public interface IUserService {
 	 * @return
 	 */
 	public String getAllFriends(int uid1);
+	
+	/**
+	 * @param uid1
+	 * @param uid2
+	 * @return
+	 */
+	public String isFriends(int uid1, int uid2);
+	
+	/**
+	 * @param userFrom
+	 * @param userTo
+	 * @return
+	 */
+	public String addFriendRequest(int userFrom, int userTo);
+	
+	/**
+	 * @param userTo
+	 * @return
+	 */
+	public String getAllRequests(int userTo);
 }
