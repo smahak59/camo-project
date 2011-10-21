@@ -3,31 +3,15 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:orientation="vertical"
   android:layout_width="match_parent"
-  android:layout_height="match_parent">
-	<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout2" android:orientation="vertical">
-		<TextView android:text="" 
-				android:id="@+id/textView_uriTitle" 
-				android:layout_width="fill_parent" 
-				android:layout_height="wrap_content"
-				android:gravity="center"								
-				android:textSize="40dip">
-		</TextView>
-		
-		<TableLayout android:layout_height="wrap_content"
-    			android:layout_gravity="center" 
-    			android:stretchColumns="*"
-    			android:id="@+id/tableLayout1" 
-    			android:layout_width="wrap_content">
-	        <TableRow>        			
-	            <Button android:text="Like" 
-	            		android:id="@+id/button_like">
-	            </Button>
-	            <Button android:text="Dislike" 
-	            		android:id="@+id/button_dislike">
-	            </Button>
-	        </TableRow>       
-    	</TableLayout>
-	</LinearLayout>
+  android:layout_height="match_parent" android:weightSum="1">
+   
+    <RelativeLayout android:layout_height="wrap_content" android:id="@+id/relativeLayout1" android:layout_width="match_parent" android:layout_gravity="center" android:gravity="center">
+        <LinearLayout android:orientation="vertical" android:id="@+id/linearLayout3" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_alignParentTop="true" android:layout_alignParentRight="true">
+            <ImageButton android:id="@+id/button_like" android:layout_height="match_parent" android:src="@+drawable/like_off" android:layout_width="wrap_content" android:background="#e0000000"></ImageButton>
+            <ImageButton android:id="@+id/button_dislike" android:layout_height="match_parent" android:src="@+drawable/dislike_off" android:layout_width="wrap_content" android:background="#e0000000"></ImageButton>
+        </LinearLayout>
+        <TextView android:gravity="center" android:text="" android:layout_height="wrap_content" android:id="@+id/textView_instTitle" android:textSize="30dip" android:layout_centerVertical="true" android:layout_alignParentLeft="true" android:layout_width="match_parent" android:layout_toLeftOf="@+id/linearLayout3"></TextView>
+    </RelativeLayout>
 	
 	<TabHost android:id="@+id/tab_host"
         android:layout_width="fill_parent" android:layout_height="fill_parent">
@@ -45,8 +29,7 @@
                 android:layout_alignParentBottom="true"
                 />
         </RelativeLayout>
-    </TabHost>   
-
+    </TabHost>
 
     
    
