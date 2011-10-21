@@ -87,9 +87,6 @@ public class PreferViewOperation {
 			UriInstance inst = RdfFactory.getInstance().createInstance(
 					naiveUnits.get(1), naiveUnits.get(2), naiveUnits.get(3),
 					naiveUnits.get(4));
-			// boolean subscribe = false;
-			// if(naiveUnits.get(6).equals("1"))
-			// subscribe = true;
 			LikePrefer like = new LikePrefer(user, inst);
 			likes.add(like);
 		}

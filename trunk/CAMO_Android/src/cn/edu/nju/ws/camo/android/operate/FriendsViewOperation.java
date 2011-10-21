@@ -36,4 +36,27 @@ public class FriendsViewOperation {
 		}
 		return friendsList;
 	}
+	
+	public static List<User> getAllRequests(User curUser) {
+		List<User> userList = new ArrayList<User>();
+		Object[] params = { curUser.getId() };
+		String naiveResult = WebService.getInstance().runFunction(
+				ServerParam.USER_URL, "getAllRequests", params);
+		if(naiveResult.equals(ServerParam.NETWORK_ERROR1))
+			return null;
+		if (naiveResult.equals(""))
+			return userList;
+		List<String> naiveUserList = SetSerialization.deserialize2(naiveResult);
+		for(String naiveUser : naiveUserList) {
+			List<String> naiveTermList = SetSerialization.deserialize1(naiveUser);
+			if(naiveTermList.size()<4)
+				continue;
+			User newUser = new User(Integer.valueOf(naiveTermList.get(0)));
+			newUser.setName(naiveTermList.get(1));
+			newUser.setEmail(naiveTermList.get(2));
+			newUser.setSex(naiveTermList.get(3));
+			userList.add(newUser);
+		}
+		return userList;
+	}
 }
