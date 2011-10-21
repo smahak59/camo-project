@@ -1,10 +1,12 @@
 package cn.edu.nju.ws.camo.android.rdf;
 
+import java.io.Serializable;
+
 /**
  * @author Hang Zhang
  *
  */
-public class Triple {
+public class Triple implements Serializable {
 
 	private UriInstance s;
 	private Property p;
