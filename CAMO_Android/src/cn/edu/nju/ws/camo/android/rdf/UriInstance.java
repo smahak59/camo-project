@@ -1,5 +1,6 @@
 package cn.edu.nju.ws.camo.android.rdf;
 
+import cn.edu.nju.ws.camo.android.util.UtilParam;
 import java.io.Serializable;
 
 
@@ -37,6 +38,13 @@ public class UriInstance extends Resource implements Serializable {
 
 	public String getUri() {
 		return uri;
+	}
+	
+	public boolean isShowed() {
+		if(classType.trim().length()>0) {
+			return UtilParam.MEDIA_CLASS.contains(classType);
+		}
+		return true;
 	}
 	
 	@Override
