@@ -3,32 +3,11 @@ package cn.edu.nju.ws.camo.android.ui;
  * @author Cunxin Jia
  *
  */
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
-import org.xmlpull.v1.XmlPullParserException;
-
-import cn.edu.nju.ws.camo.android.R;
-import cn.edu.nju.ws.camo.android.operate.CommandFactory;
-import cn.edu.nju.ws.camo.android.operate.InstViewOperation;
-import cn.edu.nju.ws.camo.android.rdf.Literal;
-import cn.edu.nju.ws.camo.android.rdf.Property;
-import cn.edu.nju.ws.camo.android.rdf.RdfFactory;
-import cn.edu.nju.ws.camo.android.rdf.Resource;
-import cn.edu.nju.ws.camo.android.rdf.Triple;
-import cn.edu.nju.ws.camo.android.rdf.UriInstWithNeigh;
-import cn.edu.nju.ws.camo.android.rdf.UriInstance;
-import cn.edu.nju.ws.camo.android.util.DislikePrefer;
-import cn.edu.nju.ws.camo.android.util.LikePrefer;
-import cn.edu.nju.ws.camo.android.util.PreferList;
-import cn.edu.nju.ws.camo.android.util.SerKeys;
-import cn.edu.nju.ws.camo.android.util.User;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,13 +16,24 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 import android.widget.Toast;
+import cn.edu.nju.ws.camo.android.R;
+import cn.edu.nju.ws.camo.android.operate.command.CommandFactory;
+import cn.edu.nju.ws.camo.android.rdf.Property;
+import cn.edu.nju.ws.camo.android.rdf.RdfFactory;
+import cn.edu.nju.ws.camo.android.rdf.Resource;
+import cn.edu.nju.ws.camo.android.rdf.Triple;
+import cn.edu.nju.ws.camo.android.rdf.UriInstance;
+import cn.edu.nju.ws.camo.android.util.DislikePrefer;
+import cn.edu.nju.ws.camo.android.util.LikePrefer;
+import cn.edu.nju.ws.camo.android.util.PreferList;
+import cn.edu.nju.ws.camo.android.util.SerKeys;
+import cn.edu.nju.ws.camo.android.util.User;
 
 public class RdfInstanceViewer extends Activity implements OnClickListener{
 	private User currentUser;
