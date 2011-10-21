@@ -1,7 +1,9 @@
 package cn.edu.nju.ws.camo.webservice.connect;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
 
 public class Config 
 {
@@ -38,6 +40,8 @@ public class Config
 		setFUSE(prop);
 		setUSER(prop);
 		setSERVER(prop);
+		
+//		setMediaCls();
 	}
 	
 	public static void echoParam()
@@ -212,9 +216,30 @@ public class Config
 		
 	}
 	
+//	private static void setMediaCls() {
+//		Param.MEDIA_CLASS = new HashSet<String>();
+//		File file = new File("config/media.cls");
+//		try {
+//			BufferedReader br = new BufferedReader(new FileReader(file));
+//			String line;
+//			while((line=br.readLine()) != null) {
+//				if(line.trim().equals("") == false)
+//					Param.MEDIA_CLASS.add(line.trim());
+//			}
+//			br.close();
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
+	
 	public static void main(String args[])
 	{
 		Config.initParam();
 		Config.echoParam();
 	}
+	
 }
