@@ -1,18 +1,18 @@
-package cn.edu.nju.ws.camo.android.operate;
+package cn.edu.nju.ws.camo.android.operate.command;
 
 import cn.edu.nju.ws.camo.android.connect.server.ServerParam;
 import cn.edu.nju.ws.camo.android.connect.server.WebService;
-import cn.edu.nju.ws.camo.android.util.LikePrefer;
+import cn.edu.nju.ws.camo.android.util.DislikePrefer;
 
 /**
  * @author Hang Zhang
  * 
  */
-public class LikeCommand implements Command {
+public class DislikeCommand implements Command {
 
-	private LikePrefer prefer;
+	private DislikePrefer prefer;
 
-	LikeCommand(LikePrefer prefer) {
+	DislikeCommand(DislikePrefer prefer) {
 		this.prefer = prefer;
 	}
 
@@ -20,7 +20,7 @@ public class LikeCommand implements Command {
 		Object[] paramValues = { prefer.getUser().getId(),
 				prefer.getInst().getUri(), prefer.getInst().getMediaType(),
 				prefer.getInst().getClassType(), prefer.getInst().getName(),
-				CommandFactory.LIKE, CommandFactory.DISSUBSCRIBE };
+				CommandFactory.DISLIKE, CommandFactory.DISSUBSCRIBE };
 		WebService.getInstance().runFunction(ServerParam.USER_URL,
 				"addPreference", paramValues);
 	}
