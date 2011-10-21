@@ -5,10 +5,18 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent">
     <LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout1" android:layout_width="match_parent">
-        <EditText android:layout_weight="1" android:layout_height="wrap_content" android:id="@+id/editText1" android:layout_width="273dp">
+        <EditText android:layout_weight="1" android:layout_height="wrap_content" android:id="@+id/editText_searchKey" android:layout_width="273dp">
             <requestFocus></requestFocus>
         </EditText>
-        <ImageButton android:src="@android:drawable/ic_menu_search" android:id="@+id/imageButton1" android:layout_height="match_parent" android:layout_width="99dp"></ImageButton>
+        <ImageButton android:src="@android:drawable/ic_menu_search" android:id="@+id/button_search" android:layout_height="match_parent" android:layout_width="99dp"></ImageButton>
     </LinearLayout>
+    
+    <LinearLayout android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/linearLayout_loading" android:weightSum="1" android:gravity="center" android:visibility="gone">
+        <ProgressBar android:id="@+id/progressBar1" android:layout_width="wrap_content" android:layout_height="wrap_content"></ProgressBar>
+        <TextView android:layout_marginLeft="15dip" android:id="@+id/textView1" android:text="Loading..." android:layout_height="match_parent" android:layout_width="wrap_content" android:textSize="30dip" android:gravity="center_vertical"></TextView>
+    </LinearLayout>
+    
+    
+    <ListView android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/listView_searchResult"></ListView>
     
 </LinearLayout>
