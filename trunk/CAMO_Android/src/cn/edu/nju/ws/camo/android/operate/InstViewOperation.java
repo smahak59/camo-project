@@ -17,6 +17,7 @@ import cn.edu.nju.ws.camo.android.rdf.Triple;
 import cn.edu.nju.ws.camo.android.rdf.UriInstWithNeigh;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 import cn.edu.nju.ws.camo.android.util.SetSerialization;
+import cn.edu.nju.ws.camo.android.util.UtilParam;
 
 /**
  * @author Hang Zhang
@@ -46,6 +47,9 @@ public class InstViewOperation {
 					.deserialize2(naiveTriple); // (p,o)
 			Property property = RdfFactory.getInstance().createProperty(
 					naiveResources.get(0), mediaType); // p
+			if(isExProp(property))
+				continue;
+			setPropName(property);
 			Resource value = null; // o
 			List<String> naiveObject = new ArrayList<String>();
 			if (naiveResources.size() > 1)
@@ -96,6 +100,9 @@ public class InstViewOperation {
 					.deserialize2(naiveTriple); // (s,p)
 			Property property = RdfFactory.getInstance().createProperty(
 					naiveResources.get(1), mediaType); // p
+			if(isExProp(property))
+				continue;
+			setPropName(property);
 			UriInstance subject = null; // s
 			List<String> naiveSubject = SetSerialization
 					.deserialize1(naiveResources.get(0));
@@ -158,6 +165,9 @@ public class InstViewOperation {
 						.deserialize2(naiveTriple); // (p,o)
 				Property property = RdfFactory.getInstance().createProperty(
 						naiveResources.get(0), mediaType); // p
+				if(isExProp(property))
+					continue;
+				setPropName(property);
 				Resource object = null; // o
 				List<String> naiveObject = new ArrayList<String>();
 				if (naiveResources.size() > 1) {
@@ -165,8 +175,6 @@ public class InstViewOperation {
 							.get(1));
 				} else
 					continue;
-				// List<String> naiveObject =
-				// SetSerialization.deserialize1(naiveResources.get(1));
 				if (naiveObject.size() == 3) {
 					object = RdfFactory.getInstance().createInstance(
 							naiveObject.get(0), mediaType, naiveObject.get(2),
@@ -233,6 +241,9 @@ public class InstViewOperation {
 						.deserialize2(naiveTriple); // (s,p)
 				Property property = RdfFactory.getInstance().createProperty(
 						naiveResources.get(0), mediaType); // p
+				if(isExProp(property))
+					continue;
+				setPropName(property);
 				UriInstance subject = null; // s
 				List<String> naiveSubject = SetSerialization
 						.deserialize1(naiveResources.get(1));
@@ -268,5 +279,14 @@ public class InstViewOperation {
 		result.replaceAll("%", " ");
 		result.replaceAll("_", " ");
 		return result;
+	}
+	
+	private static boolean isExProp(Property prop) {
+		return UtilParam.EXCLUDED_PROPS.contains(prop.getUri());
+	}
+	
+	private static void setPropName(Property prop) {
+		if(UtilParam.PROP_TO_NANME_DOWN.containsKey(prop.getUri()))
+			prop.setName(UtilParam.PROP_TO_NANME_DOWN.get(prop.getUri()));
 	}
 }
