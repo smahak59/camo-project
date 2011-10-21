@@ -286,7 +286,7 @@ public class InstViewOperation {
 	}
 	
 	private static void setPropName(Property prop) {
-		if(UtilParam.PROP_TO_NANME_DOWN.containsKey(prop.getUri()))
-			prop.setName(UtilParam.PROP_TO_NANME_DOWN.get(prop.getUri()));
+		if(UtilParam.PROP_TO_NAME_DOWN.containsKey(prop.getUri()))
+			prop.setName(UtilParam.PROP_TO_NAME_DOWN.get(prop.getUri()));
 	}
 }

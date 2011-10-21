@@ -19,6 +19,8 @@ import cn.edu.nju.ws.camo.android.rdf.UriInstWithNeigh;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 import cn.edu.nju.ws.camo.android.util.DislikePrefer;
 import cn.edu.nju.ws.camo.android.util.LikePrefer;
+import cn.edu.nju.ws.camo.android.util.PreferList;
+import cn.edu.nju.ws.camo.android.util.SerKeys;
 import cn.edu.nju.ws.camo.android.util.User;
 import android.app.Activity;
 import android.content.Context;
@@ -40,8 +42,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class RdfInstanceViewer extends Activity implements OnClickListener{
-	public final static String SER_URI = "SER_URI";
-	public final static String SER_USER = "SER_USER";
 	private User currentUser;
 	private UriInstance currentUri;
 	private TabHost tabHost;
@@ -58,8 +58,8 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 		setContentView(R.layout.rdf_instance_viewer);
 		setTitle("RDF Instance Viwer");
 		Intent intent = getIntent();
-		currentUri = (UriInstance) intent.getSerializableExtra(SER_URI);
-		currentUser = (User) intent.getSerializableExtra(SER_USER);
+		currentUri = (UriInstance) intent.getSerializableExtra(SerKeys.SER_URI);
+		currentUser = ((CAMO_Application)getApplication()).getCurrentUser();
 		setTitle(currentUri.getUri());
 		
 		new LoadTask().execute("");
@@ -127,8 +127,7 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 				if(selected instanceof UriInstance) {
 					Intent newUriIntent = new Intent(RdfInstanceViewer.this,RdfInstanceViewer.class);
 					Bundle newUriBundle = new Bundle();
-					newUriBundle.putSerializable(SER_URI, selected);
-					newUriBundle.putSerializable(SER_USER, currentUser);
+					newUriBundle.putSerializable(SerKeys.SER_URI, selected);					
 					newUriIntent.putExtras(newUriBundle);
 					startActivity(newUriIntent);
 				}
@@ -143,8 +142,7 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 				if(selected instanceof UriInstance) {
 					Intent newUriIntent = new Intent(RdfInstanceViewer.this,RdfInstanceViewer.class);
 					Bundle newUriBundle = new Bundle();
-					newUriBundle.putSerializable(SER_URI, selected);
-					newUriBundle.putSerializable(SER_USER, currentUser);
+					newUriBundle.putSerializable(SerKeys.SER_URI, selected);					
 					newUriIntent.putExtras(newUriBundle);
 					startActivity(newUriIntent);
 				}
@@ -155,6 +153,17 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 	private void initButtons() {
 		button_like = (Button)findViewById(R.id.button_like);
 		button_dislike = (Button)findViewById(R.id.button_dislike);
+		int signedType = ((CAMO_Application)getApplication()).getSignedType(currentUri);
+		switch(signedType) {
+		case PreferList.LIKED:
+			button_like.setText("Liked");
+			break;
+		case PreferList.DISLIKED:
+			button_dislike.setText("Disliked");
+			break;
+		case PreferList.UNSIGNED:
+			break;
+		}
 		textView_UriTitle = (TextView) findViewById(R.id.textView_uriTitle);
 		textView_UriTitle.setText(currentUri.getName());
 		button_like.setOnClickListener(this);

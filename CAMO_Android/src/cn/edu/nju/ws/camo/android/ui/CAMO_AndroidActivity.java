@@ -7,7 +7,7 @@ import cn.edu.nju.ws.camo.android.R;
 import cn.edu.nju.ws.camo.android.connect.server.ServerConfig;
 import cn.edu.nju.ws.camo.android.rdf.RdfFactory;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
-import cn.edu.nju.ws.camo.android.util.User;
+import cn.edu.nju.ws.camo.android.util.SerKeys;
 import cn.edu.nju.ws.camo.android.util.UtilConfig;
 import cn.edu.nju.ws.camo.android.util.UtilParam;
 import android.app.Activity;
@@ -18,16 +18,17 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class CAMO_AndroidActivity extends Activity implements OnClickListener {
+	private CAMO_Application CAMO_app;
 	private Button button_viewLike;
 	private Button button_viewDislike;
 	private Button button_viewInstance;
 	private Button button_viewSearch;
-	private User currentUser;
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-    	initCurrentUser();
+    	CAMO_app = (CAMO_Application) getApplication();    	
     	initServerParams();
+    	initUserPreferList();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         initViewComponents();
@@ -35,15 +36,15 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
     
     
     
-    private void initCurrentUser() {
-		currentUser = new User(7);		
+    private void initUserPreferList() {
+    	CAMO_app.initCurrentUser();
+    	CAMO_app.initPreferList();		
 	}
 
 	private void initServerParams() {
     	UtilParam.ASSETS = getAssets();
     	UtilConfig.initParam();
-    	ServerConfig.initParam();
-		
+    	ServerConfig.initParam();		
 	}
 
 
@@ -65,33 +66,23 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		switch(v.getId()) {			
 		case R.id.button_viewLike:
-			Intent likeIntent = new Intent(this, LikeViewer.class);
-			Bundle likeBundle = new Bundle();
-			likeBundle.putSerializable(RdfInstanceViewer.SER_USER, currentUser);
-			likeIntent.putExtras(likeBundle);
+			Intent likeIntent = new Intent(this, LikeViewer.class);			
 			startActivity(likeIntent);
 			break;
 		case R.id.button_viewDislike:
-			Intent dislikeIntent = new Intent(this, DislikeViewer.class);
-			Bundle dislikeBundle = new Bundle();
-			dislikeBundle.putSerializable(RdfInstanceViewer.SER_USER, currentUser);
-			dislikeIntent.putExtras(dislikeBundle);
+			Intent dislikeIntent = new Intent(this, DislikeViewer.class);			
 			startActivity(dislikeIntent);
 			break;
 		case R.id.button_viewInstance:
 			Intent viewInstanceIntent = new Intent(this, RdfInstanceViewer.class);
 			Bundle viewInstanceBundle = new Bundle();
 			UriInstance uri = RdfFactory.getInstance().createInstance("http://dbpedia.org/resource/Eminem", "music");
-			viewInstanceBundle.putSerializable(RdfInstanceViewer.SER_URI, uri);
-			viewInstanceBundle.putSerializable(RdfInstanceViewer.SER_USER, currentUser);
+			viewInstanceBundle.putSerializable(SerKeys.SER_URI, uri);			
 			viewInstanceIntent.putExtras(viewInstanceBundle);
 			startActivity(viewInstanceIntent);
 			break;
 		case R.id.button_viewSearch:
-			Intent viewSearchIntent = new Intent(this, SearchViewer.class);
-			Bundle searchBundle = new Bundle();
-			searchBundle.putSerializable(RdfInstanceViewer.SER_USER, currentUser);
-			viewSearchIntent.putExtras(searchBundle);
+			Intent viewSearchIntent = new Intent(this, SearchViewer.class);			
 			startActivity(viewSearchIntent);
 			break;
 		}

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TabHost;
@@ -19,15 +20,15 @@ import cn.edu.nju.ws.camo.android.R;
 import cn.edu.nju.ws.camo.android.operate.PreferViewOperation;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 import cn.edu.nju.ws.camo.android.util.LikePrefer;
+import cn.edu.nju.ws.camo.android.util.PreferList;
 import cn.edu.nju.ws.camo.android.util.Preference;
+import cn.edu.nju.ws.camo.android.util.SerKeys;
 import cn.edu.nju.ws.camo.android.util.User;
 
 
-public class LikeViewer extends TabActivity implements OnItemClickListener{
-	public final static String SER_USER = "SER_USER";
-	public final static String SER_URI = "SER_URI";
+public class LikeViewer extends TabActivity implements OnItemClickListener, OnItemLongClickListener{	
 	
-	private User currentUser;
+	private User currentUser;	
 	
 	private List<LikePrefer> artistPreferList;
 	private List<LikePrefer> musicPreferList;
@@ -43,22 +44,23 @@ public class LikeViewer extends TabActivity implements OnItemClickListener{
     protected void onCreate(Bundle savedInstanceState) { 
         super.onCreate(savedInstanceState);
         initTabs();
-        initUser();	        
-        initPrefLists();
-        initListViews();      
-        
+        initUser();
+        initPreferList();
+        initListViews();              
     }
 	  
-	private void initUser() {
-		currentUser = (User) getIntent().getSerializableExtra(SER_USER);		
-	}
 
-	private void initPrefLists() {
-		artistPreferList = PreferViewOperation.viewLike(currentUser, "unknow");
-		musicPreferList = PreferViewOperation.viewLike(currentUser, "music");
-		moviePreferList = PreferViewOperation.viewLike(currentUser, "movie");
-		photoPreferList = PreferViewOperation.viewLike(currentUser, "photo");
+	private void initUser() {
+		currentUser = ((CAMO_Application)getApplication()).getCurrentUser();		
 	}
+	
+	private void initPreferList() {
+		artistPreferList = ((CAMO_Application)getApplication()).getLikePreferList(PreferList.ARTIST);
+		musicPreferList = ((CAMO_Application)getApplication()).getLikePreferList(PreferList.MUSIC);
+		moviePreferList = ((CAMO_Application)getApplication()).getLikePreferList(PreferList.MOVIE);
+		photoPreferList = ((CAMO_Application)getApplication()).getLikePreferList(PreferList.PHOTO);
+	}
+	
 	private void initTabs() {
 			TabHost tabHost = getTabHost(); 
          
@@ -98,6 +100,11 @@ public class LikeViewer extends TabActivity implements OnItemClickListener{
 		listView_music.setOnItemClickListener(this);
 		listView_movie.setOnItemClickListener(this);
 		listView_photo.setOnItemClickListener(this);
+		
+		listView_artist.setOnItemLongClickListener(this);
+		listView_music.setOnItemLongClickListener(this);
+		listView_movie.setOnItemLongClickListener(this);
+		listView_photo.setOnItemLongClickListener(this);
 	}
 	
 
@@ -189,9 +196,29 @@ public class LikeViewer extends TabActivity implements OnItemClickListener{
 		}
 		Intent newUriIntent = new Intent(LikeViewer.this,RdfInstanceViewer.class);
 		Bundle newUriBundle = new Bundle();
-		newUriBundle.putSerializable(SER_URI, targetUri);
-		newUriBundle.putSerializable(SER_USER, currentUser);
+		newUriBundle.putSerializable(SerKeys.SER_URI, targetUri);
 		newUriIntent.putExtras(newUriBundle);
 		startActivity(newUriIntent);		
+	}
+
+
+	@Override
+	public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2,
+			long arg3) {
+		int currentTab = getTabHost().getCurrentTab();
+		UriInstance targetUri;
+		switch (currentTab) {
+		case 0:targetUri = artistPreferList.get(arg2).getInst();break;
+		case 1:targetUri = musicPreferList.get(arg2).getInst();break;
+		case 2:targetUri = moviePreferList.get(arg2).getInst();break;
+		case 3:targetUri = photoPreferList.get(arg2).getInst();break;
+		default: targetUri = null;
+		}
+		Intent newUriIntent = new Intent(LikeViewer.this,RdfInstanceViewer.class);
+		Bundle newUriBundle = new Bundle();
+		newUriBundle.putSerializable(SerKeys.SER_URI, targetUri);
+		newUriIntent.putExtras(newUriBundle);
+		startActivity(newUriIntent);
+		return false;
 	}
 }

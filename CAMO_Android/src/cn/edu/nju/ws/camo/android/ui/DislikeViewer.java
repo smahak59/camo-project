@@ -19,13 +19,13 @@ import cn.edu.nju.ws.camo.android.R;
 import cn.edu.nju.ws.camo.android.operate.PreferViewOperation;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 import cn.edu.nju.ws.camo.android.util.DislikePrefer;
+import cn.edu.nju.ws.camo.android.util.PreferList;
 import cn.edu.nju.ws.camo.android.util.Preference;
+import cn.edu.nju.ws.camo.android.util.SerKeys;
 import cn.edu.nju.ws.camo.android.util.User;
 
 
 public class DislikeViewer extends TabActivity implements OnItemClickListener{
-	public final static String SER_USER = "SER_USER";
-	public final static String SER_URI = "SER_URI";
 	
 	private User currentUser;
 	
@@ -50,14 +50,14 @@ public class DislikeViewer extends TabActivity implements OnItemClickListener{
     }
 	  
 	private void initUser() {
-		currentUser = (User) getIntent().getSerializableExtra(SER_USER);		
+		currentUser = ((CAMO_Application)getApplication()).getCurrentUser();		
 	}
 
 	private void initPrefLists() {
-		artistPreferList = PreferViewOperation.viewDislike(currentUser, "unknow");
-		musicPreferList = PreferViewOperation.viewDislike(currentUser, "music");
-		moviePreferList = PreferViewOperation.viewDislike(currentUser, "movie");
-		photoPreferList = PreferViewOperation.viewDislike(currentUser, "photo");
+		artistPreferList = ((CAMO_Application)getApplication()).getDislikePreferList(PreferList.ARTIST);
+		musicPreferList = ((CAMO_Application)getApplication()).getDislikePreferList(PreferList.MUSIC);
+		moviePreferList = ((CAMO_Application)getApplication()).getDislikePreferList(PreferList.MOVIE);
+		photoPreferList = ((CAMO_Application)getApplication()).getDislikePreferList(PreferList.PHOTO);
 	}
 	private void initTabs() {
 			TabHost tabHost = getTabHost(); 
@@ -189,8 +189,7 @@ public class DislikeViewer extends TabActivity implements OnItemClickListener{
 		}
 		Intent newUriIntent = new Intent(DislikeViewer.this,RdfInstanceViewer.class);
 		Bundle newUriBundle = new Bundle();
-		newUriBundle.putSerializable(SER_URI, targetUri);
-		newUriBundle.putSerializable(SER_USER, currentUser);
+		newUriBundle.putSerializable(SerKeys.SER_URI, targetUri);		
 		newUriIntent.putExtras(newUriBundle);
 		startActivity(newUriIntent);		
 	}

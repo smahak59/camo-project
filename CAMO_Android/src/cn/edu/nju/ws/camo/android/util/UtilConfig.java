@@ -24,14 +24,14 @@ public class UtilConfig {
 	
 	private static void setPropToName() {
 		try {
-			UtilParam.PROP_TO_NANME_DOWN = new HashMap<String, String>();
+			UtilParam.PROP_TO_NAME_DOWN = new HashMap<String, String>();
 			InputStream in = UtilParam.ASSETS.open("propNames.map");
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			String line = "";
 			while((line = br.readLine()) != null) {
 				String[] tokens  = line.split("##");
 				if(tokens.length == 2) {
-					UtilParam.PROP_TO_NANME_DOWN.put(tokens[0].trim(), tokens[1].trim());
+					UtilParam.PROP_TO_NAME_DOWN.put(tokens[0].trim(), tokens[1].trim());
 				}
 			}
 			br.close();
