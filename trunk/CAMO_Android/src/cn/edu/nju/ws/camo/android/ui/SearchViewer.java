@@ -1,7 +1,9 @@
 package cn.edu.nju.ws.camo.android.ui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -11,28 +13,44 @@ import cn.edu.nju.ws.camo.android.R;
 import cn.edu.nju.ws.camo.android.operate.InstViewOperation;
 import cn.edu.nju.ws.camo.android.rdf.UriInstWithNeigh;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
+import cn.edu.nju.ws.camo.android.util.SerKeys;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class SearchViewer extends Activity {
 	private ImageButton imageButton_search;
 	private EditText editText_searchKey;
-	private Map<UriInstance, UriInstWithNeigh> searchResult;
+	private List<UriInstance> searchResultMusic;
+	private List<UriInstance> searchResultMovie;
+	private List<UriInstance> searchResultPhoto;
+	private ExpandableListView expandableListView_searchResult;
+	private ExpandableListViewAdapter expandableListViewAdapter;
     public void onCreate(Bundle savedInstanceState) {    
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.search_viewer);
     	initComponents();
     }
 	private void initComponents() {
+		expandableListView_searchResult = (ExpandableListView) findViewById(R.id.expandableListView_searchResult);
 		imageButton_search = (ImageButton) findViewById(R.id.button_search);
 		editText_searchKey = (EditText) findViewById(R.id.editText_searchKey);
 		imageButton_search.setOnClickListener(new OnClickListener() {
@@ -41,13 +59,15 @@ public class SearchViewer extends Activity {
 			public void onClick(View v) {
 				LinearLayout linearLayout_loading=(LinearLayout)findViewById(R.id.linearLayout_loading);
 				linearLayout_loading.setVisibility(View.VISIBLE);
+				expandableListView_searchResult.setVisibility(View.GONE);
 				class SearchTask extends AsyncTask<String,Void,String> {
 					@Override
 					protected String doInBackground(String... params) {
 						String searchKey = editText_searchKey.getText().toString();
 						try {
-							searchResult = InstViewOperation.searchInstDown(searchKey, "movie");
-							
+							searchResultMusic = InstViewOperation.searchInst(searchKey, "music");						
+							searchResultMovie = InstViewOperation.searchInst(searchKey, "movie");
+							searchResultPhoto = InstViewOperation.searchInst(searchKey, "photo");
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -59,19 +79,128 @@ public class SearchViewer extends Activity {
 					}
 					
 					protected void onPostExecute(String result) {
-						LinearLayout linearLayout_loading=(LinearLayout)findViewById(R.id.linearLayout_loading);
-						linearLayout_loading.setVisibility(View.GONE);
-						for(Iterator<UriInstance> iter = searchResult.keySet().iterator();iter.hasNext();) {
-								Toast.makeText(SearchViewer.this, iter.next().getName(), Toast.LENGTH_SHORT).show();
-							}   
-				        } 
+						LinearLayout linearLayout_loading = (LinearLayout)findViewById(R.id.linearLayout_loading);
+						linearLayout_loading.setVisibility(View.GONE);						
+						expandableListViewAdapter = new ExpandableListViewAdapter();
+						
+						expandableListView_searchResult.setOnChildClickListener(new OnChildClickListener() {
+
+							@Override
+							public boolean onChildClick(
+									ExpandableListView parent, View v,
+									int groupPosition, int childPosition,
+									long id) {
+								
+								UriInstance targetUri = (UriInstance) expandableListViewAdapter.getChild(groupPosition, childPosition);								
+								new RdfInstanceLoader(SearchViewer.this, targetUri).loadRdfInstance();
+								return false;
+							}
+							
+						});						
+						expandableListView_searchResult.setAdapter(expandableListViewAdapter);
+						expandableListView_searchResult.setVisibility(View.VISIBLE);
+						for(int i = 0; i < expandableListViewAdapter.getGroupCount(); i++) {
+							expandableListView_searchResult.expandGroup(i);
+						}
+				     } 
+				        
 				
 					}
-				new SearchTask().execute("");
-						
+				new SearchTask().execute("");						
 			}
 			
-		});
+		});		
+	}
+	
+	private class ExpandableListViewAdapter extends BaseExpandableListAdapter {
+		List<String> group;
+		List<List<UriInstance>> resultLists;
+		
+		public ExpandableListViewAdapter() {
+			resultLists = new ArrayList<List<UriInstance>>();
+			group = new ArrayList<String>();
+			if(searchResultMusic.size() != 0) { 
+				group.add("Music");
+				resultLists.add(searchResultMusic);
+			}
+			if(searchResultMovie.size() != 0) { 
+				group.add("Movie");
+				resultLists.add(searchResultMovie);
+			}
+			if(searchResultPhoto.size() != 0) { 
+				group.add("Photo");
+				resultLists.add(searchResultPhoto);
+			}					
+		}
+		
+		@Override
+		public Object getChild(int groupPosition, int childPosition) {
+			return resultLists.get(groupPosition).get(childPosition);
+		}
+
+		@Override
+		public long getChildId(int groupPosition, int childPosition) {
+			return childPosition;
+		}
+
+		@Override
+		public View getChildView(int groupPosition, int childPosition,
+				boolean isLastChild, View convertView, ViewGroup parent) {
+			TextView textView = getGenericView();
+            textView.setText(((UriInstance)getChild(groupPosition, childPosition)).getName());
+            return textView;
+		}
+
+		@Override
+		public int getChildrenCount(int groupPosition) {
+			return resultLists.get(groupPosition).size();
+		}
+
+		@Override
+		public Object getGroup(int groupPosition) {
+			return group.get(groupPosition);
+		}
+
+		@Override
+		public int getGroupCount() {
+			return group.size();
+		}
+
+		@Override
+		public long getGroupId(int groupPosition) {
+			return groupPosition;
+		}
+
+		@Override
+		public View getGroupView(int groupPosition, boolean isExpanded,
+				View convertView, ViewGroup parent) {
+			TextView textView = getGenericView();
+            textView.setText(getGroup(groupPosition).toString());
+            return textView;
+		}
+		
+		public TextView getGenericView() {
+             // Layout parameters for the ExpandableListView
+             AbsListView.LayoutParams lp = new AbsListView.LayoutParams(
+                     ViewGroup.LayoutParams.MATCH_PARENT, 64);
+             TextView textView = new TextView(SearchViewer.this);
+             textView.setLayoutParams(lp);
+             // Center the text vertically
+             textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
+             // Set the text starting position
+             textView.setPadding(36, 0, 0, 0);            
+             return textView;
+         }
+
+		@Override
+		public boolean hasStableIds() {
+			return true;
+		}
+
+		@Override
+		public boolean isChildSelectable(int groupPosition, int childPosition) {
+			return true;
+		}
 		
 	}
     

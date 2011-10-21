@@ -187,10 +187,6 @@ public class DislikeViewer extends TabActivity implements OnItemClickListener{
 		case 3:targetUri = photoPreferList.get(arg2).getInst();break;
 		default: targetUri = null;
 		}
-		Intent newUriIntent = new Intent(DislikeViewer.this,RdfInstanceViewer.class);
-		Bundle newUriBundle = new Bundle();
-		newUriBundle.putSerializable(SerKeys.SER_URI, targetUri);		
-		newUriIntent.putExtras(newUriBundle);
-		startActivity(newUriIntent);		
+		new RdfInstanceLoader(DislikeViewer.this, targetUri).loadRdfInstance();		
 	}
 }
