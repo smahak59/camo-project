@@ -11,6 +11,7 @@ public class MovieList {
 	private List<UriInstance>  list=null;
 	public MovieList(Context context){
 		MovieListDatabase db = new MovieListDatabase(context);
+		db.create_table();
 		int length=db.length();
 		for(int i=0;i<length;i++){
 			list.add(db.queryFromID(i));
