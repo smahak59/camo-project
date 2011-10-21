@@ -194,11 +194,7 @@ public class LikeViewer extends TabActivity implements OnItemClickListener, OnIt
 		case 3:targetUri = photoPreferList.get(arg2).getInst();break;
 		default: targetUri = null;
 		}
-		Intent newUriIntent = new Intent(LikeViewer.this,RdfInstanceViewer.class);
-		Bundle newUriBundle = new Bundle();
-		newUriBundle.putSerializable(SerKeys.SER_URI, targetUri);
-		newUriIntent.putExtras(newUriBundle);
-		startActivity(newUriIntent);		
+		new RdfInstanceLoader(LikeViewer.this, targetUri).loadRdfInstance();		
 	}
 
 
@@ -214,11 +210,7 @@ public class LikeViewer extends TabActivity implements OnItemClickListener, OnIt
 		case 3:targetUri = photoPreferList.get(arg2).getInst();break;
 		default: targetUri = null;
 		}
-		Intent newUriIntent = new Intent(LikeViewer.this,RdfInstanceViewer.class);
-		Bundle newUriBundle = new Bundle();
-		newUriBundle.putSerializable(SerKeys.SER_URI, targetUri);
-		newUriIntent.putExtras(newUriBundle);
-		startActivity(newUriIntent);
+		new RdfInstanceLoader(LikeViewer.this, targetUri).loadRdfInstance();
 		return false;
 	}
 }

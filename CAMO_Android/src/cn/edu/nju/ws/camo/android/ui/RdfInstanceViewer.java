@@ -5,12 +5,14 @@ package cn.edu.nju.ws.camo.android.ui;
  */
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.xmlpull.v1.XmlPullParserException;
 
 import cn.edu.nju.ws.camo.android.R;
 import cn.edu.nju.ws.camo.android.operate.CommandFactory;
 import cn.edu.nju.ws.camo.android.operate.InstViewOperation;
+import cn.edu.nju.ws.camo.android.rdf.Literal;
 import cn.edu.nju.ws.camo.android.rdf.Property;
 import cn.edu.nju.ws.camo.android.rdf.RdfFactory;
 import cn.edu.nju.ws.camo.android.rdf.Resource;
@@ -25,6 +27,7 @@ import cn.edu.nju.ws.camo.android.util.User;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -35,6 +38,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
@@ -48,8 +52,10 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 	private ListView listView_Down;
 	private ListView listView_Up;
 	private TextView textView_UriTitle;
-	private Button button_like;
-	private Button button_dislike;
+	private ImageButton button_like;
+	private ImageButton button_dislike;
+	private boolean likeButtonStatus = false;
+	private boolean dislikeButtonStatus = false;
 	private ArrayList<Triple> triplesDown;
 	private ArrayList<Triple> triplesUp;
 	@Override
@@ -59,13 +65,19 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 		setTitle("RDF Instance Viwer");
 		Intent intent = getIntent();
 		currentUri = (UriInstance) intent.getSerializableExtra(SerKeys.SER_URI);
+		triplesDown = (ArrayList<Triple>) intent.getSerializableExtra(SerKeys.SER_TRIPLES_DOWN);
+		triplesUp = (ArrayList<Triple>) intent.getSerializableExtra(SerKeys.SER_TRIPLES_UP);
 		currentUser = ((CAMO_Application)getApplication()).getCurrentUser();
-		setTitle(currentUri.getUri());
+		setTitle("View " + currentUri.getMediaType());
 		
-		new LoadTask().execute("");
+		//new LoadTask().execute("");
 		
+		initLists();
+		initButtons();		
+		initTabs();
 		
 	}
+	/*
 	class LoadTask extends AsyncTask<String,Void,String> {
 
 		@Override
@@ -88,6 +100,14 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 		try {
 			UriInstWithNeigh neigh = InstViewOperation.viewInstDown(currentUri);
 			triplesDown = neigh.getTriplesDown();
+			for(int i = 0; i < triplesDown.size(); i++) {
+				Resource obj = triplesDown.get(i).getObject();
+				if(obj instanceof UriInstance) {
+					if(!((UriInstance) obj).canShowed()) {
+						triplesDown.remove(i);
+					}
+				}
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -101,16 +121,23 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 		try {
 			neigh = InstViewOperation.viewInstUp(currentUri);
 			triplesUp = neigh.getTriplesUp();
+			for(int i = 0; i < triplesUp.size(); i++) {
+				UriInstance inst = triplesUp.get(i).getSubject();
+				if(!inst.canShowed()) {
+					triplesUp.remove(i);
+				}
+				
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (XmlPullParserException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
+		}		
 		
 	}
+	*/
 	private void initLists() {		
 		listView_Down = (ListView) findViewById(R.id.listView_Down);
 		listView_Up = (ListView) findViewById(R.id.listView_Up);
@@ -125,11 +152,7 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 				// TODO Auto-generated method stub								
 				Resource selected = triplesDown.get(arg2).getObject();
 				if(selected instanceof UriInstance) {
-					Intent newUriIntent = new Intent(RdfInstanceViewer.this,RdfInstanceViewer.class);
-					Bundle newUriBundle = new Bundle();
-					newUriBundle.putSerializable(SerKeys.SER_URI, selected);					
-					newUriIntent.putExtras(newUriBundle);
-					startActivity(newUriIntent);
+					new RdfInstanceLoader(RdfInstanceViewer.this, (UriInstance) selected).loadRdfInstance();
 				}
 			}			
 		});
@@ -140,35 +163,35 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 				// TODO Auto-generated method stub				
 				Resource selected = triplesUp.get(arg2).getSubject();
 				if(selected instanceof UriInstance) {
-					Intent newUriIntent = new Intent(RdfInstanceViewer.this,RdfInstanceViewer.class);
-					Bundle newUriBundle = new Bundle();
-					newUriBundle.putSerializable(SerKeys.SER_URI, selected);					
-					newUriIntent.putExtras(newUriBundle);
-					startActivity(newUriIntent);
+					new RdfInstanceLoader(RdfInstanceViewer.this, (UriInstance) selected).loadRdfInstance();
 				}
 			}			
 		});
 		
 	}
+	
 	private void initButtons() {
-		button_like = (Button)findViewById(R.id.button_like);
-		button_dislike = (Button)findViewById(R.id.button_dislike);
+		button_like = (ImageButton)findViewById(R.id.button_like);
+		button_dislike = (ImageButton)findViewById(R.id.button_dislike);
 		int signedType = ((CAMO_Application)getApplication()).getSignedType(currentUri);
 		switch(signedType) {
 		case PreferList.LIKED:
-			button_like.setText("Liked");
+			likeButtonStatus = true;
+			button_like.setImageDrawable(getResources().getDrawable(R.drawable.like_on));
 			break;
 		case PreferList.DISLIKED:
-			button_dislike.setText("Disliked");
+			dislikeButtonStatus = true;
+			button_dislike.setImageDrawable(getResources().getDrawable(R.drawable.dislike_on));
 			break;
 		case PreferList.UNSIGNED:
 			break;
 		}
-		textView_UriTitle = (TextView) findViewById(R.id.textView_uriTitle);
+		textView_UriTitle = (TextView) findViewById(R.id.textView_instTitle);
 		textView_UriTitle.setText(currentUri.getName());
 		button_like.setOnClickListener(this);
 		button_dislike.setOnClickListener(this);
 	}
+	
 	private void initTabs() {
 		tabHost = (TabHost) findViewById(R.id.tab_host);
 		tabHost.setup();
@@ -184,25 +207,66 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 		tabHost.addTab(tabSpec);
 		
 	}
+	
 	@Override
 	public void onClick(View v) {
+		
 		// TODO Auto-generated method stub
 		switch(v.getId()) {
-		case R.id.button_dislike:
-			button_dislike.setClickable(false);
-			button_dislike.setText("Disliked");
-			dislikeCurrentInstance();
-			Toast.makeText(RdfInstanceViewer.this, "Dislike!", Toast.LENGTH_SHORT).show();
+		case R.id.button_dislike:			
+			toggleDislikeButton();			
 			break;
-		case R.id.button_like:
-			button_like.setClickable(false);
-			button_like.setText("Liked");
+		case R.id.button_like:			
+			toggleLikeButton();			
+			break;
+		}
+		
+	}
+	
+	private void toggleLikeButton() {
+		if(likeButtonStatus == true) {
+			likeButtonStatus = false;
+			button_like.setImageDrawable(getResources().getDrawable(R.drawable.like_off));
+			deleteLikePrefer();
+		}
+		else {
+			if(dislikeButtonStatus == true) {
+				dislikeButtonStatus = false;
+				button_dislike.setImageDrawable(getResources().getDrawable(R.drawable.dislike_off));
+			}
+			likeButtonStatus = true;
+			button_like.setImageDrawable(getResources().getDrawable(R.drawable.like_on));
 			likeCurrentInstance();
-			Toast.makeText(RdfInstanceViewer.this, "Like!", Toast.LENGTH_SHORT).show();
-			break;
+			Toast.makeText(RdfInstanceViewer.this, "Like!", Toast.LENGTH_SHORT).show();		
 		}
 	}
 	
+	private void toggleDislikeButton() {
+		if(dislikeButtonStatus == true) {
+			dislikeButtonStatus = false;
+			button_dislike.setImageDrawable(getResources().getDrawable(R.drawable.dislike_off));
+			deleteDislikePrefer();
+		}
+		else {
+			if(likeButtonStatus == true) {
+				likeButtonStatus = false;
+				button_like.setImageDrawable(getResources().getDrawable(R.drawable.like_off));
+			}
+			dislikeButtonStatus = true;
+			button_dislike.setImageDrawable(getResources().getDrawable(R.drawable.dislike_on));
+			dislikeCurrentInstance();
+			Toast.makeText(RdfInstanceViewer.this, "Dislike!", Toast.LENGTH_SHORT).show();
+		}
+	}
+	
+	
+	private void deleteLikePrefer() {
+		CommandFactory.getInstance().createCancelPreferCmd(new LikePrefer(currentUser, currentUri)).execute();		
+	}
+	
+	private void deleteDislikePrefer() {
+		CommandFactory.getInstance().createCancelPreferCmd(new DislikePrefer(currentUser, currentUri)).execute();
+	}
 	private void likeCurrentInstance() {
 		CommandFactory.getInstance().createLikeCmd(new LikePrefer(currentUser, currentUri)).execute();		
 	}
@@ -248,7 +312,9 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 			View itemView = inflater.inflate(R.layout.list_item, null);			
 			String subjectString = triple.getSubject().getUri();
 			String predicateString = triple.getPredicate().getName();
-			String objectString = triple.getObject().getName();			
+			Resource objectResource = triple.getObject();
+			String objectString = objectResource.getName();;
+			
 			TextView textView_predicate = (TextView) itemView.findViewById(R.id.textView_predicate);
 			TextView textView_object = (TextView) itemView.findViewById(R.id.textView_object);			
 			textView_predicate.setText(predicateString);
@@ -260,7 +326,7 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 			LayoutInflater inflater = (LayoutInflater)RdfInstanceViewer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View itemView = inflater.inflate(R.layout.list_item, null);			
 			String subjectString = triple.getSubject().getName();
-			String predicateString = triple.getPredicate().getName();//triple.getPredicate().getUri();
+			String predicateString = triple.getPredicate().getUri();//triple.getSubject().getClassType();//triple.getPredicate().getName();//triple.getPredicate().getUri();
 			String objectString = triple.getObject().getName();			
 			TextView textView_predicate = (TextView) itemView.findViewById(R.id.textView_predicate);
 			TextView textView_object = (TextView) itemView.findViewById(R.id.textView_object);			

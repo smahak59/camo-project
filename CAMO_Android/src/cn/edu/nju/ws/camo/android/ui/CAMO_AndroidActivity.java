@@ -11,6 +11,7 @@ import cn.edu.nju.ws.camo.android.util.SerKeys;
 import cn.edu.nju.ws.camo.android.util.UtilConfig;
 import cn.edu.nju.ws.camo.android.util.UtilParam;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -73,13 +74,9 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 			Intent dislikeIntent = new Intent(this, DislikeViewer.class);			
 			startActivity(dislikeIntent);
 			break;
-		case R.id.button_viewInstance:
-			Intent viewInstanceIntent = new Intent(this, RdfInstanceViewer.class);
-			Bundle viewInstanceBundle = new Bundle();
+		case R.id.button_viewInstance:		
 			UriInstance uri = RdfFactory.getInstance().createInstance("http://dbpedia.org/resource/Eminem", "music");
-			viewInstanceBundle.putSerializable(SerKeys.SER_URI, uri);			
-			viewInstanceIntent.putExtras(viewInstanceBundle);
-			startActivity(viewInstanceIntent);
+			new RdfInstanceLoader(CAMO_AndroidActivity.this, uri).loadRdfInstance();
 			break;
 		case R.id.button_viewSearch:
 			Intent viewSearchIntent = new Intent(this, SearchViewer.class);			
