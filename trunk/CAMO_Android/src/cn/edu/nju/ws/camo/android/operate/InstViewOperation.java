@@ -25,6 +25,7 @@ import cn.edu.nju.ws.camo.android.util.UtilParam;
  */
 public class InstViewOperation {
 
+	
 	/**
 	 * @param inst
 	 * @return 具有以inst为subject的三元组的instance
@@ -120,6 +121,27 @@ public class InstViewOperation {
 			instWithNeigh.addTripleUp(triple);
 		}
 		return instWithNeigh;
+	}
+	
+	public static List<UriInstance> searchInst(String searchText,
+			String mediaType) throws IOException, XmlPullParserException {
+		List<UriInstance> instList = new ArrayList<UriInstance>();
+		Object[] params = { searchText, mediaType };
+		String naiveResult = WebService.getInstance().runFunction(
+				ServerParam.VIEW_URL, "textView", params);
+		if (naiveResult.equals("") || naiveResult.equals(ServerParam.NETWORK_ERROR1))
+			return instList;
+		List<String> naiveInstInfos = SetSerialization
+				.deserialize2(naiveResult);
+		for (String naiveInstInfo : naiveInstInfos) { // instance
+			List<String> terms = SetSerialization.deserialize1(naiveInstInfo);
+			String inst = terms.get(0);
+			String label = terms.get(1);
+			String clsType = terms.get(2);
+			UriInstance newInst = RdfFactory.getInstance().createInstance(inst, mediaType, clsType, label);
+			instList.add(newInst);
+		}
+		return instList;
 	}
 
 	/**
