@@ -5,12 +5,12 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent" android:weightSum="1">
    
-    <RelativeLayout android:layout_height="wrap_content" android:id="@+id/relativeLayout1" android:layout_width="match_parent" android:layout_gravity="center" android:gravity="center">
+    <RelativeLayout android:layout_height="wrap_content" android:id="@+id/relativeLayout1" android:layout_width="match_parent" android:layout_gravity="center" android:gravity="center" android:background="@android:drawable/title_bar">
         <LinearLayout android:orientation="vertical" android:id="@+id/linearLayout3" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_alignParentTop="true" android:layout_alignParentRight="true">
-            <ImageButton android:id="@+id/button_like" android:layout_height="match_parent" android:src="@+drawable/like_off" android:layout_width="wrap_content" android:background="#e0000000"></ImageButton>
-            <ImageButton android:id="@+id/button_dislike" android:layout_height="match_parent" android:src="@+drawable/dislike_off" android:layout_width="wrap_content" android:background="#e0000000"></ImageButton>
+            <ImageButton android:id="@+id/button_like" android:layout_height="match_parent" android:src="@+drawable/like_off" android:layout_width="wrap_content" android:background="@android:color/transparent"></ImageButton>
+            <ImageButton android:id="@+id/button_dislike" android:layout_height="match_parent" android:src="@+drawable/dislike_off" android:layout_width="wrap_content" android:background="@android:color/transparent"></ImageButton>
         </LinearLayout>
-        <TextView android:gravity="center" android:text="" android:layout_height="wrap_content" android:id="@+id/textView_instTitle" android:textSize="30dip" android:layout_centerVertical="true" android:layout_alignParentLeft="true" android:layout_width="match_parent" android:layout_toLeftOf="@+id/linearLayout3"></TextView>
+        <TextView android:gravity="center" android:text="" android:layout_height="wrap_content" android:id="@+id/textView_instTitle" android:textSize="30dip" android:textColor="#FFFFFF" android:layout_centerVertical="true" android:layout_alignParentLeft="true" android:layout_width="match_parent" android:layout_toLeftOf="@+id/linearLayout3"></TextView>
     </RelativeLayout>
 	
 	<TabHost android:id="@+id/tab_host"
