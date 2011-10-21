@@ -262,6 +262,9 @@ public class InstViewOperation {
 		endIdx = result.indexOf("@en");
 		if (endIdx > 0)
 			result = str.substring(0, str.indexOf("@en"));
+		endIdx = result.indexOf("(");
+		if (endIdx > 0)
+			result = str.substring(0, str.indexOf("("));
 		result.replaceAll("%", " ");
 		result.replaceAll("_", " ");
 		return result;

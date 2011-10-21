@@ -1,0 +1,237 @@
+http://dbpedia.org/ontology/activeYearsStartYear##Active Years (Start)
+http://dbpedia.org/ontology/party##Party
+http://dbpedia.org/ontology/americanComedyAward##American Comedy Award
+http://purl.org/ontology/mo/track_number##Track Number
+http://xmlns.com/foaf/0.1/page##Page
+http://dbpedia.org/ontology/influencedBy##Influenced By
+http://data.linkedmdb.org/resource/movie/initial_release_date##Initial Release Date
+http://skipforward.net/skipforward/resource/seeder/skipinions/featureApplicability##Feature Applicability
+http://dbpedia.org/ontology/currentDomicile##Current Domicile
+http://dbpedia.org/ontology/isbn##ISBN
+http://data.linkedmdb.org/resource/movie/location##Location
+http://dbpedia.org/ontology/knownFor##Known For
+http://data.linkedmdb.org/resource/movie/language##Language
+http://dbpedia.org/ontology/draftYear##Draft Year
+http://data.linkedmdb.org/resource/movie/film_set_designer##Film Set Designer
+http://data.linkedmdb.org/resource/movie/film_cut##Film Cut
+http://dbpedia.org/ontology/influenced##Influenced
+http://dbpedia.org/ontology/league##League
+http://dbpedia.org/ontology/team##Team
+http://dbpedia.org/ontology/country##Country
+http://dbpedia.org/ontology/compiler##Compiler
+http://data.linkedmdb.org/resource/movie/producer_name##Producer Name
+http://dbpedia.org/ontology/goyaAward##Goya Award
+http://data.linkedmdb.org/resource/movie/featured_film_location##Featured Film Location
+http://dbpedia.org/ontology/citizenship##Citizenship
+http://dbpedia.org/ontology/author##Author
+http://dbpedia.org/ontology/mediaType##Media Type
+http://data.linkedmdb.org/resource/movie/film_casting_director##Film Casting Director
+http://dbpedia.org/ontology/creativeDirector##Creative Director
+http://data.linkedmdb.org/resource/movie/film_story_contributor##Film Story Contributor
+http://dbpedia.org/ontology/tonyAward##Tony Award
+http://dbpedia.org/ontology/height##Height
+http://purl.org/ontology/mo/produced##Producted
+http://dbpedia.org/ontology/episodeNumber##Episode Number
+http://dbpedia.org/ontology/longtype##Longtype
+http://dbpedia.org/ontology/training##Training
+http://dbpedia.org/ontology/birthPlace##Birth Place
+http://data.linkedmdb.org/resource/movie/production_company##Production Company
+http://dbpedia.org/ontology/nationality##Nationality
+http://dbpedia.org/ontology/endingTheme##Ending Theme
+http://dbpedia.org/ontology/weight##Weight
+http://purl.org/ontology/mo/biography##Biography
+http://dbpedia.org/ontology/trainer##Trainer
+http://purl.org/ontology/mo/chart_position##Chart Position
+http://data.linkedmdb.org/resource/movie/dubbing_performance##Dubbing Performance
+http://data.linkedmdb.org/resource/movie/genre##Genre
+http://dbpedia.org/ontology/debut##Debut
+http://dbpedia.org/ontology/pages##Pages
+http://dbpedia.org/ontology/background##Background
+http://data.linkedmdb.org/resource/movie/personal_film_appearance##Personal Film Appearance
+http://dbpedia.org/ontology/network##Newwork
+http://dbpedia.org/property/hasPhotoCollection##Photo Collection
+http://dbpedia.org/ontology/gross##Gross
+http://dbpedia.org/ontology/restingPlacePosition##Resting Place Position
+http://dbpedia.org/ontology/deathCause##Death Cause
+http://dbpedia.org/ontology/associatedBand##Associated Band
+http://dbpedia.org/ontology/openingTheme##Opening Theme
+http://purl.org/dc/elements/1.1/created##Created
+http://data.linkedmdb.org/resource/movie/director##Director
+http://dbpedia.org/ontology/company##Company
+http://dbpedia.org/ontology/draftRound##Draft Round
+http://dbpedia.org/ontology/series##Series
+http://dbpedia.org/ontology/cesarAward##Cesar Award
+http://dbpedia.org/ontology/iftaAward##Ifta Award
+http://xmlns.com/foaf/0.1/based_near##Based Near
+http://data.linkedmdb.org/resource/movie/performance##Performance
+http://data.linkedmdb.org/resource/movie/director_name##Director Name
+http://dbpedia.org/ontology/locationCountry##Location Country
+http://dbpedia.org/ontology/billed##Billed
+http://data.linkedmdb.org/resource/movie/relatedBook##Related Book
+http://data.linkedmdb.org/resource/movie/writer_name##Writer Name
+http://dbpedia.org/ontology/shoots##Shoots
+http://www.w3.org/2000/01/rdf-schema#label##Label
+http://dbpedia.org/ontology/guest##Guest
+http://xmlns.com/foaf/0.1/made##Made
+http://dbpedia.org/ontology/musicalBand##Musical Band
+http://dbpedia.org/ontology/award##Award
+http://dbpedia.org/ontology/voice##Voice
+http://dbpedia.org/ontology/associatedAct##Associated Act
+http://dbpedia.org/ontology/recordPlace##Record Place
+http://dbpedia.org/ontology/goldenRaspberryAward##Golden Raspberry Award
+http://xmlns.com/foaf/0.1/homepage##Homepage
+http://data.linkedmdb.org/resource/movie/sequel##Sequel
+http://data.linkedmdb.org/resource/movie/film_featured_song##Film Featured Song
+http://data.linkedmdb.org/resource/movie/film_format##Film Format
+http://dbpedia.org/ontology/releaseDate##Release Date
+http://dbpedia.org/ontology/deathYear##Death Year
+http://dbpedia.org/ontology/stateOfOrigin##State of Origin
+http://dbpedia.org/ontology/certification##Certification
+http://xmlns.com/foaf/0.1/name##Name
+http://dbpedia.org/ontology/arielAward##Ariel Award
+http://dbpedia.org/ontology/editing##Editing
+http://dbpedia.org/ontology/composer##Composer
+http://dbpedia.org/ontology/formerTeam##Former Team
+http://dbpedia.org/ontology/writer##Writer
+http://dbpedia.org/ontology/britishComedyAwards##British Comedy Awards
+http://dbpedia.org/ontology/format##Format
+http://dbpedia.org/ontology/numberOfSeasons##Number Of Seasons
+http://dbpedia.org/ontology/profession##Profession
+http://dbpedia.org/ontology/voiceType##Voice Type
+http://data.linkedmdb.org/resource/movie/music_contributor##Music Contributor
+http://dbpedia.org/ontology/field##Field
+http://dbpedia.org/ontology/budget##Budget
+http://data.linkedmdb.org/resource/movie/prequel##Prequel
+http://data.linkedmdb.org/resource/movie/runtime##Runtime
+http://www.w3.org/2004/02/skos/core#subject##Subject
+http://purl.org/ontology/mo/isrc##ISRC
+http://data.linkedmdb.org/resource/movie/film_subject##Film Subject
+http://data.linkedmdb.org/resource/movie/cinematographer_name##Cinematographer Name
+http://dbpedia.org/ontology/grammyAward##Grammy Award
+http://data.linkedmdb.org/resource/movie/writer##Writer
+http://dbpedia.org/ontology/numberOfEpisodes##Number Of Episodes
+http://dbpedia.org/ontology/narrator##Narrator
+http://dbpedia.org/ontology/birthName##Birth Name
+http://dbpedia.org/ontology/geminiAward##Gemini Award
+http://dbpedia.org/ontology/trackNumber##Track Number
+http://dbpedia.org/ontology/goldenCalfAward##Golden Calf Award
+http://dbpedia.org/ontology/birthDate##Birth Date
+http://dbpedia.org/ontology/currentMember##Current Member
+http://xmlns.com/foaf/0.1/maker##Maker
+http://purl.org/dc/elements/1.1/description##Description
+http://dbpedia.org/ontology/hometown##Hometown
+http://dbpedia.org/ontology/religion##Religion
+http://dbpedia.org/ontology/occupation##Occupation
+http://purl.org/dc/terms/date##Date
+http://dbpedia.org/ontology/pastMember##Past Member
+http://dbpedia.org/ontology/recordDate##Record Date
+http://dbpedia.org/ontology/activeYearsEndYear##Active Years (End)
+http://data.linkedmdb.org/resource/movie/actor_name##Actor Name
+http://dbpedia.org/ontology/showJudge##Show Judge
+http://dbpedia.org/ontology/employer##Employer
+http://dbpedia.org/ontology/resides##Resides
+http://dbpedia.org/ontology/developer##Developer
+http://dbpedia.org/ontology/lyrics##Lyrics
+http://dbpedia.org/ontology/spouse##Spouse
+http://dbpedia.org/ontology/position##Position
+http://dbpedia.org/ontology/presenter##Presenter
+http://dbpedia.org/ontology/cinematography##Cinematography
+http://dbpedia.org/ontology/residence##Residence
+http://dbpedia.org/ontology/laurenceOlivierAward##Laurence Olivier Award
+http://dbpedia.org/ontology/deathPlace##Death Place
+http://data.linkedmdb.org/resource/movie/costume_designer##Costume Designer
+http://dbpedia.org/ontology/naacpImageAward##NAACP Image Award
+http://dbpedia.org/ontology/birthYear##Birth Year
+http://data.linkedmdb.org/resource/movie/film_company_name##File Company Name
+http://data.linkedmdb.org/resource/movie/film_film_company_relationship##Film-Film Company Relationship
+http://dbpedia.org/ontology/emmyAward##Emmy Award
+http://dbpedia.org/ontology/education##Education
+http://data.linkedmdb.org/resource/movie/editor##Editor
+http://dbpedia.org/ontology/notableWork##Notable Work
+http://purl.org/ontology/mo/performed##Performed
+http://dbpedia.org/ontology/predecessor##Predecessor
+http://data.linkedmdb.org/resource/movie/film_crewmember_name##Film Crewmember Name
+http://dbpedia.org/ontology/academyAward##Academy Award
+http://dbpedia.org/ontology/runtime##Runtime
+http://data.linkedmdb.org/resource/movie/executive_producer##Executive Producer
+http://www.w3.org/2000/01/rdf-schema#comment##Comment
+http://dbpedia.org/ontology/filmFareAward##Film Fare Award
+http://dbpedia.org/ontology/person##Person
+http://dbpedia.org/ontology/orderInOffice##Order in Office
+http://dbpedia.org/ontology/distributor##Distributor
+http://dbpedia.org/ontology/language##Language
+http://dbpedia.org/ontology/publisher##Publisher
+http://dbpedia.org/ontology/seasonNumber##SeasonNumber
+http://dbpedia.org/ontology/dcc##DCC
+http://dbpedia.org/ontology/completionDate##Completion Date
+http://dbpedia.org/ontology/director##
+http://skipforward.net/skipforward/resource/seeder/skipinions/featureConfidence##Feature Confidence
+http://data.linkedmdb.org/resource/movie/producer##Producer
+http://dbpedia.org/ontology/storyEditor##Story Editor
+http://dbpedia.org/ontology/location##Location
+http://dbpedia.org/ontology/starring##Starring
+http://data.linkedmdb.org/resource/movie/story_contributor##Story Contributor
+http://dbpedia.org/ontology/goldenGlobeAward##Golden Globe Award
+http://dbpedia.org/ontology/mother##Mother
+http://dbpedia.org/ontology/affiliation##Affiliation
+http://dbpedia.org/ontology/review##Review
+http://dbpedia.org/ontology/numberOfFilms##Number of Films
+http://dbpedia.org/ontology/editor##Editor
+http://dbpedia.org/ontology/musicBy##Music By
+http://dbpedia.org/ontology/producer##Producer
+http://dbpedia.org/ontology/oclc##OCLC
+http://dbpedia.org/ontology/deathDate##Death Date
+http://data.linkedmdb.org/resource/movie/film_regional_release_date##Film Regional Release Date
+http://dbpedia.org/ontology/restingPlace##Resting Place
+http://dbpedia.org/ontology/creator##Creator
+http://dbpedia.org/ontology/baftaAward##Bafta Award
+http://data.linkedmdb.org/resource/movie/country##Country
+http://dbpedia.org/ontology/musicComposer##Music Composer
+http://dbpedia.org/ontology/alias##Alias
+http://dbpedia.org/ontology/related##Related
+http://data.linkedmdb.org/resource/movie/film_production_designer##Film Production Designer
+http://dbpedia.org/ontology/relation##Relation
+http://purl.org/ontology/mo/time##Time
+http://xmlns.com/foaf/0.1/familyName##Family Name
+http://dbpedia.org/ontology/ethnicity##Ethnicity
+http://dbpedia.org/ontology/subsequentWork##Subsequent Work
+http://dbpedia.org/ontology/successor##Successor
+http://purl.org/ontology/mo/engineered##Engineered
+http://dbpedia.org/ontology/relative##Relative
+http://dbpedia.org/ontology/certificationDate##Certification Date
+http://dbpedia.org/ontology/draftPick##Draft Pick
+http://dbpedia.org/ontology/olivierAward##OlivierAward
+http://dbpedia.org/ontology/region##Region
+http://dbpedia.org/ontology/previousWork##Previous Work
+http://data.linkedmdb.org/resource/movie/film_series##Film Series
+http://dbpedia.org/ontology/status##Status
+http://dbpedia.org/ontology/child##Child
+http://dbpedia.org/ontology/artist##Artist
+http://data.linkedmdb.org/resource/movie/cinematographer##Cinematographer
+http://dbpedia.org/ontology/screenActorsGuildAward##Screen Actors Guild Award
+http://dbpedia.org/ontology/tvComId##TV com ID
+http://dbpedia.org/ontology/movement##Movement
+http://xmlns.com/foaf/0.1/givenName##Given Name
+http://dbpedia.org/ontology/musicalArtist##Musical Artist
+http://dbpedia.org/ontology/owningCompany##Owning Company
+http://dbpedia.org/ontology/publicationDate##Publication Date
+http://data.linkedmdb.org/resource/movie/actor##Actor
+http://dbpedia.org/ontology/recordLabel##Record Label
+http://dbpedia.org/ontology/father##Father
+http://dbpedia.org/ontology/pseudonym##Pseudonym
+http://xmlns.com/foaf/0.1/nick##Nick
+http://dbpedia.org/ontology/album##Album
+http://dbpedia.org/ontology/genre##Genre
+http://xmlns.com/foaf/0.1/img##Img
+http://dbpedia.org/ontology/channel##Channel
+http://dbpedia.org/ontology/associatedMusicalArtist##Associated Musical Artist
+http://dbpedia.org/ontology/imdbId##IMDB
+http://dbpedia.org/ontology/number##Number
+http://dbpedia.org/ontology/executiveProducer##Executive Producer
+http://data.linkedmdb.org/resource/movie/editor_name##Editor Name
+http://dbpedia.org/ontology/afiAward##Afi Award
+http://dbpedia.org/ontology/partner##Partner
+http://data.linkedmdb.org/resource/movie/film_art_director##Film Art Director
+http://dbpedia.org/ontology/nationalFilmAward##National Film Award
+http://dbpedia.org/ontology/almaMater##Alma Mater
+http://dbpedia.org/ontology/instrument##Instrument
