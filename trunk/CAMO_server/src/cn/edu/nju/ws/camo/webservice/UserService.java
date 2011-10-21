@@ -328,7 +328,7 @@ public class UserService implements IUserService {
 
 	public String addFriend(int uid1, int uid2) {
 		try {
-			if(isFriend(uid1, uid2))
+			if(isFriends(uid1, uid2).equals("1"))
 				return "1";
 			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.USER_CONN);
 			String sqlStr = "insert into friends(u_id1,u_id2,f_time) values(?,?,?)";
@@ -340,6 +340,8 @@ public class UserService implements IUserService {
 			stmt.executeUpdate();
 			stmt.close();
 			sourceConn.close();
+			delFriend(uid1, uid2);
+			delFriend(uid2, uid1);
 		} catch (Throwable e) {
 			e.printStackTrace();
 			return "0";
@@ -364,8 +366,8 @@ public class UserService implements IUserService {
 		return String.valueOf(line);
 	}
 	
-	private boolean isFriend(int uid1, int uid2) {
-		boolean is = false;
+	public String isFriends(int uid1, int uid2) {
+		String is = "0";
 		try {
 			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.USER_CONN);
 			String sqlStr = "select * from friends where (u_id1=? and u_id2=?) or (u_id2=? and u_id1=?)";
@@ -376,7 +378,7 @@ public class UserService implements IUserService {
 			stmt.setInt(4, uid2);
 			ResultSet rs = stmt.executeQuery();
 			if (rs.next()) {
-				is = true;
+				is = "1";
 			}
 			rs.close();
 			stmt.close();
@@ -429,5 +431,73 @@ public class UserService implements IUserService {
 			e.printStackTrace();
 		}
 		return friends;
+	}
+	
+	public String addFriendRequest(int userFrom, int userTo) {
+		if(isFriends(userFrom, userTo).equals("1"))
+			return "0";
+		try {
+			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.USER_CONN);
+			String sqlStr = "insert into friend_rq(u_from,u_to,status,in_time) values(?,?,?,?)";
+			PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
+			Timestamp curTime = new Timestamp(System.currentTimeMillis());
+			stmt.setInt(1, userFrom);
+			stmt.setInt(2, userTo);
+			stmt.setInt(3, 0);
+			stmt.setTimestamp(4, curTime);
+			stmt.executeUpdate();
+			stmt.close();
+			sourceConn.close();
+		} catch (Throwable e) {
+			e.printStackTrace();
+			return "0";
+		}
+		return "1";
+	}
+	
+	public String delFriendRequest(int userFrom, int userTo) {
+		try {
+			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.USER_CONN);
+			String sqlStr = "delete from friend_rq where u_from=? and u_to=?";
+			PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
+			stmt.setInt(1, userFrom);
+			stmt.setInt(2, userTo);
+			stmt.executeUpdate();
+			stmt.close();
+			sourceConn.close();
+		} catch (Throwable e) {
+			e.printStackTrace();
+			return "0";
+		}
+		return "1";
+	}
+	
+	public String getAllRequests(int userTo) {
+		String result = "";
+		List<String> userList = new ArrayList<String>();
+		try {
+			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.USER_CONN);
+			String sqlStr = "select user.id,user.name,user.email,user.sex from friend_rq join(user) on(friend_rq.u_from=user.id) where friend_rq.u_to=? order by friend_rq.in_time desc";
+			PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
+			stmt.setInt(1, userTo);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				List<String> termList = new ArrayList<String>();
+				String sex = "male";
+				if(rs.getInt(4)==0)
+					sex = "female";
+				termList.add(String.valueOf(rs.getInt(1)));
+				termList.add(rs.getString(2));
+				termList.add(rs.getString(3));
+				termList.add(sex);
+				userList.add(SetSerialization.serialize1(termList));
+			}
+			result = SetSerialization.serialize2(userList);
+			stmt.close();
+			sourceConn.close();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 }
