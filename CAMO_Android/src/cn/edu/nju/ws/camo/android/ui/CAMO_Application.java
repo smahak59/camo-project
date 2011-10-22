@@ -1,9 +1,13 @@
 package cn.edu.nju.ws.camo.android.ui;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import cn.edu.nju.ws.camo.android.operate.FriendsViewOperation;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 import cn.edu.nju.ws.camo.android.util.DislikePrefer;
+import cn.edu.nju.ws.camo.android.util.FriendList;
+import cn.edu.nju.ws.camo.android.util.Friends;
 import cn.edu.nju.ws.camo.android.util.LikePrefer;
 import cn.edu.nju.ws.camo.android.util.PreferList;
 import cn.edu.nju.ws.camo.android.util.User;
@@ -12,6 +16,7 @@ import android.app.Application;
 public class CAMO_Application extends Application {
 	private User currentUser;
 	private PreferList preferList;
+	private FriendList friendList;
 	
 	public void initCurrentUser() {
 		currentUser = new User(7);
@@ -26,12 +31,25 @@ public class CAMO_Application extends Application {
 		preferList.initPreferLists();
 	}
 	
+	public void initFriendList() {
+		friendList = new FriendList(currentUser);
+		friendList.initFriendList();
+	}
+	
+	public List<Friends> getFriendList() {
+		return friendList.getFriendList();
+	}
+	
 	public User getCurrentUser() {
 		return currentUser;
 	}
 	
 	public boolean preferListIsLoaded() {
 		return preferList.isLoaded();
+	}
+	
+	public boolean friendListIsLoaded() {
+		return friendList.isLoaded();
 	}
 	
 	public List<LikePrefer> getLikePreferList(int type) {

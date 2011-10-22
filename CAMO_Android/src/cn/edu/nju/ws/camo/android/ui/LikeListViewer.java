@@ -157,26 +157,22 @@ public class LikeListViewer extends TabActivity implements OnItemClickListener, 
 
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
 			return itemViews.length;
 		}
 
 		@Override
 		public Object getItem(int position) {
-			// TODO Auto-generated method stub
 			return itemViews[position];
 		}
 
 		@Override
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
 			return position;
 		}
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			// TODO Auto-generated method stub		
-				return itemViews[position];
+			return itemViews[position];
 		
 		}
 		
