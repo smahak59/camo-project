@@ -16,11 +16,13 @@
         </activity>
         <activity android:name=".ui.RdfInstanceViewer">
         </activity>
-        <activity android:name=".ui.LikeViewer">
+        <activity android:name=".ui.LikeListViewer">
         </activity>
-        <activity android:name=".ui.DislikeViewer">
+        <activity android:name=".ui.DislikeListViewer">
         </activity>
         <activity android:name=".ui.SearchViewer">
+        </activity>
+        <activity android:name=".ui.MediaPlayer">
         </activity>
 
     </application>
