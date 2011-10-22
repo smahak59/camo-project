@@ -4,5 +4,45 @@
   android:orientation="vertical"
   android:layout_width="match_parent"
   android:layout_height="match_parent">
+  
+	<RelativeLayout android:layout_height="wrap_content" android:id="@+id/relativeLayout2" android:layout_width="match_parent" android:layout_gravity="center" android:gravity="center" android:background="@android:drawable/title_bar">
+	   <TextView android:gravity="center" android:text="My Friends" android:layout_height="wrap_content" android:id="@+id/textView_userInfoTitle" android:textSize="30dip" android:textColor="#FFFFFF" android:layout_centerVertical="true" android:layout_alignParentLeft="true" android:layout_width="match_parent"></TextView>
+	</RelativeLayout>
+	
+    <LinearLayout android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/linearLayout1" android:orientation="vertical">
+        <TextView android:layout_height="wrap_content" 
+        android:id="@+id/textView_profileTitle" 
+        android:text="Profile" 
+        android:layout_width="match_parent"
+        android:background="#454545"
+        android:textSize="20dip">
+        </TextView>
+        
+        <TextView 
+        android:layout_height="wrap_content" 
+        android:layout_width="wrap_content"  
+        android:id="@+id/textView_userName" 
+        android:text="Name:"
+        android:textSize="30dip"
+        android:layout_marginLeft="10dip">
+        </TextView>
+        <TextView 
+        android:layout_height="wrap_content" 
+        android:layout_width="wrap_content" 
+        android:id="@+id/textView_userSex" 
+        android:text="Sex:"
+        android:textSize="30dip"
+        android:layout_marginLeft="10dip">
+        </TextView>
+        <TextView 
+        android:layout_height="wrap_content" 
+        android:layout_width="wrap_content" 
+        android:id="@+id/textView_userEmail" 
+        android:text="Email:"
+        android:textSize="30dip"
+        android:layout_marginLeft="10dip">
+        </TextView>
+    </LinearLayout>
+
     
 </LinearLayout>
