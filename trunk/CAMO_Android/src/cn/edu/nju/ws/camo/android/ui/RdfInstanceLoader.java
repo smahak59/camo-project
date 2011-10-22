@@ -2,6 +2,7 @@ package cn.edu.nju.ws.camo.android.ui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -71,14 +72,7 @@ public class RdfInstanceLoader {
 						triplesDown = new ArrayList<Triple>();
 					else
 						triplesDown = neigh.getTriplesDown();
-					for(int i = 0; i < triplesDown.size(); i++) {
-						Resource obj = triplesDown.get(i).getObject();
-						if(obj instanceof UriInstance) {
-							if(!((UriInstance) obj).canShowed()) {
-								triplesDown.remove(i);
-							}
-						}
-					}
+					trimTriples(triplesDown);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -94,14 +88,8 @@ public class RdfInstanceLoader {
 					if(neigh == null)
 						triplesUp = new ArrayList<Triple>();
 					else
-						triplesUp = neigh.getTriplesUp();				
-					for(int i = 0; i < triplesUp.size(); i++) {
-						UriInstance inst = triplesUp.get(i).getSubject();
-						if(!inst.canShowed()) {
-							triplesUp.remove(i);
-						}
-						
-					}
+						triplesUp = neigh.getTriplesUp();
+					trimTriples(triplesUp);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -114,6 +102,19 @@ public class RdfInstanceLoader {
 			
 		}
 		new LoadTask().execute("");
+	}
+	public void trimTriples(ArrayList<Triple> triples) {
+		Iterator<Triple> iter = triples.iterator();
+		while(iter.hasNext()) {
+			Triple triple = iter.next();
+			if(triple.getSubject().getName().equals("") || 
+				triple.getObject().getName().equals("") ||
+				!triple.getSubject().canShowed()||
+				((triple.getObject() instanceof UriInstance) && !((UriInstance)triple.getObject()).canShowed())) {
+				iter.remove();
+			}
+		}
+		
 	}
 
 }

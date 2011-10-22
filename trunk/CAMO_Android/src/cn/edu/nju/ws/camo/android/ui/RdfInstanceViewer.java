@@ -302,13 +302,15 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 		private View makeItemViewDown(Triple triple) {
 			LayoutInflater inflater = (LayoutInflater)RdfInstanceViewer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View itemView = inflater.inflate(R.layout.list_item, null);			
-			String subjectString = triple.getSubject().getUri();
 			String predicateString = triple.getPredicate().getName();
 			Resource objectResource = triple.getObject();
 			String objectString = objectResource.getName();;
-			
 			TextView textView_predicate = (TextView) itemView.findViewById(R.id.textView_predicate);
-			TextView textView_object = (TextView) itemView.findViewById(R.id.textView_object);			
+			TextView textView_object = (TextView) itemView.findViewById(R.id.textView_object);	
+			TextView textView_accessable = (TextView) itemView.findViewById(R.id.textView_accessable);
+			if(objectResource instanceof UriInstance) {
+				textView_accessable.setVisibility(View.VISIBLE);
+			}
 			textView_predicate.setText(predicateString);
 			textView_object.setText(objectString);			
 			return itemView;
@@ -318,10 +320,11 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 			LayoutInflater inflater = (LayoutInflater)RdfInstanceViewer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View itemView = inflater.inflate(R.layout.list_item, null);			
 			String subjectString = triple.getSubject().getName();
-			String predicateString = triple.getPredicate().getUri();//triple.getSubject().getClassType();//triple.getPredicate().getName();//triple.getPredicate().getUri();
-			String objectString = triple.getObject().getName();			
+			String predicateString = triple.getSubject().getClassType();//triple.getPredicate().getName();//triple.getPredicate().getUri();
 			TextView textView_predicate = (TextView) itemView.findViewById(R.id.textView_predicate);
-			TextView textView_object = (TextView) itemView.findViewById(R.id.textView_object);			
+			TextView textView_object = (TextView) itemView.findViewById(R.id.textView_object);
+			TextView textView_accessable = (TextView) itemView.findViewById(R.id.textView_accessable);
+			textView_accessable.setVisibility(View.VISIBLE);
 			textView_predicate.setText(predicateString);
 			textView_object.setText(subjectString);			
 			return itemView;
