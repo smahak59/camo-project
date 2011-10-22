@@ -16,6 +16,7 @@ import cn.edu.nju.ws.camo.android.R;
 import cn.edu.nju.ws.camo.android.operate.InstViewOperation;
 import cn.edu.nju.ws.camo.android.operate.PreferViewOperation;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
+import cn.edu.nju.ws.camo.android.ui.CAMO_AndroidActivity;
 import cn.edu.nju.ws.camo.android.ui.SearchViewer;
 
 public class PreferList {
@@ -37,6 +38,7 @@ public class PreferList {
 	private List<DislikePrefer> musicDislikePreferList;
 	private List<DislikePrefer> movieDislikePreferList;
 	private List<DislikePrefer> photoDislikePreferList;
+	private boolean loaded = false;
 	
 	public PreferList(User user) {
 		currentUser = user;
@@ -62,13 +64,16 @@ public class PreferList {
 			}
 			
 			protected void onPostExecute(String result) {				 
-				
+				loaded = true;
 			}
 		}
 		new LoadPreferListTask().execute("");
 		
 	}
 	
+	public boolean isLoaded()  {
+		return loaded;
+	}
 	public int getSignedType(UriInstance uri) {
 		if(inLikeList(artistLikePreferList, uri) || inLikeList(musicLikePreferList, uri) ||
 				inLikeList(movieLikePreferList, uri) || inLikeList(photoLikePreferList, uri)) {
