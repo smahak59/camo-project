@@ -18,7 +18,7 @@ public class MediaArtistFavorCmd implements Command {
 	}
 	
 	public void execute() {
-		Object[] paramValues = {user.getId(),mediaInst.getUri(),artistInst.getUri()};
+		Object[] paramValues = {user.getId(),mediaInst.getUri(),mediaInst.getMediaType(),artistInst.getUri()};
 		WebService.getInstance().runFunction(ServerParam.INTERESET_GP_URL,
 				"delFriend", paramValues);
 	}
