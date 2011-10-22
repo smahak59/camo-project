@@ -19,6 +19,8 @@ public class FriendList {
 		return loaded;
 	}
 	
+	
+	
 	public List<Friends> getFriendList() {
 		return friendList;
 	}
