@@ -75,7 +75,7 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 				Toast.makeText(CAMO_AndroidActivity.this, "My Like is loading...", Toast.LENGTH_SHORT).show();
 			}
 			else {
-				Intent likeIntent = new Intent(this, LikeViewer.class);			
+				Intent likeIntent = new Intent(this, LikeListViewer.class);			
 				startActivity(likeIntent);
 			}
 			break;
@@ -84,7 +84,7 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 				Toast.makeText(CAMO_AndroidActivity.this, "My Dislike is loading...", Toast.LENGTH_SHORT).show();
 			}
 			else {
-				Intent dislikeIntent = new Intent(this, DislikeViewer.class);			
+				Intent dislikeIntent = new Intent(this, DislikeListViewer.class);			
 				startActivity(dislikeIntent);
 			}
 			break;
