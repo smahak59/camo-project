@@ -24,6 +24,10 @@
         </activity>
         <activity android:name=".ui.MediaPlayer">
         </activity>
+        <activity android:name=".ui.FriendListViewer">
+        </activity>
+        <activity android:name=".ui.UserInfoViewer">
+        </activity>
 
     </application>
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
