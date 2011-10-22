@@ -25,6 +25,7 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 	private Button button_viewDislike;
 	private Button button_viewMediaPlayer;
 	private Button button_viewSearch;
+	private Button button_viewFriendList;
 
     /** Called when the activity is first created. */
     @Override
@@ -58,10 +59,12 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
     	button_viewDislike = (Button) findViewById(R.id.button_viewDislike);
     	button_viewMediaPlayer = (Button) findViewById(R.id.button_viewMediaPlayer);
     	button_viewSearch = (Button) findViewById(R.id.button_viewSearch);
+    	button_viewFriendList = (Button) findViewById(R.id.button_viewFriendList);
     	button_viewLike.setOnClickListener(this);	
     	button_viewDislike.setOnClickListener(this);
     	button_viewMediaPlayer.setOnClickListener(this);
     	button_viewSearch.setOnClickListener(this);
+    	button_viewFriendList.setOnClickListener(this);
 	}
 
 
@@ -95,6 +98,10 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 		case R.id.button_viewSearch:
 			Intent viewSearchIntent = new Intent(this, SearchViewer.class);			
 			startActivity(viewSearchIntent);
+			break;
+		case R.id.button_viewFriendList:
+			Intent viewFriendListIntent = new Intent(this, FriendListViewer.class);
+			startActivity(viewFriendListIntent);
 			break;
 		}
 	}
