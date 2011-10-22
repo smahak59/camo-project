@@ -30,6 +30,10 @@ public class CAMO_Application extends Application {
 		return currentUser;
 	}
 	
+	public boolean preferListIsLoaded() {
+		return preferList.isLoaded();
+	}
+	
 	public List<LikePrefer> getLikePreferList(int type) {
 		List<LikePrefer> likePreferList = null;
 		switch(type) {

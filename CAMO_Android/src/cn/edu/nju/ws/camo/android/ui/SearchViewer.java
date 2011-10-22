@@ -15,11 +15,13 @@ import cn.edu.nju.ws.camo.android.rdf.UriInstWithNeigh;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 import cn.edu.nju.ws.camo.android.util.SerKeys;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -68,6 +70,9 @@ public class SearchViewer extends Activity {
 							searchResultMusic = InstViewOperation.searchInst(searchKey, "music");						
 							searchResultMovie = InstViewOperation.searchInst(searchKey, "movie");
 							searchResultPhoto = InstViewOperation.searchInst(searchKey, "photo");
+							trimResult(searchResultMusic);
+							trimResult(searchResultMovie);
+							trimResult(searchResultPhoto);
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -78,6 +83,16 @@ public class SearchViewer extends Activity {
 						return null;
 					}
 					
+					
+					private void trimResult(List<UriInstance> searchResult) {
+						Iterator<UriInstance> iter = searchResult.iterator();
+						while(iter.hasNext()) {
+							if(iter.next().getName().equals("")) {
+								iter.remove();
+							}
+						}						
+					}
+
 					protected void onPostExecute(String result) {
 						LinearLayout linearLayout_loading = (LinearLayout)findViewById(R.id.linearLayout_loading);
 						linearLayout_loading.setVisibility(View.GONE);
@@ -148,9 +163,11 @@ public class SearchViewer extends Activity {
 		@Override
 		public View getChildView(int groupPosition, int childPosition,
 				boolean isLastChild, View convertView, ViewGroup parent) {
-			TextView textView = getGenericView();
-            textView.setText(((UriInstance)getChild(groupPosition, childPosition)).getName());
-            return textView;
+            LayoutInflater inflator = (LayoutInflater) SearchViewer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View itemView = inflator.inflate(R.layout.search_result_item, null);
+			TextView textView_preferName = (TextView) itemView.findViewById(R.id.textView_searchResultItemName);
+			textView_preferName.setText(((UriInstance)getChild(groupPosition, childPosition)).getName());
+			return itemView;
 		}
 
 		@Override
@@ -175,25 +192,14 @@ public class SearchViewer extends Activity {
 
 		@Override
 		public View getGroupView(int groupPosition, boolean isExpanded,
-				View convertView, ViewGroup parent) {
-			TextView textView = getGenericView();
-            textView.setText(getGroup(groupPosition).toString());
-            return textView;
+				View convertView, ViewGroup parent) {			
+			LayoutInflater inflator = (LayoutInflater) SearchViewer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View itemView = inflator.inflate(R.layout.search_result_group, null);
+			TextView textView_preferName = (TextView) itemView.findViewById(R.id.textView_searchResultGroupName);
+			textView_preferName.setText(getGroup(groupPosition).toString());
+			return itemView;
 		}
 		
-		public TextView getGenericView() {
-             // Layout parameters for the ExpandableListView
-             AbsListView.LayoutParams lp = new AbsListView.LayoutParams(
-                     ViewGroup.LayoutParams.MATCH_PARENT, 64);
-             TextView textView = new TextView(SearchViewer.this);
-             textView.setLayoutParams(lp);
-             // Center the text vertically
-             textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
-             // Set the text starting position
-             textView.setPadding(36, 0, 0, 0);            
-             return textView;
-         }
-
 		@Override
 		public boolean hasStableIds() {
 			return true;

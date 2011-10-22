@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 	private CAMO_Application CAMO_app;
@@ -24,6 +25,7 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 	private Button button_viewDislike;
 	private Button button_viewInstance;
 	private Button button_viewSearch;
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,8 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
         setContentView(R.layout.main);
         initViewComponents();
     }
+    
+
     
     
     
@@ -67,12 +71,22 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		switch(v.getId()) {			
 		case R.id.button_viewLike:
-			Intent likeIntent = new Intent(this, LikeViewer.class);			
-			startActivity(likeIntent);
+			if(!CAMO_app.preferListIsLoaded()) {
+				Toast.makeText(CAMO_AndroidActivity.this, "My Like is loading...", Toast.LENGTH_SHORT).show();
+			}
+			else {
+				Intent likeIntent = new Intent(this, LikeViewer.class);			
+				startActivity(likeIntent);
+			}
 			break;
 		case R.id.button_viewDislike:
-			Intent dislikeIntent = new Intent(this, DislikeViewer.class);			
-			startActivity(dislikeIntent);
+			if(!CAMO_app.preferListIsLoaded()) {
+				Toast.makeText(CAMO_AndroidActivity.this, "My Dislike is loading...", Toast.LENGTH_SHORT).show();
+			}
+			else {
+				Intent dislikeIntent = new Intent(this, DislikeViewer.class);			
+				startActivity(dislikeIntent);
+			}
 			break;
 		case R.id.button_viewInstance:		
 			UriInstance uri = RdfFactory.getInstance().createInstance("http://dbpedia.org/resource/Eminem", "music");
