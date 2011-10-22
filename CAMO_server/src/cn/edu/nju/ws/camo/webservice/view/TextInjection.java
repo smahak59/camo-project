@@ -55,7 +55,7 @@ public class TextInjection
 		List<MediaInstChecker> mediaCheckerList = new ArrayList<MediaInstChecker>();
 		
 		BlockingQueue<Runnable> bkQueue = new LinkedBlockingQueue<Runnable>();
-		ThreadPoolExecutor threadExec = new ThreadPoolExecutor(10, 12, 7, TimeUnit.DAYS, bkQueue);
+		ThreadPoolExecutor threadExec = new ThreadPoolExecutor(5, 6, 7, TimeUnit.DAYS, bkQueue);
 		if (searchWords.equals(""))
 			return ipvSet;
 
@@ -89,9 +89,10 @@ public class TextInjection
 		stmt3.close();
 
 		threadExec.shutdown();
-		while (!threadExec.isTerminated()) {
-			Thread.sleep(100);
-		}
+		threadExec.awaitTermination(7, TimeUnit.DAYS);
+//		while (!threadExec.isTerminated()) {
+//			Thread.sleep(100);
+//		}
 		
 		rmNotMedia(instSet, mediaCheckerList, mediaType);
 		rmCorefs(instSet, mediaType);
@@ -122,7 +123,7 @@ public class TextInjection
 		List<MediaInstChecker> mediaCheckerList = new ArrayList<MediaInstChecker>();
 		
 		BlockingQueue<Runnable> bkQueue = new LinkedBlockingQueue<Runnable>();
-		ThreadPoolExecutor threadExec = new ThreadPoolExecutor(10, 12, 7, TimeUnit.DAYS, bkQueue);
+		ThreadPoolExecutor threadExec = new ThreadPoolExecutor(5, 6, 7, TimeUnit.DAYS, bkQueue);
 		if (searchWords.equals(""))
 			return instSet;
 
@@ -159,9 +160,10 @@ public class TextInjection
 		stmt3.close();
 
 		threadExec.shutdown();
-		while (!threadExec.isTerminated()) {
-			Thread.sleep(100);
-		}
+		threadExec.awaitTermination(7, TimeUnit.DAYS);
+//		while (!threadExec.isTerminated()) {
+//			Thread.sleep(100);
+//		}
 		
 		rmNotMedia(instSet, mediaCheckerList, mediaType);
 		rmCorefs(instSet, mediaType);

@@ -10,6 +10,7 @@ import java.util.List;
 import javax.jws.WebService;
 
 import cn.edu.nju.ws.camo.webservice.connect.DBConnFactory;
+import cn.edu.nju.ws.camo.webservice.interestgp.InterestGpFactory;
 import cn.edu.nju.ws.camo.webservice.util.SetSerialization;
 
 @WebService(endpointInterface="cn.edu.nju.ws.camo.webservice.IUserService") 
@@ -105,6 +106,8 @@ public class UserService implements IUserService {
 			return "0";
 		}
 		try {
+			if(getUserByMail(email).length() == 0)
+				return "0";
 			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.USER_CONN);
 			String sqlStr = "insert into user(pwd,name,email,sex) values(?,?,?,?)";
 			PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
@@ -340,12 +343,13 @@ public class UserService implements IUserService {
 			stmt.executeUpdate();
 			stmt.close();
 			sourceConn.close();
-			delFriend(uid1, uid2);
-			delFriend(uid2, uid1);
+			
 		} catch (Throwable e) {
 			e.printStackTrace();
 			return "0";
 		}
+		delFriendRequest(uid1, uid2);
+		delFriendRequest(uid2, uid1);
 		return "1";
 	}
 	
@@ -363,6 +367,7 @@ public class UserService implements IUserService {
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
+		InterestGpFactory.getInstance().setRecommandedUserRmd(uid1, uid2);
 		return String.valueOf(line);
 	}
 	
@@ -433,8 +438,32 @@ public class UserService implements IUserService {
 		return friends;
 	}
 	
+	public String hasFriendRequest(int userFrom, int userTo) {
+		String result = "0";
+		try {
+			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.USER_CONN);
+			String sqlStr = "select * friend_rq where u_from=? and u_to=?";
+			PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
+			stmt.setInt(1, userFrom);
+			stmt.setInt(2, userTo);
+			ResultSet rs = stmt.executeQuery();
+			if(rs.next()) {
+				result = "1";
+			}
+			stmt.executeQuery();
+			stmt.close();
+			sourceConn.close();
+		} catch (Throwable e) {
+			e.printStackTrace();
+			return "0";
+		}
+		return result;
+	}
+	
 	public String addFriendRequest(int userFrom, int userTo) {
 		if(isFriends(userFrom, userTo).equals("1"))
+			return "0";
+		if(hasFriendRequest(userFrom,userTo).equals("1"))
 			return "0";
 		try {
 			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.USER_CONN);

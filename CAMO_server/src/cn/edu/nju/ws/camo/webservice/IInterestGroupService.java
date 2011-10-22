@@ -10,4 +10,7 @@ public interface IInterestGroupService {
 	public String delInterest(int uid, String media, String artist);
 	
 	public String getFavorArtist(int uid, String media);
+	
+	public String getRecommandedUser(int uid, String media);
+	
 }

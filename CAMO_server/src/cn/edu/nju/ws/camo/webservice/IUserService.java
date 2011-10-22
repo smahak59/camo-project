@@ -106,4 +106,11 @@ public interface IUserService {
 	 * @return
 	 */
 	public String getAllRequests(int userTo);
+	
+	/**
+	 * @param userFrom
+	 * @param userTo
+	 * @return
+	 */
+	public String hasFriendRequest(int userFrom, int userTo);
 }
