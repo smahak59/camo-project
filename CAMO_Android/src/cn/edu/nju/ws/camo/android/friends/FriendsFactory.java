@@ -59,7 +59,7 @@ public class FriendsFactory {
 		return friendsList;
 	}
 	
-	public List<User> getAllRequests(User curUser) {
+	public List<User> viewAllRequests(User curUser) {
 		List<User> userList = new ArrayList<User>();
 		Object[] params = { curUser.getId() };
 		String naiveResult = WebService.getInstance().runFunction(
