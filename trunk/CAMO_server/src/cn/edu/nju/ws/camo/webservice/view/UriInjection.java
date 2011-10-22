@@ -200,7 +200,6 @@ public class UriInjection
 		
 		for(String[] ipv : ipvList) {
 			ipv[2] = this.inst;
-//			System.out.println(ipv[0] + "\n" + ipv[1] + "\n" + ipv[2] + "\n");
 		}
 		return ipvList;
 	}
@@ -210,6 +209,25 @@ public class UriInjection
 		return getInst();
 	}
 	
+	public static void initLabelAndType(Map<String, String[]> instSet) throws InterruptedException {
+		BlockingQueue<Runnable> bkQueue = new LinkedBlockingQueue<Runnable>();
+		ThreadPoolExecutor threadExec = new ThreadPoolExecutor(10, 12, 7, TimeUnit.DAYS, bkQueue);
+		List<LabelAndTypeFinder> finderList = new ArrayList<LabelAndTypeFinder>();
+		for(String inst : instSet.keySet()) {
+			LabelAndTypeFinder finder = new LabelAndTypeFinder(inst);
+			threadExec.execute(finder);
+			finderList.add(finder);
+		}
+		threadExec.shutdown();
+		while (!threadExec.isTerminated()) {
+			Thread.sleep(20);
+		}
+		for(LabelAndTypeFinder finder : finderList) {
+			String[] value = instSet.get(finder.getUri());
+			value[0] = finder.getLabel();
+			value[1] = finder.getType();
+		}
+	}
 	
 	
 	public static void main(String[] args) throws Throwable 

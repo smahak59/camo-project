@@ -1,12 +1,23 @@
 package cn.edu.nju.ws.camo.webservice.view;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
-import java.util.concurrent.*;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
-import cn.edu.nju.ws.camo.webservice.connect.*;
-import cn.edu.nju.ws.camo.webservice.util.SetSerialization;
+import cn.edu.nju.ws.camo.webservice.connect.Config;
+import cn.edu.nju.ws.camo.webservice.connect.DBConnFactory;
 
 public class TextInjection 
 {
@@ -154,30 +165,12 @@ public class TextInjection
 		
 		rmNotMedia(instSet, mediaCheckerList, mediaType);
 		rmCorefs(instSet, mediaType);
-		initLabelAndType(instSet);
+		UriInjection.initLabelAndType(instSet);
 		
 		return instSet;
 	}
 	
-	private void initLabelAndType(Map<String, String[]> instSet) throws InterruptedException {
-		BlockingQueue<Runnable> bkQueue = new LinkedBlockingQueue<Runnable>();
-		ThreadPoolExecutor threadExec = new ThreadPoolExecutor(10, 12, 7, TimeUnit.DAYS, bkQueue);
-		List<LabelAndTypeFinder> finderList = new ArrayList<LabelAndTypeFinder>();
-		for(String inst : instSet.keySet()) {
-			LabelAndTypeFinder finder = new LabelAndTypeFinder(inst);
-			threadExec.execute(finder);
-			finderList.add(finder);
-		}
-		threadExec.shutdown();
-		while (!threadExec.isTerminated()) {
-			Thread.sleep(20);
-		}
-		for(LabelAndTypeFinder finder : finderList) {
-			String[] value = instSet.get(finder.getUri());
-			value[0] = finder.getLabel();
-			value[1] = finder.getType();
-		}
-	}
+	
 	
 	private void rmNotMedia(Map<String, String[]> instSet, List<MediaInstChecker> mediaCheckerList, String mediaType) {
 		for (MediaInstChecker checker : mediaCheckerList) {

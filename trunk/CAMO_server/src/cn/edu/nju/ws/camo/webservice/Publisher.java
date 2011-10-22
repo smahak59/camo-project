@@ -11,8 +11,10 @@ public class Publisher {
 		Config.initParam();
 		IUserService userService = new UserService();
 		IViewService viewService = new ViewService();
+		IInterestGroupService interstGpService = new InterestGroupService();
 		Endpoint.publish(Param.SERVER_ADDRE+"user", userService);
 		Endpoint.publish(Param.SERVER_ADDRE+"view", viewService);
+		Endpoint.publish(Param.SERVER_ADDRE+"interestGp", interstGpService);
 	}
 	
 }
