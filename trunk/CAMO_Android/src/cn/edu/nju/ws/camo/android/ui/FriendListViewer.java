@@ -15,7 +15,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import cn.edu.nju.ws.camo.android.R;
-import cn.edu.nju.ws.camo.android.util.Friends;
+import cn.edu.nju.ws.camo.android.friends.Friends;
 import cn.edu.nju.ws.camo.android.util.SerKeys;
 
 public class FriendListViewer extends Activity {
