@@ -4,11 +4,12 @@
   android:orientation="vertical"
   android:layout_width="match_parent"
   android:layout_height="match_parent">
-  <TextView android:id="@+id/textView_preferName"
+    <TextView android:id="@+id/textView_searchResultGroupName"
   	android:layout_width="match_parent"
   	android:layout_height="wrap_content"
   	android:text="object"
+  	android:textColor="#C60"
   	android:textSize="30dip"
-  	android:layout_marginLeft="10dip">
+  	android:layout_marginLeft="35dip">
   </TextView>    
 </LinearLayout>
