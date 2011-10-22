@@ -32,19 +32,16 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
     	CAMO_app = (CAMO_Application) getApplication();    	
     	initServerParams();
-    	initUserPreferList();
+    	initUserData();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         initViewComponents();
-    }
+    }   
     
-
-    
-    
-    
-    private void initUserPreferList() {
+    private void initUserData() {
     	CAMO_app.initCurrentUser();
-    	CAMO_app.initPreferList();		
+    	CAMO_app.initPreferList();	
+    	CAMO_app.initFriendList();
 	}
 
 	private void initServerParams() {
@@ -100,8 +97,13 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 			startActivity(viewSearchIntent);
 			break;
 		case R.id.button_viewFriendList:
-			Intent viewFriendListIntent = new Intent(this, FriendListViewer.class);
-			startActivity(viewFriendListIntent);
+			if(!CAMO_app.preferListIsLoaded()) {
+				Toast.makeText(CAMO_AndroidActivity.this, "My Friends is loading...", Toast.LENGTH_SHORT).show();
+			}
+			else {
+				Intent viewFriendListIntent = new Intent(this, FriendListViewer.class);
+				startActivity(viewFriendListIntent);
+			}
 			break;
 		}
 	}
