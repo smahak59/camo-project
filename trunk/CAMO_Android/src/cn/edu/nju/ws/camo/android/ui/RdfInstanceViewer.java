@@ -301,7 +301,7 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 
 		private View makeItemViewDown(Triple triple) {
 			LayoutInflater inflater = (LayoutInflater)RdfInstanceViewer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View itemView = inflater.inflate(R.layout.list_item, null);			
+			View itemView = inflater.inflate(R.layout.rdf_instance_viewer_list_item, null);			
 			String predicateString = triple.getPredicate().getName();
 			Resource objectResource = triple.getObject();
 			String objectString = objectResource.getName();;
@@ -318,7 +318,7 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 		
 		private View makeItemViewUp(Triple triple) {
 			LayoutInflater inflater = (LayoutInflater)RdfInstanceViewer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View itemView = inflater.inflate(R.layout.list_item, null);			
+			View itemView = inflater.inflate(R.layout.rdf_instance_viewer_list_item, null);			
 			String subjectString = triple.getSubject().getName();
 			String predicateString = triple.getSubject().getClassType();//triple.getPredicate().getName();//triple.getPredicate().getUri();
 			TextView textView_predicate = (TextView) itemView.findViewById(R.id.textView_predicate);
