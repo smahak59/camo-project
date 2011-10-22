@@ -1,6 +1,8 @@
-package cn.edu.nju.ws.camo.android.util;
+package cn.edu.nju.ws.camo.android.friends;
 
 import java.sql.Timestamp;
+
+import cn.edu.nju.ws.camo.android.util.User;
 
 public class Friends {
 
