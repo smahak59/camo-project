@@ -3,8 +3,8 @@ package cn.edu.nju.ws.camo.android.util;
 import java.util.List;
 
 import android.os.AsyncTask;
-import cn.edu.nju.ws.camo.android.operate.FriendsViewOperation;
-import cn.edu.nju.ws.camo.android.operate.PreferViewOperation;
+import cn.edu.nju.ws.camo.android.friends.Friends;
+import cn.edu.nju.ws.camo.android.friends.FriendsFactory;
 
 public class FriendList {
 	private List<Friends> friendList;
@@ -29,7 +29,7 @@ public class FriendList {
 		class LoadFriendListTask extends AsyncTask<String,Void,String> {
 			@Override
 			protected String doInBackground(String... params) {
-				friendList = FriendsViewOperation.viewAllFriends(currentUser);
+				friendList = FriendsFactory.getInstance().viewAllFriends(currentUser);
 				return null;
 			}
 			
