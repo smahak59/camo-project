@@ -1,17 +1,39 @@
-package cn.edu.nju.ws.camo.android.operate;
+package cn.edu.nju.ws.camo.android.friends;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.edu.nju.ws.camo.android.connect.server.ServerParam;
 import cn.edu.nju.ws.camo.android.connect.server.WebService;
-import cn.edu.nju.ws.camo.android.util.Friends;
+import cn.edu.nju.ws.camo.android.operate.command.Command;
 import cn.edu.nju.ws.camo.android.util.SetSerialization;
 import cn.edu.nju.ws.camo.android.util.User;
 
-public class FriendsViewOperation {
 
-	public static List<Friends> viewAllFriends(User curUser) {
+public class FriendsFactory {
+
+	private static FriendsFactory instance = null;
+	private FriendsFactory(){}
+	
+	public static FriendsFactory getInstance() {
+		if(instance == null)
+			instance = new FriendsFactory();
+		return instance;
+	}
+	
+	public Command createAddFriendCmd(Friends friends) {
+		return new AddFriendCommand(friends.getUser1(), friends.getUser2());
+	}
+	
+	public Command createDelFriendCmd(Friends friends) {
+		return new DelFriendCommand(friends.getUser1(), friends.getUser2());
+	}
+	
+	public Command createAddFriendReqCmd(User user1, User user2) {
+		return new DelFriendCommand(user1, user2);
+	}
+	
+	public List<Friends> viewAllFriends(User curUser) {
 		List<Friends> friendsList = new ArrayList<Friends>();
 		Object[] params = { curUser.getId() };
 		String naiveResult = WebService.getInstance().runFunction(
@@ -37,7 +59,7 @@ public class FriendsViewOperation {
 		return friendsList;
 	}
 	
-	public static List<User> getAllRequests(User curUser) {
+	public List<User> getAllRequests(User curUser) {
 		List<User> userList = new ArrayList<User>();
 		Object[] params = { curUser.getId() };
 		String naiveResult = WebService.getInstance().runFunction(

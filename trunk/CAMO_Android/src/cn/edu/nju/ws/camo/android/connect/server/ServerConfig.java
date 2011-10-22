@@ -43,10 +43,13 @@ public class ServerConfig
 		if (s2 != null && s2.trim().length() != 0)
 			ServerParam.VIEW_URL = s2;
 		
-		String s3 = prop.getProperty("service_nspace");
+		String s3 = prop.getProperty("service_interest_gp_url");
 		if (s3 != null && s3.trim().length() != 0)
-			ServerParam.NAMESPACE = s3;
+			ServerParam.INTERESET_GP_URL = s3;
 		
+		String s4 = prop.getProperty("service_nspace");
+		if (s4 != null && s4.trim().length() != 0)
+			ServerParam.NAMESPACE = s4;
 	}
 	
 	public static void main(String args[])
