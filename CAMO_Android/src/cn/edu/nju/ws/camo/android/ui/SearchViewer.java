@@ -4,32 +4,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.xmlpull.v1.XmlPullParserException;
 
-import cn.edu.nju.ws.camo.android.R;
-import cn.edu.nju.ws.camo.android.operate.InstViewOperation;
-import cn.edu.nju.ws.camo.android.rdf.UriInstWithNeigh;
-import cn.edu.nju.ws.camo.android.rdf.UriInstance;
-import cn.edu.nju.ws.camo.android.util.SerKeys;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
@@ -37,13 +24,16 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import cn.edu.nju.ws.camo.android.R;
+import cn.edu.nju.ws.camo.android.operate.InstViewOperation;
+import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 
 public class SearchViewer extends Activity {
 	private ImageButton imageButton_search;
 	private EditText editText_searchKey;
-	private List<UriInstance> searchResultMusic;
-	private List<UriInstance> searchResultMovie;
-	private List<UriInstance> searchResultPhoto;
+	private Set<UriInstance> searchResultMusic;
+	private Set<UriInstance> searchResultMovie;
+	private Set<UriInstance> searchResultPhoto;
 	private ExpandableListView expandableListView_searchResult;
 	private ExpandableListViewAdapter expandableListViewAdapter;
     public void onCreate(Bundle savedInstanceState) {    
@@ -84,7 +74,7 @@ public class SearchViewer extends Activity {
 					}
 					
 					
-					private void trimResult(List<UriInstance> searchResult) {
+					private void trimResult(Set<UriInstance> searchResult) {
 						Iterator<UriInstance> iter = searchResult.iterator();
 						while(iter.hasNext()) {
 							if(iter.next().getName().equals("")) {
@@ -131,25 +121,35 @@ public class SearchViewer extends Activity {
 	
 	private class ExpandableListViewAdapter extends BaseExpandableListAdapter {
 		List<String> group;
-		List<List<UriInstance>> resultLists;
+		ArrayList<ArrayList<UriInstance>> resultLists;
 		
 		public ExpandableListViewAdapter() {
-			resultLists = new ArrayList<List<UriInstance>>();
+			resultLists = new ArrayList<ArrayList<UriInstance>>();
 			group = new ArrayList<String>();
 			if(searchResultMusic.size() != 0) { 
 				group.add("Music");
-				resultLists.add(searchResultMusic);
+				resultLists.add(setToArrayList(searchResultMusic));
 			}
 			if(searchResultMovie.size() != 0) { 
 				group.add("Movie");
-				resultLists.add(searchResultMovie);
+				resultLists.add(setToArrayList(searchResultMovie));
 			}
 			if(searchResultPhoto.size() != 0) { 
 				group.add("Photo");
-				resultLists.add(searchResultPhoto);
+				resultLists.add(setToArrayList(searchResultPhoto));
 			}					
 		}
 		
+		private ArrayList<UriInstance> setToArrayList(
+				Set<UriInstance> set) {
+			ArrayList<UriInstance> arrayList = new ArrayList<UriInstance>();
+			Iterator<UriInstance> iter = set.iterator();
+			while(iter.hasNext()) {
+				arrayList.add(iter.next());
+			}
+			return arrayList;
+		}
+
 		@Override
 		public Object getChild(int groupPosition, int childPosition) {
 			return resultLists.get(groupPosition).get(childPosition);

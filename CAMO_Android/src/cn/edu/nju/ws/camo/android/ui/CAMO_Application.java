@@ -1,17 +1,15 @@
 package cn.edu.nju.ws.camo.android.ui;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import cn.edu.nju.ws.camo.android.operate.FriendsViewOperation;
+import android.app.Application;
+import cn.edu.nju.ws.camo.android.friends.Friends;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 import cn.edu.nju.ws.camo.android.util.DislikePrefer;
 import cn.edu.nju.ws.camo.android.util.FriendList;
-import cn.edu.nju.ws.camo.android.util.Friends;
 import cn.edu.nju.ws.camo.android.util.LikePrefer;
 import cn.edu.nju.ws.camo.android.util.PreferList;
 import cn.edu.nju.ws.camo.android.util.User;
-import android.app.Application;
 
 public class CAMO_Application extends Application {
 	private User currentUser;
