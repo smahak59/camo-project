@@ -139,7 +139,7 @@ public class UriInjection
 		if(mediaType.equals(""))
 			return ipvList;
 		BlockingQueue<Runnable> bkQueue1 = new LinkedBlockingQueue<Runnable>();
-		ThreadPoolExecutor threadExec1 = new ThreadPoolExecutor(10, 12, 7, TimeUnit.DAYS, bkQueue1);
+		ThreadPoolExecutor threadExec1 = new ThreadPoolExecutor(5, 6, 7, TimeUnit.DAYS, bkQueue1);
 		List<UpPropFinder> propFinderList = new ArrayList<UpPropFinder>();
 		Iterator<Entry<String, Integer>> itr1 = corefs.entrySet().iterator();
 		while (itr1.hasNext()) {
@@ -149,9 +149,7 @@ public class UriInjection
 			threadExec1.execute(newFinder);
 		}
 		threadExec1.shutdown();
-		while (!threadExec1.isTerminated()) {
-			Thread.sleep(20);
-		}
+		threadExec1.awaitTermination(7, TimeUnit.DAYS);
 		for(UpPropFinder finder : propFinderList) {
 			ipvList.addAll(finder.getTripleList());
 		}
@@ -159,16 +157,17 @@ public class UriInjection
 		List<String[]> rmIpvList = new ArrayList<String[]>();	//{s,p}
 		List<CoPropFinder> coPFList = new ArrayList<CoPropFinder>();
 		BlockingQueue<Runnable> bkQueue2 = new LinkedBlockingQueue<Runnable>();
-		ThreadPoolExecutor threadExec2 = new ThreadPoolExecutor(10, 12, 7, TimeUnit.DAYS, bkQueue2);
+		ThreadPoolExecutor threadExec2 = new ThreadPoolExecutor(5, 6, 7, TimeUnit.DAYS, bkQueue2);
 		for(String[] tmpIpv : ipvList) {
 			CoPropFinder newCoFinder = new CoPropFinder(tmpIpv[0], tmpIpv[1], mediaType);
 			coPFList.add(newCoFinder);
 			threadExec2.execute(newCoFinder);
 		}
 		threadExec2.shutdown();
-		while (!threadExec2.isTerminated()) {
-			Thread.sleep(10);
-		}
+		threadExec2.awaitTermination(7, TimeUnit.DAYS);
+//		while (!threadExec2.isTerminated()) {
+//			Thread.sleep(10);
+//		}
 		for(CoPropFinder tmpFinder : coPFList) {
 			String tmpInst = tmpFinder.getInst();
 			String tmpProp = tmpFinder.getProp();
@@ -211,7 +210,7 @@ public class UriInjection
 	
 	public static void initLabelAndType(Map<String, String[]> instSet) throws InterruptedException {
 		BlockingQueue<Runnable> bkQueue = new LinkedBlockingQueue<Runnable>();
-		ThreadPoolExecutor threadExec = new ThreadPoolExecutor(10, 12, 7, TimeUnit.DAYS, bkQueue);
+		ThreadPoolExecutor threadExec = new ThreadPoolExecutor(3, 5, 7, TimeUnit.DAYS, bkQueue);
 		List<LabelAndTypeFinder> finderList = new ArrayList<LabelAndTypeFinder>();
 		for(String inst : instSet.keySet()) {
 			LabelAndTypeFinder finder = new LabelAndTypeFinder(inst);
@@ -219,9 +218,10 @@ public class UriInjection
 			finderList.add(finder);
 		}
 		threadExec.shutdown();
-		while (!threadExec.isTerminated()) {
-			Thread.sleep(20);
-		}
+		threadExec.awaitTermination(7, TimeUnit.DAYS);
+//		while (!threadExec.isTerminated()) {
+//			Thread.sleep(20);
+//		}
 		for(LabelAndTypeFinder finder : finderList) {
 			String[] value = instSet.get(finder.getUri());
 			value[0] = finder.getLabel();
