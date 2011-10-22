@@ -25,7 +25,7 @@ import cn.edu.nju.ws.camo.android.util.SerKeys;
 import cn.edu.nju.ws.camo.android.util.User;
 
 
-public class DislikeViewer extends TabActivity implements OnItemClickListener{
+public class DislikeListViewer extends TabActivity implements OnItemClickListener{
 	
 	private User currentUser;
 	
@@ -140,7 +140,7 @@ public class DislikeViewer extends TabActivity implements OnItemClickListener{
 		}	
 
 		private View makeItemView(Preference preference) {
-			LayoutInflater inflator = (LayoutInflater) DislikeViewer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			LayoutInflater inflator = (LayoutInflater) DislikeListViewer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View itemView = inflator.inflate(R.layout.preference_list_item, null);
 			TextView textView_preferName = (TextView) itemView.findViewById(R.id.textView_preferName);
 			String preferNameString = preference.getInst().getName();
@@ -188,6 +188,6 @@ public class DislikeViewer extends TabActivity implements OnItemClickListener{
 		case 3:targetUri = photoPreferList.get(arg2).getInst();break;
 		default: targetUri = null;
 		}
-		new RdfInstanceLoader(DislikeViewer.this, targetUri).loadRdfInstance();		
+		new RdfInstanceLoader(DislikeListViewer.this, targetUri).loadRdfInstance();		
 	}
 }

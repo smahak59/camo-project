@@ -26,7 +26,7 @@ import cn.edu.nju.ws.camo.android.util.SerKeys;
 import cn.edu.nju.ws.camo.android.util.User;
 
 
-public class LikeViewer extends TabActivity implements OnItemClickListener, OnItemLongClickListener{	
+public class LikeListViewer extends TabActivity implements OnItemClickListener, OnItemLongClickListener{	
 	
 	private User currentUser;	
 	
@@ -147,7 +147,7 @@ public class LikeViewer extends TabActivity implements OnItemClickListener, OnIt
 		}	
 
 		private View makeItemView(Preference preference) {
-			LayoutInflater inflator = (LayoutInflater) LikeViewer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			LayoutInflater inflator = (LayoutInflater) LikeListViewer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View itemView = inflator.inflate(R.layout.preference_list_item, null);
 			TextView textView_preferName = (TextView) itemView.findViewById(R.id.textView_preferName);
 			String preferNameString = preference.getInst().getName();
@@ -195,7 +195,7 @@ public class LikeViewer extends TabActivity implements OnItemClickListener, OnIt
 		case 3:targetUri = photoPreferList.get(arg2).getInst();break;
 		default: targetUri = null;
 		}
-		new RdfInstanceLoader(LikeViewer.this, targetUri).loadRdfInstance();		
+		new RdfInstanceLoader(LikeListViewer.this, targetUri).loadRdfInstance();		
 	}
 
 
@@ -211,7 +211,7 @@ public class LikeViewer extends TabActivity implements OnItemClickListener, OnIt
 		case 3:targetUri = photoPreferList.get(arg2).getInst();break;
 		default: targetUri = null;
 		}
-		new RdfInstanceLoader(LikeViewer.this, targetUri).loadRdfInstance();
+		new RdfInstanceLoader(LikeListViewer.this, targetUri).loadRdfInstance();
 		return false;
 	}
 }
