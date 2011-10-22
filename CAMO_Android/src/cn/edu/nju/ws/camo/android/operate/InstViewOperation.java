@@ -3,8 +3,10 @@ package cn.edu.nju.ws.camo.android.operate;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -123,9 +125,9 @@ public class InstViewOperation {
 		return instWithNeigh;
 	}
 	
-	public static List<UriInstance> searchInst(String searchText,
+	public static Set<UriInstance> searchInst(String searchText,
 			String mediaType) throws IOException, XmlPullParserException {
-		List<UriInstance> instList = new ArrayList<UriInstance>();
+		Set<UriInstance> instList = new HashSet<UriInstance>();
 		Object[] params = { searchText, mediaType };
 		String naiveResult = WebService.getInstance().runFunction(
 				ServerParam.VIEW_URL, "textView", params);
