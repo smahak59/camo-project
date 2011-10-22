@@ -63,7 +63,7 @@ public class DislikeListViewer extends TabActivity implements OnItemClickListene
 	private void initTabs() {
 			TabHost tabHost = getTabHost(); 
          
-	        LayoutInflater.from(this).inflate(R.layout.dislike_viewer, tabHost.getTabContentView(), true); 
+	        LayoutInflater.from(this).inflate(R.layout.dislike_list_viewer, tabHost.getTabContentView(), true); 
 	 
 	        tabHost.addTab(tabHost.newTabSpec("Artist") 
 	                .setIndicator("Artist") 
