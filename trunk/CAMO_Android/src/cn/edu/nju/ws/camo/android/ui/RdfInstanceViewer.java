@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -144,6 +146,15 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 				if(selected instanceof UriInstance) {
 					new RdfInstanceLoader(RdfInstanceViewer.this, (UriInstance) selected).loadRdfInstance();
 				}
+				
+				else if (triplesDown.get(arg2).getPredicate().getName().equals("Homepage") || 
+						triplesDown.get(arg2).getPredicate().getName().equals("Photo Collection") ||
+						triplesDown.get(arg2).getPredicate().getName().equals("Page")) {
+					Uri uri = Uri.parse(selected.getName()); 
+					Intent homepageIntent = new Intent(Intent.ACTION_VIEW, uri);
+					startActivity(homepageIntent);
+				}
+				
 			}			
 		});
 		listView_Up.setOnItemClickListener(new OnItemClickListener() {
@@ -151,10 +162,8 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub				
-				Resource selected = triplesUp.get(arg2).getSubject();
-				if(selected instanceof UriInstance) {
-					new RdfInstanceLoader(RdfInstanceViewer.this, (UriInstance) selected).loadRdfInstance();
-				}
+				UriInstance selected = triplesUp.get(arg2).getSubject();
+				new RdfInstanceLoader(RdfInstanceViewer.this, (UriInstance) selected).loadRdfInstance();
 			}			
 		});
 		
@@ -304,15 +313,21 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 			View itemView = inflater.inflate(R.layout.rdf_instance_viewer_list_item, null);			
 			String predicateString = triple.getPredicate().getName();
 			Resource objectResource = triple.getObject();
-			String objectString = objectResource.getName();;
+			String objectString = objectResource.getName();
 			TextView textView_predicate = (TextView) itemView.findViewById(R.id.textView_predicate);
 			TextView textView_object = (TextView) itemView.findViewById(R.id.textView_object);	
 			TextView textView_accessable = (TextView) itemView.findViewById(R.id.textView_accessable);
 			if(objectResource instanceof UriInstance) {
 				textView_accessable.setVisibility(View.VISIBLE);
-			}
+			}			
 			textView_predicate.setText(predicateString);
-			textView_object.setText(objectString);			
+			textView_object.setText(objectString);	
+			if(predicateString.equals("Homepage") || 
+			   predicateString.equals("Photo Collection") ||
+			   predicateString.equals("Page")) {
+				String homepageUrl = "<a href = \"" + objectString + "\">" + objectString + "</a>";
+				textView_object.setText(Html.fromHtml(homepageUrl)); 
+			}
 			return itemView;
 		}
 		
