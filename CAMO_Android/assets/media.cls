@@ -8,6 +8,7 @@ http://dbtropes.org/resource/Main/VoiceActors
 http://dbpedia.org/ontology/Artist
 http://dbpedia.org/ontology/Band
 http://dbpedia.org/ontology/MusicalArtist
+http://dbpedia.org/ontology/MusicalWork
 http://xmlns.com/foaf/0.1/Person
 http://purl.org/ontology/mo/MusicArtist
 http://data.linkedmdb.org/resource/movie/Director
