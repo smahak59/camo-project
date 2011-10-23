@@ -70,7 +70,8 @@ public class InstViewOperation {
 					value = RdfFactory.getInstance().createInstance(valueStr,
 							mediaType);
 					if(property.getUri().equals("http://xmlns.com/foaf/0.1/homepage") || 
-							property.getUri().equals("http://dbpedia.org/property/hasPhotoCollection"))
+							property.getUri().equals("http://dbpedia.org/property/hasPhotoCollection") ||
+							property.getUri().equals("http://xmlns.com/foaf/0.1/img"))
 						value = RdfFactory.getInstance().createLiteral(valueStr, mediaType);
 				} else {
 					value = RdfFactory.getInstance().createLiteral(
@@ -212,7 +213,8 @@ public class InstViewOperation {
 						object = RdfFactory.getInstance().createInstance(
 								objectStr, mediaType);
 						if(property.getUri().equals("http://xmlns.com/foaf/0.1/homepage") || 
-								property.getUri().equals("http://dbpedia.org/property/hasPhotoCollection"))
+								property.getUri().equals("http://dbpedia.org/property/hasPhotoCollection") ||
+								property.getUri().equals("http://xmlns.com/foaf/0.1/img"))
 							object = RdfFactory.getInstance().createLiteral(objectStr, mediaType);
 					} else {
 						object = RdfFactory.getInstance().createLiteral(
