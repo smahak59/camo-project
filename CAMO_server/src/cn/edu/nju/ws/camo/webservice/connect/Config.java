@@ -39,6 +39,7 @@ public class Config
 		setDBP(prop);
 		setFUSE(prop);
 		setUSER(prop);
+		setISTGP(prop);
 		setSERVER(prop);
 		
 //		setMediaCls();
@@ -208,6 +209,17 @@ public class Config
 			Param.USER_SQL = s2;
 	}
 	
+	private static void setISTGP(Properties prop)
+	{
+		String s1 = prop.getProperty("istgp_url");
+		if (s1 != null && s1.trim().length() != 0)
+			Param.ISTGP_URL = s1;
+		
+		String s2 = prop.getProperty("istgp_sql");
+		if (s2 != null && s2.trim().length() != 0)
+			Param.ISTGP_SQL = s2;
+	}
+	
 	private static void setSERVER(Properties prop)
 	{
 		String s1 = prop.getProperty("server_url");
@@ -215,26 +227,6 @@ public class Config
 			Param.SERVER_ADDRE = s1;
 		
 	}
-	
-//	private static void setMediaCls() {
-//		Param.MEDIA_CLASS = new HashSet<String>();
-//		File file = new File("config/media.cls");
-//		try {
-//			BufferedReader br = new BufferedReader(new FileReader(file));
-//			String line;
-//			while((line=br.readLine()) != null) {
-//				if(line.trim().equals("") == false)
-//					Param.MEDIA_CLASS.add(line.trim());
-//			}
-//			br.close();
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
 	
 	public static void main(String args[])
 	{

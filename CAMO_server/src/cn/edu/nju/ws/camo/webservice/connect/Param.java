@@ -67,6 +67,10 @@ public class Param
 	public static String USER_URL = null;
 	public static String USER_SQL = null;
 	
+	// istgp
+	public static String ISTGP_URL = null;
+	public static String ISTGP_SQL = null;
+	
 	//server address
 	public static String SERVER_ADDRE = null;
 	
