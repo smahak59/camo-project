@@ -63,7 +63,7 @@ public class InstViewOperation {
 			if (naiveObject.size() == 3) {
 				value = RdfFactory.getInstance().createInstance(
 						naiveObject.get(0), mediaType, naiveObject.get(2),
-						naiveObject.get(1));
+						literalNomalize(naiveObject.get(1)));
 			} else {
 				String valueStr = naiveObject.get(0);
 				if (valueStr.startsWith("http://")) {
@@ -207,7 +207,7 @@ public class InstViewOperation {
 				if (naiveObject.size() == 3) {
 					object = RdfFactory.getInstance().createInstance(
 							naiveObject.get(0), mediaType, naiveObject.get(2),
-							naiveObject.get(1));
+							literalNomalize(naiveObject.get(1)));
 				} else {
 					String objectStr = naiveObject.get(0);
 					if (objectStr.startsWith("http://")) {
