@@ -139,7 +139,7 @@ public class UriInjection
 		if(mediaType.equals(""))
 			return ipvList;
 		BlockingQueue<Runnable> bkQueue1 = new LinkedBlockingQueue<Runnable>();
-		ThreadPoolExecutor threadExec1 = new ThreadPoolExecutor(5, 6, 7, TimeUnit.DAYS, bkQueue1);
+		ThreadPoolExecutor threadExec1 = new ThreadPoolExecutor(8, 9, 7, TimeUnit.DAYS, bkQueue1);
 		List<UpPropFinder> propFinderList = new ArrayList<UpPropFinder>();
 		Iterator<Entry<String, Integer>> itr1 = corefs.entrySet().iterator();
 		while (itr1.hasNext()) {
@@ -157,7 +157,7 @@ public class UriInjection
 		List<String[]> rmIpvList = new ArrayList<String[]>();	//{s,p}
 		List<CoPropFinder> coPFList = new ArrayList<CoPropFinder>();
 		BlockingQueue<Runnable> bkQueue2 = new LinkedBlockingQueue<Runnable>();
-		ThreadPoolExecutor threadExec2 = new ThreadPoolExecutor(5, 6, 7, TimeUnit.DAYS, bkQueue2);
+		ThreadPoolExecutor threadExec2 = new ThreadPoolExecutor(8, 9, 7, TimeUnit.DAYS, bkQueue2);
 		for(String[] tmpIpv : ipvList) {
 			CoPropFinder newCoFinder = new CoPropFinder(tmpIpv[0], tmpIpv[1], mediaType);
 			coPFList.add(newCoFinder);
@@ -233,7 +233,7 @@ public class UriInjection
 	public static void main(String[] args) throws Throwable 
 	{
 		Config.initParam(); 
-		UriInjection query = new UriInjection("http://dbpedia.org/resource/Christina_Aguilera");
+		UriInjection query = new UriInjection("http://dbpedia.org/resource/Summer_Night_City");
 		System.out.println("\n==========Query Down=========\n");
 		List<String[]> triplesDown = query.queryDown();
 		for(String[] triple : triplesDown) {
