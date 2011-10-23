@@ -10,7 +10,6 @@ http://data.linkedmdb.org/resource/movie/editor_editorid
 http://data.linkedmdb.org/resource/movie/film_crewmember_film_crewmemberid
 http://data.linkedmdb.org/resource/movie/director_directorid
 http://dbpedia.org/ontology/type
-http://xmlns.com/foaf/0.1/img
 http://data.linkedmdb.org/resource/movie/director_directorid
 http://data.linkedmdb.org/resource/movie/producer_producerid
 http://data.linkedmdb.org/resource/movie/writer_writerid
