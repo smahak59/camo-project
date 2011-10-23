@@ -10,6 +10,7 @@ public class DBConnFactory
 	public static final int MYSQL_CONN = 17;
 	public static final int PGSQL_CONN = 18;
 	public static final int USER_CONN = 19;
+	public static final int ISTGP_CONN = 20;
 	
 	private DBConnFactory(){}
 	
@@ -32,6 +33,9 @@ public class DBConnFactory
 				break;
 			case DBConnFactory.USER_CONN:
 				conn = new User_DBConn().connect();
+				break;
+			case DBConnFactory.ISTGP_CONN:
+				conn = new IstGp_DBConn().connect();
 				break;
 			case DBConnFactory.MYSQL_CONN:
 				conn = new MySQL_DBConn().connect();
