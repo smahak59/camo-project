@@ -2,7 +2,10 @@ package cn.edu.nju.ws.camo.android.ui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -17,6 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 public class RdfInstanceLoader {
@@ -73,6 +77,7 @@ public class RdfInstanceLoader {
 					else
 						triplesDown = neigh.getTriplesDown();
 					trimTriples(triplesDown);
+					mergeDuplicatesDown(triplesDown);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -81,6 +86,8 @@ public class RdfInstanceLoader {
 					e.printStackTrace();
 				}
 			}
+
+
 			private void initTriplesUp() {
 				UriInstWithNeigh neigh;
 				try {
@@ -90,6 +97,7 @@ public class RdfInstanceLoader {
 					else
 						triplesUp = neigh.getTriplesUp();
 					trimTriples(triplesUp);
+					mergeDuplicatesUp(triplesUp);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -100,6 +108,46 @@ public class RdfInstanceLoader {
 				
 			}
 			
+			private void mergeDuplicatesUp(ArrayList<Triple> triplesUp) {
+				Map<UriInstance,Triple> triplesUpMap = new HashMap<UriInstance,Triple>();
+				Iterator<Triple> iter = triplesUp.iterator();
+				while(iter.hasNext()) {
+					Triple curTriple = iter.next();
+					if(triplesUpMap.get(curTriple.getSubject()) != null) {
+						String predicateString = triplesUpMap.get(curTriple.getSubject()).getPredicate().getName();
+						predicateString += ", " + curTriple.getPredicate().getName();
+						curTriple.getPredicate().setName(predicateString);
+					}
+					triplesUpMap.put(curTriple.getSubject(), curTriple);				
+				}
+				triplesUp.clear();
+				Set<UriInstance> keySet = triplesUpMap.keySet();
+				Iterator<UriInstance> keyIter = keySet.iterator();
+				while(keyIter.hasNext()) {
+					triplesUp.add(triplesUpMap.get(keyIter.next()));
+				}
+			}
+			
+			private void mergeDuplicatesDown(ArrayList<Triple> triplesDown) {
+				Map<Resource,Triple> triplesDownMap = new HashMap<Resource,Triple>();
+				Iterator<Triple> iter = triplesDown.iterator();
+				while(iter.hasNext()) {
+					Triple curTriple = iter.next();
+					if(triplesDownMap.get(curTriple.getObject()) != null) {
+						String predicateString = triplesDownMap.get(curTriple.getObject()).getPredicate().getName();
+						predicateString += ", " + curTriple.getPredicate().getName();						
+						curTriple.getPredicate().setName(predicateString);
+					}
+					triplesDownMap.put(curTriple.getObject(), curTriple);				
+				}
+				triplesDown.clear();
+				Set<Resource> keySet = triplesDownMap.keySet();
+				Iterator<Resource> keyIter = keySet.iterator();
+				while(keyIter.hasNext()) {
+					triplesDown.add(triplesDownMap.get(keyIter.next()));
+				}
+			}
+			
 		}
 		new LoadTask().execute("");
 	}
@@ -108,9 +156,9 @@ public class RdfInstanceLoader {
 		while(iter.hasNext()) {
 			Triple triple = iter.next();
 			if(triple.getSubject().getName().equals("") || 
-				triple.getObject().getName().equals("") ||
-				!triple.getSubject().canShowed()||
-				((triple.getObject() instanceof UriInstance) && !((UriInstance)triple.getObject()).canShowed())) {
+				triple.getObject().getName().equals("")){// ||
+				//!triple.getSubject().canShowed()||
+				//((triple.getObject() instanceof UriInstance) && !((UriInstance)triple.getObject()).canShowed())) {
 				iter.remove();
 			}
 		}
