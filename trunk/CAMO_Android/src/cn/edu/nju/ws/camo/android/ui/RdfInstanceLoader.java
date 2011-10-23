@@ -49,8 +49,7 @@ public class RdfInstanceLoader {
 				return null;
 			}
 			
-			protected void onPostExecute(String result) {
-				
+			protected void onPostExecute(String result) {				
 				if(triplesDown.size() == 0 || triplesUp.size() == 0 ) {
 					Toast.makeText(context, "Sorry, content not found.", Toast.LENGTH_SHORT).show();
 					progressDialog.dismiss();
