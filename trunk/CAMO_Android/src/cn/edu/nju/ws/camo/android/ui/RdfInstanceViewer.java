@@ -143,7 +143,7 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 					long arg3) {
 				// TODO Auto-generated method stub								
 				Resource selected = triplesDown.get(arg2).getObject();
-				if(selected instanceof UriInstance) {
+				if(selected instanceof UriInstance && ((UriInstance) selected).canShowed()) {
 					new RdfInstanceLoader(RdfInstanceViewer.this, (UriInstance) selected).loadRdfInstance();
 				}
 				
@@ -163,7 +163,9 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 					long arg3) {
 				// TODO Auto-generated method stub				
 				UriInstance selected = triplesUp.get(arg2).getSubject();
-				new RdfInstanceLoader(RdfInstanceViewer.this, (UriInstance) selected).loadRdfInstance();
+				if(selected.canShowed()) {
+					new RdfInstanceLoader(RdfInstanceViewer.this, (UriInstance) selected).loadRdfInstance();
+				}
 			}			
 		});
 		
@@ -317,7 +319,7 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 			TextView textView_predicate = (TextView) itemView.findViewById(R.id.textView_predicate);
 			TextView textView_object = (TextView) itemView.findViewById(R.id.textView_object);	
 			TextView textView_accessable = (TextView) itemView.findViewById(R.id.textView_accessable);
-			if(objectResource instanceof UriInstance) {
+			if(objectResource instanceof UriInstance && ((UriInstance) objectResource).canShowed()) {
 				textView_accessable.setVisibility(View.VISIBLE);
 			}			
 			textView_predicate.setText(predicateString);
@@ -335,11 +337,13 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 			LayoutInflater inflater = (LayoutInflater)RdfInstanceViewer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View itemView = inflater.inflate(R.layout.rdf_instance_viewer_list_item, null);			
 			String subjectString = triple.getSubject().getName();
-			String predicateString = triple.getSubject().getClassType();//triple.getPredicate().getName();//triple.getPredicate().getUri();
+			String predicateString = triple.getPredicate().getName();//.getUri();//.getSubject().getClassType();//triple.getPredicate().getName();//triple.getPredicate().getUri();
 			TextView textView_predicate = (TextView) itemView.findViewById(R.id.textView_predicate);
 			TextView textView_object = (TextView) itemView.findViewById(R.id.textView_object);
 			TextView textView_accessable = (TextView) itemView.findViewById(R.id.textView_accessable);
-			textView_accessable.setVisibility(View.VISIBLE);
+			if(triple.getSubject().canShowed()) {
+				textView_accessable.setVisibility(View.VISIBLE);
+			}			
 			textView_predicate.setText(predicateString);
 			textView_object.setText(subjectString);			
 			return itemView;
