@@ -55,7 +55,7 @@ public class TextInjection
 		List<MediaInstChecker> mediaCheckerList = new ArrayList<MediaInstChecker>();
 		
 		BlockingQueue<Runnable> bkQueue = new LinkedBlockingQueue<Runnable>();
-		ThreadPoolExecutor threadExec = new ThreadPoolExecutor(5, 6, 7, TimeUnit.DAYS, bkQueue);
+		ThreadPoolExecutor threadExec = new ThreadPoolExecutor(8, 9, 7, TimeUnit.DAYS, bkQueue);
 		if (searchWords.equals(""))
 			return ipvSet;
 
@@ -123,7 +123,7 @@ public class TextInjection
 		List<MediaInstChecker> mediaCheckerList = new ArrayList<MediaInstChecker>();
 		
 		BlockingQueue<Runnable> bkQueue = new LinkedBlockingQueue<Runnable>();
-		ThreadPoolExecutor threadExec = new ThreadPoolExecutor(5, 6, 7, TimeUnit.DAYS, bkQueue);
+		ThreadPoolExecutor threadExec = new ThreadPoolExecutor(8, 9, 7, TimeUnit.DAYS, bkQueue);
 		if (searchWords.equals(""))
 			return instSet;
 
