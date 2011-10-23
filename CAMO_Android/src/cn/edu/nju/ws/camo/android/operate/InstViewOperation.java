@@ -69,7 +69,8 @@ public class InstViewOperation {
 				if (valueStr.startsWith("http://")) {
 					value = RdfFactory.getInstance().createInstance(valueStr,
 							mediaType);
-					if(property.getUri().equals("http://xmlns.com/foaf/0.1/homepage"))
+					if(property.getUri().equals("http://xmlns.com/foaf/0.1/homepage") || 
+							property.getUri().equals("http://dbpedia.org/property/hasPhotoCollection"))
 						value = RdfFactory.getInstance().createLiteral(valueStr, mediaType);
 				} else {
 					value = RdfFactory.getInstance().createLiteral(
@@ -210,7 +211,8 @@ public class InstViewOperation {
 					if (objectStr.startsWith("http://")) {
 						object = RdfFactory.getInstance().createInstance(
 								objectStr, mediaType);
-						if(property.getUri().equals("http://xmlns.com/foaf/0.1/homepage"))
+						if(property.getUri().equals("http://xmlns.com/foaf/0.1/homepage") || 
+								property.getUri().equals("http://dbpedia.org/property/hasPhotoCollection"))
 							object = RdfFactory.getInstance().createLiteral(objectStr, mediaType);
 					} else {
 						object = RdfFactory.getInstance().createLiteral(
