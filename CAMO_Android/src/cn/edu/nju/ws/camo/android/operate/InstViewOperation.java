@@ -303,13 +303,13 @@ public class InstViewOperation {
 		String result = str;
 		int endIdx = str.indexOf("^^");
 		if (endIdx > 0)
-			result = str.substring(0, str.indexOf("^^"));
+			result = str.substring(0, endIdx);
 		endIdx = result.indexOf("@en");
 		if (endIdx > 0)
-			result = str.substring(0, str.indexOf("@en"));
+			result = str.substring(0, endIdx);
 		endIdx = result.indexOf("(");
 		if (endIdx > 0)
-			result = str.substring(0, str.indexOf("("));
+			result = str.substring(0, endIdx);
 		result.replaceAll("%", " ");
 		result.replaceAll("_", " ");
 		return result;
