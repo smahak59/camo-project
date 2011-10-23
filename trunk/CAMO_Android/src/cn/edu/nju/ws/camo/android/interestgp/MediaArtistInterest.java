@@ -11,11 +11,12 @@ import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 import cn.edu.nju.ws.camo.android.util.SetSerialization;
 import cn.edu.nju.ws.camo.android.util.User;
 
-public class MediaArtistInterest {
+public class MediaArtistInterest implements Comparable<MediaArtistInterest>  {
 
 	private User user;
 	private UriInstance mediaInst;
 	private UriInstance artistInst; 
+	private long createTime=0;
 	
 	public MediaArtistInterest(User user, UriInstance mediaInst, UriInstance artistInst) {
 		this.user = user;
@@ -50,4 +51,26 @@ public class MediaArtistInterest {
 		}
 		return artists;
 	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public UriInstance getMediaInst() {
+		return mediaInst;
+	}
+
+	public UriInstance getArtistInst() {
+		return artistInst;
+	}
+	
+	public void setTime(long time) {
+		this.createTime = time;
+	}
+
+	public int compareTo(MediaArtistInterest another) {
+		return Long.signum(this.createTime-another.createTime);
+	}
+	
+	
 }
