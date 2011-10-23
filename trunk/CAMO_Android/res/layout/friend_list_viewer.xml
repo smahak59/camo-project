@@ -5,7 +5,7 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent">
   
-	<RelativeLayout android:layout_height="wrap_content" android:id="@+id/relativeLayout2" android:layout_width="match_parent" android:layout_gravity="center" android:gravity="center" android:background="@android:drawable/title_bar">
+	<RelativeLayout android:layout_height="wrap_content" android:id="@+id/relativeLayout2" android:layout_width="match_parent" android:layout_gravity="center" android:gravity="center" android:background="@drawable/title_bar">
 	    <TextView android:gravity="center" android:text="My Friends" android:layout_height="wrap_content" android:id="@+id/textView_friendListViewTitle" android:textSize="30dip" android:textColor="#FFFFFF" android:layout_centerVertical="true" android:layout_alignParentLeft="true" android:layout_width="match_parent"></TextView>
 	</RelativeLayout>
 	<ListView android:layout_height="wrap_content" android:id="@+id/listViewer_friendList" android:layout_width="match_parent">
