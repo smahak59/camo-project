@@ -32,8 +32,8 @@ public class InterestGroup {
 	 * @param media: 暂时仅支持movie
 	 * @return 推荐的用户以及其兴趣，按时间排序
 	 */
-	public List<MediaArtistInterest> getRecommandedMovieUser(UriInstance media) {
-		List<MediaArtistInterest> rmdUserList = new ArrayList<MediaArtistInterest>();
+	public List<RecommandUser> getRecommandedMovieUser(UriInstance media) {
+		List<RecommandUser> rmdUserList = new ArrayList<RecommandUser>();
 		Object[] paramValues = { curUser.getId(), media.getUri()};
 		String naiveResult = WebService.getInstance().runFunction(
 				ServerParam.INTERESET_GP_URL, "getRecommandedUserForMovie", paramValues);
@@ -44,19 +44,21 @@ public class InterestGroup {
 		List<String> naiveRecordList = SetSerialization.deserialize3(naiveResult);
 		for(String naiveRecord : naiveRecordList) {
 			List<String> naiveUnitList = SetSerialization.deserialize2(naiveRecord);
-			if(naiveUnitList.size()<3)
+			if(naiveUnitList.size()<4)
 				continue;
 			String naiveUserProfile = naiveUnitList.get(0);
 			String naiveArtist = naiveUnitList.get(1);
 			Long createTime = Long.valueOf(naiveUnitList.get(2));
+			int ruleId = Integer.valueOf(naiveUnitList.get(3));
 			List<String> naiveUserProfileUnits = SetSerialization.deserialize1(naiveUserProfile);
-			User rmdUser = new User(Integer.valueOf(naiveUserProfileUnits.get(0)));
-			rmdUser.setName(naiveUserProfileUnits.get(1));
+			User rmdUserInfo = new User(Integer.valueOf(naiveUserProfileUnits.get(0)));
+			rmdUserInfo.setName(naiveUserProfileUnits.get(1));
 			List<String> naiveArtistUnits = SetSerialization.deserialize1(naiveArtist);
 			UriInstance artist = RdfFactory.getInstance().createInstance(naiveArtistUnits.get(0), media.getMediaType(), naiveArtistUnits.get(2), naiveArtistUnits.get(1));
-			MediaArtistInterest newUserInterest = new MediaArtistInterest(rmdUser, media, artist);
-			newUserInterest.setTime(createTime);
-			rmdUserList.add(newUserInterest);
+			MediaArtistInterest newUserInterest = new MediaArtistInterest(rmdUserInfo, media, artist);
+			RecommandUser rmdUser = new RecommandUser(newUserInterest, ruleId);
+			rmdUser.setTime(createTime);
+			rmdUserList.add(rmdUser);
 		}
 		Collections.sort(rmdUserList, Collections.reverseOrder());
 		return rmdUserList;
