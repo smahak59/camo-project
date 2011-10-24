@@ -3,11 +3,12 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:orientation="vertical"
   android:layout_width="match_parent"
-  android:layout_height="match_parent">
+  android:layout_height="match_parent" android:weightSum="1">
 	<RelativeLayout android:layout_height="wrap_content" android:id="@+id/relativeLayout3" android:layout_width="match_parent" android:layout_gravity="center" android:gravity="center" android:background="@drawable/title_bar">
 	    <TextView android:gravity="center" android:text="Playing:" android:layout_height="wrap_content" android:id="@+id/textView_mediaPlayerTitle" android:textSize="30dip" android:textColor="#FFFFFF" android:layout_centerVertical="true" android:layout_alignParentLeft="true" android:layout_width="match_parent"></TextView>
 	    <ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/imageButton1" android:src="@android:drawable/ic_dialog_info" android:background="@android:color/transparent" android:layout_centerVertical="true" android:layout_alignParentRight="true" android:layout_marginRight="5dp"></ImageButton>
 	</RelativeLayout>
+	<ImageView android:src="@drawable/movie" android:id="@+id/imageView1" android:layout_height="wrap_content" android:layout_width="match_parent"></ImageView>
 	<LinearLayout android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/linearLayout1" android:orientation="vertical">
 		<SeekBar android:layout_height="wrap_content" android:id="@+id/seekBar1" android:layout_width="match_parent"></SeekBar>
 		<LinearLayout android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/linearLayout2" android:layout_gravity="center">
@@ -16,5 +17,17 @@
 			<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/imageButton4" android:src="@android:drawable/ic_media_next"></ImageButton>
 		</LinearLayout>
 	</LinearLayout>
+	<RelativeLayout android:id="@+id/relativeLayout1" android:layout_width="match_parent" android:layout_height="match_parent">
+		<Button android:text="People you may like to know" android:id="@+id/button_recommandedUser" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true" ></Button>
+		<ListView android:id="@+id/listView_actorList" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_below="@+id/textView_actorListTitle" android:layout_above="@+id/button_recommandedUser"></ListView>
+		 <TextView android:layout_height="wrap_content" 
+        android:id="@+id/textView_actorListTitle" 
+        android:text="Actors" 
+        android:layout_width="match_parent"
+        android:background="#454545"
+        android:textSize="20dip"
+        >
+        </TextView>
+	</RelativeLayout>
     
 </LinearLayout>
