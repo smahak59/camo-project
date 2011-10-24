@@ -1,12 +1,12 @@
 package cn.edu.nju.ws.camo.android.interestgp;
 
-public class RecommandUser implements Comparable<RecommandUser> {
+public class RecommandFeedback implements Comparable<RecommandFeedback> {
 
 	private MediaArtistInterest userInterest;
 	private int ruleId;
 	private long createTime=0;
 	
-	public RecommandUser(MediaArtistInterest interest, int rule) {
+	public RecommandFeedback(MediaArtistInterest interest, int rule) {
 		this.userInterest = interest;
 		this.ruleId = rule;
 	}
@@ -29,7 +29,7 @@ public class RecommandUser implements Comparable<RecommandUser> {
 		return ruleId;
 	}
 	
-	public int compareTo(RecommandUser another) {
+	public int compareTo(RecommandFeedback another) {
 		return Long.signum(this.createTime-another.createTime);
 	}
 }
