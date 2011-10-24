@@ -199,12 +199,12 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 		//View Down Tab
 		TabSpec tabSpec = tabHost.newTabSpec("tab_viewDown");
 		tabSpec.setContent(R.id.listView_Down);
-		tabSpec.setIndicator("Attributes");
+		tabSpec.setIndicator("View Objects");
 		tabHost.addTab(tabSpec);
 		//View Up Tab
 		tabSpec = tabHost.newTabSpec("tab_viewUp");
 		tabSpec.setContent(R.id.listView_Up);
-		tabSpec.setIndicator("Media Info");
+		tabSpec.setIndicator("View Subjects");
 		tabHost.addTab(tabSpec);
 		
 	}
