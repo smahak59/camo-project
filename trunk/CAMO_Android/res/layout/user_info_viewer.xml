@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"  
         android:id="@+id/textView_userName" 
         android:text="Name:"
-        android:textSize="30dip"
+        android:textSize="20dip"
         android:layout_marginLeft="10dip">
         </TextView>
         <TextView 
@@ -31,7 +31,7 @@
         android:layout_width="wrap_content" 
         android:id="@+id/textView_userSex" 
         android:text="Sex:"
-        android:textSize="30dip"
+        android:textSize="20dip"
         android:layout_marginLeft="10dip">
         </TextView>
         <TextView 
@@ -39,7 +39,7 @@
         android:layout_width="wrap_content" 
         android:id="@+id/textView_userEmail" 
         android:text="Email:"
-        android:textSize="30dip"
+        android:textSize="20dip"
         android:layout_marginLeft="10dip">
         </TextView>
     </LinearLayout>
