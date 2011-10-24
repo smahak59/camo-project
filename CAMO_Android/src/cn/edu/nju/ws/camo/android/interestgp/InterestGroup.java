@@ -32,8 +32,8 @@ public class InterestGroup {
 	 * @param media: 暂时仅支持movie
 	 * @return 推荐的用户以及其兴趣，按时间排序
 	 */
-	public List<RecommandUser> getRecommandedMovieUser(UriInstance media) {
-		List<RecommandUser> rmdUserList = new ArrayList<RecommandUser>();
+	public List<RecommandFeedback> getRecommandedMovieUser(UriInstance media) {
+		List<RecommandFeedback> rmdUserList = new ArrayList<RecommandFeedback>();
 		Object[] paramValues = { curUser.getId(), media.getUri()};
 		String naiveResult = WebService.getInstance().runFunction(
 				ServerParam.INTERESET_GP_URL, "getRecommandedUserForMovie", paramValues);
@@ -56,7 +56,7 @@ public class InterestGroup {
 			List<String> naiveArtistUnits = SetSerialization.deserialize1(naiveArtist);
 			UriInstance artist = RdfFactory.getInstance().createInstance(naiveArtistUnits.get(0), media.getMediaType(), naiveArtistUnits.get(2), naiveArtistUnits.get(1));
 			MediaArtistInterest newUserInterest = new MediaArtistInterest(rmdUserInfo, media, artist);
-			RecommandUser rmdUser = new RecommandUser(newUserInterest, ruleId);
+			RecommandFeedback rmdUser = new RecommandFeedback(newUserInterest, ruleId);
 			rmdUser.setTime(createTime);
 			rmdUserList.add(rmdUser);
 		}
