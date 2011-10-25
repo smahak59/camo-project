@@ -1,12 +1,12 @@
 package cn.edu.nju.ws.camo.android.interestgp;
 
-public class RecommandFeedback implements Comparable<RecommandFeedback> {
+public class RmdFeedbackForMusic {
 
-	private MediaArtistInterest userInterest;
+	private MediaInterest userInterest;
 	private int ruleId;
 	private long createTime=0;
 	
-	public RecommandFeedback(MediaArtistInterest interest, int rule) {
+	public RmdFeedbackForMusic(MediaInterest interest, int rule) {
 		this.userInterest = interest;
 		this.ruleId = rule;
 	}
@@ -20,7 +20,7 @@ public class RecommandFeedback implements Comparable<RecommandFeedback> {
 		this.createTime = createTime;
 	}
 
-	public MediaArtistInterest getUserInterest() {
+	public MediaInterest getUserInterest() {
 		return userInterest;
 	}
 
@@ -28,7 +28,7 @@ public class RecommandFeedback implements Comparable<RecommandFeedback> {
 		return ruleId;
 	}
 	
-	public int compareTo(RecommandFeedback another) {
+	public int compareTo(RmdFeedbackForMusic another) {
 		return Long.signum(this.createTime-another.createTime);
 	}
 }
