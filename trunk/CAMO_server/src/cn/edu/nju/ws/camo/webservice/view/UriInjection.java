@@ -219,9 +219,6 @@ public class UriInjection
 		}
 		threadExec.shutdown();
 		threadExec.awaitTermination(7, TimeUnit.DAYS);
-//		while (!threadExec.isTerminated()) {
-//			Thread.sleep(20);
-//		}
 		for(LabelAndTypeFinder finder : finderList) {
 			String[] value = instSet.get(finder.getUri());
 			value[0] = finder.getLabel();
@@ -229,11 +226,10 @@ public class UriInjection
 		}
 	}
 	
-	
 	public static void main(String[] args) throws Throwable 
 	{
 		Config.initParam(); 
-		UriInjection query = new UriInjection("http://dbpedia.org/resource/Aliki_Vougiouklaki");
+		UriInjection query = new UriInjection("http://dbpedia.org/resource/Terri_Clark");
 		System.out.println("\n==========Query Down=========\n");
 		List<String[]> triplesDown = query.queryDown();
 		for(String[] triple : triplesDown) {
