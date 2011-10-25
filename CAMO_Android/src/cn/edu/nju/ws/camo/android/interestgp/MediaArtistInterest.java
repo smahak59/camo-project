@@ -11,6 +11,11 @@ import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 import cn.edu.nju.ws.camo.android.util.SetSerialization;
 import cn.edu.nju.ws.camo.android.util.User;
 
+/**
+ * 该class适用于对特定movie下的某个actor的喜欢（顶一下）
+ * @author Warren
+ *
+ */
 public class MediaArtistInterest extends MediaInterest  {
 
 	protected UriInstance artistInst; 
@@ -20,10 +25,12 @@ public class MediaArtistInterest extends MediaInterest  {
 		this.artistInst = artistInst;
 	}
 	
+	@Override
 	public Command getCreateCmd() {
 		return new MediaArtistFavorCmd(user, mediaInst, artistInst);
 	}
 	
+	@Override
 	public Command getDeleteCmd() {
 		return new DelMediaArtistFavorCmd(user, mediaInst, artistInst);
 	}
@@ -50,6 +57,42 @@ public class MediaArtistInterest extends MediaInterest  {
 
 	public UriInstance getArtistInst() {
 		return artistInst;
+	}
+	
+	class DelMediaArtistFavorCmd implements Command {
+
+		private User user;
+		private UriInstance mediaInst;
+		private UriInstance artistInst; 
+		DelMediaArtistFavorCmd(User user, UriInstance mediaInst, UriInstance artistInst) {
+			this.user = user;
+			this.mediaInst = mediaInst;
+			this.artistInst = artistInst;
+		}
+		
+		public void execute() {
+			Object[] paramValues = {user.getId(),mediaInst.getUri(),artistInst.getUri()};
+			WebService.getInstance().runFunction(ServerParam.INTERESET_GP_URL,
+					"delInterest", paramValues);
+		}
+	}
+	
+	class MediaArtistFavorCmd implements Command {
+
+		private User user;
+		private UriInstance mediaInst;
+		private UriInstance artistInst; 
+		MediaArtistFavorCmd(User user, UriInstance mediaInst, UriInstance artistInst) {
+			this.user = user;
+			this.mediaInst = mediaInst;
+			this.artistInst = artistInst;
+		}
+		
+		public void execute() {
+			Object[] paramValues = {user.getId(),user.getName(),mediaInst.getUri(),mediaInst.getMediaType(),artistInst.getUri()};
+			WebService.getInstance().runFunction(ServerParam.INTERESET_GP_URL,
+					"delFriend", paramValues);
+		}
 	}
 	
 }

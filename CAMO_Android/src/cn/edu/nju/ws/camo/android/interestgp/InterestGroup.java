@@ -20,17 +20,18 @@ public class InterestGroup {
 		this.curUser = user;
 	}
 	
-	public Command setUserIgnore(User user) {
+	public Command getUserIgnoreCmd(User user) {
 		return new IgnoreRmdUserCmd(curUser, user);
 	}
 	
-	public Command setUserRecommanded(User user) {
+	public Command getUserRecommandedCmd(User user) {
 		return new RmdUserCmd(curUser, user);
 	}
 	
 	/**
-	 * @param media: 暂时仅支持movie
-	 * @return 推荐的用户以及其兴趣，按时间排序
+	 * 根据目前用户正在观看的movie推荐用户
+	 * @param curMovie: 
+	 * @return 推荐的用户以及其兴趣(movie+artist)，按时间排序
 	 */
 	public List<RmdFeedbackForMovie> getRecommandedMovieUser(UriInstance curMovie) {
 		List<RmdFeedbackForMovie> rmdUserList = new ArrayList<RmdFeedbackForMovie>();
@@ -65,6 +66,12 @@ public class InterestGroup {
 	}
 	
 	
+	
+	/**
+	 * 根据目前用户正在收听的音乐推荐用户
+	 * @param curMusic
+	 * @return 推荐的用户以及其兴趣(music)，按时间排序
+	 */
 	public List<RmdFeedbackForMusic> getRecommandedMusicUser(UriInstance curMusic) {
 		List<RmdFeedbackForMusic> rmdUserList = new ArrayList<RmdFeedbackForMusic>();
 		Object[] paramValues = { curUser.getId(), curMusic.getUri()};
@@ -95,5 +102,39 @@ public class InterestGroup {
 		}
 		Collections.sort(rmdUserList, Collections.reverseOrder());
 		return rmdUserList;
+	}
+	
+	class IgnoreRmdUserCmd implements Command {
+		
+		private User user1;
+		private User user2;
+
+		IgnoreRmdUserCmd(User user1, User user2) {
+			this.user1 = user1;
+			this.user2 = user2;
+		}
+		
+		public void execute() {
+			Object[] paramValues = {user1.getId(), user2.getId()};
+			WebService.getInstance().runFunction(ServerParam.INTERESET_GP_URL,
+					"setRecommandedUserIgnore", paramValues);
+		}
+	}
+	
+	class RmdUserCmd implements Command {
+
+		private User user1;
+		private User user2;
+
+		RmdUserCmd(User user1, User user2) {
+			this.user1 = user1;
+			this.user2 = user2;
+		}
+		
+		public void execute() {
+			Object[] paramValues = {user1.getId(), user2.getId()};
+			WebService.getInstance().runFunction(ServerParam.INTERESET_GP_URL,
+					"setRecommandedUserRmd", paramValues);
+		}
 	}
 }
