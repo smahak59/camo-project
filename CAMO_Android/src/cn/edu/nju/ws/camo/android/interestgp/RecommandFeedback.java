@@ -11,7 +11,6 @@ public class RecommandFeedback implements Comparable<RecommandFeedback> {
 		this.ruleId = rule;
 	}
 	
-
 	public long getTime() {
 		return createTime;
 	}
