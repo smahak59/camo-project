@@ -3,6 +3,7 @@ package cn.edu.nju.ws.camo.webservice.interestgp;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -183,11 +184,14 @@ public class InterestGpFactory {
 	 *  查找不在ignore列表里的，并且不是friends的user
 	 * @param uid
 	 * @param media
-	 * @return (uid,uname;artist,label,type;in_time)
+	 * @return (uid,uname;artist,label,type;in_time;rule)
 	 */
 	public String getRecommandedUserForMovie(int uid, String media) {
 		String result = "";		
 		List<String> resultList = new ArrayList<String>();
+		Thread rmdRule1Finder = new RmdCommomRoleLikedUserFinder(uid, media);
+		if(RuleJob.COMMOM_ROLE_RULE)
+			rmdRule1Finder.start();
 		Thread recommandedFinder = new RmdUserForMovieFinder(uid, media);
 		recommandedFinder.start();
 		Thread friendsFinder = new FriendsFinder(uid);
@@ -196,20 +200,31 @@ public class InterestGpFactory {
 		ignoresFinder.start();
 		try {
 			recommandedFinder.join();
-			//(id,name,artist,in_time)
+			//(id,name,artist,in_time,rule)
 			List<Object[]> userInfos = ((RmdUserForMovieFinder)recommandedFinder).getUserInfo();
+			if(RuleJob.COMMOM_ROLE_RULE)
+				rmdRule1Finder.join();
+			userInfos.addAll(((RmdCommomRoleLikedUserFinder)rmdRule1Finder).getUserInfo());
 			friendsFinder.join();
 			Set<Integer> friends = ((FriendsFinder)friendsFinder).getFriends();
 			ignoresFinder.join();
 			Set<Integer> ignores = ((IgnoreRmdFinder)ignoresFinder).getIgnores();
 			// (1)remove friends and ignores. 
 			Iterator<Object[]> itr = userInfos.iterator();
+			Set<Integer> hasAddedUserId = new HashSet<Integer>();
 			while(itr.hasNext()) {
 				Object[] userInfo = itr.next();
-				if(friends.contains((Integer)userInfo[0]))
+				if(isLegalRule((Integer)userInfo[4])==false) 
+					itr.remove();
+				else if(friends.contains((Integer)userInfo[0]))
 					itr.remove();
 				else if(ignores.contains((Integer)userInfo[0]))
 					itr.remove();
+				else if(hasAddedUserId.contains((Integer)userInfo[0])) {
+					itr.remove();
+				} else {
+					hasAddedUserId.add((Integer)userInfo[0]);
+				}
 			}
 			// (2)find labels and types of artists.
 			List<LabelAndTypeFinder> finderList = new ArrayList<LabelAndTypeFinder>();
@@ -240,6 +255,7 @@ public class InterestGpFactory {
 				rmdUserInfoList.add(rmdUserProfile);
 				rmdUserInfoList.add(rmdUserArtist);
 				rmdUserInfoList.add(((Long)userInfo[3]).toString());
+				rmdUserInfoList.add(((Integer)userInfo[3]).toString());
 				resultList.add(SetSerialization.serialize2(rmdUserInfoList));
 			}
 			result = SetSerialization.serialize3(resultList);
@@ -247,6 +263,63 @@ public class InterestGpFactory {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	private boolean isLegalRule(int ruleId) {
+		boolean legal = false;
+		switch (ruleId) {
+		case SpouseRuleJob.ruleId:
+			legal = true;
+			break;
+		case CooperatorRuleJob.ruleId:
+			legal = true;
+			break;
+		default:
+			legal = false;
+			break;
+		}
+		return legal;
+	}
+	
+	class RmdCommomRoleLikedUserFinder extends Thread {
+		
+		List<Object[]> userInfo = new ArrayList<Object[]>();
+		private int uid;
+		private String media;
+		
+		RmdCommomRoleLikedUserFinder(int uid, String media) {
+			this.uid = uid;
+			this.media = media;
+		}
+		
+		@Override
+		public void run() {
+			try {
+				Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.ISTGP_CONN);
+				String sqlStr = "select mf2.u_id,mf2.u_name,mf2.artist,mf2.in_time from media_favor as mf1 join(media_favor as mf2) on(mf1.media=mf2.media and mf1.artist=mf2.artist) where mf1.u_id=? and mf1.media=?";
+				PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
+				stmt.setInt(1, uid);
+				stmt.setString(2, media);
+				ResultSet rs = stmt.executeQuery();
+				while (rs.next()) {
+					Object[] value = {rs.getInt(1),rs.getString(2),rs.getString(3),rs.getTimestamp(4).getTime()};
+					userInfo.add(value);
+				}
+				rs.close();
+				stmt.close();
+				sourceConn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Throwable e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		public List<Object[]> getUserInfo() {
+			return this.userInfo;
+		}
 	}
 	
 	class RmdUserForMovieFinder extends Thread {
@@ -264,7 +337,7 @@ public class InterestGpFactory {
 		public void run() {
 			try {
 				Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.ISTGP_CONN);
-				String sqlStr = "select mf1.u_id,mf1.u_name,mf1.artist,mf1.in_time,mf2.u_id,mf2.u_name,mf2.artist,mf2.in_time from movie_artist_gp as gp join(media_favor as mf1,media_favor as mf2) on(gp.movie=mf1.media and gp.artist1=mf1.artist and gp.movie=mf2.media and gp.artist2=mf2.artist) where gp.movie=? and (mf1.u_id=? or mf2.u_id=?)";
+				String sqlStr = "select mf1.u_id,mf1.u_name,mf1.artist,mf1.in_time,mf2.u_id,mf2.u_name,mf2.artist,mf2.in_time,gp.rule from movie_artist_gp as gp join(media_favor as mf1,media_favor as mf2) on(gp.movie=mf1.media and gp.artist1=mf1.artist and gp.movie=mf2.media and gp.artist2=mf2.artist) where gp.movie=? and (mf1.u_id=? or mf2.u_id=?)";
 				PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
 				stmt.setString(1, media);
 				stmt.setInt(2, uid);
@@ -272,10 +345,10 @@ public class InterestGpFactory {
 				ResultSet rs = stmt.executeQuery();
 				while (rs.next()) {
 					if(rs.getInt(1)==uid) {
-						Object[] value = {rs.getInt(5),rs.getString(6),rs.getString(7),rs.getTimestamp(8).getTime()};
+						Object[] value = {rs.getInt(5),rs.getString(6),rs.getString(7),rs.getTimestamp(8).getTime(),rs.getInt(9)};
 						userInfo.add(value);
 					} else {
-						Object[] value = {rs.getInt(1),rs.getString(2),rs.getString(3),rs.getTimestamp(4).getTime()};
+						Object[] value = {rs.getInt(1),rs.getString(2),rs.getString(3),rs.getTimestamp(4).getTime(),rs.getInt(9)};
 						userInfo.add(value);
 					}
 				}
