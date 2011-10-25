@@ -11,15 +11,12 @@ import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 import cn.edu.nju.ws.camo.android.util.SetSerialization;
 import cn.edu.nju.ws.camo.android.util.User;
 
-public class MediaArtistInterest  {
+public class MediaArtistInterest extends MediaInterest  {
 
-	private User user;
-	private UriInstance mediaInst;
-	private UriInstance artistInst; 
+	protected UriInstance artistInst; 
 	
 	public MediaArtistInterest(User user, UriInstance mediaInst, UriInstance artistInst) {
-		this.user = user;
-		this.mediaInst = mediaInst;
+		super(user, mediaInst);
 		this.artistInst = artistInst;
 	}
 	
@@ -49,14 +46,6 @@ public class MediaArtistInterest  {
 			}
 		}
 		return artists;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public UriInstance getMediaInst() {
-		return mediaInst;
 	}
 
 	public UriInstance getArtistInst() {
