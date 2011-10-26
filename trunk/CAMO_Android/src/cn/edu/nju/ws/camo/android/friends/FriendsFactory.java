@@ -81,4 +81,72 @@ public class FriendsFactory {
 		}
 		return userList;
 	}
+	
+	class AddFriendCommand implements Command  {
+
+		private User user1;
+		private User user2;
+		
+		AddFriendCommand(User user1, User user2) {
+			this.user1 = user1;
+			this.user2 = user2;
+		}
+
+		public void execute() {
+			Object[] paramValues = {user1.getId(),user2.getId()};
+			WebService.getInstance().runFunction(ServerParam.USER_URL,
+					"addFriend", paramValues);
+		}
+	}
+	
+	class AddFriendReqCommand implements Command {
+
+		private User user1;
+		private User user2;
+		
+		AddFriendReqCommand(User user1, User user2) {
+			this.user1 = user1;
+			this.user2 = user2;
+		}
+		
+		public void execute() {
+			Object[] paramValues = {user1.getId(),user2.getId()};
+			WebService.getInstance().runFunction(ServerParam.USER_URL,
+					"addFriendRequest", paramValues);
+		}
+	}
+	
+	class DelFriendCommand implements Command  {
+
+		private User user1;
+		private User user2;
+		
+		DelFriendCommand(User user1, User user2) {
+			this.user1 = user1;
+			this.user2 = user2;
+		}
+		
+		public void execute() {
+			Object[] paramValues = {user1.getId(),user2.getId()};
+			WebService.getInstance().runFunction(ServerParam.USER_URL,
+					"addInterest", paramValues);
+		}
+	}
+	
+	class DelFriendReqCommand {
+
+		private User user1;
+		private User user2;
+		
+		DelFriendReqCommand(User user1, User user2) {
+			this.user1 = user1;
+			this.user2 = user2;
+		}
+		
+		public void execute() {
+			Object[] paramValues = {user1.getId(),user2.getId()};
+			WebService.getInstance().runFunction(ServerParam.USER_URL,
+					"delFriendRequest", paramValues);
+		}
+	}
 }
