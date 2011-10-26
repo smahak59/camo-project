@@ -58,7 +58,7 @@ public class UriInjection
 		if (corefs.size() == 0)
 			corefs.put(inst, connType);
 		
-		System.out.println(corefs + "\n");
+//		System.out.println(corefs + "\n");
 	}
 	
 	private void rmProp(Map<String, List<String[]>> instPropList, String inst, String prop) 
@@ -229,7 +229,7 @@ public class UriInjection
 	public static void main(String[] args) throws Throwable 
 	{
 		Config.initParam(); 
-		UriInjection query = new UriInjection("http://dbpedia.org/resource/Terri_Clark");
+		UriInjection query = new UriInjection("http://dbpedia.org/resource/While_Paris_Sleeps");
 		System.out.println("\n==========Query Down=========\n");
 		List<String[]> triplesDown = query.queryDown();
 		for(String[] triple : triplesDown) {
