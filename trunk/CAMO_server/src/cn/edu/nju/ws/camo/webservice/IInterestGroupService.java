@@ -11,6 +11,11 @@ public interface IInterestGroupService {
 	
 	public String getFavorArtist(int uid, String media);
 	
-	public String getRecommandedMovieUser(int uid, String media);
+	public String getRecommandedMovieUser(int uid, String movie);
 	
+	public String getRecommandedMusicUser(int uid, String music);
+	
+	public String setRecommandedUserIgnore(int uid1, int uid2);
+	
+	public String setRecommandedUserRmd(int uid1, int uid2);
 }

@@ -26,12 +26,12 @@ import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.sdb.sql.SDBConnection;
 import com.hp.hpl.jena.sdb.store.DatabaseType;
 
-public class CooperatorRuleJob extends MovieRuleJob {
+public class CooperatorMovieRuleJob extends MovieRuleJob {
 
 	public static final int ruleId = 2;
 	private static final int COMMOM_MOVIE_NUM = 4;
 	
-	public CooperatorRuleJob() {
+	public CooperatorMovieRuleJob() {
 		super(ruleId);
 	}
 	

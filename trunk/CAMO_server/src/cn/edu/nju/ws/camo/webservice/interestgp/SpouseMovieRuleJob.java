@@ -19,11 +19,11 @@ import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.sdb.sql.SDBConnection;
 import com.hp.hpl.jena.sdb.store.DatabaseType;
 
-public class SpouseRuleJob extends MovieRuleJob {
+public class SpouseMovieRuleJob extends MovieRuleJob {
 
 	public static final int ruleId = 1;
 	
-	public SpouseRuleJob() {
+	public SpouseMovieRuleJob() {
 		super(ruleId);
 	}
 	
@@ -122,7 +122,7 @@ public class SpouseRuleJob extends MovieRuleJob {
 	
 	public static void main(String[] args) throws Throwable {
 		Config.initParam();
-		SpouseRuleJob job = new SpouseRuleJob();
+		SpouseMovieRuleJob job = new SpouseMovieRuleJob();
 		job.run();
 	}
 }

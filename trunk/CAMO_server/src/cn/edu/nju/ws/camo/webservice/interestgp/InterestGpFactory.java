@@ -194,8 +194,8 @@ public class InterestGpFactory {
 		
 		try {
 			recommandedFinder.join();
-			// (uid,uname,movie,in_time,rule)
-			List<Object[]> userInfos = ((RmdUserForMovieFinder)recommandedFinder).getUserInfo();
+			// (uid,uname,music,in_time,rule)
+			List<Object[]> userInfos = ((RmdUserForMusicFinder)recommandedFinder).getUserInfo();
 			if(RuleJob.COMMOM_ROLE_RULE)
 				rmdRule1Finder.join();
 			userInfos.addAll(((RmdCommomMediaLikedUserFinder)rmdRule1Finder).getUserInfo());
@@ -214,9 +214,11 @@ public class InterestGpFactory {
 					itr.remove();
 				else if(ignores.contains((Integer)userInfo[0]))
 					itr.remove();
-				else if(hasAddedUserId.contains((Integer)userInfo[0])) {
+				else if(hasAddedUserId.contains((Integer)userInfo[0])) 
 					itr.remove();
-				} else {
+				else if((Integer)userInfo[0] == uid) 
+					itr.remove();
+				else {
 					hasAddedUserId.add((Integer)userInfo[0]);
 				}
 			}
@@ -249,7 +251,7 @@ public class InterestGpFactory {
 				rmdUserInfoList.add(rmdUserProfile);
 				rmdUserInfoList.add(rmdUserMusic);
 				rmdUserInfoList.add(((Long)userInfo[3]).toString());
-				rmdUserInfoList.add(((Integer)userInfo[3]).toString());
+				rmdUserInfoList.add(((Integer)userInfo[4]).toString());
 				resultList.add(SetSerialization.serialize2(rmdUserInfoList));
 			}
 			result = SetSerialization.serialize3(resultList);
@@ -300,11 +302,12 @@ public class InterestGpFactory {
 					itr.remove();
 				else if(ignores.contains((Integer)userInfo[0]))
 					itr.remove();
-				else if(hasAddedUserId.contains((Integer)userInfo[0])) {
+				else if(hasAddedUserId.contains((Integer)userInfo[0]))
 					itr.remove();
-				} else {
+				else if((Integer)userInfo[0] == uid) 
+					itr.remove();
+				else 
 					hasAddedUserId.add((Integer)userInfo[0]);
-				}
 			}
 			// (2)find labels and types of artists.
 			List<LabelAndTypeFinder> finderList = new ArrayList<LabelAndTypeFinder>();
@@ -335,7 +338,7 @@ public class InterestGpFactory {
 				rmdUserInfoList.add(rmdUserProfile);
 				rmdUserInfoList.add(rmdUserArtist);
 				rmdUserInfoList.add(((Long)userInfo[3]).toString());
-				rmdUserInfoList.add(((Integer)userInfo[3]).toString());
+				rmdUserInfoList.add(((Integer)userInfo[4]).toString());
 				resultList.add(SetSerialization.serialize2(rmdUserInfoList));
 			}
 			result = SetSerialization.serialize3(resultList);
@@ -348,10 +351,16 @@ public class InterestGpFactory {
 	private boolean isLegalRule(int ruleId) {
 		boolean legal = false;
 		switch (ruleId) {
-		case SpouseRuleJob.ruleId:
+		case RuleJob.COMMOM_INTEREST_RULE:
 			legal = true;
 			break;
-		case CooperatorRuleJob.ruleId:
+		case SpouseMovieRuleJob.ruleId:
+			legal = true;
+			break;
+		case CooperatorMovieRuleJob.ruleId:
+			legal = true;
+			break;
+		case SeriesMusicRuleJob.ruleId:
 			legal = true;
 			break;
 		default:
@@ -382,7 +391,7 @@ public class InterestGpFactory {
 				stmt.setString(2, media);
 				ResultSet rs = stmt.executeQuery();
 				while (rs.next()) {
-					Object[] value = {rs.getInt(1),rs.getString(2),rs.getString(3),rs.getTimestamp(4).getTime()};
+					Object[] value = {rs.getInt(1),rs.getString(2),media,rs.getTimestamp(3).getTime(),RuleJob.COMMOM_INTEREST_RULE};
 					userInfo.add(value);
 				}
 				rs.close();
@@ -423,7 +432,7 @@ public class InterestGpFactory {
 				stmt.setString(2, media);
 				ResultSet rs = stmt.executeQuery();
 				while (rs.next()) {
-					Object[] value = {rs.getInt(1),rs.getString(2),rs.getString(3),rs.getTimestamp(4).getTime()};
+					Object[] value = {rs.getInt(1),rs.getString(2),rs.getString(3),rs.getTimestamp(4).getTime(),RuleJob.COMMOM_INTEREST_RULE};
 					userInfo.add(value);
 				}
 				rs.close();
@@ -571,7 +580,7 @@ public class InterestGpFactory {
 		@Override
 		public void run() {
 			try {
-				Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.USER_CONN);
+				Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.ISTGP_CONN);
 				String sqlStr = "select u_to from ignore_rmd_request where u_from=?";
 				PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
 				stmt.setInt(1, uid);
