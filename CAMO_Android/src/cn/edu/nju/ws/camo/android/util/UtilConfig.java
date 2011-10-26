@@ -20,6 +20,25 @@ public class UtilConfig {
 		setPropToName();
 		setExcludedProps();
 		setMediaCls();
+		setUpPropTrans();
+	}
+	
+	private static void setUpPropTrans() {
+		try {
+			UtilParam.UP_PROP_TRANS_DOWN = new HashMap<String, String>();
+			InputStream in = UtilParam.ASSETS.open("upPropTrans.map");
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+			String line = "";
+			while((line = br.readLine()) != null) {
+				String[] tokens  = line.split("##");
+				if(tokens.length == 2) {
+					UtilParam.UP_PROP_TRANS_DOWN.put(tokens[0].trim(), tokens[1].trim());
+				}
+			}
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private static void setPropToName() {
