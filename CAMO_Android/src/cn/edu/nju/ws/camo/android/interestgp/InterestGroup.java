@@ -2,7 +2,9 @@ package cn.edu.nju.ws.camo.android.interestgp;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cn.edu.nju.ws.camo.android.connect.server.ServerParam;
 import cn.edu.nju.ws.camo.android.connect.server.WebService;
@@ -15,9 +17,14 @@ import cn.edu.nju.ws.camo.android.util.User;
 public class InterestGroup {
 
 	private User curUser = null;
+	private static Map<Integer, String> rulesToSuggest = null;
 	
 	public InterestGroup(User user) {
 		this.curUser = user;
+		if(rulesToSuggest == null) {
+			rulesToSuggest = new HashMap<Integer, String>();
+			initRuleToSuggest();
+		}
 	}
 	
 	public Command getUserIgnoreCmd(User user) {
@@ -102,6 +109,17 @@ public class InterestGroup {
 		}
 		Collections.sort(rmdUserList, Collections.reverseOrder());
 		return rmdUserList;
+	}
+	
+	private void initRuleToSuggest() {
+		rulesToSuggest.put(0, "share other interests");
+		rulesToSuggest.put(1, "choose a day to date");
+		rulesToSuggest.put(2, "play games of double players");
+		rulesToSuggest.put(11, "share CDs with each other");
+	}
+	
+	public static String getRuleSuggestion(int ruleId) {
+		return rulesToSuggest.get(ruleId);
 	}
 	
 	class IgnoreRmdUserCmd implements Command {
