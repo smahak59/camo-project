@@ -40,8 +40,8 @@ public class InterestGroup {
 	 * @param curMovie: 
 	 * @return 推荐的用户以及其兴趣(movie+artist)，按时间排序
 	 */
-	public List<RmdFeedbackForMovie> getRecommandedMovieUser(UriInstance curMovie) {
-		List<RmdFeedbackForMovie> rmdUserList = new ArrayList<RmdFeedbackForMovie>();
+	public List<RmdFeedback> getRecommandedMovieUser(UriInstance curMovie) {
+		List<RmdFeedback> rmdUserList = new ArrayList<RmdFeedback>();
 		Object[] paramValues = { curUser.getId(), curMovie.getUri()};
 		String naiveResult = WebService.getInstance().runFunction(
 				ServerParam.INTERESET_GP_URL, "getRecommandedUserForMovie", paramValues);
@@ -79,8 +79,8 @@ public class InterestGroup {
 	 * @param curMusic
 	 * @return 推荐的用户以及其兴趣(music)，按时间排序
 	 */
-	public List<RmdFeedbackForMusic> getRecommandedMusicUser(UriInstance curMusic) {
-		List<RmdFeedbackForMusic> rmdUserList = new ArrayList<RmdFeedbackForMusic>();
+	public List<RmdFeedback> getRecommandedMusicUser(UriInstance curMusic) {
+		List<RmdFeedback> rmdUserList = new ArrayList<RmdFeedback>();
 		Object[] paramValues = { curUser.getId(), curMusic.getUri()};
 		String naiveResult = WebService.getInstance().runFunction(
 				ServerParam.INTERESET_GP_URL, "getRecommandedUserForMusic", paramValues);
