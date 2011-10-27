@@ -35,7 +35,7 @@ public class CAMO_Application extends Application {
 		rmdFeedbackList.initRmdFeedbackList();
 	}
 	
-	public boolean rmdFeedbackListisLoaded() {
+	public boolean rmdFeedbackListIsLoaded() {
 		return rmdFeedbackList.isLoaded();
 	}
 	

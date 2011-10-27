@@ -53,7 +53,9 @@ public class MediaPlayer extends Activity {
         
     }
     
-    
+    public void showRecommandedButton() {
+    	button_recommandedUser.setVisibility(View.VISIBLE);
+    }
     
     
     private void initComponents() {
@@ -68,7 +70,7 @@ public class MediaPlayer extends Activity {
         button_recommandedUser.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (((CAMO_Application)getApplication()).rmdFeedbackListisLoaded()) {
+				if (((CAMO_Application)getApplication()).rmdFeedbackListIsLoaded()) {
 					Intent recommandedUserIntent = new Intent(MediaPlayer.this, RecommandedUserListViewer.class);
 					startActivity(recommandedUserIntent);
 				}								
