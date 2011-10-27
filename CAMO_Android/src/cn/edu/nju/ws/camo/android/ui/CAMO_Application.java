@@ -21,10 +21,20 @@ public class CAMO_Application extends Application {
 	
 	public void initCurrentUser() {
 		currentUser = new User(7);
+		currentUser.setName("cxjia");
 	}
 	
 	public int getSignedType(UriInstance uri) {
 		return preferList.getSignedType(uri);
+	}
+	
+	public void initRmdFeedbackList(int mediaType, UriInstance currentPlaying) {
+		rmdFeedbackList = new RmdFeedbackList(currentUser, mediaType, currentPlaying);
+		rmdFeedbackList.initRmdFeedbackList();
+	}
+	
+	public boolean rmdFeedbackListisLoaded() {
+		return rmdFeedbackList.isLoaded();
 	}
 	
 	public void initPreferList() {
