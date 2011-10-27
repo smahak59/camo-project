@@ -129,7 +129,7 @@ public class FriendsFactory {
 		public void execute() {
 			Object[] paramValues = {user1.getId(),user2.getId()};
 			WebService.getInstance().runFunction(ServerParam.USER_URL,
-					"addInterest", paramValues);
+					"delFriend", paramValues);
 		}
 	}
 	
