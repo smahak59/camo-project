@@ -29,8 +29,7 @@ public class RecommandedUserListViewer extends Activity{
     }
 
 	private void initRmdFeedbackList() {
-		// TODO Auto-generated method stub
-		
+		rmdFeedbackList = ((CAMO_Application)getApplication()).getRmdFeedbackList();		
 	}
 
 	private void initListView() {
