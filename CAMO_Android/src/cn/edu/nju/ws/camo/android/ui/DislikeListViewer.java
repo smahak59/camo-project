@@ -45,16 +45,22 @@ public class DislikeListViewer extends TabActivity implements OnItemClickListene
         setTitle("My Dislikes");
         initTabs();
         initUser();	        
-        initPrefLists();
-        initListViews();      
+   
         
     }
+    
+    protected void onStart() {
+    	super.onStart();
+        initPreferLists();
+        initListViews(); 
+    }
+	  
 	  
 	private void initUser() {
 		currentUser = ((CAMO_Application)getApplication()).getCurrentUser();		
 	}
 
-	private void initPrefLists() {
+	private void initPreferLists() {
 		artistPreferList = ((CAMO_Application)getApplication()).getDislikePreferList(PreferList.ARTIST);
 		musicPreferList = ((CAMO_Application)getApplication()).getDislikePreferList(PreferList.MUSIC);
 		moviePreferList = ((CAMO_Application)getApplication()).getDislikePreferList(PreferList.MOVIE);

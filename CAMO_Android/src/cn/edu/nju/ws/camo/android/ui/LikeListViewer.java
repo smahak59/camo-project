@@ -15,6 +15,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import cn.edu.nju.ws.camo.android.R;
 import cn.edu.nju.ws.camo.android.operate.PreferViewOperation;
@@ -45,9 +46,13 @@ public class LikeListViewer extends TabActivity implements OnItemClickListener, 
         super.onCreate(savedInstanceState);
         setTitle("My Likes");
         initTabs();
-        initUser();
-        initPreferList();
-        initListViews();              
+        initUser();                    
+    }
+    
+    protected void onStart() {
+    	super.onStart();
+    	initPreferList();
+    	initListViews();
     }
 	  
 
