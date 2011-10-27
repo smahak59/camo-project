@@ -28,6 +28,8 @@
         </activity>
         <activity android:name=".ui.UserInfoViewer">
         </activity>
+        <activity android:name=".ui.RecommandedUserListViewer">
+        </activity>
 
     </application>
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
