@@ -1,6 +1,6 @@
 package cn.edu.nju.ws.camo.android.interestgp;
 
-public class RmdFeedback implements Comparable<RmdFeedback> {
+public abstract class RmdFeedback implements Comparable<RmdFeedback> {
 
 	protected int ruleId;
 	protected long createTime=0;
@@ -25,4 +25,7 @@ public class RmdFeedback implements Comparable<RmdFeedback> {
 	public int compareTo(RmdFeedback another) {
 		return Long.signum(this.createTime-another.createTime);
 	}
+	
+	abstract public MediaInterest getUserInterest();		
+	
 }
