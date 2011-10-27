@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import cn.edu.nju.ws.camo.android.interestgp.InterestGroup;
 import cn.edu.nju.ws.camo.android.interestgp.RmdFeedback;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
+import cn.edu.nju.ws.camo.android.ui.MediaPlayer;
 
 public class RmdFeedbackList {
 	private List<RmdFeedback> rmdFeedbackList;
@@ -48,7 +49,11 @@ public class RmdFeedbackList {
 			}
 			
 			protected void onPostExecute(String result) {				 
-				loaded = true;
+				if(rmdFeedbackList != null) {
+					loaded = true;
+					
+				}
+				
 			}
 		}
 		new LoadRmdFeedbackListTask().execute("");		
