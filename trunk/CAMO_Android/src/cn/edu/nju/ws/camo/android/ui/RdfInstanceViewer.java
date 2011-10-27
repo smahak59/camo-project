@@ -4,6 +4,8 @@ package cn.edu.nju.ws.camo.android.ui;
  *
  */
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
@@ -34,6 +36,7 @@ import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 import cn.edu.nju.ws.camo.android.util.DislikePrefer;
 import cn.edu.nju.ws.camo.android.util.LikePrefer;
 import cn.edu.nju.ws.camo.android.util.PreferList;
+import cn.edu.nju.ws.camo.android.util.Preference;
 import cn.edu.nju.ws.camo.android.util.SerKeys;
 import cn.edu.nju.ws.camo.android.util.User;
 
@@ -264,19 +267,54 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 	
 	
 	private void deleteLikePrefer() {
-		CommandFactory.getInstance().createCancelPreferCmd(new LikePrefer(currentUser, currentUri)).execute();		
+		LikePrefer likePrefer = new LikePrefer(currentUser, currentUri);
+		int mediaType = PreferList.getMediaTypeInt(currentUri.getMediaType());
+		((CAMO_Application)getApplication()).getLikePreferList(mediaType).remove(likePrefer);
+		CommandFactory.getInstance().createCancelPreferCmd(likePrefer).execute();		
 	}
 	
 	private void deleteDislikePrefer() {
-		CommandFactory.getInstance().createCancelPreferCmd(new DislikePrefer(currentUser, currentUri)).execute();
+		DislikePrefer dislikePrefer = new DislikePrefer(currentUser, currentUri);
+		int mediaType = PreferList.getMediaTypeInt(currentUri.getMediaType());
+		((CAMO_Application)getApplication()).getDislikePreferList(mediaType).remove(dislikePrefer);
+		CommandFactory.getInstance().createCancelPreferCmd(dislikePrefer).execute();
 	}
 	private void likeCurrentInstance() {
-		CommandFactory.getInstance().createLikeCmd(new LikePrefer(currentUser, currentUri)).execute();		
+		LikePrefer likePrefer = new LikePrefer(currentUser, currentUri);
+		int mediaType = PreferList.getMediaTypeInt(currentUri.getMediaType());
+		List<DislikePrefer> dislikeList = ((CAMO_Application)getApplication()).getDislikePreferList(mediaType);
+		removeFromDislikePreferList(dislikeList, currentUri);
+		((CAMO_Application)getApplication()).getLikePreferList(mediaType).add(0,likePrefer);
+		CommandFactory.getInstance().createLikeCmd(likePrefer).execute();		
 	}
 
 	private void dislikeCurrentInstance() {
-		CommandFactory.getInstance().createDislikeCmd(new DislikePrefer(currentUser, currentUri)).execute();
-		
+		DislikePrefer dislikePrefer = new DislikePrefer(currentUser, currentUri);
+		int mediaType = PreferList.getMediaTypeInt(currentUri.getMediaType());
+		List<LikePrefer> likeList = ((CAMO_Application)getApplication()).getLikePreferList(mediaType);
+		removeFromLikePreferList(likeList, currentUri);
+		((CAMO_Application)getApplication()).getDislikePreferList(mediaType).add(0,dislikePrefer);
+		CommandFactory.getInstance().createDislikeCmd(dislikePrefer).execute();		
+	}
+	
+	private void removeFromLikePreferList(List<LikePrefer> preferList, UriInstance uri) {
+		Iterator<LikePrefer> iter = preferList.iterator();
+		while(iter.hasNext()) {
+			LikePrefer curLikePrefer = iter.next();
+			if(curLikePrefer.getInst().equals(uri)){
+				iter.remove();
+			}
+		}
+	}
+	
+	private void removeFromDislikePreferList(List<DislikePrefer> preferList, UriInstance uri) {
+		Iterator<DislikePrefer> iter = preferList.iterator();
+		while(iter.hasNext()) {
+			DislikePrefer curDisikePrefer = iter.next();
+			if(curDisikePrefer.getInst().equals(uri)){
+				iter.remove();
+			}
+		}
 	}
 
 	private class ListViewAdapter extends BaseAdapter {
