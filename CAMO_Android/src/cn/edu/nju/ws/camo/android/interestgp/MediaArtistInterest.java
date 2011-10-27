@@ -18,21 +18,21 @@ import cn.edu.nju.ws.camo.android.util.User;
  */
 public class MediaArtistInterest extends MediaInterest  {
 
-	protected UriInstance artistInst; 
+	protected UriInstance actorInst; 
 	
-	public MediaArtistInterest(User user, UriInstance mediaInst, UriInstance artistInst) {
+	public MediaArtistInterest(User user, UriInstance mediaInst, UriInstance actorInst) {
 		super(user, mediaInst);
-		this.artistInst = artistInst;
+		this.actorInst = actorInst;
 	}
 	
 	@Override
 	public Command getCreateCmd() {
-		return new MediaArtistFavorCmd(user, mediaInst, artistInst);
+		return new MediaArtistFavorCmd(user, mediaInst, actorInst);
 	}
 	
 	@Override
 	public Command getDeleteCmd() {
-		return new DelMediaArtistFavorCmd(user, mediaInst, artistInst);
+		return new DelMediaArtistFavorCmd(user, mediaInst, actorInst);
 	}
 	
 	public static List<UriInstance> viewFavoredArtist(User user, UriInstance mediaInst) {
@@ -56,7 +56,7 @@ public class MediaArtistInterest extends MediaInterest  {
 	}
 
 	public UriInstance getArtistInst() {
-		return artistInst;
+		return actorInst;
 	}
 	
 	class DelMediaArtistFavorCmd implements Command {
