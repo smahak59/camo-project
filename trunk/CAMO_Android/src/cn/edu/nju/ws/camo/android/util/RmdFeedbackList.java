@@ -5,21 +5,28 @@ import java.util.List;
 import android.os.AsyncTask;
 import cn.edu.nju.ws.camo.android.interestgp.InterestGroup;
 import cn.edu.nju.ws.camo.android.interestgp.RmdFeedback;
+import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 
 public class RmdFeedbackList {
 	private List<RmdFeedback> rmdFeedbackList;
 	private InterestGroup interestGroup;
 	private boolean loaded = false;
+	private User currentUser;
+	private UriInstance currentPlaying;
+	private int mediaType;
+	public final static int MUSIC = 0;
+	public final static int MOVIE = 1;
 	
-	public RmdFeedbackList() {
-		
+	public RmdFeedbackList(User currentUser, int type, UriInstance currentPlaying) {
+		this.currentUser = currentUser;
+		this.mediaType = type;
+		this.currentPlaying = currentPlaying;
+		interestGroup = new InterestGroup(this.currentUser);		
 	}
 	
 	public boolean isLoaded() {
 		return loaded;
 	}
-	
-	
 	
 	public List<RmdFeedback> getRmdFeedbackList() {
 		return rmdFeedbackList;
@@ -29,7 +36,14 @@ public class RmdFeedbackList {
 		class LoadRmdFeedbackListTask extends AsyncTask<String,Void,String> {
 			@Override
 			protected String doInBackground(String... params) {
-				
+				switch (mediaType) {
+				case MUSIC:
+					rmdFeedbackList = interestGroup.getRecommandedMusicUser(currentPlaying);
+					break;
+				case MOVIE:
+					rmdFeedbackList = interestGroup.getRecommandedMovieUser(currentPlaying);
+					break;					
+				}
 				return null;
 			}
 			
