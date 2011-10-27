@@ -44,6 +44,19 @@ public class PreferList {
 		currentUser = user;
 	}
 	
+	public static int getMediaTypeInt(String mediaType) {
+		if(mediaType.equals("artist"))
+			return ARTIST;
+		else if(mediaType.equals("music"))
+			return MUSIC;
+		else if(mediaType.equals("movie"))
+			return MOVIE;
+		else if(mediaType.equals("photo"))
+			return PHOTO;
+		else
+			return -1;
+	}
+	
 	public User getCurrentUser() {
 		return currentUser;
 	}
