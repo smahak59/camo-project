@@ -7,11 +7,13 @@ import java.util.Iterator;
 import org.xmlpull.v1.XmlPullParserException;
 
 import cn.edu.nju.ws.camo.android.R;
+import cn.edu.nju.ws.camo.android.interestgp.MediaArtistInterest;
 import cn.edu.nju.ws.camo.android.operate.InstViewOperation;
 import cn.edu.nju.ws.camo.android.rdf.Triple;
 import cn.edu.nju.ws.camo.android.rdf.UriInstWithNeigh;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 import cn.edu.nju.ws.camo.android.rdf.RdfFactory;
+import cn.edu.nju.ws.camo.android.util.User;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -32,6 +34,7 @@ public class MediaPlayer extends Activity {
 	private ListView listView_ActorList;
 	private ArrayList<UriInstance> actorList;
 	private UriInstance currentPlaying;
+	private User currentUser;
 	
 	
     /** Called when the activity is first created. */
@@ -124,11 +127,13 @@ public class MediaPlayer extends Activity {
 				public void onClick(View v) {
 					if(likeActorButtonsOn[position]) {
 						likeActorButtonsOn[position] = false;
-						likeActorButtons[position].setImageDrawable(getResources().getDrawable(R.drawable.like_off));
+						likeActorButtons[position].setImageDrawable(getResources().getDrawable(R.drawable.fav_off));
+						//MediaArtistInterest mediaArtistInterest= new MediaArtistInterest(currentUser, currentPlaying, actorList.get(position));
+						//mediaArtistInterest.getCreateCmd().execute();
 					}
 					else {
 						likeActorButtonsOn[position] = true;
-						likeActorButtons[position].setImageDrawable(getResources().getDrawable(R.drawable.like_on));
+						likeActorButtons[position].setImageDrawable(getResources().getDrawable(R.drawable.fav_on));
 					}
 				}
 				

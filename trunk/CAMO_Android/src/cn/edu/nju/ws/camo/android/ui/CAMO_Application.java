@@ -4,17 +4,20 @@ import java.util.List;
 
 import android.app.Application;
 import cn.edu.nju.ws.camo.android.friends.Friends;
+import cn.edu.nju.ws.camo.android.interestgp.RmdFeedback;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 import cn.edu.nju.ws.camo.android.util.DislikePrefer;
 import cn.edu.nju.ws.camo.android.util.FriendList;
 import cn.edu.nju.ws.camo.android.util.LikePrefer;
 import cn.edu.nju.ws.camo.android.util.PreferList;
+import cn.edu.nju.ws.camo.android.util.RmdFeedbackList;
 import cn.edu.nju.ws.camo.android.util.User;
 
 public class CAMO_Application extends Application {
 	private User currentUser;
 	private PreferList preferList;
 	private FriendList friendList;
+	private RmdFeedbackList rmdFeedbackList;
 	
 	public void initCurrentUser() {
 		currentUser = new User(7);
@@ -36,6 +39,10 @@ public class CAMO_Application extends Application {
 	
 	public List<Friends> getFriendList() {
 		return friendList.getFriendList();
+	}
+	
+	public List<RmdFeedback> getRmdFeedbackList() {
+		return rmdFeedbackList.getRmdFeedbackList();
 	}
 	
 	public User getCurrentUser() {
