@@ -1,10 +1,12 @@
 package cn.edu.nju.ws.camo.android.ui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Application;
 import cn.edu.nju.ws.camo.android.friends.Friends;
 import cn.edu.nju.ws.camo.android.interestgp.RmdFeedback;
+import cn.edu.nju.ws.camo.android.rdf.Triple;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 import cn.edu.nju.ws.camo.android.util.DislikePrefer;
 import cn.edu.nju.ws.camo.android.util.FriendList;
@@ -18,6 +20,22 @@ public class CAMO_Application extends Application {
 	private PreferList preferList;
 	private FriendList friendList;
 	private RmdFeedbackList rmdFeedbackList;
+	private ArrayList<Triple> triplesDown;
+	private ArrayList<Triple> triplesUp;
+	
+	public void setTriplesDown(ArrayList<Triple> triplesDown) {
+		this.triplesDown = triplesDown;
+	}
+	public void setTriplesUp(ArrayList<Triple> triplesUp) {
+		this.triplesUp = triplesUp;
+	}
+	public ArrayList<Triple> getTriplesDown() {
+		return triplesDown;
+	}
+	
+	public ArrayList<Triple> getTriplesUp() {
+		return triplesUp;
+	}
 	
 	public void initCurrentUser() {
 		currentUser = new User(7);
