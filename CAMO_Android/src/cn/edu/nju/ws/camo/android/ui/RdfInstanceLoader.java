@@ -49,7 +49,8 @@ public class RdfInstanceLoader {
 				return null;
 			}
 			
-			protected void onPostExecute(String result) {				
+			protected void onPostExecute(String result) {
+				Log.v("****************", "in Loader");
 				if(triplesDown.size() == 0 || triplesUp.size() == 0 ) {
 					Toast.makeText(context, "Sorry, content not found.", Toast.LENGTH_SHORT).show();
 					progressDialog.dismiss();
@@ -59,8 +60,10 @@ public class RdfInstanceLoader {
 					Intent newUriIntent = new Intent(context,RdfInstanceViewer.class);
 					Bundle newUriBundle = new Bundle();
 					newUriBundle.putSerializable(SerKeys.SER_URI, currentUri);
-					newUriBundle.putSerializable(SerKeys.SER_TRIPLES_DOWN, triplesDown);
-					newUriBundle.putSerializable(SerKeys.SER_TRIPLES_UP, triplesUp);
+					((CAMO_Application)(context.getApplicationContext())).setTriplesDown(triplesDown);
+					((CAMO_Application)(context.getApplicationContext())).setTriplesUp(triplesUp);
+					//newUriBundle.putSerializable(SerKeys.SER_TRIPLES_DOWN, triplesDown);
+					//newUriBundle.putSerializable(SerKeys.SER_TRIPLES_UP, triplesUp);
 					newUriIntent.putExtras(newUriBundle);
 					context.startActivity(newUriIntent);
 					progressDialog.dismiss();

@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -55,14 +56,15 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 	private ArrayList<Triple> triplesUp;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);		
 		setContentView(R.layout.rdf_instance_viewer);
 		setTitle("RDF Instance Viwer");
 		Intent intent = getIntent();
 		currentUri = (UriInstance) intent.getSerializableExtra(SerKeys.SER_URI);
-		triplesDown = (ArrayList<Triple>) intent.getSerializableExtra(SerKeys.SER_TRIPLES_DOWN);
-		triplesUp = (ArrayList<Triple>) intent.getSerializableExtra(SerKeys.SER_TRIPLES_UP);
+		triplesDown = ((CAMO_Application)getApplication()).getTriplesDown();		
+		triplesUp = ((CAMO_Application)getApplication()).getTriplesUp();		
 		currentUser = ((CAMO_Application)getApplication()).getCurrentUser();
+		Log.v("****************", "onCreate " + currentUri.getName());
 		setTitle("View " + currentUri.getMediaType());
 		
 		//new LoadTask().execute("");
@@ -71,6 +73,27 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 		initButtons();		
 		initTabs();
 		
+	}
+	
+	protected void onRestart() {
+		super.onRestart();
+		Log.v("****************", "onRestart " + currentUri.getName());
+	}
+	protected void onResume() {
+		super.onResume();
+		Log.v("****************", "onResume " + currentUri.getName());
+	}
+	protected void onStop() {
+		super.onStop();
+		Log.v("****************", "onStop " + currentUri.getName());
+	}
+	protected void onStart() {
+		super.onStart();
+		Log.v("****************", "onStart " + currentUri.getName());
+	}
+	protected void onPause() {
+		super.onPause();
+		Log.v("****************", "onPause " + currentUri.getName());
 	}
 	/*
 	class LoadTask extends AsyncTask<String,Void,String> {
