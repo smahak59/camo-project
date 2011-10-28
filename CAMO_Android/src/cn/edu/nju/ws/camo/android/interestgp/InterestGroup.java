@@ -44,7 +44,7 @@ public class InterestGroup {
 		List<RmdFeedback> rmdUserList = new ArrayList<RmdFeedback>();
 		Object[] paramValues = { curUser.getId(), curMovie.getUri()};
 		String naiveResult = WebService.getInstance().runFunction(
-				ServerParam.INTERESET_GP_URL, "getRecommandedUserForMovie", paramValues);
+				ServerParam.INTERESET_GP_URL, "getRecommandedMovieUser", paramValues);
 		if (naiveResult.equals(""))
 			return rmdUserList;
 		if (naiveResult.equals(ServerParam.NETWORK_ERROR1))
@@ -83,7 +83,7 @@ public class InterestGroup {
 		List<RmdFeedback> rmdUserList = new ArrayList<RmdFeedback>();
 		Object[] paramValues = { curUser.getId(), curMusic.getUri()};
 		String naiveResult = WebService.getInstance().runFunction(
-				ServerParam.INTERESET_GP_URL, "getRecommandedUserForMusic", paramValues);
+				ServerParam.INTERESET_GP_URL, "getRecommandedMusicUser", paramValues);
 		if (naiveResult.equals(""))
 			return rmdUserList;
 		if (naiveResult.equals(ServerParam.NETWORK_ERROR1))
