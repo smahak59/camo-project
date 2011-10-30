@@ -7,7 +7,7 @@
   	android:layout_width="match_parent"
   	android:layout_height="wrap_content"
   	android:text="object"
-  	android:textSize="20dip"
+  	android:textSize="30dip"
   	android:layout_centerVertical="true"
   	android:layout_marginLeft="10dip">
   </TextView>
