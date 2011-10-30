@@ -16,12 +16,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import cn.edu.nju.ws.camo.android.R;
 import cn.edu.nju.ws.camo.android.interestgp.MediaArtistInterest;
 import cn.edu.nju.ws.camo.android.operate.InstViewOperation;
@@ -41,6 +44,7 @@ public class MediaPlayer extends Activity {
 	private UriInstance currentPlaying;
 	private User currentUser;
 	private Button button_recommandedUser;
+	private ImageButton imageButton_detailInfo;
 	
 	
     /** Called when the activity is first created. */
@@ -61,12 +65,22 @@ public class MediaPlayer extends Activity {
     private void initComponents() {
 		currentUser = ((CAMO_Application)getApplication()).getCurrentUser();    	
         actorList = new ArrayList<UriInstance>();
-        currentPlaying = RdfFactory.getInstance().createInstance("http://data.linkedmdb.org/resource/film/55601", "movie");
-        currentPlaying.setName("Three Idiots");
+        currentPlaying = RdfFactory.getInstance().createInstance("http://dbpedia.org/resource/Daughters_Who_Pay", "movie");
+        currentPlaying.setName("Daughters Who Pay");
         currentPlaying.setClassType("movie");
         textView_mediaPlayerTitle = (TextView) findViewById(R.id.textView_mediaPlayerTitle);
         textView_mediaPlayerTitle.setText(currentPlaying.getName());
         button_recommandedUser = (Button) findViewById(R.id.button_recommandedUser);
+        imageButton_detailInfo = (ImageButton) findViewById(R.id.imageButton_detailInfo);
+        imageButton_detailInfo.setOnClickListener(new OnClickListener() {			
+			@Override
+			public void onClick(View v) {				
+				new RdfInstanceLoader(MediaPlayer.this, currentPlaying).loadRdfInstance();
+			}
+		});
+
+
+
         button_recommandedUser.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -125,6 +139,14 @@ public class MediaPlayer extends Activity {
     	listView_ActorList = (ListView) findViewById(R.id.listView_actorList);
     	ActorListViewAdapter adapter = new ActorListViewAdapter();
     	listView_ActorList.setAdapter(adapter);
+    	listView_ActorList.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				Toast.makeText(MediaPlayer.this, "clicked: " + arg2, Toast.LENGTH_SHORT).show();
+				new RdfInstanceLoader(MediaPlayer.this, actorList.get(arg2)).loadRdfInstance();
+			}
+		});
     }
     
     private class ActorListViewAdapter extends BaseAdapter {
