@@ -2,17 +2,23 @@ package cn.edu.nju.ws.camo.android.ui;
 
 import java.util.List;
 
-import cn.edu.nju.ws.camo.android.R;
-import cn.edu.nju.ws.camo.android.interestgp.RmdFeedback;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import cn.edu.nju.ws.camo.android.R;
+import cn.edu.nju.ws.camo.android.interestgp.InterestGroup;
+import cn.edu.nju.ws.camo.android.interestgp.RmdFeedback;
+import cn.edu.nju.ws.camo.android.util.SerKeys;
+import cn.edu.nju.ws.camo.android.util.User;
 
 public class RecommandedUserListViewer extends Activity{
 	
@@ -36,6 +42,20 @@ public class RecommandedUserListViewer extends Activity{
 		listView_rmdUser = (ListView)findViewById(R.id.listView_rmdUser);
 		ListViewAdapter adapter = new ListViewAdapter();
 		listView_rmdUser.setAdapter(adapter);
+		listView_rmdUser.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				User selectedUser = rmdFeedbackList.get(arg2).getUserInterest().getUser();
+				Intent viewUserIntent = new Intent(RecommandedUserListViewer.this, UserInfoViewer.class);
+				Bundle viewUserBundle = new Bundle();
+				viewUserBundle.putSerializable(SerKeys.SER_USER, selectedUser);
+				viewUserIntent.putExtras(viewUserBundle);
+				startActivity(viewUserIntent);				
+			}
+			
+		});
 	}
 	
 	private class ListViewAdapter extends BaseAdapter {
@@ -56,7 +76,7 @@ public class RecommandedUserListViewer extends Activity{
 			TextView textView_rmdUserName = (TextView) itemView.findViewById(R.id.textView_rmdUserName);
 			TextView textView_rmdRule = (TextView) itemView.findViewById(R.id.textView_rmdRule);
 			textView_rmdUserName.setText(rmdFeedback.getUserInterest().getUser().getName());
-			textView_rmdRule.setText(rmdFeedback.getRuleId());
+			textView_rmdRule.setText(InterestGroup.getRuleSuggestion(rmdFeedback.getRuleId()));
 			return itemView;
 		} 
 

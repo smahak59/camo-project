@@ -73,16 +73,16 @@ public class LikeListViewer extends TabActivity implements OnItemClickListener, 
 	        LayoutInflater.from(this).inflate(R.layout.like_list_viewer, tabHost.getTabContentView(), true); 
 	 
 	        tabHost.addTab(tabHost.newTabSpec("Artist") 
-	                .setIndicator("Artist") 
+	                .setIndicator("Artist", getResources().getDrawable(R.drawable.tab_artist)) 
 	                .setContent(R.id.listView_likeViewer_Artist)); 
 	        tabHost.addTab(tabHost.newTabSpec("Music") 
-	                .setIndicator("Music") 
+	                .setIndicator("Music", getResources().getDrawable(R.drawable.tab_music)) 
 	                .setContent(R.id.listView_likeViewer_Music)); 
 	        tabHost.addTab(tabHost.newTabSpec("Movie") 
-	                .setIndicator("Movie") 
+	                .setIndicator("Movie", getResources().getDrawable(R.drawable.tab_movie)) 
 	                .setContent(R.id.listView_likeViewer_Movie)); 
 	        tabHost.addTab(tabHost.newTabSpec("Photo") 
-	                .setIndicator("Photo") 
+	                .setIndicator("Photo", getResources().getDrawable(R.drawable.tab_photo)) 
 	                .setContent(R.id.listView_likeViewer_Photo));
 		
 	}
