@@ -18,12 +18,12 @@
 		</LinearLayout>
 	</LinearLayout>
 	<RelativeLayout android:id="@+id/relativeLayout1" android:layout_width="match_parent" android:layout_height="match_parent">
-		<LinearLayout android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/linearLayout_loading" android:weightSum="1" android:gravity="center" android:layout_alignTop="@+id/listView_actorList">
+		<LinearLayout android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/linearLayout_loading" android:weightSum="1" android:gravity="center" android:layout_centerInParent="true">
 	        <ProgressBar android:id="@+id/progressBar2" android:layout_width="wrap_content" android:layout_height="wrap_content"></ProgressBar>
 	        <TextView android:layout_marginLeft="15dip" android:id="@+id/textView_loadingText" android:text="Loading..." android:layout_height="match_parent" android:layout_width="wrap_content" android:textSize="30dip" android:gravity="center_vertical"></TextView>
    		</LinearLayout>
    		
-   		<RelativeLayout android:id="@+id/relativeLayout_movie" android:layout_width="match_parent" android:layout_height="match_parent">
+   		<RelativeLayout android:id="@+id/relativeLayout_movie" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_above="@+id/button_recommandedUser">
 		<ListView android:id="@+id/listView_actorList" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_below="@+id/textView_actorListTitle" android:layout_above="@+id/button_recommandedUser"></ListView>
 		 <TextView android:layout_height="wrap_content" 
         android:id="@+id/textView_actorListTitle" 
@@ -36,7 +36,7 @@
         </RelativeLayout>
         
         <RelativeLayout android:id="@+id/relativeLayout_music" android:layout_width="match_parent" android:layout_height="wrap_content">
-            <ImageButton  android:background="@android:color/transparent" android:layout_width="wrap_content" android:id="@+id/imageButton_likeMusic" android:layout_height="wrap_content" android:src="@drawable/fav_off" android:layout_alignParentTop="true" android:layout_alignParentRight="true"></ImageButton>
+            <ImageButton  android:background="@android:color/transparent" android:layout_width="wrap_content" android:id="@+id/imageButton_favMusic" android:layout_height="wrap_content" android:src="@drawable/fav_off" android:layout_alignParentTop="true" android:layout_alignParentRight="true"></ImageButton>
             <TextView android:layout_width="wrap_content" android:text="I like this song!" android:textSize="20dip" android:id="@+id/textView_likeMusicTitle" android:layout_height="wrap_content" android:layout_alignParentTop="true" android:layout_alignParentLeft="true" android:layout_marginLeft="23dp"></TextView>        
         </RelativeLayout>
         
