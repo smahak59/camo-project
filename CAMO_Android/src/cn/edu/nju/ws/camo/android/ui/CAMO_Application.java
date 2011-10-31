@@ -48,6 +48,10 @@ public class CAMO_Application extends Application {
 		return playList;
 	}
 	
+	public boolean rmdFeedbackNotEmpty() {
+		return rmdFeedbackList.notEmpty();
+	}
+	
 	public void initCurrentUser() {
 		currentUser = new User(7);
 		currentUser.setName("cxjia");
