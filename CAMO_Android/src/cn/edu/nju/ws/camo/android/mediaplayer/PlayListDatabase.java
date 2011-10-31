@@ -12,15 +12,14 @@ public class PlayListDatabase {
 	
 	private Context context = null;
 	
-	public PlayListDatabase(Context context)
-	{
+	public PlayListDatabase(Context context){
 		this.context = context;
 	}
 
 	public void create_table(){
-		DatabaseHelper dbHelper = new DatabaseHelper(context,"CAMO_db");//"name" is the name of table to be created!
+		DatabaseHelper dbHelper = new DatabaseHelper(context,"CAMO_db");//"name" is the name of the table to be created!
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
-		if(isNeedCreateNewTable())db.execSQL("CREATE TABLE movieList(id INT PRIMAARY KEY,uri VARCHAR(50),classType VARCHAR(20),name VARCHAR(30),mediaType VARCHAR(20)");
+		if(isNeedCreateNewTable())db.execSQL("CREATE TABLE movieList(id INT PRIMAARY KEY,uri VARCHAR(50),classType VARCHAR(20),name VARCHAR(30),mediaType VARCHAR(20) )");
 	}
 	
 	private boolean isNeedCreateNewTable()
