@@ -53,7 +53,7 @@ public class CAMO_Application extends Application {
 	}
 	
 	public void initCurrentUser() {
-		currentUser = new User(7);
+		currentUser = new User(8);
 		currentUser.setName("cxjia");
 		currentUser.setEmail("ymr674@gmail.com");
 		currentUser.setSex("b");
