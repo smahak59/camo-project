@@ -72,9 +72,9 @@ public class LikeListViewer extends TabActivity implements OnItemClickListener, 
          
 	        LayoutInflater.from(this).inflate(R.layout.like_list_viewer, tabHost.getTabContentView(), true); 
 	 
-	        tabHost.addTab(tabHost.newTabSpec("Artist") 
-	                .setIndicator("Artist", getResources().getDrawable(R.drawable.tab_artist)) 
-	                .setContent(R.id.listView_likeViewer_Artist)); 
+	        //tabHost.addTab(tabHost.newTabSpec("Artist") 
+	                //.setIndicator("Artist", getResources().getDrawable(R.drawable.tab_artist)) 
+	                //.setContent(R.id.listView_likeViewer_Artist)); 
 	        tabHost.addTab(tabHost.newTabSpec("Music") 
 	                .setIndicator("Music", getResources().getDrawable(R.drawable.tab_music)) 
 	                .setContent(R.id.listView_likeViewer_Music)); 
@@ -190,10 +190,10 @@ public class LikeListViewer extends TabActivity implements OnItemClickListener, 
 		int currentTab = getTabHost().getCurrentTab();
 		UriInstance targetUri;
 		switch (currentTab) {
-		case 0:targetUri = artistPreferList.get(arg2).getInst();break;
-		case 1:targetUri = musicPreferList.get(arg2).getInst();break;
-		case 2:targetUri = moviePreferList.get(arg2).getInst();break;
-		case 3:targetUri = photoPreferList.get(arg2).getInst();break;
+		//case 0:targetUri = artistPreferList.get(arg2).getInst();break;
+		case 0:targetUri = musicPreferList.get(arg2).getInst();break;
+		case 1:targetUri = moviePreferList.get(arg2).getInst();break;
+		case 2:targetUri = photoPreferList.get(arg2).getInst();break;
 		default: targetUri = null;
 		}
 		new RdfInstanceLoader(LikeListViewer.this, targetUri).loadRdfInstance();		
@@ -206,10 +206,10 @@ public class LikeListViewer extends TabActivity implements OnItemClickListener, 
 		int currentTab = getTabHost().getCurrentTab();
 		UriInstance targetUri;
 		switch (currentTab) {
-		case 0:targetUri = artistPreferList.get(arg2).getInst();break;
-		case 1:targetUri = musicPreferList.get(arg2).getInst();break;
-		case 2:targetUri = moviePreferList.get(arg2).getInst();break;
-		case 3:targetUri = photoPreferList.get(arg2).getInst();break;
+		//case 0:targetUri = artistPreferList.get(arg2).getInst();break;
+		case 0:targetUri = musicPreferList.get(arg2).getInst();break;
+		case 1:targetUri = moviePreferList.get(arg2).getInst();break;
+		case 2:targetUri = photoPreferList.get(arg2).getInst();break;
 		default: targetUri = null;
 		}
 		new RdfInstanceLoader(LikeListViewer.this, targetUri).loadRdfInstance();

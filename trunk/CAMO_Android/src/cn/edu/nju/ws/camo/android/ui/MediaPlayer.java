@@ -21,12 +21,15 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import cn.edu.nju.ws.camo.android.R;
 import cn.edu.nju.ws.camo.android.interestgp.MediaArtistInterest;
+import cn.edu.nju.ws.camo.android.mediaplayer.PlayList;
 import cn.edu.nju.ws.camo.android.operate.InstViewOperation;
 import cn.edu.nju.ws.camo.android.rdf.RdfFactory;
 import cn.edu.nju.ws.camo.android.rdf.Triple;
@@ -36,7 +39,8 @@ import cn.edu.nju.ws.camo.android.util.RmdFeedbackList;
 import cn.edu.nju.ws.camo.android.util.User;
 
 
-public class MediaPlayer extends Activity {
+public class MediaPlayer extends Activity implements OnClickListener {
+	private PlayList playList;
 	private TextView textView_mediaPlayerTitle;
 	private ListView listView_ActorList;
 	private ArrayList<UriInstance> actorList;
@@ -45,51 +49,77 @@ public class MediaPlayer extends Activity {
 	private User currentUser;
 	private Button button_recommandedUser;
 	private ImageButton imageButton_detailInfo;
+	private ImageButton imageButton_prev;
+	private ImageButton imageButton_next;
+	private ImageView imageView_current;
+	private RelativeLayout relativeLayout_music;
+	private RelativeLayout relativeLayout_movie;
+	
 	
 	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.media_player);
+        setContentView(R.layout.media_player); 
+        initPlayList();
         initComponents();
-        loadActorList();
+        initCurrentPlaying();
         
     }
     
-    public void showRecommandedButton() {
-    	button_recommandedUser.setVisibility(View.VISIBLE);
+    private void initCurrentPlaying() {
+    	currentPlaying = playList.getCurrentPlaying();
+		String mediaType = currentPlaying.getMediaType();
+		textView_mediaPlayerTitle.setText(currentPlaying.getName());
+		if(mediaType.equals("music")) {
+			imageView_current.setImageDrawable(getResources().getDrawable(R.drawable.music));
+			relativeLayout_music.setVisibility(View.VISIBLE);
+			relativeLayout_movie.setVisibility(View.GONE);
+		}
+		else if(mediaType.equals("movie")) {
+			imageView_current.setImageDrawable(getResources().getDrawable(R.drawable.movie));
+			loadActorList();
+			relativeLayout_music.setVisibility(View.GONE);
+			relativeLayout_movie.setVisibility(View.VISIBLE);
+		}
+		
+	}
+
+	private void initPlayList() {
+        playList = ((CAMO_Application)getApplication()).getPlayList();
     }
     
+
     
     private void initComponents() {
 		currentUser = ((CAMO_Application)getApplication()).getCurrentUser();    	
         actorList = new ArrayList<UriInstance>();
-        currentPlaying = RdfFactory.getInstance().createInstance("http://dbpedia.org/resource/Daughters_Who_Pay", "movie");
-        currentPlaying.setName("Daughters Who Pay");
-        currentPlaying.setClassType("movie");
-        textView_mediaPlayerTitle = (TextView) findViewById(R.id.textView_mediaPlayerTitle);
-        textView_mediaPlayerTitle.setText(currentPlaying.getName());
+        textView_mediaPlayerTitle = (TextView) findViewById(R.id.textView_mediaPlayerTitle);        
         button_recommandedUser = (Button) findViewById(R.id.button_recommandedUser);
         imageButton_detailInfo = (ImageButton) findViewById(R.id.imageButton_detailInfo);
-        imageButton_detailInfo.setOnClickListener(new OnClickListener() {			
-			@Override
-			public void onClick(View v) {				
-				new RdfInstanceLoader(MediaPlayer.this, currentPlaying).loadRdfInstance();
-			}
-		});
+        imageButton_prev = (ImageButton) findViewById(R.id.imageButton_prev);
+        imageButton_next = (ImageButton) findViewById(R.id.imageButton_next);
+        imageView_current = (ImageView) findViewById(R.id.imageView_current);
+        relativeLayout_music = (RelativeLayout) findViewById(R.id.relativeLayout_music);
+        relativeLayout_movie = (RelativeLayout) findViewById(R.id.relativeLayout_movie);
+        
+        imageButton_detailInfo.setOnClickListener(this);
+        imageButton_prev.setOnClickListener(this);
+        imageButton_next.setOnClickListener(this);
+        button_recommandedUser.setOnClickListener(this);        
+        
+        UriInstance currentPlayingUri1 = RdfFactory.getInstance().createInstance("http://dbpedia.org/resource/Daughters_Who_Pay", "movie");
+        currentPlayingUri1.setName("Daughters Who Pay");
+        currentPlayingUri1.setClassType("movie");
+        UriInstance currentPlayingUri2 = RdfFactory.getInstance().createInstance("http://dbpedia.org/resource/Azzurro%23Die_Toten_Hosen_cover", "music");
+        currentPlayingUri2.setName("Die Toten Hosen cover");
+        currentPlayingUri2.setClassType("music");
 
-
-
-        button_recommandedUser.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (((CAMO_Application)getApplication()).rmdFeedbackListIsLoaded()) {
-					Intent recommandedUserIntent = new Intent(MediaPlayer.this, RecommandedUserListViewer.class);
-					startActivity(recommandedUserIntent);
-				}								
-			}        	
-        });
+        
+        playList.add(currentPlayingUri1);
+        playList.add(currentPlayingUri2); 
+        
 	}
 
 
@@ -223,4 +253,28 @@ public class MediaPlayer extends Activity {
 		}
     	
     }
+
+	@Override
+	public void onClick(View v) {
+		switch(v.getId()) {
+		case R.id.imageButton_detailInfo:
+			new RdfInstanceLoader(MediaPlayer.this, currentPlaying).loadRdfInstance();
+			break;
+		case R.id.imageButton_next:
+			playList.next();
+			initCurrentPlaying();
+			break;
+		case R.id.imageButton_prev:
+			playList.next();
+			initCurrentPlaying();
+			break;
+		case R.id.button_recommandedUser:
+			if (((CAMO_Application)getApplication()).rmdFeedbackListIsLoaded()) {
+				Intent recommandedUserIntent = new Intent(MediaPlayer.this, RecommandedUserListViewer.class);
+				startActivity(recommandedUserIntent);
+			}	
+			break;
+		}
+		
+	}
 }
