@@ -1,5 +1,6 @@
 package cn.edu.nju.ws.camo.android.mediaplayer;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -8,8 +9,10 @@ import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 
 public class PlayList {
 	
-	private List<UriInstance> list=null;
+	private List<UriInstance> list = null;
+	private int currentPlaying = 0;
 	public PlayList(Context context){
+		list = new ArrayList<UriInstance>();
 		PlayListDatabase db = new PlayListDatabase(context);
 		db.create_table();
 		int length = db.length();
@@ -18,31 +21,30 @@ public class PlayList {
 		}
 	}
 	
+	public UriInstance getCurrentPlaying() {
+		return list.get(currentPlaying);
+	}
+	
+	public void prev() {
+		currentPlaying--;
+		currentPlaying %= list.size();
+	}
+	
+	public void next() {
+		currentPlaying++;
+		currentPlaying %= list.size();		
+	}
+	
 	public int length(){
 		return list.size();
 	}
-	
-	//将列表中第location个元素移除
-	public void delete(int location){
-		Iterator<UriInstance> it = list.iterator();
-		for(int i=0;i<location;i++){
-			it.next();
-			it.remove();
-		}
-	}
-	
-	//在列表中加入某个instance
-	public void add(UriInstance inst ){
+		
+	public void add(UriInstance inst){
 		list.add(inst);
 	}
 
 	public UriInstance getInstance(int k){
-		Iterator<UriInstance> it = list.iterator();
-		UriInstance ins = null;
-		for(int i = 0; i < k; i++){
-			ins = it.next();
-		}
-		return ins;
+		return list.get(k);
 	}
 	
 	public void exit(Context context){
@@ -52,8 +54,8 @@ public class PlayList {
 			db.delete(i);
 		}
 		Iterator<UriInstance> it = list.iterator();
-		for(int i=0;i<list.size();i++){
-			UriInstance ins=it.next();
+		for(int i = 0; i < list.size(); i++){
+			UriInstance ins = it.next();
 			db.insert(i, ins.getUri(),ins.getClassType(),ins.getName(),ins.getMediaType());
 		}
 		
