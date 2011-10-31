@@ -29,11 +29,27 @@ public class RmdFeedbackList {
 		return loaded;
 	}
 	
+	public boolean notEmpty() {
+		if(rmdFeedbackList.size() != 0)
+			return true;
+		else
+			return false;
+	}
+	
 	public List<RmdFeedback> getRmdFeedbackList() {
 		return rmdFeedbackList;
 	}
 	
 	public void initRmdFeedbackList() {
+		switch (mediaType) {
+		case MUSIC:
+			rmdFeedbackList = interestGroup.getRecommandedMusicUser(currentPlaying);
+			break;
+		case MOVIE:
+			rmdFeedbackList = interestGroup.getRecommandedMovieUser(currentPlaying);
+			break;					
+		}
+		/*
 		class LoadRmdFeedbackListTask extends AsyncTask<String,Void,String> {
 			@Override
 			protected String doInBackground(String... params) {
@@ -57,5 +73,6 @@ public class RmdFeedbackList {
 			}
 		}
 		new LoadRmdFeedbackListTask().execute("");		
+		*/
 	}
 }
