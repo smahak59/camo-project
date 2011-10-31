@@ -149,12 +149,16 @@ public class MediaPlayer extends Activity implements OnClickListener {
 					Iterator<Triple> iter = triplesDown.iterator();
 					while(iter.hasNext()) {
 						Triple curTriple = iter.next();
-						if(curTriple.getPredicate().getName().equals("Actor") ||
-							curTriple.getPredicate().getName().equals("Starring")) {
+						if(//curTriple.getPredicate().getName().equals("Actor") ||
+							curTriple.getPredicate().getName().equals("Starring") &&
+							!curTriple.getObject().getName().equals("")) {
 							actorList.add((UriInstance) curTriple.getObject());
 						}
 					}
 					favoredActorList = MediaArtistInterest.viewFavoredArtist(currentUser, currentPlaying);
+					if(!favoredActorList.isEmpty()) {
+						getRecommandedUser();
+					}
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -232,9 +236,9 @@ public class MediaPlayer extends Activity implements OnClickListener {
 						likeActorButtonsOn[position] = true;
 						likeActorButtons[position].setImageDrawable(getResources().getDrawable(R.drawable.fav_on));
 						MediaArtistInterest mediaArtistInterest = new MediaArtistInterest(currentUser, currentPlaying, actorList.get(position));
-						mediaArtistInterest.getCreateCmd().execute();
-						getRecommandedUser();						
+						mediaArtistInterest.getCreateCmd().execute();												
 					}
+					getRecommandedUser();
 				}
 				
 			});
@@ -267,7 +271,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch(v.getId()) {
-		case R.id.imageButton_detailInfo:
+		case R.id.imageButton_detailInfo:			
 			new RdfInstanceLoader(MediaPlayer.this, currentPlaying).loadRdfInstance();
 			break;
 		case R.id.imageButton_next:
@@ -293,6 +297,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		MediaInterest mediaInterest = new MediaInterest(currentUser, currentPlaying);
 		mediaInterest.getCreateCmd().execute();
 		imageButton_favMusic.setImageDrawable(getResources().getDrawable(R.drawable.fav_on));
+		getRecommandedUser();
 	}
 	
 	private void getRecommandedUser() {
@@ -310,6 +315,9 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			protected void onPostExecute(String result) {
 				if(((CAMO_Application)getApplication()).rmdFeedbackNotEmpty())
 					button_recommandedUser.setVisibility(View.VISIBLE);
+				else {
+					button_recommandedUser.setVisibility(View.GONE);
+				}
 			}
 		}		
 		new getRecommandedUserTask().execute(currentPlaying.getMediaType());
