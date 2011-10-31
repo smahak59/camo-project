@@ -8,21 +8,22 @@
 	    <TextView android:gravity="center" android:text="Playing:" android:layout_height="wrap_content" android:id="@+id/textView_mediaPlayerTitle" android:textSize="20dip" android:textColor="#FFFFFF" android:layout_centerVertical="true" android:layout_alignParentLeft="true" android:layout_width="match_parent"></TextView>
 	    <ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/imageButton_detailInfo" android:src="@+drawable/info" android:background="@android:color/transparent" android:layout_centerVertical="true" android:layout_alignParentRight="true" android:layout_marginRight="5dp"></ImageButton>
 	</RelativeLayout>
-	<ImageView android:src="@drawable/movie" android:id="@+id/imageView1" android:layout_height="wrap_content" android:layout_width="match_parent"></ImageView>
+	<ImageView android:id="@+id/imageView_current" android:layout_height="wrap_content" android:layout_width="match_parent"></ImageView>
 	<LinearLayout android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/linearLayout1" android:orientation="vertical">
 		<SeekBar android:layout_height="wrap_content" android:id="@+id/seekBar1" android:layout_width="match_parent"></SeekBar>
 		<LinearLayout android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/linearLayout2" android:layout_gravity="center">
-			<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/imageButton2" android:src="@android:drawable/ic_media_previous"></ImageButton>
-			<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/imageButton3" android:src="@android:drawable/ic_media_play"></ImageButton>
-			<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/imageButton4" android:src="@android:drawable/ic_media_next"></ImageButton>
+			<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/imageButton_prev" android:src="@android:drawable/ic_media_previous"></ImageButton>
+			<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/imageButton_play" android:src="@android:drawable/ic_media_play"></ImageButton>
+			<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/imageButton_next" android:src="@android:drawable/ic_media_next"></ImageButton>
 		</LinearLayout>
 	</LinearLayout>
 	<RelativeLayout android:id="@+id/relativeLayout1" android:layout_width="match_parent" android:layout_height="match_parent">
-		<LinearLayout android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/linearLayout_loading" android:weightSum="1" android:gravity="center" android:visibility="gone" android:layout_alignTop="@+id/listView_actorList">
+		<LinearLayout android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/linearLayout_loading" android:weightSum="1" android:gravity="center" android:layout_alignTop="@+id/listView_actorList">
 	        <ProgressBar android:id="@+id/progressBar2" android:layout_width="wrap_content" android:layout_height="wrap_content"></ProgressBar>
 	        <TextView android:layout_marginLeft="15dip" android:id="@+id/textView_loadingText" android:text="Loading..." android:layout_height="match_parent" android:layout_width="wrap_content" android:textSize="30dip" android:gravity="center_vertical"></TextView>
    		</LinearLayout>
-		<Button android:text="People you may like to know" android:id="@+id/button_recommandedUser" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true" ></Button>
+   		
+   		<RelativeLayout android:id="@+id/relativeLayout_movie" android:layout_width="match_parent" android:layout_height="match_parent">
 		<ListView android:id="@+id/listView_actorList" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_below="@+id/textView_actorListTitle" android:layout_above="@+id/button_recommandedUser"></ListView>
 		 <TextView android:layout_height="wrap_content" 
         android:id="@+id/textView_actorListTitle" 
@@ -32,6 +33,14 @@
         android:textSize="20dip"
         >
         </TextView>
+        </RelativeLayout>
+        
+        <RelativeLayout android:id="@+id/relativeLayout_music" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <ImageButton  android:background="@android:color/transparent" android:layout_width="wrap_content" android:id="@+id/imageButton_likeMusic" android:layout_height="wrap_content" android:src="@drawable/fav_off" android:layout_alignParentTop="true" android:layout_alignParentRight="true"></ImageButton>
+            <TextView android:layout_width="wrap_content" android:text="I like this song!" android:textSize="20dip" android:id="@+id/textView_likeMusicTitle" android:layout_height="wrap_content" android:layout_alignParentTop="true" android:layout_alignParentLeft="true" android:layout_marginLeft="23dp"></TextView>        
+        </RelativeLayout>
+        
+		<Button android:text="People you may like to know" android:id="@+id/button_recommandedUser" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true" ></Button>
 	</RelativeLayout>
     
 </LinearLayout>
