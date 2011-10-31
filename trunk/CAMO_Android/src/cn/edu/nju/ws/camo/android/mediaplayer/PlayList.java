@@ -8,12 +8,12 @@ import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 
 public class PlayList {
 	
-	private List<UriInstance>  list=null;
+	private List<UriInstance> list=null;
 	public PlayList(Context context){
 		PlayListDatabase db = new PlayListDatabase(context);
 		db.create_table();
-		int length=db.length();
-		for(int i=0;i<length;i++){
+		int length = db.length();
+		for(int i = 0; i < length; i++){
 			list.add(db.queryFromID(i));
 		}
 	}
@@ -24,7 +24,7 @@ public class PlayList {
 	
 	//将列表中第location个元素移除
 	public void delete(int location){
-		Iterator<UriInstance> it=list.iterator();
+		Iterator<UriInstance> it = list.iterator();
 		for(int i=0;i<location;i++){
 			it.next();
 			it.remove();
@@ -37,18 +37,18 @@ public class PlayList {
 	}
 
 	public UriInstance getInstance(int k){
-		Iterator<UriInstance> it=list.iterator();
+		Iterator<UriInstance> it = list.iterator();
 		UriInstance ins = null;
-		for(int i=0;i<k;i++){
-			ins=it.next();
+		for(int i = 0; i < k; i++){
+			ins = it.next();
 		}
 		return ins;
 	}
 	
 	public void exit(Context context){
 		PlayListDatabase db = new PlayListDatabase(context);
-		int length=db.length();
-		for(int i=0;i<length;i++){
+		int length = db.length();
+		for(int i = 0; i < length; i++){
 			db.delete(i);
 		}
 		Iterator<UriInstance> it = list.iterator();
