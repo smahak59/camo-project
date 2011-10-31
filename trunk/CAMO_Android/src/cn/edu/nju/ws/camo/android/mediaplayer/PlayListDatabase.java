@@ -8,11 +8,11 @@ import cn.edu.nju.ws.camo.android.connect.local.DatabaseHelper;
 import cn.edu.nju.ws.camo.android.rdf.RdfFactory;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 
-public class MovieListDatabase {
+public class PlayListDatabase {
 	
 	private Context context = null;
 	
-	public MovieListDatabase(Context context)
+	public PlayListDatabase(Context context)
 	{
 		this.context = context;
 	}

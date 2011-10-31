@@ -6,11 +6,11 @@ import java.util.List;
 import android.content.Context;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 
-public class MovieList {
+public class PlayList {
 	
 	private List<UriInstance>  list=null;
-	public MovieList(Context context){
-		MovieListDatabase db = new MovieListDatabase(context);
+	public PlayList(Context context){
+		PlayListDatabase db = new PlayListDatabase(context);
 		db.create_table();
 		int length=db.length();
 		for(int i=0;i<length;i++){
@@ -46,7 +46,7 @@ public class MovieList {
 	}
 	
 	public void exit(Context context){
-		MovieListDatabase db = new MovieListDatabase(context);
+		PlayListDatabase db = new PlayListDatabase(context);
 		int length=db.length();
 		for(int i=0;i<length;i++){
 			db.delete(i);
