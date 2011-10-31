@@ -71,9 +71,9 @@ public class DislikeListViewer extends TabActivity implements OnItemClickListene
          
 	        LayoutInflater.from(this).inflate(R.layout.dislike_list_viewer, tabHost.getTabContentView(), true); 
 	 
-	        tabHost.addTab(tabHost.newTabSpec("Artist") 
-	                .setIndicator("Artist", getResources().getDrawable(R.drawable.tab_artist)) 
-	                .setContent(R.id.listView_dislikeViewer_Artist)); 
+	        //tabHost.addTab(tabHost.newTabSpec("Artist") 
+	                //.setIndicator("Artist", getResources().getDrawable(R.drawable.tab_artist)) 
+	                //.setContent(R.id.listView_dislikeViewer_Artist)); 
 	        tabHost.addTab(tabHost.newTabSpec("Music") 
 	                .setIndicator("Music", getResources().getDrawable(R.drawable.tab_music)) 
 	                .setContent(R.id.listView_dislikeViewer_Music)); 
@@ -188,10 +188,10 @@ public class DislikeListViewer extends TabActivity implements OnItemClickListene
 		int currentTab = getTabHost().getCurrentTab();
 		UriInstance targetUri;
 		switch (currentTab) {
-		case 0:targetUri = artistPreferList.get(arg2).getInst();break;
-		case 1:targetUri = musicPreferList.get(arg2).getInst();break;
-		case 2:targetUri = moviePreferList.get(arg2).getInst();break;
-		case 3:targetUri = photoPreferList.get(arg2).getInst();break;
+		//case 0:targetUri = artistPreferList.get(arg2).getInst();break;
+		case 0:targetUri = musicPreferList.get(arg2).getInst();break;
+		case 1:targetUri = moviePreferList.get(arg2).getInst();break;
+		case 2:targetUri = photoPreferList.get(arg2).getInst();break;
 		default: targetUri = null;
 		}
 		new RdfInstanceLoader(DislikeListViewer.this, targetUri).loadRdfInstance();		

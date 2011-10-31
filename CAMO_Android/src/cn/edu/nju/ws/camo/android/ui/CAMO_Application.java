@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Application;
+import android.content.Context;
 import cn.edu.nju.ws.camo.android.friends.Friends;
 import cn.edu.nju.ws.camo.android.interestgp.RmdFeedback;
+import cn.edu.nju.ws.camo.android.mediaplayer.PlayList;
 import cn.edu.nju.ws.camo.android.rdf.Triple;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 import cn.edu.nju.ws.camo.android.util.DislikePrefer;
@@ -19,6 +21,7 @@ public class CAMO_Application extends Application {
 	private User currentUser;
 	private PreferList preferList;
 	private FriendList friendList;
+	private PlayList playList;
 	private RmdFeedbackList rmdFeedbackList;
 	private ArrayList<Triple> triplesDown;
 	private ArrayList<Triple> triplesUp;
@@ -35,6 +38,14 @@ public class CAMO_Application extends Application {
 	
 	public ArrayList<Triple> getTriplesUp() {
 		return triplesUp;
+	}
+	
+	public void InitPlayList(Context context) {
+		playList = new PlayList(context);
+	}
+	
+	public PlayList getPlayList() {
+		return playList;
 	}
 	
 	public void initCurrentUser() {
