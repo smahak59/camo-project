@@ -29,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import cn.edu.nju.ws.camo.android.R;
 import cn.edu.nju.ws.camo.android.interestgp.MediaArtistInterest;
+import cn.edu.nju.ws.camo.android.interestgp.MediaInterest;
 import cn.edu.nju.ws.camo.android.mediaplayer.PlayList;
 import cn.edu.nju.ws.camo.android.operate.InstViewOperation;
 import cn.edu.nju.ws.camo.android.rdf.RdfFactory;
@@ -42,7 +43,7 @@ import cn.edu.nju.ws.camo.android.util.User;
 public class MediaPlayer extends Activity implements OnClickListener {
 	private PlayList playList;
 	private TextView textView_mediaPlayerTitle;
-	private ListView listView_ActorList;
+	private ListView listView_actorList;
 	private ArrayList<UriInstance> actorList;
 	private List<UriInstance> favoredActorList;
 	private UriInstance currentPlaying;
@@ -54,6 +55,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 	private ImageView imageView_current;
 	private RelativeLayout relativeLayout_music;
 	private RelativeLayout relativeLayout_movie;
+	private ImageButton imageButton_favMusic;
 	
 	
 	
@@ -69,18 +71,21 @@ public class MediaPlayer extends Activity implements OnClickListener {
     }
     
     private void initCurrentPlaying() {
+		relativeLayout_movie.setVisibility(View.GONE);
+		relativeLayout_music.setVisibility(View.GONE);
+		button_recommandedUser.setVisibility(View.GONE);
     	currentPlaying = playList.getCurrentPlaying();
 		String mediaType = currentPlaying.getMediaType();
 		textView_mediaPlayerTitle.setText(currentPlaying.getName());
+		actorList.clear();
+
 		if(mediaType.equals("music")) {
 			imageView_current.setImageDrawable(getResources().getDrawable(R.drawable.music));
 			relativeLayout_music.setVisibility(View.VISIBLE);
-			relativeLayout_movie.setVisibility(View.GONE);
 		}
 		else if(mediaType.equals("movie")) {
 			imageView_current.setImageDrawable(getResources().getDrawable(R.drawable.movie));
 			loadActorList();
-			relativeLayout_music.setVisibility(View.GONE);
 			relativeLayout_movie.setVisibility(View.VISIBLE);
 		}
 		
@@ -103,22 +108,26 @@ public class MediaPlayer extends Activity implements OnClickListener {
         imageView_current = (ImageView) findViewById(R.id.imageView_current);
         relativeLayout_music = (RelativeLayout) findViewById(R.id.relativeLayout_music);
         relativeLayout_movie = (RelativeLayout) findViewById(R.id.relativeLayout_movie);
+        imageButton_favMusic = (ImageButton) findViewById(R.id.imageButton_favMusic);
         
         imageButton_detailInfo.setOnClickListener(this);
         imageButton_prev.setOnClickListener(this);
         imageButton_next.setOnClickListener(this);
-        button_recommandedUser.setOnClickListener(this);        
+        button_recommandedUser.setOnClickListener(this);
+        imageButton_favMusic.setOnClickListener(this);
         
         UriInstance currentPlayingUri1 = RdfFactory.getInstance().createInstance("http://dbpedia.org/resource/Daughters_Who_Pay", "movie");
         currentPlayingUri1.setName("Daughters Who Pay");
-        currentPlayingUri1.setClassType("movie");
         UriInstance currentPlayingUri2 = RdfFactory.getInstance().createInstance("http://dbpedia.org/resource/Azzurro%23Die_Toten_Hosen_cover", "music");
         currentPlayingUri2.setName("Die Toten Hosen cover");
-        currentPlayingUri2.setClassType("music");
+        UriInstance currentPlayingUri3 = RdfFactory.getInstance().createInstance("http://dbpedia.org/resource/The_Woodsman", "movie");
+        currentPlayingUri3.setName("The Woodsman");
+
 
         
         playList.add(currentPlayingUri1);
         playList.add(currentPlayingUri2); 
+        playList.add(currentPlayingUri3); 
         
 	}
 
@@ -127,7 +136,8 @@ public class MediaPlayer extends Activity implements OnClickListener {
 
 	private void loadActorList() {
     	
-    	LinearLayout linearLayout_loading=(LinearLayout)findViewById(R.id.linearLayout_loading);
+    	LinearLayout linearLayout_loading = (LinearLayout)findViewById(R.id.linearLayout_loading);
+    	relativeLayout_movie.setVisibility(View.GONE);
 		linearLayout_loading.setVisibility(View.VISIBLE);
 		
     	class LoadActorListTask extends AsyncTask <String,Void,String>{
@@ -158,6 +168,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			protected void onPostExecute(String result) {
 				LinearLayout linearLayout_loading = (LinearLayout)findViewById(R.id.linearLayout_loading);
 				linearLayout_loading.setVisibility(View.GONE);
+				relativeLayout_movie.setVisibility(View.VISIBLE);
 				initActorListView();
 			} 		
     	}
@@ -166,10 +177,10 @@ public class MediaPlayer extends Activity implements OnClickListener {
     }
     
     private void initActorListView() {
-    	listView_ActorList = (ListView) findViewById(R.id.listView_actorList);
+    	listView_actorList = (ListView) findViewById(R.id.listView_actorList);
     	ActorListViewAdapter adapter = new ActorListViewAdapter();
-    	listView_ActorList.setAdapter(adapter);
-    	listView_ActorList.setOnItemClickListener(new OnItemClickListener() {
+    	listView_actorList.setAdapter(adapter);
+    	listView_actorList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
@@ -222,8 +233,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 						likeActorButtons[position].setImageDrawable(getResources().getDrawable(R.drawable.fav_on));
 						MediaArtistInterest mediaArtistInterest = new MediaArtistInterest(currentUser, currentPlaying, actorList.get(position));
 						mediaArtistInterest.getCreateCmd().execute();
-						((CAMO_Application)getApplication()).initRmdFeedbackList(RmdFeedbackList.MOVIE, currentPlaying);
-						
+						getRecommandedUser();						
 					}
 				}
 				
@@ -265,16 +275,43 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			initCurrentPlaying();
 			break;
 		case R.id.imageButton_prev:
-			playList.next();
+			playList.prev();
 			initCurrentPlaying();
 			break;
-		case R.id.button_recommandedUser:
-			if (((CAMO_Application)getApplication()).rmdFeedbackListIsLoaded()) {
-				Intent recommandedUserIntent = new Intent(MediaPlayer.this, RecommandedUserListViewer.class);
-				startActivity(recommandedUserIntent);
-			}	
+		case R.id.button_recommandedUser:			
+			Intent recommandedUserIntent = new Intent(MediaPlayer.this, RecommandedUserListViewer.class);
+			startActivity(recommandedUserIntent);			
+			break;
+		case R.id.imageButton_favMusic:
+			toggleFavMusicButton();
 			break;
 		}
 		
+	}
+
+	private void toggleFavMusicButton() {
+		MediaInterest mediaInterest = new MediaInterest(currentUser, currentPlaying);
+		mediaInterest.getCreateCmd().execute();
+		imageButton_favMusic.setImageDrawable(getResources().getDrawable(R.drawable.fav_on));
+	}
+	
+	private void getRecommandedUser() {
+		class getRecommandedUserTask extends AsyncTask <String, Void, String>{
+
+			@Override
+			protected String doInBackground(String... params) {
+				if(params[0].equals("music"))
+					((CAMO_Application)getApplication()).initRmdFeedbackList(RmdFeedbackList.MUSIC, currentPlaying);
+				else if(params[0].equals("movie")) {
+					((CAMO_Application)getApplication()).initRmdFeedbackList(RmdFeedbackList.MOVIE, currentPlaying);
+				}
+				return null;
+			}
+			protected void onPostExecute(String result) {
+				if(((CAMO_Application)getApplication()).rmdFeedbackNotEmpty())
+					button_recommandedUser.setVisibility(View.VISIBLE);
+			}
+		}		
+		new getRecommandedUserTask().execute(currentPlaying.getMediaType());
 	}
 }
