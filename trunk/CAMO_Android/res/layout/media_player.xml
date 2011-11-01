@@ -5,6 +5,7 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent" android:weightSum="1">
 	<RelativeLayout android:layout_height="wrap_content" android:id="@+id/relativeLayout3" android:layout_width="match_parent" android:layout_gravity="center" android:gravity="center" android:background="@drawable/title_bar">
+	    <ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/imageButton_playList" android:src="@+drawable/playlist" android:background="@android:color/transparent" android:layout_centerVertical="true" android:layout_alignParentLeft="true" android:layout_marginRight="5dp"></ImageButton>
 	    <TextView android:gravity="center" android:text="Playing:" android:layout_height="wrap_content" android:id="@+id/textView_mediaPlayerTitle" android:textSize="20dip" android:textColor="#FFFFFF" android:layout_centerVertical="true" android:layout_alignParentLeft="true" android:layout_width="match_parent"></TextView>
 	    <ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/imageButton_detailInfo" android:src="@+drawable/info" android:background="@android:color/transparent" android:layout_centerVertical="true" android:layout_alignParentRight="true" android:layout_marginRight="5dp"></ImageButton>
 	</RelativeLayout>
