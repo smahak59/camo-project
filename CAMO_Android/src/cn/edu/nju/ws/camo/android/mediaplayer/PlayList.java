@@ -25,6 +25,10 @@ public class PlayList {
 		return list.get(currentPlaying);
 	}
 	
+	public void playByIndex(int index) {
+		currentPlaying = index;
+	}
+	
 	public void prev() {
 		currentPlaying--;
 		currentPlaying %= list.size();
@@ -33,6 +37,10 @@ public class PlayList {
 	public void next() {
 		currentPlaying++;
 		currentPlaying %= list.size();		
+	}
+	
+	public void clear() {
+		list.clear();
 	}
 	
 	public int length(){
