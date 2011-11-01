@@ -62,6 +62,10 @@ public class InterestGroup {
 			User rmdUserInfo = new User(Integer.valueOf(naiveUserProfileUnits.get(0)));
 			rmdUserInfo.setName(naiveUserProfileUnits.get(1));
 			List<String> naiveArtistUnits = SetSerialization.deserialize1(naiveArtist);
+			if(naiveArtistUnits.size()==1) {
+				naiveArtistUnits.add("NO NAME");
+				naiveArtistUnits.add("");
+			}
 			UriInstance artist = RdfFactory.getInstance().createInstance(naiveArtistUnits.get(0), curMovie.getMediaType(), naiveArtistUnits.get(2), naiveArtistUnits.get(1));
 			MediaArtistInterest newUserInterest = new MediaArtistInterest(rmdUserInfo, curMovie, artist);
 			RmdFeedbackForMovie rmdUser = new RmdFeedbackForMovie(newUserInterest, ruleId);
@@ -101,6 +105,10 @@ public class InterestGroup {
 			User rmdUserInfo = new User(Integer.valueOf(naiveUserProfileUnits.get(0)));
 			rmdUserInfo.setName(naiveUserProfileUnits.get(1));
 			List<String> naiveMusicUnits = SetSerialization.deserialize1(naiveMusic);
+			if(naiveMusicUnits.size()==1) {
+				naiveMusicUnits.add("NO NAME");
+				naiveMusicUnits.add("");
+			}
 			UriInstance music = RdfFactory.getInstance().createInstance(naiveMusicUnits.get(0), curMusic.getMediaType(), naiveMusicUnits.get(2), naiveMusicUnits.get(1));
 			MediaInterest newUserInterest = new MediaInterest(rmdUserInfo, music);
 			RmdFeedbackForMusic rmdUser = new RmdFeedbackForMusic(newUserInterest, ruleId);
