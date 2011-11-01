@@ -115,6 +115,8 @@ public class RdfInstanceLoader {
 				Iterator<Triple> iter = triplesUp.iterator();
 				while(iter.hasNext()) {
 					Triple curTriple = iter.next();
+					if(curTriple.getPredicate().getName().equals(""))
+						continue;
 					if(triplesUpMap.get(curTriple.getSubject()) != null) {
 						String predicateString = triplesUpMap.get(curTriple.getSubject()).getPredicate().getName();
 						predicateString += ", " + curTriple.getPredicate().getName();
@@ -135,6 +137,8 @@ public class RdfInstanceLoader {
 				Iterator<Triple> iter = triplesDown.iterator();
 				while(iter.hasNext()) {
 					Triple curTriple = iter.next();
+					if(curTriple.getPredicate().getName().equals(""))
+						continue;
 					if(triplesDownMap.get(curTriple.getObject()) != null) {
 						String predicateString = triplesDownMap.get(curTriple.getObject()).getPredicate().getName();
 						predicateString += ", " + curTriple.getPredicate().getName();						
