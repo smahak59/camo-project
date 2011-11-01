@@ -110,7 +110,7 @@ public class InstViewOperation {
 					naiveResources.get(1), mediaType); // p
 			if(isExProp(property))
 				continue;
-//			setPropName(property);
+			setPropName(property);
 			setUpPropTrans(property);
 			UriInstance subject = null; // s
 			List<String> naiveSubject = SetSerialization
@@ -278,7 +278,7 @@ public class InstViewOperation {
 						naiveResources.get(0), mediaType); // p
 				if(isExProp(property))
 					continue;
-//				setPropName(property);
+				setPropName(property);
 				setUpPropTrans(property);
 				UriInstance subject = null; // s
 				List<String> naiveSubject = SetSerialization
@@ -329,5 +329,8 @@ public class InstViewOperation {
 	private static void setUpPropTrans(Property prop) {
 		if(UtilParam.UP_PROP_TRANS_DOWN.containsKey(prop.getUri()))
 			prop.setName(UtilParam.UP_PROP_TRANS_DOWN.get(prop.getUri()));
+		else {
+			prop.setName(prop.getName() + " of");
+		}
 	}
 }
