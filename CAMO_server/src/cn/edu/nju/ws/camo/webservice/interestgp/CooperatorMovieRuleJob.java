@@ -116,18 +116,18 @@ public class CooperatorMovieRuleJob extends MovieRuleJob {
 						for(String addedMovie : addedMovies) {
 							if(cooperators.containsKey(addedMovie)) {
 								cooperators.get(addedMovie).put(artist1, artist2);
-								System.out.println(addedMovie);
-								System.out.println(artist1);
-								System.out.println(artist2);
-								System.out.println("");
+//								System.out.println(addedMovie);
+//								System.out.println(artist1);
+//								System.out.println(artist2);
+//								System.out.println("");
 							} else {
 								Map<String, String> artistPair = new HashMap<String, String>();
 								artistPair.put(artist1, artist2);
 								cooperators.put(addedMovie, artistPair);
-								System.out.println(addedMovie);
-								System.out.println(artist1);
-								System.out.println(artist2);
-								System.out.println("");
+//								System.out.println(addedMovie);
+//								System.out.println(artist1);
+//								System.out.println(artist2);
+//								System.out.println("");
 							}
 						}
 					}
