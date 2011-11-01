@@ -329,7 +329,7 @@ public class InstViewOperation {
 	private static void setUpPropTrans(Property prop) {
 		if(UtilParam.UP_PROP_TRANS_DOWN.containsKey(prop.getUri()))
 			prop.setName(UtilParam.UP_PROP_TRANS_DOWN.get(prop.getUri()));
-		else {
+		else if(prop.getName().length()>0) {
 			prop.setName(prop.getName() + " of");
 		}
 	}
