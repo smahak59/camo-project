@@ -12,7 +12,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -50,6 +53,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 	private User currentUser;
 	private Button button_recommandedUser;
 	private ImageButton imageButton_detailInfo;
+	private ImageButton imageButton_playList;
 	private ImageButton imageButton_prev;
 	private ImageButton imageButton_next;
 	private ImageView imageView_current;
@@ -103,14 +107,17 @@ public class MediaPlayer extends Activity implements OnClickListener {
         textView_mediaPlayerTitle = (TextView) findViewById(R.id.textView_mediaPlayerTitle);        
         button_recommandedUser = (Button) findViewById(R.id.button_recommandedUser);
         imageButton_detailInfo = (ImageButton) findViewById(R.id.imageButton_detailInfo);
+        imageButton_playList = (ImageButton) findViewById(R.id.imageButton_playList);
         imageButton_prev = (ImageButton) findViewById(R.id.imageButton_prev);
         imageButton_next = (ImageButton) findViewById(R.id.imageButton_next);
         imageView_current = (ImageView) findViewById(R.id.imageView_current);
         relativeLayout_music = (RelativeLayout) findViewById(R.id.relativeLayout_music);
         relativeLayout_movie = (RelativeLayout) findViewById(R.id.relativeLayout_movie);
-        imageButton_favMusic = (ImageButton) findViewById(R.id.imageButton_favMusic);
+        imageButton_favMusic = (ImageButton) findViewById(R.id.imageButton_favMusic);        
+        this.registerForContextMenu(findViewById(R.id.imageButton_playList));
         
         imageButton_detailInfo.setOnClickListener(this);
+        imageButton_playList.setOnClickListener(this);
         imageButton_prev.setOnClickListener(this);
         imageButton_next.setOnClickListener(this);
         button_recommandedUser.setOnClickListener(this);
@@ -124,12 +131,27 @@ public class MediaPlayer extends Activity implements OnClickListener {
         currentPlayingUri3.setName("The Woodsman");
 
 
-        
+        playList.clear();
         playList.add(currentPlayingUri1);
         playList.add(currentPlayingUri2); 
         playList.add(currentPlayingUri3); 
         
 	}
+    
+    public void onCreateContextMenu(ContextMenu menu, View v,  
+            ContextMenuInfo menuInfo) {
+    	menu.setHeaderTitle("Playlist");
+        menu.setHeaderIcon(R.drawable.playlist_big);
+        for(int i = 0; i < playList.length(); i++) {        	
+        	menu.add(0, i, 0, playList.getInstance(i).getName());
+        }
+    }  
+    
+    public boolean onContextItemSelected(MenuItem item) {  
+    	playList.playByIndex(item.getItemId());
+    	initCurrentPlaying();
+    	return true;
+    }
 
 
 
@@ -288,6 +310,9 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			break;
 		case R.id.imageButton_favMusic:
 			toggleFavMusicButton();
+			break;
+		case R.id.imageButton_playList:
+			imageButton_playList.showContextMenu();
 			break;
 		}
 		
