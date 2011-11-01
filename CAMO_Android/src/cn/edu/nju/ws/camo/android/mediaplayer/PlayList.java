@@ -30,7 +30,8 @@ public class PlayList {
 	}
 	
 	public void prev() {
-		currentPlaying--;
+		//currentPlaying--;
+		currentPlaying += list.size() - 1;
 		currentPlaying %= list.size();
 	}
 	
