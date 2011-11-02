@@ -161,14 +161,10 @@ public class TextInjection
 
 		threadExec.shutdown();
 		threadExec.awaitTermination(7, TimeUnit.DAYS);
-//		while (!threadExec.isTerminated()) {
-//			Thread.sleep(100);
-//		}
 		
 		rmNotMedia(instSet, mediaCheckerList, mediaType);
 		rmCorefs(instSet, mediaType);
 		UriInjection.initLabelAndType(instSet);
-		
 		return instSet;
 	}
 	
@@ -258,7 +254,7 @@ public class TextInjection
 		TextInjection query = new TextInjection();
 		query.setQueryMode(TextInjection.MODE_DOWN);	//down, up, all
 		
-		Iterator<Entry<String, Map<String, List<String[]>>>> queryItr = query.query("Cannes Film Festival").entrySet().iterator();
+		Iterator<Entry<String, Map<String, List<String[]>>>> queryItr = query.query("While Paris Sleeps").entrySet().iterator();
 		while(queryItr.hasNext()) {
 			Entry<String, Map<String, List<String[]>>> queryEntry = queryItr.next();
 			if(queryEntry.getValue().size()>0)

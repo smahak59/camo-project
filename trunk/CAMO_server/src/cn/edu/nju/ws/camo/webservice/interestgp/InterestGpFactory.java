@@ -34,7 +34,7 @@ public class InterestGpFactory {
 		return instance;
 	}
 	
-	public String addInterest(int uid, String userName, String media, String mediaType, String artist) {
+	public boolean addInterest(int uid, String userName, String media, String mediaType, String artist) {
 		media = SetSerialization.rmIllegal(media);
 		artist = SetSerialization.rmIllegal(artist);
 		try {
@@ -53,12 +53,12 @@ public class InterestGpFactory {
 			sourceConn.close();
 		} catch (Throwable e) {
 			e.printStackTrace();
-			return "0";
+			return false;
 		}
-		return "1";
+		return true;
 	}
 
-	public String delInterest(int uid, String media, String artist) {
+	public boolean delInterest(int uid, String media, String artist) {
 		media = SetSerialization.rmIllegal(media);
 		artist = SetSerialization.rmIllegal(artist);
 		try {
@@ -73,9 +73,9 @@ public class InterestGpFactory {
 			sourceConn.close();
 		} catch (Throwable e) {
 			e.printStackTrace();
-			return "0";
+			return false;
 		}
-		return "1";
+		return true;
 	}
 	
 	public String getFavorArtist(int uid, String media) {
@@ -120,8 +120,8 @@ public class InterestGpFactory {
 		return result;
 	}
 	
-	public String isFavoredMedia(int uid, String media) {
-		String result = "0";
+	public boolean isFavoredMedia(int uid, String media) {
+		boolean result = false;
 		media = SetSerialization.rmIllegal(media);
 		try {
 			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.ISTGP_CONN);
@@ -131,7 +131,7 @@ public class InterestGpFactory {
 			stmt.setString(2, media);
 			ResultSet rs = stmt.executeQuery();
 			if (rs.next()) {
-				result = "1";
+				result = true;
 			}
 			rs.close();
 			stmt.close();
@@ -163,9 +163,9 @@ public class InterestGpFactory {
 	}
 	
 	
-	public String setRecommandedUserIgnore(int uid1, int uid2) {
+	public boolean setRecommandedUserIgnore(int uid1, int uid2) {
 		if(isUserIgnore(uid1, uid2)) 
-			return "1";
+			return true;
 		try {
 			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.ISTGP_CONN);
 			String sqlStr = "insert into ignore_rmd_request(u_from,u_to,in_time) values(?,?,?)";
@@ -179,12 +179,12 @@ public class InterestGpFactory {
 			sourceConn.close();
 		} catch (Throwable e) {
 			e.printStackTrace();
-			return "0";
+			return false;
 		}
-		return "1";
+		return true;
 	}
 	
-	public String setRecommandedUserRmd(int uid1, int uid2) {
+	public boolean setRecommandedUserRmd(int uid1, int uid2) {
 		try {
 			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.ISTGP_CONN);
 			String sqlStr = "delete from ignore_rmd_request where u_from=? and u_to=?";
@@ -196,9 +196,9 @@ public class InterestGpFactory {
 			sourceConn.close();
 		} catch (Throwable e) {
 			e.printStackTrace();
-			return "0";
+			return false;
 		}
-		return "1";
+		return true;
 	}
 	
 	public String getRecommandedUserForMusic(int uid, String music) {
