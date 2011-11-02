@@ -25,6 +25,10 @@ public class PlayList {
 		return list.get(currentPlaying);
 	}
 	
+	public int getCurrentPlayingIndex() {
+		return currentPlaying;
+	}
+	
 	public void playByIndex(int index) {
 		currentPlaying = index;
 	}
@@ -38,6 +42,14 @@ public class PlayList {
 	public void next() {
 		currentPlaying++;
 		currentPlaying %= list.size();		
+	}
+	
+	public void remove(int position) {
+		list.remove(position);
+		if(position <= currentPlaying){
+			currentPlaying += list.size() - 1;
+			currentPlaying %= list.size();
+		}
 	}
 	
 	public void clear() {
