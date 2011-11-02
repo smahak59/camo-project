@@ -165,6 +165,9 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			protected String doInBackground(String... params) {
 				try {
 					UriInstWithNeigh triples = InstViewOperation.viewInstDown(currentPlaying);
+					if(triples == null) {
+						return null;
+					}
 					ArrayList<Triple> triplesDown = triples.getTriplesDown();
 					Iterator<Triple> iter = triplesDown.iterator();
 					while(iter.hasNext()) {
