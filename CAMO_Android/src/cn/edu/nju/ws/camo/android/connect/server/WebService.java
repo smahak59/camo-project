@@ -57,4 +57,39 @@ public class WebService {
 		
 		return result;
 	}
+	
+	public boolean testConnection() throws InterruptedException {
+		class ConnectionTester extends Thread {
+			private String uri;
+			private boolean result = false;
+			public ConnectionTester(String uri) {
+				this.uri = uri;
+			}
+			
+			@Override
+			public void run() {
+				String naiveResult = WebService.getInstance().runFunction(
+						uri, "testConnection", null);
+				if(naiveResult.equals("1"))
+					result = true;
+			}
+			
+			public boolean getResult() {
+				return result;
+			}
+		}
+		ConnectionTester t1 = new ConnectionTester(ServerParam.USER_URL);
+		ConnectionTester t2 = new ConnectionTester(ServerParam.USER_URL);
+		ConnectionTester t3 = new ConnectionTester(ServerParam.USER_URL);
+		t1.start();
+		t2.start();
+		t3.start();
+		t1.join();
+		t2.join();
+		t3.join();
+		if(t1.getResult() && t2.getResult() && t3.getResult())
+			return true;
+		else
+			return false;
+	}
 }
