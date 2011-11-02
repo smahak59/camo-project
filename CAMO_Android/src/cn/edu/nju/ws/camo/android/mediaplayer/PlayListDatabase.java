@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import cn.edu.nju.ws.camo.android.connect.local.DatabaseHelper;
 import cn.edu.nju.ws.camo.android.rdf.RdfFactory;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 
@@ -137,7 +136,5 @@ public class PlayListDatabase {
 		dbHelper.close();
 		return length;
 	}
-
-	
 
 }
