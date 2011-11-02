@@ -5,7 +5,7 @@ package cn.edu.nju.ws.camo.android.ui;
  */
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.ColorMatrixColorFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -42,7 +42,7 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
     	CAMO_app.initCurrentUser();
     	CAMO_app.initPreferList();	
     	CAMO_app.initFriendList();
-    	CAMO_app.InitPlayList(this);
+    	CAMO_app.initPlayList(this);
 	}
 
 	private void initServerParams() {
@@ -50,6 +50,8 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
     	UtilConfig.initParam();
     	ServerConfig.initParam();		
 	}
+	
+
 
 
 	private void initViewComponents() {

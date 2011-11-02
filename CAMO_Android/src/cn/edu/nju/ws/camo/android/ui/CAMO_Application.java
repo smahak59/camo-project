@@ -40,7 +40,7 @@ public class CAMO_Application extends Application {
 		return triplesUp;
 	}
 	
-	public void InitPlayList(Context context) {
+	public void initPlayList(Context context) {
 		playList = new PlayList(context);
 	}
 	

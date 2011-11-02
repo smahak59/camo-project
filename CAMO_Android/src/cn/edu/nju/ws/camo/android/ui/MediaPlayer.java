@@ -31,6 +31,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import cn.edu.nju.ws.camo.android.R;
+import cn.edu.nju.ws.camo.android.connect.server.WebService;
 import cn.edu.nju.ws.camo.android.interestgp.MediaArtistInterest;
 import cn.edu.nju.ws.camo.android.interestgp.MediaInterest;
 import cn.edu.nju.ws.camo.android.mediaplayer.PlayList;
@@ -198,8 +199,10 @@ public class MediaPlayer extends Activity implements OnClickListener {
 				relativeLayout_movie.setVisibility(View.VISIBLE);
 				initActorListView();
 			} 		
-    	}
-    	new LoadActorListTask().execute("");
+    	}    	
+
+    		
+		new LoadActorListTask().execute("");
     	
     }
     
@@ -220,12 +223,14 @@ public class MediaPlayer extends Activity implements OnClickListener {
     private class ActorListViewAdapter extends BaseAdapter {
     	View[] itemViews;
     	ImageButton[] likeActorButtons;
+    	ImageButton[] actorDetailButtons;
     	boolean[] likeActorButtonsOn;
     	
     	public ActorListViewAdapter() {    		
     		itemViews = new View[actorList.size()];
     		likeActorButtonsOn = new boolean[actorList.size()];
     		likeActorButtons = new ImageButton[actorList.size()];
+    		actorDetailButtons = new ImageButton[actorList.size()];
     		for(int i = 0; i < actorList.size(); i++) {
     			if(favoredActorList.contains(actorList.get(i))) {
     				likeActorButtonsOn[i] = true;
@@ -243,12 +248,31 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			View item = inflater.inflate(R.layout.actor_list_item, null);
 			TextView textView_actorName = (TextView) item.findViewById(R.id.textView_actorName);
 			likeActorButtons[position] = (ImageButton) item.findViewById(R.id.imageButton_likeActor);
+			actorDetailButtons[position] = (ImageButton) item.findViewById(R.id.imageButton_actorDetail);
+			
 			if(likeActorButtonsOn[position]) {
 				likeActorButtons[position].setImageDrawable(getResources().getDrawable(R.drawable.fav_on));
 			}
-			likeActorButtons[position].setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
+			likeActorButtons[position].setOnClickListener(new ButtonOnClickListener(position));			
+			actorDetailButtons[position].setOnClickListener(new ButtonOnClickListener(position));
+			
+			actorDetailButtons[position].setOnTouchListener(CAMO_AndroidActivity.touchListener);
+			textView_actorName.setText(uriInstance.getName());
+			return item;
+		}
+		
+		class ButtonOnClickListener implements OnClickListener {
+			private int position;
+			ButtonOnClickListener(int pos) {
+				position = pos;
+			}
+			@Override
+			public void onClick(View v) {				
+				switch(v.getId()) {
+				case R.id.imageButton_actorDetail:
+					new RdfInstanceLoader(MediaPlayer.this, actorList.get(position)).loadRdfInstance();
+					break;
+				case R.id.imageButton_likeActor:
 					if(likeActorButtonsOn[position]) {
 						likeActorButtonsOn[position] = false;
 						likeActorButtons[position].setImageDrawable(getResources().getDrawable(R.drawable.fav_off));
@@ -262,12 +286,11 @@ public class MediaPlayer extends Activity implements OnClickListener {
 						mediaArtistInterest.getCreateCmd().execute();												
 					}
 					getRecommandedUser();
+					break;
 				}
 				
-			});
-			textView_actorName.setText(uriInstance.getName());
-			return item;
-		}
+			}		
+		};
 		
 		@Override
 		public int getCount() {
