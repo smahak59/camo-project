@@ -1,4 +1,4 @@
-package cn.edu.nju.ws.camo.android.connect.server;
+package cn.edu.nju.ws.camo.android.connect;
 
 /**
  * @author Hang Zhang
