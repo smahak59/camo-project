@@ -115,6 +115,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 
     
     private void initComponents() {
+    	setTitle("Media Player");
 		currentUser = ((CAMO_Application)getApplication()).getCurrentUser();    	
         actorList = new ArrayList<UriInstance>();
         textView_mediaPlayerTitle = (TextView) findViewById(R.id.textView_mediaPlayerTitle);        
