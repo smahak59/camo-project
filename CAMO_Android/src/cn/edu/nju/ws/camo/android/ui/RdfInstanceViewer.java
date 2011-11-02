@@ -49,6 +49,8 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 	private TextView textView_UriTitle;
 	private ImageButton button_like;
 	private ImageButton button_dislike;
+	private ImageButton button_addToPlayList;
+	
 	private boolean likeButtonStatus = false;
 	private boolean dislikeButtonStatus = false;
 	private ArrayList<Triple> triplesDown;
@@ -157,7 +159,7 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 	*/
 	private void initLists() {		
 		listView_Down = (ListView) findViewById(R.id.listView_Down);
-		listView_Up = (ListView) findViewById(R.id.listView_Up);
+		listView_Up = (ListView) findViewById(R.id.listView_Up);		
 		ListViewAdapter downAdapter = new ListViewAdapter(ListViewAdapter.VIEW_DOWN_ADAPTER);
 		ListViewAdapter upAdapter = new ListViewAdapter(ListViewAdapter.VIEW_UP_ADAPTER);
 		listView_Down.setAdapter(downAdapter);
@@ -195,6 +197,9 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 	private void initButtons() {
 		button_like = (ImageButton)findViewById(R.id.button_like);
 		button_dislike = (ImageButton)findViewById(R.id.button_dislike);
+		button_addToPlayList = (ImageButton) findViewById(R.id.button_addToPlayList);
+
+		
 		int signedType = ((CAMO_Application)getApplication()).getSignedType(currentUri);
 		switch(signedType) {
 		case PreferList.LIKED:
@@ -212,6 +217,8 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 		textView_UriTitle.setText(currentUri.getName());
 		button_like.setOnClickListener(this);
 		button_dislike.setOnClickListener(this);
+		button_addToPlayList.setOnClickListener(this);
+		button_addToPlayList.setOnTouchListener(CAMO_AndroidActivity.touchListener);
 	}
 	
 	private void initTabs() {
@@ -239,6 +246,8 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 		case R.id.button_like:			
 			toggleLikeButton();			
 			break;
+		case R.id.button_addToPlayList:
+			((CAMO_Application)getApplication()).addToPlayList(currentUri);
 		}
 		
 	}
