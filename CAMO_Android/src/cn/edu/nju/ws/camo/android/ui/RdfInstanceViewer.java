@@ -248,6 +248,7 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 			break;
 		case R.id.button_addToPlayList:
 			((CAMO_Application)getApplication()).addToPlayList(currentUri);
+			Toast.makeText(RdfInstanceViewer.this, currentUri.getName() + " is added to the play list.", Toast.LENGTH_SHORT).show();
 		}
 		
 	}
