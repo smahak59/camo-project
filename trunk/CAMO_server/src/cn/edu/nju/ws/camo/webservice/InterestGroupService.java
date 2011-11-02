@@ -40,4 +40,8 @@ public class InterestGroupService implements IInterestGroupService {
 	public String getRecommandedMusicUser(int uid, String music) {
 		return InterestGpFactory.getInstance().getRecommandedUserForMusic(uid, music);
 	}
+	
+	public String testConnection() {
+		return "1";
+	}
 }

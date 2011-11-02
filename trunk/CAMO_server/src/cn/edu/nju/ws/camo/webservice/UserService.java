@@ -529,4 +529,8 @@ public class UserService implements IUserService {
 		}
 		return result;
 	}
+	
+	public String testConnection() {
+		return "1";
+	}
 }
