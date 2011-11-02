@@ -25,7 +25,7 @@ public class PreferManager {
 			String instType) {
 		List<LikePrefer> likes = new ArrayList<LikePrefer>();
 		Object[] paramValues = { user.getId(), mediaType, instType,
-				Command.LIKE };
+				1 };
 		String naivePrefer = WebService.getInstance().runFunction(
 				ServerParam.USER_URL, "getPreference", paramValues);
 		if (naivePrefer.length() == 0 || naivePrefer.equals(ServerParam.NETWORK_ERROR1))
@@ -51,7 +51,7 @@ public class PreferManager {
 	public static List<LikePrefer> viewLike(User user, String mediaType) {
 		List<LikePrefer> likes = new ArrayList<LikePrefer>();
 		Object[] paramValues = { user.getId(), mediaType, "",
-				Command.LIKE };
+				1 };
 		String naivePrefer = WebService.getInstance().runFunction(
 				ServerParam.USER_URL, "getPreference", paramValues);
 		if (naivePrefer.length() == 0 || naivePrefer.equals(ServerParam.NETWORK_ERROR1))
@@ -75,7 +75,7 @@ public class PreferManager {
 	public static List<LikePrefer> viewLike(User user) {
 		List<LikePrefer> likes = new ArrayList<LikePrefer>();
 		Object[] paramValues = { user.getId(), "", "",
-				Command.LIKE };
+				1 };
 		String naivePrefer = WebService.getInstance().runFunction(
 				ServerParam.USER_URL, "getPreference", paramValues);
 		if (naivePrefer.length() == 0 || naivePrefer.equals(ServerParam.NETWORK_ERROR1))
@@ -104,7 +104,7 @@ public class PreferManager {
 			String instType) {
 		List<DislikePrefer> dislikes = new ArrayList<DislikePrefer>();
 		Object[] paramValues = { user.getId(), mediaType, instType,
-				Command.DISLIKE };
+				0 };
 		String naivePrefer = WebService.getInstance().runFunction(
 				ServerParam.USER_URL, "getPreference", paramValues);
 		if (naivePrefer.length() == 0 || naivePrefer.equals(ServerParam.NETWORK_ERROR1))
@@ -129,7 +129,7 @@ public class PreferManager {
 	public static List<DislikePrefer> viewDislike(User user, String mediaType) {
 		List<DislikePrefer> dislikes = new ArrayList<DislikePrefer>();
 		Object[] paramValues = { user.getId(), mediaType, "",
-				Command.DISLIKE };
+				0 };
 		String naivePrefer = WebService.getInstance().runFunction(
 				ServerParam.USER_URL, "getPreference", paramValues);
 		if (naivePrefer.length() == 0 || naivePrefer.equals(ServerParam.NETWORK_ERROR1))
@@ -185,7 +185,7 @@ public class PreferManager {
 				Object[] paramValues = { prefer.getUser().getId(),
 						prefer.getInst().getUri(), prefer.getInst().getMediaType(),
 						prefer.getInst().getClassType(), prefer.getInst().getName(),
-						Command.LIKE, Command.DISSUBSCRIBE };
+						1, 0 };
 				WebService.getInstance().runFunction(ServerParam.USER_URL,
 						"addPreference", paramValues);
 			}
@@ -219,7 +219,7 @@ public class PreferManager {
 				Object[] paramValues = { prefer.getUser().getId(),
 						prefer.getInst().getUri(), prefer.getInst().getMediaType(),
 						prefer.getInst().getClassType(), prefer.getInst().getName(),
-						Command.DISLIKE, Command.DISSUBSCRIBE };
+						0, 0 };
 				WebService.getInstance().runFunction(ServerParam.USER_URL,
 						"addPreference", paramValues);
 			}
