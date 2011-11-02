@@ -3,6 +3,7 @@ package cn.edu.nju.ws.camo.webservice;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 
 import cn.edu.nju.ws.camo.webservice.connect.Config;
+import cn.edu.nju.ws.camo.webservice.view.LabelAndTypeFinder;
 
 
 public class Debug {
@@ -15,9 +16,8 @@ public class Debug {
 //		System.out.println(userService.textView("While Paris Sleeps", "movie"));
 		
 		Config.initParam();
-		IInterestGroupService service = new InterestGroupService();
-//		service.addInterest(7, "cxjia", "http://dbpedia.org/resource/Alle_M%C3%A4dchen_wollen_k%C3%BCssen", "music", "");
-//		System.out.println(service.getRecommandedMovieUser(7, "http://dbpedia.org/resource/Daughters_Who_Pay"));
-		System.out.println(service.getRecommandedMusicUser(7, "http://dbpedia.org/resource/Alle_M%C3%A4dchen_wollen_k%C3%BCssen"));
+		LabelAndTypeFinder newFinder = new LabelAndTypeFinder("http://dbpedia.org/resource/Azzurro%23Die_Toten_Hosen_cover");
+		newFinder.run();
+		System.out.println(newFinder.getResult());
 	}
 }

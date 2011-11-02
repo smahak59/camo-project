@@ -120,6 +120,28 @@ public class InterestGpFactory {
 		return result;
 	}
 	
+	public String isFavoredMedia(int uid, String media) {
+		String result = "0";
+		media = SetSerialization.rmIllegal(media);
+		try {
+			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.ISTGP_CONN);
+			String sqlStr = "select * from media_favor where u_id=? and media=? limit 1";
+			PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
+			stmt.setInt(1, uid);
+			stmt.setString(2, media);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				result = "1";
+			}
+			rs.close();
+			stmt.close();
+			sourceConn.close();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	private boolean isUserIgnore(int uid1, int uid2) {
 		boolean result = false;
 		try {

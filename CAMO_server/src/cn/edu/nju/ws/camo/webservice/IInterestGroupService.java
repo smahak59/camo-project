@@ -9,7 +9,7 @@ public interface IInterestGroupService {
 	
 	public String delInterest(int uid, String media, String artist);
 	
-	public String getFavorArtist(int uid, String media);
+	public String getFavoredArtist(int uid, String media);
 	
 	public String getRecommandedMovieUser(int uid, String movie);
 	

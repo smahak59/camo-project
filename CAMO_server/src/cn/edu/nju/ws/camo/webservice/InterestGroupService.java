@@ -25,8 +25,12 @@ public class InterestGroupService implements IInterestGroupService {
 		return InterestGpFactory.getInstance().setRecommandedUserRmd(uid1, uid2);
 	}
 
-	public String getFavorArtist(int uid, String media) {
+	public String getFavoredArtist(int uid, String media) {
 		return InterestGpFactory.getInstance().getFavorArtist(uid, media);
+	}
+	
+	public String isFavoredMedia(int uid, String media) {
+		return InterestGpFactory.getInstance().isFavoredMedia(uid, media);
 	}
 
 	public String getRecommandedMovieUser(int uid, String media) {
