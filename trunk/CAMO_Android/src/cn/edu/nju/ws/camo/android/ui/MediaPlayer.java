@@ -126,6 +126,9 @@ public class MediaPlayer extends Activity implements OnClickListener {
         imageButton_favMusic = (ImageButton) findViewById(R.id.imageButton_favMusic);        
         this.registerForContextMenu(findViewById(R.id.imageButton_playList));
         
+        imageButton_detailInfo.setOnTouchListener(CAMO_AndroidActivity.touchListener);
+        imageButton_playList.setOnTouchListener(CAMO_AndroidActivity.touchListener);
+        
         imageButton_detailInfo.setOnClickListener(this);
         imageButton_playList.setOnClickListener(this);
         imageButton_prev.setOnClickListener(this);
