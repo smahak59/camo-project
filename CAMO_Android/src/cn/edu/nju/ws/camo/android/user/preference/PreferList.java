@@ -1,4 +1,4 @@
-package cn.edu.nju.ws.camo.android.util;
+package cn.edu.nju.ws.camo.android.user.preference;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -13,11 +13,11 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import cn.edu.nju.ws.camo.android.R;
-import cn.edu.nju.ws.camo.android.operate.InstViewOperation;
-import cn.edu.nju.ws.camo.android.operate.PreferViewOperation;
+import cn.edu.nju.ws.camo.android.rdf.InstViewManager;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 import cn.edu.nju.ws.camo.android.ui.CAMO_AndroidActivity;
 import cn.edu.nju.ws.camo.android.ui.SearchViewer;
+import cn.edu.nju.ws.camo.android.user.User;
 
 public class PreferList {
 	public final static int ARTIST = 0;
@@ -65,14 +65,14 @@ public class PreferList {
 		class LoadPreferListTask extends AsyncTask<String,Void,String> {
 			@Override
 			protected String doInBackground(String... params) {
-				artistLikePreferList = PreferViewOperation.viewLike(currentUser, "unknow");
-				musicLikePreferList = PreferViewOperation.viewLike(currentUser, "music");
-				movieLikePreferList = PreferViewOperation.viewLike(currentUser, "movie");
-				photoLikePreferList = PreferViewOperation.viewLike(currentUser, "photo");
-				artistDislikePreferList = PreferViewOperation.viewDislike(currentUser, "unknow");
-				musicDislikePreferList = PreferViewOperation.viewDislike(currentUser, "music");
-				movieDislikePreferList = PreferViewOperation.viewDislike(currentUser, "movie");
-				photoDislikePreferList = PreferViewOperation.viewDislike(currentUser, "photo");
+				artistLikePreferList = PreferManager.viewLike(currentUser, "unknow");
+				musicLikePreferList = PreferManager.viewLike(currentUser, "music");
+				movieLikePreferList = PreferManager.viewLike(currentUser, "movie");
+				photoLikePreferList = PreferManager.viewLike(currentUser, "photo");
+				artistDislikePreferList = PreferManager.viewDislike(currentUser, "unknow");
+				musicDislikePreferList = PreferManager.viewDislike(currentUser, "music");
+				movieDislikePreferList = PreferManager.viewDislike(currentUser, "movie");
+				photoDislikePreferList = PreferManager.viewDislike(currentUser, "photo");
 				return null;
 			}
 			

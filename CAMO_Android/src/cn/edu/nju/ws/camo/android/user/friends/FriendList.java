@@ -1,10 +1,9 @@
-package cn.edu.nju.ws.camo.android.util;
+package cn.edu.nju.ws.camo.android.user.friends;
 
 import java.util.List;
 
 import android.os.AsyncTask;
-import cn.edu.nju.ws.camo.android.friends.Friends;
-import cn.edu.nju.ws.camo.android.friends.FriendsFactory;
+import cn.edu.nju.ws.camo.android.user.User;
 
 public class FriendList {
 	private List<Friends> friendList;

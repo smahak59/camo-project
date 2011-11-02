@@ -1,12 +1,11 @@
-package cn.edu.nju.ws.camo.android.util;
+package cn.edu.nju.ws.camo.android.user.interestgp;
 
 import java.util.List;
 
 import android.os.AsyncTask;
-import cn.edu.nju.ws.camo.android.interestgp.InterestGroup;
-import cn.edu.nju.ws.camo.android.interestgp.RmdFeedback;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 import cn.edu.nju.ws.camo.android.ui.MediaPlayer;
+import cn.edu.nju.ws.camo.android.user.User;
 
 public class RmdFeedbackList {
 	private List<RmdFeedback> rmdFeedbackList;
