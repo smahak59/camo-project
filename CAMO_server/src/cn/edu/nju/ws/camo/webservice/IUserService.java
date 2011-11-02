@@ -113,4 +113,6 @@ public interface IUserService {
 	 * @return
 	 */
 	public String hasFriendRequest(int userFrom, int userTo);
+	
+	public String testConnection();
 }

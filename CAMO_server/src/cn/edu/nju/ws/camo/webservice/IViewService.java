@@ -14,4 +14,6 @@ public interface IViewService {
 	public String textViewUp(String searchText, String mediaType);
 	
 	public String textView(String searchText, String mediaType);
+	
+	public String testConnection();
 }

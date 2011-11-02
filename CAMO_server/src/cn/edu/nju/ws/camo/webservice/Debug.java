@@ -9,15 +9,11 @@ import cn.edu.nju.ws.camo.webservice.view.LabelAndTypeFinder;
 public class Debug {
 	
 	public static void main(String[] args) {
-//		JaxWsProxyFactoryBean soapFactoryBean = new JaxWsProxyFactoryBean();
-//		soapFactoryBean.setAddress("http://114.212.87.172:8580/view");
-//		soapFactoryBean.setServiceClass(IViewService.class);
-//		IViewService userService = (IViewService) soapFactoryBean.create();
-//		System.out.println(userService.textView("While Paris Sleeps", "movie"));
+		JaxWsProxyFactoryBean soapFactoryBean = new JaxWsProxyFactoryBean();
+		soapFactoryBean.setAddress("http://114.212.87.172:8580/interestGp");
+		soapFactoryBean.setServiceClass(IInterestGroupService.class);
+		IInterestGroupService gs = (IInterestGroupService) soapFactoryBean.create();
+		System.out.println(gs.getFavoredArtist(8, "http://dbpedia.org/resource/Daughters_Who_Pay"));
 		
-		Config.initParam();
-		LabelAndTypeFinder newFinder = new LabelAndTypeFinder("http://dbpedia.org/resource/Azzurro%23Die_Toten_Hosen_cover");
-		newFinder.run();
-		System.out.println(newFinder.getResult());
 	}
 }

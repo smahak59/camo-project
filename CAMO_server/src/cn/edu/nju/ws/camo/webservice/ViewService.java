@@ -12,7 +12,6 @@ import java.util.concurrent.TimeUnit;
 
 import javax.jws.WebService;
 
-import cn.edu.nju.ws.camo.webservice.connect.Config;
 import cn.edu.nju.ws.camo.webservice.util.SetSerialization;
 import cn.edu.nju.ws.camo.webservice.view.LabelAndTypeFinder;
 import cn.edu.nju.ws.camo.webservice.view.TextInjection;
@@ -254,8 +253,7 @@ public class ViewService implements IViewService {
 		return result;
 	}
 	
-	public static void main(String[] args) {
-		Config.initParam();
-		System.out.println(new ViewService().textView("Cannes Film Festival", "movie"));
+	public String testConnection() {
+		return "1";
 	}
 }
