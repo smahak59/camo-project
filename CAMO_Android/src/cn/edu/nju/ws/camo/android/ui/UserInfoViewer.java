@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 import cn.edu.nju.ws.camo.android.R;
+import cn.edu.nju.ws.camo.android.user.User;
 import cn.edu.nju.ws.camo.android.util.SerKeys;
-import cn.edu.nju.ws.camo.android.util.User;
 
 public class UserInfoViewer extends Activity{
 	private User user;

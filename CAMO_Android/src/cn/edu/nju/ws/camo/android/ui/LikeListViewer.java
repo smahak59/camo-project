@@ -4,27 +4,23 @@ import java.util.List;
 
 import android.app.TabActivity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import cn.edu.nju.ws.camo.android.R;
-import cn.edu.nju.ws.camo.android.operate.PreferViewOperation;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
-import cn.edu.nju.ws.camo.android.util.LikePrefer;
-import cn.edu.nju.ws.camo.android.util.PreferList;
-import cn.edu.nju.ws.camo.android.util.Preference;
-import cn.edu.nju.ws.camo.android.util.SerKeys;
-import cn.edu.nju.ws.camo.android.util.User;
+import cn.edu.nju.ws.camo.android.user.User;
+import cn.edu.nju.ws.camo.android.user.preference.LikePrefer;
+import cn.edu.nju.ws.camo.android.user.preference.PreferList;
+import cn.edu.nju.ws.camo.android.user.preference.Preference;
 
 
 public class LikeListViewer extends TabActivity implements OnItemClickListener, OnItemLongClickListener{	
@@ -160,22 +156,18 @@ public class LikeListViewer extends TabActivity implements OnItemClickListener, 
 			return itemView;
 		}
 
-		@Override
 		public int getCount() {
 			return itemViews.length;
 		}
 
-		@Override
 		public Object getItem(int position) {
 			return itemViews[position];
 		}
 
-		@Override
 		public long getItemId(int position) {
 			return position;
 		}
 
-		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			return itemViews[position];
 		
@@ -184,7 +176,6 @@ public class LikeListViewer extends TabActivity implements OnItemClickListener, 
 	
 	}
 
-	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		// TODO Auto-generated method stub
 		int currentTab = getTabHost().getCurrentTab();
@@ -200,7 +191,6 @@ public class LikeListViewer extends TabActivity implements OnItemClickListener, 
 	}
 
 
-	@Override
 	public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2,
 			long arg3) {
 		int currentTab = getTabHost().getCurrentTab();

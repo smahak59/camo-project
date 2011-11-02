@@ -4,7 +4,6 @@ import java.util.List;
 
 import android.app.TabActivity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -21,13 +20,11 @@ import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import cn.edu.nju.ws.camo.android.R;
-import cn.edu.nju.ws.camo.android.operate.PreferViewOperation;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
-import cn.edu.nju.ws.camo.android.util.DislikePrefer;
-import cn.edu.nju.ws.camo.android.util.PreferList;
-import cn.edu.nju.ws.camo.android.util.Preference;
-import cn.edu.nju.ws.camo.android.util.SerKeys;
-import cn.edu.nju.ws.camo.android.util.User;
+import cn.edu.nju.ws.camo.android.user.User;
+import cn.edu.nju.ws.camo.android.user.preference.DislikePrefer;
+import cn.edu.nju.ws.camo.android.user.preference.PreferList;
+import cn.edu.nju.ws.camo.android.user.preference.Preference;
 
 
 public class DislikeListViewer extends TabActivity implements OnItemClickListener{
@@ -166,25 +163,21 @@ public class DislikeListViewer extends TabActivity implements OnItemClickListene
 			return itemView;
 		}
 
-		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
 			return itemViews.length;
 		}
 
-		@Override
 		public Object getItem(int position) {
 			// TODO Auto-generated method stub
 			return itemViews[position];
 		}
 
-		@Override
 		public long getItemId(int position) {
 			// TODO Auto-generated method stub
 			return position;
 		}
 
-		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			// TODO Auto-generated method stub		
 				return itemViews[position];
@@ -194,7 +187,6 @@ public class DislikeListViewer extends TabActivity implements OnItemClickListene
 	
 	}
 
-	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		// TODO Auto-generated method stub
 		int currentTab = getTabHost().getCurrentTab();

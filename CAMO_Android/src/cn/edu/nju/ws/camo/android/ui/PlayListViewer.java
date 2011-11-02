@@ -2,20 +2,19 @@ package cn.edu.nju.ws.camo.android.ui;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView.OnItemClickListener;
 import cn.edu.nju.ws.camo.android.R;
 import cn.edu.nju.ws.camo.android.mediaplayer.PlayList;
 
@@ -41,7 +40,6 @@ public class PlayListViewer extends Activity{
 		listView_playList.setAdapter(adapter);
 		this.registerForContextMenu(listView_playList);
 		listView_playList.setOnItemClickListener(new OnItemClickListener() {
-			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				playList.playByIndex(arg2);
@@ -80,22 +78,18 @@ public class PlayListViewer extends Activity{
 			current.setTextColor(0xFFEF7100);
 		}
 
-		@Override
 		public int getCount() {
 			return itemViews.length;
 		}
 
-		@Override
 		public Object getItem(int position) {
 			return itemViews[position];
 		}
 
-		@Override
 		public long getItemId(int position) {
 			return position;
 		}
 
-		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			return itemViews[position];
 		}

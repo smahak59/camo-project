@@ -16,30 +16,29 @@ import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TabHost;
-import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TabHost.TabSpec;
 import cn.edu.nju.ws.camo.android.R;
-import cn.edu.nju.ws.camo.android.operate.command.CommandFactory;
 import cn.edu.nju.ws.camo.android.rdf.Property;
 import cn.edu.nju.ws.camo.android.rdf.RdfFactory;
 import cn.edu.nju.ws.camo.android.rdf.Resource;
 import cn.edu.nju.ws.camo.android.rdf.Triple;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
-import cn.edu.nju.ws.camo.android.util.DislikePrefer;
-import cn.edu.nju.ws.camo.android.util.LikePrefer;
-import cn.edu.nju.ws.camo.android.util.PreferList;
-import cn.edu.nju.ws.camo.android.util.Preference;
+import cn.edu.nju.ws.camo.android.user.User;
+import cn.edu.nju.ws.camo.android.user.preference.DislikePrefer;
+import cn.edu.nju.ws.camo.android.user.preference.LikePrefer;
+import cn.edu.nju.ws.camo.android.user.preference.PreferList;
+import cn.edu.nju.ws.camo.android.user.preference.PreferManager;
 import cn.edu.nju.ws.camo.android.util.SerKeys;
-import cn.edu.nju.ws.camo.android.util.User;
 
 public class RdfInstanceViewer extends Activity implements OnClickListener{
 	private User currentUser;
@@ -164,7 +163,6 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 		listView_Down.setAdapter(downAdapter);
 		listView_Up.setAdapter(upAdapter);
 		listView_Down.setOnItemClickListener(new OnItemClickListener() {
-			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				Resource selected = triplesDown.get(arg2).getObject();
@@ -183,7 +181,6 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 			}			
 		});
 		listView_Up.setOnItemClickListener(new OnItemClickListener() {
-			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				UriInstance selected = triplesUp.get(arg2).getSubject();
@@ -233,7 +230,6 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 		
 	}
 	
-	@Override
 	public void onClick(View v) {
 		
 		switch(v.getId()) {
@@ -290,14 +286,14 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 		LikePrefer likePrefer = new LikePrefer(currentUser, currentUri);
 		int mediaType = PreferList.getMediaTypeInt(currentUri.getMediaType());
 		((CAMO_Application)getApplication()).getLikePreferList(mediaType).remove(likePrefer);
-		CommandFactory.getInstance().createCancelPreferCmd(likePrefer).execute();		
+		PreferManager.createCancelPreferCmd(likePrefer).execute();		
 	}
 	
 	private void deleteDislikePrefer() {
 		DislikePrefer dislikePrefer = new DislikePrefer(currentUser, currentUri);
 		int mediaType = PreferList.getMediaTypeInt(currentUri.getMediaType());
 		((CAMO_Application)getApplication()).getDislikePreferList(mediaType).remove(dislikePrefer);
-		CommandFactory.getInstance().createCancelPreferCmd(dislikePrefer).execute();
+		PreferManager.createCancelPreferCmd(dislikePrefer).execute();
 	}
 	private void likeCurrentInstance() {
 		LikePrefer likePrefer = new LikePrefer(currentUser, currentUri);
@@ -305,7 +301,7 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 		List<DislikePrefer> dislikeList = ((CAMO_Application)getApplication()).getDislikePreferList(mediaType);
 		removeFromDislikePreferList(dislikeList, currentUri);
 		((CAMO_Application)getApplication()).getLikePreferList(mediaType).add(0,likePrefer);
-		CommandFactory.getInstance().createLikeCmd(likePrefer).execute();		
+		PreferManager.createLikeCmd(likePrefer).execute();		
 	}
 
 	private void dislikeCurrentInstance() {
@@ -314,7 +310,7 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 		List<LikePrefer> likeList = ((CAMO_Application)getApplication()).getLikePreferList(mediaType);
 		removeFromLikePreferList(likeList, currentUri);
 		((CAMO_Application)getApplication()).getDislikePreferList(mediaType).add(0,dislikePrefer);
-		CommandFactory.getInstance().createDislikeCmd(dislikePrefer).execute();		
+		PreferManager.createDislikeCmd(dislikePrefer).execute();		
 	}
 	
 	private void removeFromLikePreferList(List<LikePrefer> preferList, UriInstance uri) {
@@ -409,22 +405,18 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 
 		
 
-		@Override
 		public int getCount() {
 			return itemViews.length;
 		}
 
-		@Override
 		public Object getItem(int position) {
 			return itemViews[position];
 		}
 
-		@Override
 		public long getItemId(int position) {
 			return position;
 		}
 
-		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 				return itemViews[position];
 		

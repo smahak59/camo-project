@@ -12,15 +12,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -30,18 +26,18 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 import cn.edu.nju.ws.camo.android.R;
-import cn.edu.nju.ws.camo.android.connect.server.WebService;
-import cn.edu.nju.ws.camo.android.interestgp.MediaArtistInterest;
-import cn.edu.nju.ws.camo.android.interestgp.MediaInterest;
 import cn.edu.nju.ws.camo.android.mediaplayer.PlayList;
-import cn.edu.nju.ws.camo.android.operate.InstViewOperation;
+import cn.edu.nju.ws.camo.android.rdf.InstViewManager;
 import cn.edu.nju.ws.camo.android.rdf.RdfFactory;
 import cn.edu.nju.ws.camo.android.rdf.Triple;
 import cn.edu.nju.ws.camo.android.rdf.UriInstWithNeigh;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
-import cn.edu.nju.ws.camo.android.util.RmdFeedbackList;
-import cn.edu.nju.ws.camo.android.util.User;
+import cn.edu.nju.ws.camo.android.user.User;
+import cn.edu.nju.ws.camo.android.user.interestgp.MediaArtistInterest;
+import cn.edu.nju.ws.camo.android.user.interestgp.MediaInterest;
+import cn.edu.nju.ws.camo.android.user.interestgp.RmdFeedbackList;
 
 
 public class MediaPlayer extends Activity implements OnClickListener {
@@ -165,7 +161,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			@Override
 			protected String doInBackground(String... params) {
 				try {
-					UriInstWithNeigh triples = InstViewOperation.viewInstDown(currentPlaying);
+					UriInstWithNeigh triples = InstViewManager.viewInstDown(currentPlaying);
 					if(triples == null) {
 						return null;
 					}
@@ -211,7 +207,6 @@ public class MediaPlayer extends Activity implements OnClickListener {
     	ActorListViewAdapter adapter = new ActorListViewAdapter();
     	listView_actorList.setAdapter(adapter);
     	listView_actorList.setOnItemClickListener(new OnItemClickListener() {
-			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				Toast.makeText(MediaPlayer.this, "clicked: " + arg2, Toast.LENGTH_SHORT).show();
@@ -266,7 +261,6 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			ButtonOnClickListener(int pos) {
 				position = pos;
 			}
-			@Override
 			public void onClick(View v) {				
 				switch(v.getId()) {
 				case R.id.imageButton_actorDetail:
@@ -292,29 +286,24 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			}		
 		};
 		
-		@Override
 		public int getCount() {
 			return itemViews.length;
 		}
 
-		@Override
 		public Object getItem(int arg0) {
 			return itemViews[arg0];
 		}
 
-		@Override
 		public long getItemId(int position) {
 			return position;
 		}
 
-		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			return itemViews[position];
 		}
     	
     }
 
-	@Override
 	public void onClick(View v) {
 		switch(v.getId()) {
 		case R.id.imageButton_detailInfo:			

@@ -15,10 +15,10 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import cn.edu.nju.ws.camo.android.R;
-import cn.edu.nju.ws.camo.android.interestgp.InterestGroup;
-import cn.edu.nju.ws.camo.android.interestgp.RmdFeedback;
+import cn.edu.nju.ws.camo.android.user.User;
+import cn.edu.nju.ws.camo.android.user.interestgp.InterestGroup;
+import cn.edu.nju.ws.camo.android.user.interestgp.RmdFeedback;
 import cn.edu.nju.ws.camo.android.util.SerKeys;
-import cn.edu.nju.ws.camo.android.util.User;
 
 public class RecommandedUserListViewer extends Activity{
 	
@@ -44,7 +44,6 @@ public class RecommandedUserListViewer extends Activity{
 		listView_rmdUser.setAdapter(adapter);
 		listView_rmdUser.setOnItemClickListener(new OnItemClickListener() {
 
-			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				User selectedUser = rmdFeedbackList.get(arg2).getUserInterest().getUser();
@@ -82,22 +81,18 @@ public class RecommandedUserListViewer extends Activity{
 
 
 
-		@Override
 		public int getCount() {
 			return itemViews.length;
 		}
 
-		@Override
 		public Object getItem(int position) {
 			return itemViews[position];
 		}
 
-		@Override
 		public long getItemId(int position) {
 			return position;
 		}
 
-		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			return itemViews[position];
 		}

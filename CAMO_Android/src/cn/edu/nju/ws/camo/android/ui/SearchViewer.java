@@ -25,7 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import cn.edu.nju.ws.camo.android.R;
-import cn.edu.nju.ws.camo.android.operate.InstViewOperation;
+import cn.edu.nju.ws.camo.android.rdf.InstViewManager;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 
 public class SearchViewer extends Activity {
@@ -48,7 +48,6 @@ public class SearchViewer extends Activity {
 		imageButton_search = (ImageButton) findViewById(R.id.button_search);
 		editText_searchKey = (EditText) findViewById(R.id.editText_searchKey);
 		imageButton_search.setOnClickListener(new OnClickListener() {
-			@Override
 			public void onClick(View v) {
 				searchKey = editText_searchKey.getText().toString().trim();
 				if(searchKey.equals(""))
@@ -61,9 +60,9 @@ public class SearchViewer extends Activity {
 					protected String doInBackground(String... params) {
 						
 						try {
-							searchResultMusic = InstViewOperation.searchInst(params[0], "music");						
-							searchResultMovie = InstViewOperation.searchInst(params[0], "movie");
-							searchResultPhoto = InstViewOperation.searchInst(params[0], "photo");
+							searchResultMusic = InstViewManager.searchInst(params[0], "music");						
+							searchResultMovie = InstViewManager.searchInst(params[0], "movie");
+							searchResultPhoto = InstViewManager.searchInst(params[0], "photo");
 							trimResult(searchResultMusic);
 							trimResult(searchResultMovie);
 							trimResult(searchResultPhoto);
@@ -100,7 +99,6 @@ public class SearchViewer extends Activity {
 						else {
 							expandableListView_searchResult.setOnChildClickListener(new OnChildClickListener() {
 	
-								@Override
 								public boolean onChildClick(
 										ExpandableListView parent, View v,
 										int groupPosition, int childPosition,
@@ -154,17 +152,14 @@ public class SearchViewer extends Activity {
 			return arrayList;
 		}
 
-		@Override
 		public Object getChild(int groupPosition, int childPosition) {
 			return resultLists.get(groupPosition).get(childPosition);
 		}
 
-		@Override
 		public long getChildId(int groupPosition, int childPosition) {
 			return childPosition;
 		}
 
-		@Override
 		public View getChildView(int groupPosition, int childPosition,
 				boolean isLastChild, View convertView, ViewGroup parent) {
             LayoutInflater inflator = (LayoutInflater) SearchViewer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -174,27 +169,22 @@ public class SearchViewer extends Activity {
 			return itemView;
 		}
 
-		@Override
 		public int getChildrenCount(int groupPosition) {
 			return resultLists.get(groupPosition).size();
 		}
 
-		@Override
 		public Object getGroup(int groupPosition) {
 			return group.get(groupPosition);
 		}
 
-		@Override
 		public int getGroupCount() {
 			return group.size();
 		}
 
-		@Override
 		public long getGroupId(int groupPosition) {
 			return groupPosition;
 		}
 
-		@Override
 		public View getGroupView(int groupPosition, boolean isExpanded,
 				View convertView, ViewGroup parent) {			
 			LayoutInflater inflator = (LayoutInflater) SearchViewer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -204,12 +194,10 @@ public class SearchViewer extends Activity {
 			return itemView;
 		}
 		
-		@Override
 		public boolean hasStableIds() {
 			return true;
 		}
 
-		@Override
 		public boolean isChildSelectable(int groupPosition, int childPosition) {
 			return true;
 		}

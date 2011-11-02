@@ -5,17 +5,17 @@ import java.util.List;
 
 import android.app.Application;
 import android.content.Context;
-import cn.edu.nju.ws.camo.android.friends.Friends;
-import cn.edu.nju.ws.camo.android.interestgp.RmdFeedback;
 import cn.edu.nju.ws.camo.android.mediaplayer.PlayList;
 import cn.edu.nju.ws.camo.android.rdf.Triple;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
-import cn.edu.nju.ws.camo.android.util.DislikePrefer;
-import cn.edu.nju.ws.camo.android.util.FriendList;
-import cn.edu.nju.ws.camo.android.util.LikePrefer;
-import cn.edu.nju.ws.camo.android.util.PreferList;
-import cn.edu.nju.ws.camo.android.util.RmdFeedbackList;
-import cn.edu.nju.ws.camo.android.util.User;
+import cn.edu.nju.ws.camo.android.user.User;
+import cn.edu.nju.ws.camo.android.user.friends.FriendList;
+import cn.edu.nju.ws.camo.android.user.friends.Friends;
+import cn.edu.nju.ws.camo.android.user.interestgp.RmdFeedback;
+import cn.edu.nju.ws.camo.android.user.interestgp.RmdFeedbackList;
+import cn.edu.nju.ws.camo.android.user.preference.DislikePrefer;
+import cn.edu.nju.ws.camo.android.user.preference.LikePrefer;
+import cn.edu.nju.ws.camo.android.user.preference.PreferList;
 
 public class CAMO_Application extends Application {
 	private User currentUser;
