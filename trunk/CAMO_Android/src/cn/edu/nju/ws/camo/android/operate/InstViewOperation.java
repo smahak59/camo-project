@@ -63,7 +63,7 @@ public class InstViewOperation {
 			if (naiveObject.size() == 3) {
 				value = RdfFactory.getInstance().createInstance(
 						naiveObject.get(0), mediaType, naiveObject.get(2),
-						literalNomalize(naiveObject.get(1)));
+						SetSerialization.instNameNomalize(naiveObject.get(1)));
 			} else {
 				String valueStr = naiveObject.get(0);
 				if (valueStr.startsWith("http://")) {
@@ -76,7 +76,7 @@ public class InstViewOperation {
 						value = RdfFactory.getInstance().createLiteral(valueStr, mediaType);
 				} else {
 					value = RdfFactory.getInstance().createLiteral(
-							literalNomalize(valueStr), mediaType);
+							SetSerialization.instNameNomalize(valueStr), mediaType);
 				}
 			}
 			Triple triple = RdfFactory.getInstance().createTriple(inst,
@@ -208,7 +208,7 @@ public class InstViewOperation {
 				if (naiveObject.size() == 3) {
 					object = RdfFactory.getInstance().createInstance(
 							naiveObject.get(0), mediaType, naiveObject.get(2),
-							literalNomalize(naiveObject.get(1)));
+							SetSerialization.instNameNomalize(naiveObject.get(1)));
 				} else {
 					String objectStr = naiveObject.get(0);
 					if (objectStr.startsWith("http://")) {
@@ -221,7 +221,7 @@ public class InstViewOperation {
 							object = RdfFactory.getInstance().createLiteral(objectStr, mediaType);
 					} else {
 						object = RdfFactory.getInstance().createLiteral(
-								literalNomalize(objectStr), mediaType);
+								SetSerialization.instNameNomalize(objectStr), mediaType);
 					}
 				}
 				Triple triple = RdfFactory.getInstance().createTriple(inst,
@@ -301,21 +301,6 @@ public class InstViewOperation {
 		return result;
 	}
 
-	private static String literalNomalize(String str) {
-		String result = str;
-		int endIdx = str.indexOf("^^");
-		if (endIdx > 0)
-			result = str.substring(0, endIdx);
-		endIdx = result.indexOf("@en");
-		if (endIdx > 0)
-			result = str.substring(0, endIdx);
-		endIdx = result.indexOf("(");
-		if (endIdx > 0)
-			result = str.substring(0, endIdx);
-		result.replaceAll("%", " ");
-		result.replaceAll("_", " ");
-		return result;
-	}
 	
 	private static boolean isExProp(Property prop) {
 		return UtilParam.EXCLUDED_PROPS.contains(prop.getUri());

@@ -37,7 +37,7 @@ public class PreferViewOperation {
 			List<String> naiveUnits = SetSerialization.deserialize1(naiveTerm);
 			UriInstance inst = RdfFactory.getInstance().createInstance(
 					naiveUnits.get(1), naiveUnits.get(2), naiveUnits.get(3),
-					naiveUnits.get(4));
+					SetSerialization.instNameNomalize(naiveUnits.get(4)));
 			LikePrefer like = new LikePrefer(user, inst);
 			likes.add(like);
 		}
@@ -63,7 +63,7 @@ public class PreferViewOperation {
 			List<String> naiveUnits = SetSerialization.deserialize1(naiveTerm);
 			UriInstance inst = RdfFactory.getInstance().createInstance(
 					naiveUnits.get(1), naiveUnits.get(2), naiveUnits.get(3),
-					naiveUnits.get(4));
+					SetSerialization.instNameNomalize(naiveUnits.get(4)));
 			LikePrefer like = new LikePrefer(user, inst);
 			likes.add(like);
 		}
@@ -87,7 +87,7 @@ public class PreferViewOperation {
 			List<String> naiveUnits = SetSerialization.deserialize1(naiveTerm);
 			UriInstance inst = RdfFactory.getInstance().createInstance(
 					naiveUnits.get(1), naiveUnits.get(2), naiveUnits.get(3),
-					naiveUnits.get(4));
+					SetSerialization.instNameNomalize(naiveUnits.get(4)));
 			LikePrefer like = new LikePrefer(user, inst);
 			likes.add(like);
 		}
@@ -116,7 +116,7 @@ public class PreferViewOperation {
 			List<String> naiveUnits = SetSerialization.deserialize1(naiveTerm);
 			UriInstance inst = RdfFactory.getInstance().createInstance(
 					naiveUnits.get(1), naiveUnits.get(2), naiveUnits.get(3),
-					naiveUnits.get(4));
+					SetSerialization.instNameNomalize(naiveUnits.get(4)));
 			DislikePrefer disLike = new DislikePrefer(user, inst);
 			dislikes.add(disLike);
 		}
@@ -141,7 +141,7 @@ public class PreferViewOperation {
 			List<String> naiveUnits = SetSerialization.deserialize1(naiveTerm);
 			UriInstance inst = RdfFactory.getInstance().createInstance(
 					naiveUnits.get(1), naiveUnits.get(2), naiveUnits.get(3),
-					naiveUnits.get(4));
+					SetSerialization.instNameNomalize(naiveUnits.get(4)));
 			DislikePrefer disLike = new DislikePrefer(user, inst);
 			dislikes.add(disLike);
 		}
@@ -176,4 +176,5 @@ public class PreferViewOperation {
 		}
 		return commomLikes;
 	}
+	
 }
