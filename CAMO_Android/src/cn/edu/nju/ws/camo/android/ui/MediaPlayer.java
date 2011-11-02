@@ -58,7 +58,11 @@ public class MediaPlayer extends Activity implements OnClickListener {
 	private RelativeLayout relativeLayout_movie;
 	private ImageButton imageButton_favMusic;
 	private boolean isFavoredMedia;
+	private boolean canChangeMedia;
 	
+//	private LoadActorListTask loadActorListTask;
+//	private GetRecommandedUserTask getRmdUserTask;
+
 	
 	
     /** Called when the activity is first created. */
@@ -83,13 +87,20 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		String mediaType = currentPlaying.getMediaType();
 		textView_mediaPlayerTitle.setText(currentPlaying.getName());
 		actorList.clear();
+		
+//		if(loadActorListTask == null)
+//			loadActorListTask = new LoadActorListTask();
+//		if(getRmdUserTask == null)
+//			getRmdUserTask = new GetRecommandedUserTask();
+		
+
 
 		if(mediaType.equals("music")) {
 			imageView_current.setImageDrawable(getResources().getDrawable(R.drawable.music));
 			if(MediaInterest.isFavoredMedia(currentUser, currentPlaying)) {
 				isFavoredMedia = true;
 				imageButton_favMusic.setImageDrawable(getResources().getDrawable(R.drawable.fav_on));
-				getRecommandedUser();
+				//getRecommandedUser();
 			}
 			else {
 				isFavoredMedia = false;
@@ -155,51 +166,11 @@ public class MediaPlayer extends Activity implements OnClickListener {
     	
     	LinearLayout linearLayout_loading = (LinearLayout)findViewById(R.id.linearLayout_loading);
     	relativeLayout_movie.setVisibility(View.GONE);
-		linearLayout_loading.setVisibility(View.VISIBLE);
-		
-    	class LoadActorListTask extends AsyncTask <String,Void,String>{
-			@Override
-			protected String doInBackground(String... params) {
-				try {
-					UriInstWithNeigh triples = InstViewManager.viewInstDown(currentPlaying);
-					if(triples == null) {
-						return null;
-					}
-					ArrayList<Triple> triplesDown = triples.getTriplesDown();
-					Iterator<Triple> iter = triplesDown.iterator();
-					while(iter.hasNext()) {
-						Triple curTriple = iter.next();
-						if(//curTriple.getPredicate().getName().equals("Actor") ||
-							curTriple.getPredicate().getName().equals("Starring") &&
-							!curTriple.getObject().getName().equals("")) {
-							actorList.add((UriInstance) curTriple.getObject());
-						}
-					}
-					favoredActorList = MediaArtistInterest.viewFavoredArtist(currentUser, currentPlaying);
-					if(!favoredActorList.isEmpty()) {
-						getRecommandedUser();
-					}
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (XmlPullParserException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				return null;
-			}
-			
-			protected void onPostExecute(String result) {
-				LinearLayout linearLayout_loading = (LinearLayout)findViewById(R.id.linearLayout_loading);
-				linearLayout_loading.setVisibility(View.GONE);
-				relativeLayout_movie.setVisibility(View.VISIBLE);
-				initActorListView();
-			} 		
-    	}    	
+		linearLayout_loading.setVisibility(View.VISIBLE);   	
 
-    		
-		new LoadActorListTask().execute("");
-    	
+    	new LoadActorListTask().execute("");
+		//loadActorListTask.execute("");
+		
     }
     
     private void initActorListView() {
@@ -310,12 +281,16 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			new RdfInstanceLoader(MediaPlayer.this, currentPlaying).loadRdfInstance();
 			break;
 		case R.id.imageButton_next:
-			playList.next();
-			initCurrentPlaying();
+			if(canChangeMedia) {
+				playList.next();
+				initCurrentPlaying();
+			}
 			break;
 		case R.id.imageButton_prev:
-			playList.prev();
-			initCurrentPlaying();
+			if(canChangeMedia) {
+				playList.prev();
+				initCurrentPlaying();
+			}
 			break;
 		case R.id.button_recommandedUser:			
 			Intent recommandedUserIntent = new Intent(MediaPlayer.this, RecommandedUserListViewer.class);
@@ -350,26 +325,75 @@ public class MediaPlayer extends Activity implements OnClickListener {
 	}
 	
 	private void getRecommandedUser() {
-		button_recommandedUser.setVisibility(View.GONE);
-		class getRecommandedUserTask extends AsyncTask <String, Void, String>{
-
-			@Override
-			protected String doInBackground(String... params) {
-				if(params[0].equals("music"))
-					((CAMO_Application)getApplication()).initRmdFeedbackList(RmdFeedbackList.MUSIC, currentPlaying);
-				else if(params[0].equals("movie")) {
-					((CAMO_Application)getApplication()).initRmdFeedbackList(RmdFeedbackList.MOVIE, currentPlaying);
-				}
-				return null;
-			}
-			protected void onPostExecute(String result) {
-				if(((CAMO_Application)getApplication()).rmdFeedbackNotEmpty())
-					button_recommandedUser.setVisibility(View.VISIBLE);
-				else {
-					button_recommandedUser.setVisibility(View.GONE);
-				}
-			}
-		}		
-		new getRecommandedUserTask().execute(currentPlaying.getMediaType());
+		canChangeMedia = false;
+//		button_recommandedUser.setVisibility(View.GONE);
+		new GetRecommandedUserTask().execute(currentPlaying.getMediaType());
+//		getRmdUserTask.execute(currentPlaying.getMediaType());
 	}
+	
+	class GetRecommandedUserTask extends AsyncTask <String, Void, String>{
+
+		@Override
+		protected String doInBackground(String... params) {
+			//button_recommandedUser.setVisibility(View.GONE);
+			if(isCancelled())
+				return null;
+			if(params[0].equals("music"))
+				((CAMO_Application)getApplication()).initRmdFeedbackList(RmdFeedbackList.MUSIC, currentPlaying);
+			else if(params[0].equals("movie")) {
+				((CAMO_Application)getApplication()).initRmdFeedbackList(RmdFeedbackList.MOVIE, currentPlaying);
+			}
+			return null;
+		}
+		protected void onPostExecute(String result) {
+			if(((CAMO_Application)getApplication()).rmdFeedbackNotEmpty())
+				button_recommandedUser.setVisibility(View.VISIBLE);
+			else {
+				button_recommandedUser.setVisibility(View.GONE);
+			}
+			canChangeMedia = true;
+		}
+	}
+	
+	class LoadActorListTask extends AsyncTask <String,Void,String>{
+		@Override
+		protected String doInBackground(String... params) {			
+			if(isCancelled())
+				return null;
+			try {
+				UriInstWithNeigh triples = InstViewManager.viewInstDown(currentPlaying);
+				if(triples == null) {
+					return null;
+				}
+				ArrayList<Triple> triplesDown = triples.getTriplesDown();
+				Iterator<Triple> iter = triplesDown.iterator();
+				while(iter.hasNext()) {
+					Triple curTriple = iter.next();
+					if(//curTriple.getPredicate().getName().equals("Actor") ||
+						curTriple.getPredicate().getName().equals("Starring") &&
+						!curTriple.getObject().getName().equals("")) {
+						actorList.add((UriInstance) curTriple.getObject());
+					}
+				}
+				favoredActorList = MediaArtistInterest.viewFavoredArtist(currentUser, currentPlaying);
+				if(!favoredActorList.isEmpty()) {
+					getRecommandedUser();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (XmlPullParserException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+		
+		protected void onPostExecute(String result) {
+			LinearLayout linearLayout_loading = (LinearLayout)findViewById(R.id.linearLayout_loading);
+			linearLayout_loading.setVisibility(View.GONE);
+			initActorListView();
+			relativeLayout_movie.setVisibility(View.VISIBLE);			
+		} 		
+	}    	
 }
