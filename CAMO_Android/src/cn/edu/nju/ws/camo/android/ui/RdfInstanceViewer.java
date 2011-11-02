@@ -167,7 +167,6 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				// TODO Auto-generated method stub								
 				Resource selected = triplesDown.get(arg2).getObject();
 				if(selected instanceof UriInstance && ((UriInstance) selected).canShowed()) {
 					new RdfInstanceLoader(RdfInstanceViewer.this, (UriInstance) selected).loadRdfInstance();
@@ -187,7 +186,6 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				// TODO Auto-generated method stub				
 				UriInstance selected = triplesUp.get(arg2).getSubject();
 				if(selected.canShowed()) {
 					new RdfInstanceLoader(RdfInstanceViewer.this, (UriInstance) selected).loadRdfInstance();
@@ -238,7 +236,6 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 	@Override
 	public void onClick(View v) {
 		
-		// TODO Auto-generated method stub
 		switch(v.getId()) {
 		case R.id.button_dislike:			
 			toggleDislikeButton();			
@@ -414,25 +411,21 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
 			return itemViews.length;
 		}
 
 		@Override
 		public Object getItem(int position) {
-			// TODO Auto-generated method stub
 			return itemViews[position];
 		}
 
 		@Override
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
 			return position;
 		}
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			// TODO Auto-generated method stub		
 				return itemViews[position];
 		
 		}

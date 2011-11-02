@@ -6,14 +6,19 @@ import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import cn.edu.nju.ws.camo.android.R;
 import cn.edu.nju.ws.camo.android.operate.PreferViewOperation;
@@ -28,6 +33,9 @@ import cn.edu.nju.ws.camo.android.util.User;
 public class DislikeListViewer extends TabActivity implements OnItemClickListener{
 	
 	private User currentUser;
+	
+    public final static int MENU_DELETE = 0;
+    public final static int MENU_ENTER = 1;
 	
 	private List<DislikePrefer> artistPreferList;
 	private List<DislikePrefer> musicPreferList;
@@ -105,6 +113,10 @@ public class DislikeListViewer extends TabActivity implements OnItemClickListene
 		listView_music.setOnItemClickListener(this);
 		listView_movie.setOnItemClickListener(this);
 		listView_photo.setOnItemClickListener(this);
+		
+		this.registerForContextMenu(listView_music);
+		this.registerForContextMenu(listView_movie);
+		this.registerForContextMenu(listView_photo);
 	}
 	
 
@@ -196,4 +208,17 @@ public class DislikeListViewer extends TabActivity implements OnItemClickListene
 		}
 		new RdfInstanceLoader(DislikeListViewer.this, targetUri).loadRdfInstance();		
 	}
+	
+    public void onCreateContextMenu(ContextMenu menu, View v,  
+            ContextMenuInfo menuInfo) {
+    	menu.add(0, MENU_DELETE, 0, "Delete");
+    	menu.add(0, MENU_ENTER, 0, "Enter");
+    }  
+    
+    public boolean onContextItemSelected(MenuItem item) {  
+    	AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) item.getMenuInfo();    	
+    	int position = menuInfo.position;
+    	Toast.makeText(this,"pos: " + position, Toast.LENGTH_SHORT).show();
+    	return true;
+    }
 }

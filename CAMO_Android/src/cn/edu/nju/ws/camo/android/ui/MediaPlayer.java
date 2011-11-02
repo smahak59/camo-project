@@ -70,9 +70,12 @@ public class MediaPlayer extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.media_player); 
         initPlayList();
-        initComponents();
-        initCurrentPlaying();
-        
+        initComponents();                
+    }
+    
+    public void onStart() {
+    	super.onStart();
+    	initCurrentPlaying();
     }
     
     private void initCurrentPlaying() {
@@ -124,7 +127,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
         relativeLayout_music = (RelativeLayout) findViewById(R.id.relativeLayout_music);
         relativeLayout_movie = (RelativeLayout) findViewById(R.id.relativeLayout_movie);
         imageButton_favMusic = (ImageButton) findViewById(R.id.imageButton_favMusic);        
-        this.registerForContextMenu(findViewById(R.id.imageButton_playList));
+
         
         imageButton_detailInfo.setOnTouchListener(CAMO_AndroidActivity.touchListener);
         imageButton_playList.setOnTouchListener(CAMO_AndroidActivity.touchListener);
@@ -150,25 +153,6 @@ public class MediaPlayer extends Activity implements OnClickListener {
         playList.add(currentPlayingUri3); 
         
 	}
-    
-    public void onCreateContextMenu(ContextMenu menu, View v,  
-            ContextMenuInfo menuInfo) {
-    	menu.setHeaderTitle("Playlist");
-        menu.setHeaderIcon(R.drawable.playlist_big);
-        for(int i = 0; i < playList.length(); i++) {        	
-        	menu.add(0, i, 0, playList.getInstance(i).getName());
-        }
-    }  
-    
-    public boolean onContextItemSelected(MenuItem item) {  
-    	playList.playByIndex(item.getItemId());
-    	initCurrentPlaying();
-    	return true;
-    }
-
-
-
-
 	private void loadActorList() {
     	
     	LinearLayout linearLayout_loading = (LinearLayout)findViewById(R.id.linearLayout_loading);
@@ -325,7 +309,10 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			toggleFavorMusicButton();
 			break;
 		case R.id.imageButton_playList:
-			imageButton_playList.showContextMenu();
+			Intent playListIntent = new Intent(MediaPlayer.this, PlayListViewer.class);
+			startActivity(playListIntent);			
+			
+			//imageButton_playList.showContextMenu();
 			break;
 		}
 		
