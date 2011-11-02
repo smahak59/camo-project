@@ -20,6 +20,7 @@ public class PlayListDatabase {
 		DatabaseHelper dbHelper = new DatabaseHelper(context,"CAMO_db");//"name" is the name of the table to be created!
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		if(isNeedCreateNewTable())db.execSQL("CREATE TABLE movieList(id INT PRIMAARY KEY,uri VARCHAR(50),classType VARCHAR(20),name VARCHAR(30),mediaType VARCHAR(20) )");
+		dbHelper.close();
 	}
 	
 	private boolean isNeedCreateNewTable()
@@ -29,9 +30,14 @@ public class PlayListDatabase {
 		Cursor cursor = db.query("sqlite_master", new String[]{"name"},"name=?",new String[]{"movieList"},null,null,null);
 		if(cursor.moveToNext())
 		{
+			dbHelper.close();
 			return false;
 		}
-		else return true;
+		else
+			{
+				dbHelper.close();
+				return true;
+			}
 	}
 	
 	//id的值最好连续，这样方便遍历
@@ -45,6 +51,7 @@ public class PlayListDatabase {
 		DatabaseHelper dbHelper = new DatabaseHelper(context,"CAMO_db");
 		SQLiteDatabase db= dbHelper.getWritableDatabase();
 		db.insert("movieList", null, value);
+		dbHelper.close();
 	}
 	
 	public void delete(int id)
@@ -52,37 +59,48 @@ public class PlayListDatabase {
 		DatabaseHelper dbHelper = new DatabaseHelper(context,"CAMO_db");
 		SQLiteDatabase db= dbHelper.getWritableDatabase();
 		db.delete("movieList", "u_id=?", new String[]{Integer.toString(id)});
+		dbHelper.close();
 	}
 	
-	public void update(int u_id,String nickname,String trigger_inst1,String trigger_inst2){
-		ContentValues value = new ContentValues();
-		//value.put("u_id",u_id);
-		if(nickname!=null)value.put("nickname",nickname);
-		if(trigger_inst1!=null)value.put("trigger_inst1",trigger_inst1);
-		if(trigger_inst2!=null)value.put("trigger_inst2",trigger_inst2);
-		DatabaseHelper dbHelper = new DatabaseHelper(context,"CAMO_db");
-		SQLiteDatabase db= dbHelper.getWritableDatabase();
-		db.update("u_recommend", value, "u_id=?",new String[]{Integer.toString(u_id)});
-	}
-	public void update(int u_id,String nickname,String trigger_inst1,String trigger_inst2,int rule){
-		ContentValues value = new ContentValues();
-		//value.put("u_id",u_id);
-		if(nickname!=null)value.put("nickname",nickname);
-		if(trigger_inst1!=null)value.put("trigger_inst1",trigger_inst1);
-		if(trigger_inst2!=null)value.put("trigger_inst2",trigger_inst2);
-		value.put("rule",rule);
-		DatabaseHelper dbHelper = new DatabaseHelper(context,"CAMO_db");
-		SQLiteDatabase db= dbHelper.getWritableDatabase();
-		db.update("u_recommend", value, "u_id=?",new String[]{Integer.toString(u_id)});
-	}
+//	public void update(int u_id,String nickname,String trigger_inst1,String trigger_inst2){
+//		ContentValues value = new ContentValues();
+//		//value.put("u_id",u_id);
+//		if(nickname!=null)value.put("nickname",nickname);
+//		if(trigger_inst1!=null)value.put("trigger_inst1",trigger_inst1);
+//		if(trigger_inst2!=null)value.put("trigger_inst2",trigger_inst2);
+//		DatabaseHelper dbHelper = new DatabaseHelper(context,"CAMO_db");
+//		SQLiteDatabase db= dbHelper.getWritableDatabase();
+//		db.update("u_recommend", value, "u_id=?",new String[]{Integer.toString(u_id)});
+//		dbHelper.close();
+//	}
+//	public void update(int u_id,String nickname,String trigger_inst1,String trigger_inst2,int rule){
+//		ContentValues value = new ContentValues();
+//		//value.put("u_id",u_id);
+//		if(nickname!=null)value.put("nickname",nickname);
+//		if(trigger_inst1!=null)value.put("trigger_inst1",trigger_inst1);
+//		if(trigger_inst2!=null)value.put("trigger_inst2",trigger_inst2);
+//		value.put("rule",rule);
+//		DatabaseHelper dbHelper = new DatabaseHelper(context,"CAMO_db");
+//		SQLiteDatabase db= dbHelper.getWritableDatabase();
+//		db.update("u_recommend", value, "u_id=?",new String[]{Integer.toString(u_id)});
+//		dbHelper.close();
+//	}
 	
 	public boolean isEmpty()
 	{
 		DatabaseHelper dbHelper = new DatabaseHelper(context,"CAMO_db");
 		SQLiteDatabase db= dbHelper.getWritableDatabase();
 		Cursor cursor = db.query("movieList", new String[]{"id","uri","classType","name","mediaType"}, "id=?", new String[]{Integer.toString(0)}, null, null, null);
-		if(cursor.moveToNext())return false;
-		else return true;
+		if(cursor.moveToNext())
+			{
+				dbHelper.close();
+				return false;
+			}
+		else
+			{
+				dbHelper.close();
+				return true;
+			}
 	}
 	
 	//在使用该函数之前最好先判断数据库中movieList这个表是否为空
@@ -103,6 +121,7 @@ public class PlayListDatabase {
 		}
 		RdfFactory factory = RdfFactory.getInstance();
 		UriInstance item= factory.createInstance(uri,mediaType,classType,name);
+		dbHelper.close();
 		return item;
 	}
 	
@@ -112,8 +131,10 @@ public class PlayListDatabase {
 		Cursor cursor = db.query("movieList", new String[]{"COUNT(*)"}, null,null, null, null, null);
 		int length=0;
 		if(cursor.moveToNext()){
+			dbHelper.close();
 			length= cursor.getInt(0);
 		}
+		dbHelper.close();
 		return length;
 	}
 
