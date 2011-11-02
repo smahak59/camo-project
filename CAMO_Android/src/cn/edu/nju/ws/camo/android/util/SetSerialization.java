@@ -126,4 +126,20 @@ public class SetSerialization {
 		String newStr = str.replaceAll("\"", "").replaceAll("'", "");
 		return newStr;
 	}
+	
+	public static String instNameNomalize(String str) {
+		String result = str;
+		int endIdx = str.indexOf("^^");
+		if (endIdx > 0)
+			result = str.substring(0, endIdx);
+		endIdx = result.indexOf("@en");
+		if (endIdx > 0)
+			result = str.substring(0, endIdx);
+		endIdx = result.indexOf("(");
+		if (endIdx > 0)
+			result = str.substring(0, endIdx);
+		result.replaceAll("%", " ");
+		result.replaceAll("_", " ");
+		return result;
+	}
 }
