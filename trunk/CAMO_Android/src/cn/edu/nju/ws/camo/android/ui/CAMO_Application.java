@@ -102,6 +102,10 @@ public class CAMO_Application extends Application {
 		return friendList.isLoaded();
 	}
 	
+	public void addToPlayList(UriInstance inst) {
+		playList.add(inst);
+	}
+	
 	public List<LikePrefer> getLikePreferList(int type) {
 		List<LikePrefer> likePreferList = null;
 		switch(type) {
