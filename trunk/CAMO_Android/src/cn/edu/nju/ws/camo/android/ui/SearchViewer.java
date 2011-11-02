@@ -31,6 +31,7 @@ import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 public class SearchViewer extends Activity {
 	private ImageButton imageButton_search;
 	private EditText editText_searchKey;
+	private String searchKey;
 	private Set<UriInstance> searchResultMusic;
 	private Set<UriInstance> searchResultMovie;
 	private Set<UriInstance> searchResultPhoto;
@@ -49,17 +50,20 @@ public class SearchViewer extends Activity {
 		imageButton_search.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				searchKey = editText_searchKey.getText().toString().trim();
+				if(searchKey.equals(""))
+					return;
 				LinearLayout linearLayout_loading=(LinearLayout)findViewById(R.id.linearLayout_loading);
 				linearLayout_loading.setVisibility(View.VISIBLE);
 				expandableListView_searchResult.setVisibility(View.GONE);
 				class SearchTask extends AsyncTask<String,Void,String> {
 					@Override
 					protected String doInBackground(String... params) {
-						String searchKey = editText_searchKey.getText().toString();
+						
 						try {
-							searchResultMusic = InstViewOperation.searchInst(searchKey, "music");						
-							searchResultMovie = InstViewOperation.searchInst(searchKey, "movie");
-							searchResultPhoto = InstViewOperation.searchInst(searchKey, "photo");
+							searchResultMusic = InstViewOperation.searchInst(params[0], "music");						
+							searchResultMovie = InstViewOperation.searchInst(params[0], "movie");
+							searchResultPhoto = InstViewOperation.searchInst(params[0], "photo");
 							trimResult(searchResultMusic);
 							trimResult(searchResultMovie);
 							trimResult(searchResultPhoto);
@@ -114,7 +118,7 @@ public class SearchViewer extends Activity {
 						}
 					}
 				}
-				new SearchTask().execute("");						
+				new SearchTask().execute(searchKey);						
 			}			
 		});		
 	}
