@@ -3,29 +3,29 @@ package cn.edu.nju.ws.camo.android.ui;
  * @author Cunxin Jia
  *
  */
-import cn.edu.nju.ws.camo.android.R;
-import cn.edu.nju.ws.camo.android.connect.server.ServerConfig;
-import cn.edu.nju.ws.camo.android.rdf.RdfFactory;
-import cn.edu.nju.ws.camo.android.rdf.UriInstance;
-import cn.edu.nju.ws.camo.android.util.SerKeys;
-import cn.edu.nju.ws.camo.android.util.UtilConfig;
-import cn.edu.nju.ws.camo.android.util.UtilParam;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.view.View.OnTouchListener;
+import android.widget.ImageButton;
 import android.widget.Toast;
+import cn.edu.nju.ws.camo.android.R;
+import cn.edu.nju.ws.camo.android.connect.server.ServerConfig;
+import cn.edu.nju.ws.camo.android.util.UtilConfig;
+import cn.edu.nju.ws.camo.android.util.UtilParam;
 
 public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 	private CAMO_Application CAMO_app;
-	private Button button_viewLike;
-	private Button button_viewDislike;
-	private Button button_viewMediaPlayer;
-	private Button button_viewSearch;
-	private Button button_viewFriendList;
+	private ImageButton imageButton_viewLike;
+	private ImageButton imageButton_viewDislike;
+	private ImageButton imageButton_viewMediaPlayer;
+	private ImageButton imageButton_viewSearch;
+	//private ImageButton imageButton_viewFriendList;	
+
 
     /** Called when the activity is first created. */
     @Override
@@ -53,16 +53,24 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 
 
 	private void initViewComponents() {
-    	button_viewLike = (Button) findViewById(R.id.button_viewLike);
-    	button_viewDislike = (Button) findViewById(R.id.button_viewDislike);
-    	button_viewMediaPlayer = (Button) findViewById(R.id.button_viewMediaPlayer);
-    	button_viewSearch = (Button) findViewById(R.id.button_viewSearch);
-    	button_viewFriendList = (Button) findViewById(R.id.button_viewFriendList);
-    	button_viewLike.setOnClickListener(this);	
-    	button_viewDislike.setOnClickListener(this);
-    	button_viewMediaPlayer.setOnClickListener(this);
-    	button_viewSearch.setOnClickListener(this);
-    	button_viewFriendList.setOnClickListener(this);
+    	imageButton_viewLike =  (ImageButton) findViewById(R.id.imageButton_viewLike);
+    	imageButton_viewDislike = (ImageButton) findViewById(R.id.imageButton_viewDislike);
+    	imageButton_viewMediaPlayer = (ImageButton) findViewById(R.id.imageButton_viewMediaPlayer);
+    	imageButton_viewSearch = (ImageButton) findViewById(R.id.imageButton_viewSearch);
+
+    	
+
+    	
+    	imageButton_viewLike.setOnClickListener(this);	
+    	imageButton_viewDislike.setOnClickListener(this);
+    	imageButton_viewMediaPlayer.setOnClickListener(this);
+    	imageButton_viewSearch.setOnClickListener(this);
+
+    	imageButton_viewLike.setOnTouchListener(touchListener);
+    	imageButton_viewDislike.setOnTouchListener(touchListener);
+    	imageButton_viewMediaPlayer.setOnTouchListener(touchListener);
+    	imageButton_viewSearch.setOnTouchListener(touchListener);
+    	
 	}
 
 
@@ -71,7 +79,7 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch(v.getId()) {			
-		case R.id.button_viewLike:
+		case R.id.imageButton_viewLike:
 			if(!CAMO_app.preferListIsLoaded()) {
 				Toast.makeText(CAMO_AndroidActivity.this, "My Like is loading...", Toast.LENGTH_SHORT).show();
 			}
@@ -80,7 +88,7 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 				startActivity(likeIntent);
 			}
 			break;
-		case R.id.button_viewDislike:
+		case R.id.imageButton_viewDislike:
 			if(!CAMO_app.preferListIsLoaded()) {
 				Toast.makeText(CAMO_AndroidActivity.this, "My Dislike is loading...", Toast.LENGTH_SHORT).show();
 			}
@@ -89,23 +97,41 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 				startActivity(dislikeIntent);
 			}
 			break;
-		case R.id.button_viewMediaPlayer:		
+		case R.id.imageButton_viewMediaPlayer:		
 			Intent mediaPlayerIntent = new Intent(this, MediaPlayer.class);			
 			startActivity(mediaPlayerIntent);
 			break;
-		case R.id.button_viewSearch:
+		case R.id.imageButton_viewSearch:
 			Intent viewSearchIntent = new Intent(this, SearchViewer.class);			
 			startActivity(viewSearchIntent);
 			break;
-		case R.id.button_viewFriendList:
-			if(!CAMO_app.preferListIsLoaded()) {
-				Toast.makeText(CAMO_AndroidActivity.this, "My Friends is loading...", Toast.LENGTH_SHORT).show();
-			}
-			else {
-				Intent viewFriendListIntent = new Intent(this, FriendListViewer.class);
-				startActivity(viewFriendListIntent);
-			}
-			break;
+//		case R.id.button_viewFriendList:
+//			if(!CAMO_app.preferListIsLoaded()) {
+//				Toast.makeText(CAMO_AndroidActivity.this, "My Friends is loading...", Toast.LENGTH_SHORT).show();
+//			}
+//			else {
+//				Intent viewFriendListIntent = new Intent(this, FriendListViewer.class);
+//				startActivity(viewFriendListIntent);
+//			}
+//			break;
 		}
 	}
+
+	public static final OnTouchListener touchListener = new OnTouchListener() { 
+		  
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			if(event.getAction()==MotionEvent.ACTION_DOWN){
+				((ImageButton)v).getDrawable().setAlpha(150);
+				v.invalidate();
+			}
+			else {
+				((ImageButton)v).getDrawable().setAlpha(255);
+				v.invalidate();
+			}
+			return false;
+		} 
+
+	};
+ 
 }

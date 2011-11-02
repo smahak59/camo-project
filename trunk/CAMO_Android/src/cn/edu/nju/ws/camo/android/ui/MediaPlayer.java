@@ -60,6 +60,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 	private RelativeLayout relativeLayout_music;
 	private RelativeLayout relativeLayout_movie;
 	private ImageButton imageButton_favMusic;
+	private boolean isFavoredMedia;
 	
 	
 	
@@ -85,6 +86,15 @@ public class MediaPlayer extends Activity implements OnClickListener {
 
 		if(mediaType.equals("music")) {
 			imageView_current.setImageDrawable(getResources().getDrawable(R.drawable.music));
+			if(MediaInterest.isFavoredMedia(currentUser, currentPlaying)) {
+				isFavoredMedia = true;
+				imageButton_favMusic.setImageDrawable(getResources().getDrawable(R.drawable.fav_on));
+				getRecommandedUser();
+			}
+			else {
+				isFavoredMedia = false;
+				imageButton_favMusic.setImageDrawable(getResources().getDrawable(R.drawable.fav_off));
+			}
 			relativeLayout_music.setVisibility(View.VISIBLE);
 		}
 		else if(mediaType.equals("movie")) {
@@ -309,7 +319,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			startActivity(recommandedUserIntent);			
 			break;
 		case R.id.imageButton_favMusic:
-			toggleFavMusicButton();
+			toggleFavorMusicButton();
 			break;
 		case R.id.imageButton_playList:
 			imageButton_playList.showContextMenu();
@@ -318,14 +328,23 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		
 	}
 
-	private void toggleFavMusicButton() {
+	private void toggleFavorMusicButton() {
 		MediaInterest mediaInterest = new MediaInterest(currentUser, currentPlaying);
-		mediaInterest.getCreateCmd().execute();
-		imageButton_favMusic.setImageDrawable(getResources().getDrawable(R.drawable.fav_on));
+		if(isFavoredMedia) {
+			mediaInterest.getDeleteCmd().execute();
+			imageButton_favMusic.setImageDrawable(getResources().getDrawable(R.drawable.fav_off));
+			isFavoredMedia = false;
+		}
+		else {
+			mediaInterest.getCreateCmd().execute();
+			imageButton_favMusic.setImageDrawable(getResources().getDrawable(R.drawable.fav_on));
+			isFavoredMedia = true;
+		}
 		getRecommandedUser();
 	}
 	
 	private void getRecommandedUser() {
+		button_recommandedUser.setVisibility(View.GONE);
 		class getRecommandedUserTask extends AsyncTask <String, Void, String>{
 
 			@Override
