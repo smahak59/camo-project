@@ -64,6 +64,8 @@ public class UserManager {
 		String naiveUser = WebService.getInstance().runFunction(ServerParam.USER_URL, GET_USER_ID, paramValues);
 		if(naiveUser.equals(""))
 			return null;
+		if(naiveUser.equals(ServerParam.NETWORK_ERROR1))
+			return null;
 		List<String> userInfo = SetSerialization.deserialize1(naiveUser);
 		if(userInfo.size()>0) {
 			user = new User(uid);
@@ -81,6 +83,8 @@ public class UserManager {
 		Object[] paramValues = {email};
 		String naiveUser = WebService.getInstance().runFunction(ServerParam.USER_URL, GET_USER_MAIL, paramValues);
 		if(naiveUser.equals(""))
+			return null;
+		if(naiveUser.equals(ServerParam.NETWORK_ERROR1))
 			return null;
 		List<String> userInfo = SetSerialization.deserialize1(naiveUser);
 		if(userInfo != null && userInfo.size()>0) {
@@ -106,6 +110,8 @@ public class UserManager {
 		Object[] paramValues = {email,pwd};
 		String naiveUser = WebService.getInstance().runFunction(ServerParam.USER_URL, GET_USER_PWD, paramValues);
 		if(naiveUser.equals(""))
+			return null;
+		if(naiveUser.equals(ServerParam.NETWORK_ERROR1))
 			return null;
 		List<String> userInfo = SetSerialization.deserialize1(naiveUser);
 		if(userInfo != null && userInfo.size()>0) {

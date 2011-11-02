@@ -49,6 +49,7 @@ public class WebService {
 				result = response.toString();
 			}
 		} catch (IOException e) {
+			System.out.println(e.getMessage());
 			return "network_error#1";
 		} catch (XmlPullParserException e) {
 			return "network_error#1";
