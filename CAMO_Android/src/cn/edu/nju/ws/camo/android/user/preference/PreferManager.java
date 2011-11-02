@@ -176,14 +176,55 @@ public class PreferManager {
 	}
 	
 	public static Command createLikeCmd(LikePrefer prefer) {
+		class LikeCommand implements Command {
+			private LikePrefer prefer;
+			LikeCommand(LikePrefer prefer) {
+				this.prefer = prefer;
+			}
+			public void execute() {
+				Object[] paramValues = { prefer.getUser().getId(),
+						prefer.getInst().getUri(), prefer.getInst().getMediaType(),
+						prefer.getInst().getClassType(), prefer.getInst().getName(),
+						Command.LIKE, Command.DISSUBSCRIBE };
+				WebService.getInstance().runFunction(ServerParam.USER_URL,
+						"addPreference", paramValues);
+			}
+		}
 		return new LikeCommand(prefer);
 	}
 	
 	public static Command createCancelPreferCmd(Preference prefer) {
+		class DelPreferCommand implements Command {
+			private Preference prefer;
+			public DelPreferCommand(Preference prefer) {
+				this.prefer = prefer;
+			}
+			public void execute() {
+				Object[] paramValues = { prefer.getUser().getId(),
+						prefer.getInst().getUri() };
+				WebService.getInstance().runFunction(ServerParam.USER_URL,
+						"delPreference", paramValues);
+			}
+		}
 		return new DelPreferCommand(prefer);
 	}
 	
 	public static Command createDislikeCmd(DislikePrefer prefer) {
+		class DislikeCommand implements Command {
+			private DislikePrefer prefer;
+			DislikeCommand(DislikePrefer prefer) {
+				this.prefer = prefer;
+			}
+			public void execute() {
+				Object[] paramValues = { prefer.getUser().getId(),
+						prefer.getInst().getUri(), prefer.getInst().getMediaType(),
+						prefer.getInst().getClassType(), prefer.getInst().getName(),
+						Command.DISLIKE, Command.DISSUBSCRIBE };
+				WebService.getInstance().runFunction(ServerParam.USER_URL,
+						"addPreference", paramValues);
+			}
+		}
 		return new DislikeCommand(prefer);
 	}
+	
 }
