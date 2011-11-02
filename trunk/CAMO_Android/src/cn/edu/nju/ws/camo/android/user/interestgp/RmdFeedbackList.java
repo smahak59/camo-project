@@ -27,10 +27,10 @@ public class RmdFeedbackList {
 	}
 	
 	public boolean notEmpty() {
-		if(rmdFeedbackList.size() != 0)
-			return true;
-		else
+		if(rmdFeedbackList == null || rmdFeedbackList.size() == 0)
 			return false;
+		else
+			return true;
 	}
 	
 	public List<RmdFeedback> getRmdFeedbackList() {
