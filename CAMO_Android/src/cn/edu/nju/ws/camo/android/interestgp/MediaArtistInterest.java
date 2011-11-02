@@ -41,7 +41,7 @@ public class MediaArtistInterest extends MediaInterest  {
 		String naiveAritsts = WebService.getInstance().runFunction(
 				ServerParam.INTERESET_GP_URL, "getFavoredArtist", paramValues);
 		if(naiveAritsts.equals(ServerParam.NETWORK_ERROR1))
-			return null;
+			return artists;
 		if(naiveAritsts.length()==0)
 			return artists;
 		List<String> naiveAritstList = SetSerialization.deserialize2(naiveAritsts);

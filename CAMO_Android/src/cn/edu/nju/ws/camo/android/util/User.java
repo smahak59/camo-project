@@ -14,6 +14,8 @@ public class User implements Serializable {
 	private String name;
 	private String sex;	//male or female
 	
+	public static final User BLANK_USER = new User(-10);
+	
 	public User(int id) {
 		this.id = id;
 	}
@@ -44,5 +46,9 @@ public class User implements Serializable {
 	
 	public int getId() {
 		return this.id;
+	}
+	
+	public static boolean isBlankUser(User curUser) {
+		return curUser == BLANK_USER;
 	}
 }

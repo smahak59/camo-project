@@ -48,7 +48,7 @@ public class InterestGroup {
 		if (naiveResult.equals(""))
 			return rmdUserList;
 		if (naiveResult.equals(ServerParam.NETWORK_ERROR1))
-			return null;
+			return rmdUserList;
 		List<String> naiveRecordList = SetSerialization.deserialize3(naiveResult);
 		for(String naiveRecord : naiveRecordList) {
 			List<String> naiveUnitList = SetSerialization.deserialize2(naiveRecord);
@@ -91,7 +91,7 @@ public class InterestGroup {
 		if (naiveResult.equals(""))
 			return rmdUserList;
 		if (naiveResult.equals(ServerParam.NETWORK_ERROR1))
-			return null;
+			return rmdUserList;
 		List<String> naiveRecordList = SetSerialization.deserialize3(naiveResult);
 		for(String naiveRecord : naiveRecordList) {
 			List<String> naiveUnitList = SetSerialization.deserialize2(naiveRecord);
