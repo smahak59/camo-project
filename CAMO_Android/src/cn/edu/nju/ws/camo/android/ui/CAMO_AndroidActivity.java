@@ -121,7 +121,7 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 		  
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
-			if(event.getAction()==MotionEvent.ACTION_DOWN){
+			if(event.getAction()== MotionEvent.ACTION_DOWN){
 				((ImageButton)v).getDrawable().setAlpha(150);
 				v.invalidate();
 			}
