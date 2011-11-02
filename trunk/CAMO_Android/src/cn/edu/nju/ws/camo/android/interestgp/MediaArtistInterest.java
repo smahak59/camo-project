@@ -48,7 +48,7 @@ public class MediaArtistInterest extends MediaInterest  {
 		for(String naiveArtist : naiveAritstList) {
 			List<String> naiveTermList = SetSerialization.deserialize1(naiveArtist);
 			if(naiveTermList.size() == 3) {
-				UriInstance inst = RdfFactory.getInstance().createInstance(naiveTermList.get(0), mediaInst.getMediaType(), naiveTermList.get(2), naiveTermList.get(1));
+				UriInstance inst = RdfFactory.getInstance().createInstance(naiveTermList.get(0), mediaInst.getMediaType(), naiveTermList.get(2), SetSerialization.instNameNomalize(naiveTermList.get(1)));
 				artists.add(inst);
 			}
 		}
