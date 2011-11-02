@@ -58,7 +58,7 @@ public class WebService {
 		return result;
 	}
 	
-	public boolean testConnection() throws InterruptedException {
+	public static boolean testConnection() throws InterruptedException {
 		class ConnectionTester extends Thread {
 			private String uri;
 			private boolean result = false;
