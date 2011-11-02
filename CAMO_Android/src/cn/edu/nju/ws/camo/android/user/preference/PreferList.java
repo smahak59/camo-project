@@ -1,22 +1,9 @@
 package cn.edu.nju.ws.camo.android.user.preference;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.Iterator;
 import java.util.List;
 
-import org.xmlpull.v1.XmlPullParserException;
-
 import android.os.AsyncTask;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.Toast;
-
-import cn.edu.nju.ws.camo.android.R;
-import cn.edu.nju.ws.camo.android.rdf.InstViewManager;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
-import cn.edu.nju.ws.camo.android.ui.CAMO_AndroidActivity;
-import cn.edu.nju.ws.camo.android.ui.SearchViewer;
 import cn.edu.nju.ws.camo.android.user.User;
 
 public class PreferList {
