@@ -37,6 +37,18 @@ public class MediaInterest {
 		return new DelMediaFavorCmd(user, mediaInst);
 	}
 	
+	public static boolean isFavoredMedia(User user, UriInstance mediaInst) {
+		boolean isFavored = false;
+		Object[] paramValues = { user.getId(), mediaInst.getUri()};
+		String naiveResult = WebService.getInstance().runFunction(
+				ServerParam.INTERESET_GP_URL, "isFavoredMedia", paramValues);
+		if(naiveResult.equals(ServerParam.NETWORK_ERROR1))
+			return false;
+		if(naiveResult.equals("1"))
+			isFavored = true;
+		return isFavored;
+	}
+	
 	class DelMediaFavorCmd implements Command {
 
 		private User user;
