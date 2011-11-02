@@ -9,7 +9,7 @@ import java.util.Set;
 
 import org.xmlpull.v1.XmlPullParserException;
 
-import cn.edu.nju.ws.camo.android.operate.InstViewOperation;
+import cn.edu.nju.ws.camo.android.rdf.InstViewManager;
 import cn.edu.nju.ws.camo.android.rdf.Resource;
 import cn.edu.nju.ws.camo.android.rdf.Triple;
 import cn.edu.nju.ws.camo.android.rdf.UriInstWithNeigh;
@@ -73,7 +73,7 @@ public class RdfInstanceLoader {
 			
 			private void initTriplesDown() {
 				try {
-					UriInstWithNeigh neigh = InstViewOperation.viewInstDown(currentUri);
+					UriInstWithNeigh neigh = InstViewManager.viewInstDown(currentUri);
 					if(neigh == null)
 						triplesDown = new ArrayList<Triple>();
 					else
@@ -93,7 +93,7 @@ public class RdfInstanceLoader {
 			private void initTriplesUp() {
 				UriInstWithNeigh neigh;
 				try {
-					neigh = InstViewOperation.viewInstUp(currentUri);
+					neigh = InstViewManager.viewInstUp(currentUri);
 					if(neigh == null)
 						triplesUp = new ArrayList<Triple>();
 					else
@@ -140,17 +140,14 @@ public class RdfInstanceLoader {
 					if(curTriple.getPredicate().getName().equals(""))
 						continue;
 					if(triplesDownMap.get(curTriple.getObject()) != null) {
-						String predicateString = triplesDownMap.get(curTriple.getObject()).getPredicate().getName();
+						Triple preTriple = triplesDownMap.get(curTriple.getObject());
+						String predicateString = preTriple.getPredicate().getName();
 						predicateString += ", " + curTriple.getPredicate().getName();						
-						curTriple.getPredicate().setName(predicateString);
+						preTriple.getPredicate().setName(predicateString);
+						iter.remove();
+					} else {
+						triplesDownMap.put(curTriple.getObject(), curTriple);
 					}
-					triplesDownMap.put(curTriple.getObject(), curTriple);				
-				}
-				triplesDown.clear();
-				Set<Resource> keySet = triplesDownMap.keySet();
-				Iterator<Resource> keyIter = keySet.iterator();
-				while(keyIter.hasNext()) {
-					triplesDown.add(triplesDownMap.get(keyIter.next()));
 				}
 			}
 			

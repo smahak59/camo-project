@@ -15,7 +15,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import cn.edu.nju.ws.camo.android.R;
-import cn.edu.nju.ws.camo.android.friends.Friends;
+import cn.edu.nju.ws.camo.android.user.friends.Friends;
 import cn.edu.nju.ws.camo.android.util.SerKeys;
 
 public class FriendListViewer extends Activity {
@@ -41,7 +41,6 @@ public class FriendListViewer extends Activity {
 		listView_friendList.setAdapter(adapter);
 		listView_friendList.setOnItemClickListener(new OnItemClickListener() {
 
-			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {				
 				Intent userInfoIntent = new Intent(FriendListViewer.this,UserInfoViewer.class);
@@ -50,7 +49,6 @@ public class FriendListViewer extends Activity {
 				userInfoIntent.putExtras(userInfoBundle);
 				startActivity(userInfoIntent);
 			}
-			
 		});
 	}
 	
@@ -72,26 +70,21 @@ public class FriendListViewer extends Activity {
 			return itemView;
 		}
 		
-		@Override
 		public int getCount() {
 			return itemViews.length;
 		}
 
-		@Override
 		public Object getItem(int position) {
 			return itemViews[position];
 		}
 
-		@Override
 		public long getItemId(int position) {
 			return position;
 		}
 
-		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			return itemViews[position];
 		}
-		
 	}
 
 

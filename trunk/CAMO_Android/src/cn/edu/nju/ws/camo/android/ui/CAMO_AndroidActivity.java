@@ -5,7 +5,6 @@ package cn.edu.nju.ws.camo.android.ui;
  */
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,7 +13,7 @@ import android.view.View.OnTouchListener;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import cn.edu.nju.ws.camo.android.R;
-import cn.edu.nju.ws.camo.android.connect.server.ServerConfig;
+import cn.edu.nju.ws.camo.android.connect.ServerConfig;
 import cn.edu.nju.ws.camo.android.util.UtilConfig;
 import cn.edu.nju.ws.camo.android.util.UtilParam;
 
@@ -77,7 +76,6 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 
 
 	/**onClick Listener*/
-	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch(v.getId()) {			
@@ -121,7 +119,6 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 
 	public static final OnTouchListener touchListener = new OnTouchListener() { 
 		  
-		@Override
 		public boolean onTouch(View v, MotionEvent event) {
 			if(event.getAction()== MotionEvent.ACTION_DOWN){
 				((ImageButton)v).getDrawable().setAlpha(150);
