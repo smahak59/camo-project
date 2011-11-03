@@ -331,15 +331,16 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		if(isFavoredMedia) {
 			mediaInterest.getDeleteCmd().execute();
 			imageButton_favMusic.setImageDrawable(getResources().getDrawable(R.drawable.fav_off));
+			button_recommandedUser.setVisibility(View.GONE);
 			isFavoredMedia = false;
 		}
 		else {
 			mediaInterest.getCreateCmd().execute();
 			imageButton_favMusic.setImageDrawable(getResources().getDrawable(R.drawable.fav_on));
-			button_recommandedUser.setVisibility(View.GONE);
+			getRecommandedUser();
 			isFavoredMedia = true;
 		}
-		getRecommandedUser();
+		
 	}
 	
 	private void getRecommandedUser() {
