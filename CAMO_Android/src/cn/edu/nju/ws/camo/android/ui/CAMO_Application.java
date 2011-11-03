@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 import cn.edu.nju.ws.camo.android.mediaplayer.PlayList;
 import cn.edu.nju.ws.camo.android.rdf.Triple;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
@@ -102,8 +103,8 @@ public class CAMO_Application extends Application {
 		return friendList.isLoaded();
 	}
 	
-	public void addToPlayList(UriInstance inst) {
-		playList.add(inst);
+	public int addToPlayList(UriInstance inst) {
+		return playList.add(inst);
 	}
 	
 	public List<LikePrefer> getLikePreferList(int type) {

@@ -72,6 +72,9 @@ public class PlayListViewer extends Activity{
 		}
 		
 		public void setCurrentPlaying() {
+			if(playList.length() == 0) {
+				return;
+			}
 			for(int i = 0; i < textView_mediaName.length; i++)
 				textView_mediaName[i].setTextColor(0xE0FFFFFF);
 			TextView current = textView_mediaName[playList.getCurrentPlayingIndex()];

@@ -28,6 +28,7 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TabHost.TabSpec;
 import cn.edu.nju.ws.camo.android.R;
+import cn.edu.nju.ws.camo.android.mediaplayer.PlayList;
 import cn.edu.nju.ws.camo.android.rdf.Property;
 import cn.edu.nju.ws.camo.android.rdf.RdfFactory;
 import cn.edu.nju.ws.camo.android.rdf.Resource;
@@ -247,8 +248,14 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 			toggleLikeButton();			
 			break;
 		case R.id.button_addToPlayList:
-			((CAMO_Application)getApplication()).addToPlayList(currentUri);
-			Toast.makeText(RdfInstanceViewer.this, currentUri.getName() + " is added to the play list.", Toast.LENGTH_SHORT).show();
+			int reply = ((CAMO_Application)getApplication()).addToPlayList(currentUri);
+			if(reply == PlayList.ADD_SUC) {
+				Toast.makeText(RdfInstanceViewer.this, currentUri.getName() + " is added to the play list successfully!", Toast.LENGTH_SHORT).show();
+			}
+			else if(reply == PlayList.EXISTED) {
+				Toast.makeText(RdfInstanceViewer.this, currentUri.getName() + " is in the play list already!", Toast.LENGTH_SHORT).show();
+			}
+				
 		}
 		
 	}
