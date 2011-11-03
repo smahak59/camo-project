@@ -52,13 +52,14 @@ public class MediaPlayer extends Activity implements OnClickListener {
 	private ImageButton imageButton_detailInfo;
 	private ImageButton imageButton_playList;
 	private ImageButton imageButton_prev;
+	private ImageButton imageButton_play;
 	private ImageButton imageButton_next;
 	private ImageView imageView_current;
 	private RelativeLayout relativeLayout_music;
 	private RelativeLayout relativeLayout_movie;
 	private ImageButton imageButton_favMusic;
 	private boolean isFavoredMedia;
-	private boolean canChangeMedia;
+	//private boolean canChangeMedia;
 	
 //	private LoadActorListTask loadActorListTask;
 //	private GetRecommandedUserTask getRmdUserTask;
@@ -69,13 +70,13 @@ public class MediaPlayer extends Activity implements OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.media_player); 
-        initPlayList();
+        setContentView(R.layout.media_player);       
         initComponents();                
     }
     
     public void onStart() {
     	super.onStart();
+    	initPlayList();
     	initCurrentPlaying();
     }
     
@@ -83,6 +84,18 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		relativeLayout_movie.setVisibility(View.GONE);
 		relativeLayout_music.setVisibility(View.GONE);
 		button_recommandedUser.setVisibility(View.GONE);
+		if(playList.length() == 0) {
+			imageButton_detailInfo.setEnabled(false);
+			imageButton_next.setEnabled(false);
+			imageButton_prev.setEnabled(false);			
+			imageButton_play.setEnabled(false);			
+			textView_mediaPlayerTitle.setText("Media Player");
+			return;
+		}
+		imageButton_detailInfo.setEnabled(true);
+		imageButton_next.setEnabled(true);
+		imageButton_prev.setEnabled(true);
+		imageButton_play.setEnabled(true);
     	currentPlaying = playList.getCurrentPlaying();
 		String mediaType = currentPlaying.getMediaType();
 		textView_mediaPlayerTitle.setText(currentPlaying.getName());
@@ -132,6 +145,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
         imageButton_playList = (ImageButton) findViewById(R.id.imageButton_playList);
         imageButton_prev = (ImageButton) findViewById(R.id.imageButton_prev);
         imageButton_next = (ImageButton) findViewById(R.id.imageButton_next);
+        imageButton_play = (ImageButton) findViewById(R.id.imageButton_play);
         imageView_current = (ImageView) findViewById(R.id.imageView_current);
         relativeLayout_music = (RelativeLayout) findViewById(R.id.relativeLayout_music);
         relativeLayout_movie = (RelativeLayout) findViewById(R.id.relativeLayout_movie);
@@ -156,10 +170,10 @@ public class MediaPlayer extends Activity implements OnClickListener {
         currentPlayingUri3.setName("The Woodsman");
 
 
-        playList.clear();
-        playList.add(currentPlayingUri1);
-        playList.add(currentPlayingUri2); 
-        playList.add(currentPlayingUri3); 
+
+        //playList.add(currentPlayingUri1);
+        //playList.add(currentPlayingUri2); 
+        //playList.add(currentPlayingUri3); 
         
 	}
 	private void loadActorList() {
@@ -281,16 +295,16 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			new RdfInstanceLoader(MediaPlayer.this, currentPlaying).loadRdfInstance();
 			break;
 		case R.id.imageButton_next:
-			if(canChangeMedia) {
+			//if(canChangeMedia) {
 				playList.next();
 				initCurrentPlaying();
-			}
+			//}
 			break;
 		case R.id.imageButton_prev:
-			if(canChangeMedia) {
+			//if(canChangeMedia) {
 				playList.prev();
 				initCurrentPlaying();
-			}
+			//}
 			break;
 		case R.id.button_recommandedUser:			
 			Intent recommandedUserIntent = new Intent(MediaPlayer.this, RecommandedUserListViewer.class);
@@ -325,7 +339,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 	}
 	
 	private void getRecommandedUser() {
-		canChangeMedia = false;
+		//canChangeMedia = false;
 //		button_recommandedUser.setVisibility(View.GONE);
 		new GetRecommandedUserTask().execute(currentPlaying.getMediaType());
 //		getRmdUserTask.execute(currentPlaying.getMediaType());
@@ -351,7 +365,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			else {
 				button_recommandedUser.setVisibility(View.GONE);
 			}
-			canChangeMedia = true;
+			//canChangeMedia = true;
 		}
 	}
 	
