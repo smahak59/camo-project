@@ -2,8 +2,11 @@ package cn.edu.nju.ws.camo.android.ui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -14,9 +17,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -26,11 +30,9 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 import cn.edu.nju.ws.camo.android.R;
 import cn.edu.nju.ws.camo.android.mediaplayer.PlayList;
 import cn.edu.nju.ws.camo.android.rdf.InstViewManager;
-import cn.edu.nju.ws.camo.android.rdf.RdfFactory;
 import cn.edu.nju.ws.camo.android.rdf.Triple;
 import cn.edu.nju.ws.camo.android.rdf.UriInstWithNeigh;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
@@ -388,12 +390,13 @@ public class MediaPlayer extends Activity implements OnClickListener {
 				Iterator<Triple> iter = triplesDown.iterator();
 				while(iter.hasNext()) {
 					Triple curTriple = iter.next();
-					if(//curTriple.getPredicate().getName().equals("Actor") ||
+					if( curTriple.getPredicate().getName().equals("Actor") ||
 						curTriple.getPredicate().getName().equals("Starring") &&
 						!curTriple.getObject().getName().equals("")) {
 						actorList.add((UriInstance) curTriple.getObject());
-					}
+					}					
 				}
+				trimActorList(actorList);
 				favoredActorList = MediaArtistInterest.viewFavoredArtist(currentUser, currentPlaying);
 				if(!favoredActorList.isEmpty()) {
 					getRecommandedUser();
@@ -414,5 +417,22 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			initActorListView();
 			relativeLayout_movie.setVisibility(View.VISIBLE);			
 		} 		
-	}    	
+	}
+	private void trimActorList(ArrayList<UriInstance> actorList) {
+		Map<String, UriInstance> actorMap = new HashMap<String, UriInstance>();
+		for(int i = 0; i < actorList.size(); i++) {
+			UriInstance curActor = actorList.get(i);			
+			if(actorMap.get(curActor.getName().trim()) != null &&
+					actorMap.get(curActor.getName().trim()).getUri().startsWith("http://dbpedia.org")) {
+				curActor = actorMap.get(curActor.getName().trim());
+			}
+			actorMap.put(curActor.getName().trim(), curActor);
+		}
+		actorList.clear();
+		Set<String> nameSet = actorMap.keySet();
+		Iterator<String> nameIter = nameSet.iterator();
+		while(nameIter.hasNext()) {
+			actorList.add(actorMap.get(nameIter.next()));
+		}		
+	}
 }
