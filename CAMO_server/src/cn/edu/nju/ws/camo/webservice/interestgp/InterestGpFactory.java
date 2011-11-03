@@ -518,6 +518,8 @@ public class InterestGpFactory {
 				stmt.setString(1, music);
 				ResultSet rs = stmt.executeQuery();
 				while (rs.next()) {
+					if(rs.getString(4).equals(music))
+						continue;
 					Object[] value = {rs.getInt(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getTimestamp(5).getTime(),rs.getInt(6)};
 					userInfo.add(value);
 				}
