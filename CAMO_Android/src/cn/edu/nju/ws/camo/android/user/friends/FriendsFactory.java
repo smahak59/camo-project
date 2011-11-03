@@ -3,10 +3,10 @@ package cn.edu.nju.ws.camo.android.user.friends;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.edu.nju.ws.camo.android.command.Command;
 import cn.edu.nju.ws.camo.android.connect.ServerParam;
 import cn.edu.nju.ws.camo.android.connect.WebService;
 import cn.edu.nju.ws.camo.android.user.User;
-import cn.edu.nju.ws.camo.android.util.Command;
 import cn.edu.nju.ws.camo.android.util.SetSerialization;
 
 

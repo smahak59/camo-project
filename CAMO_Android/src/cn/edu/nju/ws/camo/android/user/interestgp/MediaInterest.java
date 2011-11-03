@@ -1,10 +1,10 @@
 package cn.edu.nju.ws.camo.android.user.interestgp;
 
+import cn.edu.nju.ws.camo.android.command.Command;
 import cn.edu.nju.ws.camo.android.connect.ServerParam;
 import cn.edu.nju.ws.camo.android.connect.WebService;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 import cn.edu.nju.ws.camo.android.user.User;
-import cn.edu.nju.ws.camo.android.util.Command;
 
 /**
  * 该class适用于对某个music喜欢（顶一下）
