@@ -5,6 +5,7 @@ package cn.edu.nju.ws.camo.android.ui;
  */
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,15 +30,41 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-    	CAMO_app = (CAMO_Application) getApplication();    	
-    	initServerParams();
-    	initUserData();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        initViewComponents();
+    	CAMO_app = (CAMO_Application) getApplication();    	
+    	initServerParams();
+    	initViewComponents();
+    	testConnection();
+    	initUserData();       
     }   
     
-    private void initUserData() {
+    private void testConnection() {
+		class TestTask extends AsyncTask<Void, Void, Boolean[]> {
+
+			@Override
+			protected Boolean[] doInBackground(Void... params) {
+				Boolean[] status = new Boolean[1];
+				status[0] = ConnectionTester.getInstance().testConnection();
+				return status;
+			}
+			protected void onPostExecute(Boolean[] status) {
+				if(status[0]) {
+			    	imageButton_viewLike.setEnabled(true);
+			    	imageButton_viewDislike.setEnabled(true);
+			    	imageButton_viewMediaPlayer.setEnabled(true);
+			    	imageButton_viewSearch.setEnabled(true);
+				}
+				else {
+					Toast.makeText(CAMO_AndroidActivity.this, "Network Error!", Toast.LENGTH_LONG).show();
+				}
+			}			
+		}
+		new TestTask().execute();
+		
+	}
+
+	private void initUserData() {
     	CAMO_app.initCurrentUser();
     	CAMO_app.initPreferList();	
     	CAMO_app.initFriendList();
@@ -60,7 +87,10 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
     	imageButton_viewSearch = (ImageButton) findViewById(R.id.imageButton_viewSearch);
 
     	
-
+    	imageButton_viewLike.setEnabled(false);
+    	imageButton_viewDislike.setEnabled(false);
+    	imageButton_viewMediaPlayer.setEnabled(false);
+    	imageButton_viewSearch.setEnabled(false);
     	
     	imageButton_viewLike.setOnClickListener(this);	
     	imageButton_viewDislike.setOnClickListener(this);
