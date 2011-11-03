@@ -4,6 +4,7 @@ package cn.edu.nju.ws.camo.android.ui;
  *
  */
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 	private ImageButton imageButton_viewDislike;
 	private ImageButton imageButton_viewMediaPlayer;
 	private ImageButton imageButton_viewSearch;
+	private ProgressDialog progressDialog;
 	//private ImageButton imageButton_viewFriendList;	
 
 
@@ -49,6 +51,7 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 				return status;
 			}
 			protected void onPostExecute(Boolean[] status) {
+				progressDialog.dismiss();
 				if(status[0]) {
 			    	imageButton_viewLike.setEnabled(true);
 			    	imageButton_viewDislike.setEnabled(true);
@@ -60,6 +63,11 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 				}
 			}			
 		}
+		progressDialog = new ProgressDialog(this);			  
+		progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);  			
+		progressDialog.setMessage("Testing network...");  
+		progressDialog.setCancelable(false);
+		progressDialog.show();
 		new TestTask().execute();
 		
 	}
