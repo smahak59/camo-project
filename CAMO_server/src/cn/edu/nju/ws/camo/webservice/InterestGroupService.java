@@ -7,8 +7,8 @@ import cn.edu.nju.ws.camo.webservice.interestgp.InterestGpFactory;
 @WebService(endpointInterface="cn.edu.nju.ws.camo.webservice.InterestGroupService") 
 public class InterestGroupService implements IInterestGroupService {
 
-	public String addInterest(int uid, String userName, String media, String mediaType, String artist) {
-		boolean success = InterestGpFactory.getInstance().addInterest(uid, userName, media, mediaType, artist);
+	public String addInterest(int uid, String userName, int userSex, String media, String mediaType, String artist) {
+		boolean success = InterestGpFactory.getInstance().addInterest(uid, userName, userSex, media, mediaType, artist);
 		if(success)
 			return "1";
 		else
@@ -51,12 +51,12 @@ public class InterestGroupService implements IInterestGroupService {
 			return "0";
 	}
 
-	public String getRecommandedMovieUser(int uid, String media) {
-		return InterestGpFactory.getInstance().getRecommandedUserForMovie(uid, media);
+	public String getRecommandedMovieUser(int uid, int usex, String media) {
+		return InterestGpFactory.getInstance().getRecommandedUserForMovie(uid, usex, media);
 	}
 	
-	public String getRecommandedMusicUser(int uid, String music) {
-		return InterestGpFactory.getInstance().getRecommandedUserForMusic(uid, music);
+	public String getRecommandedMusicUser(int uid, int usex, String music) {
+		return InterestGpFactory.getInstance().getRecommandedUserForMusic(uid, usex, music);
 	}
 	
 	public String testConnection() {

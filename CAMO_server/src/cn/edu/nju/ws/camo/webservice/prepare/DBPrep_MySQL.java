@@ -66,7 +66,7 @@ public class DBPrep_MySQL {
 		String sqlTabStr1 = "CREATE TABLE ignore_rmd_request (u_from int NOT NULL, u_to int NOT NULL, in_time timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,"
 				+ " KEY uid1_idx (u_from), KEY uid2_idx (u_to))"
 				+ " ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin";
-		String sqlTabStr2 = "CREATE TABLE media_favor (r_id int NOT NULL AUTO_INCREMENT, u_id int NOT NULL, u_name varchar NOT NULL, media text NOT NULL, media_type varchar DEFAULT NULL, artist text, in_time timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (r_id), KEY u_id_idx (u_id), KEY media_idx (media(200)))"
+		String sqlTabStr2 = "CREATE TABLE media_favor (r_id int NOT NULL AUTO_INCREMENT, u_id int NOT NULL, u_name varchar NOT NULL, u_sex bit NOT NULL, media text NOT NULL, media_type varchar DEFAULT NULL, artist text, in_time timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (r_id), KEY u_id_idx (u_id), KEY media_idx (media(200)))"
 				+ " ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin";
 		String sqlTabStr3 = "CREATE TABLE movie_artist_gp (movie text NOT NULL, artist1 text NOT NULL, artist2 text NOT NULL, rule int NOT NULL, KEY movie_idx (movie(200)), KEY artist1_idx (artist1(200)), KEY artist2_idx (artist2(200)))"
 				+ " ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin";
