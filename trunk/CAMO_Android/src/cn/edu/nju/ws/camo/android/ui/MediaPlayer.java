@@ -114,7 +114,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			if(MediaInterest.isFavoredMedia(currentUser, currentPlaying)) {
 				isFavoredMedia = true;
 				imageButton_favMusic.setImageDrawable(getResources().getDrawable(R.drawable.fav_on));
-				//getRecommandedUser();
+				getRecommandedUser();
 			}
 			else {
 				isFavoredMedia = false;
