@@ -34,20 +34,21 @@ public class InterestGpFactory {
 		return instance;
 	}
 	
-	public boolean addInterest(int uid, String userName, String media, String mediaType, String artist) {
+	public boolean addInterest(int uid, String userName, int userSex, String media, String mediaType, String artist) {
 		media = SetSerialization.rmIllegal(media);
 		artist = SetSerialization.rmIllegal(artist);
 		try {
 			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.ISTGP_CONN);
-			String sqlStr = "insert into media_favor(u_id,u_name,media,media_type,artist,in_time) values(?,?,?,?,?,?)";
+			String sqlStr = "insert into media_favor(u_id,u_name,u_sex,media,media_type,artist,in_time) values(?,?,?,?,?,?,?)";
 			PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
 			Timestamp curTime = new Timestamp(System.currentTimeMillis());
 			stmt.setInt(1, uid);
 			stmt.setString(2, userName);
-			stmt.setString(3, media);
-			stmt.setString(4, mediaType);
-			stmt.setString(5, artist);
-			stmt.setTimestamp(6, curTime);
+			stmt.setInt(3, userSex);
+			stmt.setString(4, media);
+			stmt.setString(5, mediaType);
+			stmt.setString(6, artist);
+			stmt.setTimestamp(7, curTime);
 			stmt.executeUpdate();
 			stmt.close();
 			sourceConn.close();
@@ -201,7 +202,7 @@ public class InterestGpFactory {
 		return true;
 	}
 	
-	public String getRecommandedUserForMusic(int uid, String music) {
+	public String getRecommandedUserForMusic(int uid, int sex, String music) {
 		String result = "";
 		List<String> resultList = new ArrayList<String>();
 		Thread rmdRule1Finder = new RmdCommomMediaLikedUserFinder(uid, music);
@@ -216,7 +217,7 @@ public class InterestGpFactory {
 		
 		try {
 			recommandedFinder.join();
-			// (uid,uname,music,in_time,rule)
+			// (uid,uname,usex,music,in_time,rule)
 			List<Object[]> userInfos = ((RmdUserForMusicFinder)recommandedFinder).getUserInfo();
 			if(RuleJob.COMMOM_ROLE_RULE)
 				rmdRule1Finder.join();
@@ -230,7 +231,7 @@ public class InterestGpFactory {
 			Set<Integer> hasAddedUserId = new HashSet<Integer>();
 			while(itr.hasNext()) {
 				Object[] userInfo = itr.next();
-				if(isLegalRule((Integer)userInfo[4])==false) 
+				if(isLegalRule((Integer)userInfo[5])==false) 
 					itr.remove();
 				else if(friends.contains((Integer)userInfo[0]))
 					itr.remove();
@@ -239,6 +240,8 @@ public class InterestGpFactory {
 				else if(hasAddedUserId.contains((Integer)userInfo[0])) 
 					itr.remove();
 				else if((Integer)userInfo[0] == uid) 
+					itr.remove();
+				else if(isRmdedSex(sex, (Integer)userInfo[2], (Integer)userInfo[5])==false)
 					itr.remove();
 				else {
 					hasAddedUserId.add((Integer)userInfo[0]);
@@ -249,7 +252,7 @@ public class InterestGpFactory {
 			BlockingQueue<Runnable> bkQueue = new LinkedBlockingQueue<Runnable>();
 			ThreadPoolExecutor threadExec = new ThreadPoolExecutor(3, 5, 7, TimeUnit.DAYS, bkQueue);
 			for(Object[] userInfo : userInfos) {
-				LabelAndTypeFinder newFinder = new LabelAndTypeFinder((String)userInfo[2]);
+				LabelAndTypeFinder newFinder = new LabelAndTypeFinder((String)userInfo[3]);
 				threadExec.execute(newFinder);
 				finderList.add(newFinder);
 			}
@@ -267,13 +270,14 @@ public class InterestGpFactory {
 				String rmdUserName = (String)userInfo[1];
 				userTerms.add(String.valueOf(rmdUserId));
 				userTerms.add(rmdUserName);
+				userTerms.add(((Integer)userInfo[2]).toString());
 				String rmdUserProfile = SetSerialization.serialize1(userTerms);
 				String rmdUserMusic = finder.getResult();
 				List<String> rmdUserInfoList = new ArrayList<String>();
 				rmdUserInfoList.add(rmdUserProfile);
 				rmdUserInfoList.add(rmdUserMusic);
-				rmdUserInfoList.add(((Long)userInfo[3]).toString());
-				rmdUserInfoList.add(((Integer)userInfo[4]).toString());
+				rmdUserInfoList.add(((Long)userInfo[4]).toString());
+				rmdUserInfoList.add(((Integer)userInfo[5]).toString());
 				resultList.add(SetSerialization.serialize2(rmdUserInfoList));
 			}
 			result = SetSerialization.serialize3(resultList);
@@ -290,7 +294,7 @@ public class InterestGpFactory {
 	 * @param movie
 	 * @return (uid,uname;artist,label,type;in_time;rule)
 	 */
-	public String getRecommandedUserForMovie(int uid, String movie) {
+	public String getRecommandedUserForMovie(int uid, int sex, String movie) {
 		String result = "";		
 		List<String> resultList = new ArrayList<String>();
 		Thread rmdRule1Finder = new RmdCommomRoleLikedUserFinder(uid, movie);
@@ -304,7 +308,7 @@ public class InterestGpFactory {
 		ignoresFinder.start();
 		try {
 			recommandedFinder.join();
-			//(id,name,artist,in_time,rule)
+			//(id,name,sex,artist,in_time,rule)
 			List<Object[]> userInfos = ((RmdUserForMovieFinder)recommandedFinder).getUserInfo();
 			if(RuleJob.COMMOM_ROLE_RULE)
 				rmdRule1Finder.join();
@@ -318,7 +322,7 @@ public class InterestGpFactory {
 			Set<Integer> hasAddedUserId = new HashSet<Integer>();
 			while(itr.hasNext()) {
 				Object[] userInfo = itr.next();
-				if(isLegalRule((Integer)userInfo[4])==false) 
+				if(isLegalRule((Integer)userInfo[5])==false) 
 					itr.remove();
 				else if(friends.contains((Integer)userInfo[0]))
 					itr.remove();
@@ -328,6 +332,8 @@ public class InterestGpFactory {
 					itr.remove();
 				else if((Integer)userInfo[0] == uid) 
 					itr.remove();
+				else if(isRmdedSex(sex, (Integer)userInfo[2], (Integer)userInfo[5])==false)
+					itr.remove();
 				else 
 					hasAddedUserId.add((Integer)userInfo[0]);
 			}
@@ -336,7 +342,7 @@ public class InterestGpFactory {
 			BlockingQueue<Runnable> bkQueue = new LinkedBlockingQueue<Runnable>();
 			ThreadPoolExecutor threadExec = new ThreadPoolExecutor(3, 5, 7, TimeUnit.DAYS, bkQueue);
 			for(Object[] userInfo : userInfos) {
-				LabelAndTypeFinder newFinder = new LabelAndTypeFinder((String)userInfo[2]);
+				LabelAndTypeFinder newFinder = new LabelAndTypeFinder((String)userInfo[3]);
 				threadExec.execute(newFinder);
 				finderList.add(newFinder);
 			}
@@ -354,13 +360,14 @@ public class InterestGpFactory {
 				String rmdUserName = (String)userInfo[1];
 				userTerms.add(String.valueOf(rmdUserId));
 				userTerms.add(rmdUserName);
+				userTerms.add(((Integer)userInfo[2]).toString());
 				String rmdUserProfile = SetSerialization.serialize1(userTerms);
 				String rmdUserArtist = finder.getResult();
 				List<String> rmdUserInfoList = new ArrayList<String>();
 				rmdUserInfoList.add(rmdUserProfile);
 				rmdUserInfoList.add(rmdUserArtist);
-				rmdUserInfoList.add(((Long)userInfo[3]).toString());
-				rmdUserInfoList.add(((Integer)userInfo[4]).toString());
+				rmdUserInfoList.add(((Long)userInfo[4]).toString());
+				rmdUserInfoList.add(((Integer)userInfo[5]).toString());
 				resultList.add(SetSerialization.serialize2(rmdUserInfoList));
 			}
 			result = SetSerialization.serialize3(resultList);
@@ -392,6 +399,20 @@ public class InterestGpFactory {
 		return legal;
 	}
 	
+	private static boolean isRmdedSex(int userSex, int curSex, int ruleId) {
+		boolean rmd = true;
+		switch(ruleId) {
+		case SpouseMovieRuleJob.ruleId:
+			if(userSex == curSex)
+				rmd = false;
+			break;
+		default:
+			rmd = true;
+			break;
+		}
+		return rmd;
+	}
+	
 	class RmdCommomMediaLikedUserFinder extends Thread {
 		
 		List<Object[]> userInfo = new ArrayList<Object[]>();
@@ -407,13 +428,13 @@ public class InterestGpFactory {
 		public void run() {
 			try {
 				Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.ISTGP_CONN);
-				String sqlStr = "select mf2.u_id,mf2.u_name,mf2.in_time from media_favor as mf1 join(media_favor as mf2) on(mf1.media=mf2.media) where mf1.u_id=? and mf1.media=?";
+				String sqlStr = "select mf2.u_id,mf2.u_name,mf2.u_sex,mf2.in_time from media_favor as mf1 join(media_favor as mf2) on(mf1.media=mf2.media) where mf1.u_id=? and mf1.media=?";
 				PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
 				stmt.setInt(1, uid);
 				stmt.setString(2, media);
 				ResultSet rs = stmt.executeQuery();
 				while (rs.next()) {
-					Object[] value = {rs.getInt(1),rs.getString(2),media,rs.getTimestamp(3).getTime(),RuleJob.COMMOM_INTEREST_RULE};
+					Object[] value = {rs.getInt(1),rs.getString(2),rs.getInt(3),media,rs.getTimestamp(4).getTime(),RuleJob.COMMOM_INTEREST_RULE};
 					userInfo.add(value);
 				}
 				rs.close();
@@ -448,13 +469,13 @@ public class InterestGpFactory {
 		public void run() {
 			try {
 				Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.ISTGP_CONN);
-				String sqlStr = "select mf2.u_id,mf2.u_name,mf2.artist,mf2.in_time from media_favor as mf1 join(media_favor as mf2) on(mf1.media=mf2.media and mf1.artist=mf2.artist) where mf1.u_id=? and mf1.media=?";
+				String sqlStr = "select mf2.u_id,mf2.u_name,mf2.u_sex,mf2.artist,mf2.in_time from media_favor as mf1 join(media_favor as mf2) on(mf1.media=mf2.media and mf1.artist=mf2.artist) where mf1.u_id=? and mf1.media=?";
 				PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
 				stmt.setInt(1, uid);
 				stmt.setString(2, media);
 				ResultSet rs = stmt.executeQuery();
 				while (rs.next()) {
-					Object[] value = {rs.getInt(1),rs.getString(2),rs.getString(3),rs.getTimestamp(4).getTime(),RuleJob.COMMOM_INTEREST_RULE};
+					Object[] value = {rs.getInt(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getTimestamp(5).getTime(),RuleJob.COMMOM_INTEREST_RULE};
 					userInfo.add(value);
 				}
 				rs.close();
@@ -488,12 +509,12 @@ public class InterestGpFactory {
 		public void run() {
 			try {
 				Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.ISTGP_CONN);
-				String sqlStr = "select mf.u_id,mf.u_name,mf.media,mf.in_time,temptb.rule from media_favor as mf join((select music,rule from music_gp where gp_id in (select gp_id from music_gp where music=?)) as temptb) on(mf.media=temptb.music)";
+				String sqlStr = "select mf.u_id,mf.u_name,mf.u_sex,mf.media,mf.in_time,temptb.rule from media_favor as mf join((select music,rule from music_gp where gp_id in (select gp_id from music_gp where music=?)) as temptb) on(mf.media=temptb.music)";
 				PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
 				stmt.setString(1, music);
 				ResultSet rs = stmt.executeQuery();
 				while (rs.next()) {
-					Object[] value = {rs.getInt(1),rs.getString(2),rs.getString(3),rs.getTimestamp(4).getTime(),rs.getInt(5)};
+					Object[] value = {rs.getInt(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getTimestamp(5).getTime(),rs.getInt(6)};
 					userInfo.add(value);
 				}
 				rs.close();
@@ -525,7 +546,7 @@ public class InterestGpFactory {
 		public void run() {
 			try {
 				Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.ISTGP_CONN);
-				String sqlStr = "select mf1.u_id,mf1.u_name,mf1.artist,mf1.in_time,mf2.u_id,mf2.u_name,mf2.artist,mf2.in_time,gp.rule from movie_artist_gp as gp join(media_favor as mf1,media_favor as mf2) on(gp.movie=mf1.media and gp.artist1=mf1.artist and gp.movie=mf2.media and gp.artist2=mf2.artist) where gp.movie=? and (mf1.u_id=? or mf2.u_id=?)";
+				String sqlStr = "select mf1.u_id,mf1.u_name,mf1.u_sex,mf1.artist,mf1.in_time,mf2.u_id,mf2.u_name,mf2.u_sex,mf2.artist,mf2.in_time,gp.rule from movie_artist_gp as gp join(media_favor as mf1,media_favor as mf2) on(gp.movie=mf1.media and gp.artist1=mf1.artist and gp.movie=mf2.media and gp.artist2=mf2.artist) where gp.movie=? and (mf1.u_id=? or mf2.u_id=?)";
 				PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
 				stmt.setString(1, movie);
 				stmt.setInt(2, uid);
@@ -533,10 +554,10 @@ public class InterestGpFactory {
 				ResultSet rs = stmt.executeQuery();
 				while (rs.next()) {
 					if(rs.getInt(1)==uid) {
-						Object[] value = {rs.getInt(5),rs.getString(6),rs.getString(7),rs.getTimestamp(8).getTime(),rs.getInt(9)};
+						Object[] value = {rs.getInt(6),rs.getString(7),rs.getInt(8),rs.getString(9),rs.getTimestamp(10).getTime(),rs.getInt(11)};
 						userInfo.add(value);
 					} else {
-						Object[] value = {rs.getInt(1),rs.getString(2),rs.getString(3),rs.getTimestamp(4).getTime(),rs.getInt(9)};
+						Object[] value = {rs.getInt(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getTimestamp(5).getTime(),rs.getInt(11)};
 						userInfo.add(value);
 					}
 				}
