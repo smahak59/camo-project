@@ -305,14 +305,16 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 	private void deleteLikePrefer() {
 		LikePrefer likePrefer = new LikePrefer(currentUser, currentUri);
 		int mediaType = PreferList.getMediaTypeInt(currentUri.getMediaType());
-		((CAMO_Application)getApplication()).getLikePreferList(mediaType).remove(likePrefer);
+		List<LikePrefer> likeList = ((CAMO_Application)getApplication()).getLikePreferList(mediaType);
+		removeFromLikePreferList(likeList, currentUri);
 		PreferManager.createCancelPreferCmd(likePrefer).execute();		
 	}
 	
 	private void deleteDislikePrefer() {
 		DislikePrefer dislikePrefer = new DislikePrefer(currentUser, currentUri);
 		int mediaType = PreferList.getMediaTypeInt(currentUri.getMediaType());
-		((CAMO_Application)getApplication()).getDislikePreferList(mediaType).remove(dislikePrefer);
+		List<DislikePrefer> dislikeList = ((CAMO_Application)getApplication()).getDislikePreferList(mediaType);
+		removeFromDislikePreferList(dislikeList, currentUri);
 		PreferManager.createCancelPreferCmd(dislikePrefer).execute();
 	}
 	private void likeCurrentInstance() {
