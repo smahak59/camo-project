@@ -5,9 +5,14 @@ import java.util.Iterator;
 import java.util.List;
 
 import android.content.Context;
+import android.util.Log;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 
 public class PlayList {
+	
+	public final static int ADD_SUC = 0;
+	public final static int EXISTED = 1;
+	
 	
 	private List<UriInstance> list = null;
 	private int currentPlaying = 0;
@@ -46,6 +51,9 @@ public class PlayList {
 	
 	public void remove(int position) {
 		list.remove(position);
+		if(list.size() == 0) {
+			return;
+		}
 		if(position <= currentPlaying){
 			currentPlaying += list.size() - 1;
 			currentPlaying %= list.size();
@@ -60,8 +68,13 @@ public class PlayList {
 		return list.size();
 	}
 		
-	public void add(UriInstance inst){
-		list.add(inst);
+	public int add(UriInstance inst){
+		if(list.contains(inst))
+			return EXISTED;
+		else {
+			list.add(inst);
+			return ADD_SUC;
+		}
 	}
 
 	public UriInstance getInstance(int k){
