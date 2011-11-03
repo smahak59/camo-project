@@ -71,6 +71,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.media_player);       
+        
         initComponents();                
     }
     
@@ -131,6 +132,20 @@ public class MediaPlayer extends Activity implements OnClickListener {
 
 	private void initPlayList() {
         playList = ((CAMO_Application)getApplication()).getPlayList();
+        
+//        
+//        UriInstance currentPlayingUri1 = RdfFactory.getInstance().createInstance("http://dbpedia.org/resource/Daughters_Who_Pay", "movie");
+//        currentPlayingUri1.setName("Daughters Who Pay");
+//        UriInstance currentPlayingUri2 = RdfFactory.getInstance().createInstance("http://dbpedia.org/resource/Azzurro%23Die_Toten_Hosen_cover", "music");
+//        currentPlayingUri2.setName("Die Toten Hosen cover");
+//        UriInstance currentPlayingUri3 = RdfFactory.getInstance().createInstance("http://dbpedia.org/resource/The_Woodsman", "movie");
+//        currentPlayingUri3.setName("The Woodsman");
+//
+//
+//
+//        playList.add(currentPlayingUri1);
+//        playList.add(currentPlayingUri2); 
+//        playList.add(currentPlayingUri3); 
     }
     
 
@@ -160,20 +175,8 @@ public class MediaPlayer extends Activity implements OnClickListener {
         imageButton_prev.setOnClickListener(this);
         imageButton_next.setOnClickListener(this);
         button_recommandedUser.setOnClickListener(this);
-        imageButton_favMusic.setOnClickListener(this);
-        
-        UriInstance currentPlayingUri1 = RdfFactory.getInstance().createInstance("http://dbpedia.org/resource/Daughters_Who_Pay", "movie");
-        currentPlayingUri1.setName("Daughters Who Pay");
-        UriInstance currentPlayingUri2 = RdfFactory.getInstance().createInstance("http://dbpedia.org/resource/Azzurro%23Die_Toten_Hosen_cover", "music");
-        currentPlayingUri2.setName("Die Toten Hosen cover");
-        UriInstance currentPlayingUri3 = RdfFactory.getInstance().createInstance("http://dbpedia.org/resource/The_Woodsman", "movie");
-        currentPlayingUri3.setName("The Woodsman");
+        imageButton_favMusic.setOnClickListener(this);        
 
-
-
-        //playList.add(currentPlayingUri1);
-        //playList.add(currentPlayingUri2); 
-        //playList.add(currentPlayingUri3); 
         
 	}
 	private void loadActorList() {
@@ -333,6 +336,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		else {
 			mediaInterest.getCreateCmd().execute();
 			imageButton_favMusic.setImageDrawable(getResources().getDrawable(R.drawable.fav_on));
+			button_recommandedUser.setVisibility(View.GONE);
 			isFavoredMedia = true;
 		}
 		getRecommandedUser();
