@@ -38,6 +38,7 @@
         android:layout_height="wrap_content" 
         android:layout_width="wrap_content" 
         android:id="@+id/textView_userEmail" 
+        android:visibility="gone"
         android:text="Email:"
         android:textSize="20dip"
         android:layout_marginLeft="10dip">
