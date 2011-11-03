@@ -42,7 +42,10 @@ public class InterestGroup {
 	 */
 	public List<RmdFeedback> getRecommandedMovieUser(UriInstance curMovie) {
 		List<RmdFeedback> rmdUserList = new ArrayList<RmdFeedback>();
-		Object[] paramValues = { curUser.getId(), curMovie.getUri()};
+		int uSex = 1;
+		if(curUser.getSex().equals("female"))
+			uSex = 0;
+		Object[] paramValues = { curUser.getId(), uSex, curMovie.getUri()};
 		String naiveResult = WebService.getInstance().runFunction(
 				ServerParam.INTERESET_GP_URL, "getRecommandedMovieUser", paramValues);
 		if (naiveResult.equals(""))
@@ -61,6 +64,10 @@ public class InterestGroup {
 			List<String> naiveUserProfileUnits = SetSerialization.deserialize1(naiveUserProfile);
 			User rmdUserInfo = new User(Integer.valueOf(naiveUserProfileUnits.get(0)));
 			rmdUserInfo.setName(naiveUserProfileUnits.get(1));
+			String sex = "male";
+			if(Integer.valueOf(naiveUserProfileUnits.get(2))==0)
+				sex = "female";
+			rmdUserInfo.setSex(sex);
 			List<String> naiveArtistUnits = SetSerialization.deserialize1(naiveArtist);
 			if(naiveArtistUnits.size()==1) {
 				naiveArtistUnits.add("NO NAME");
@@ -85,7 +92,10 @@ public class InterestGroup {
 	 */
 	public List<RmdFeedback> getRecommandedMusicUser(UriInstance curMusic) {
 		List<RmdFeedback> rmdUserList = new ArrayList<RmdFeedback>();
-		Object[] paramValues = { curUser.getId(), curMusic.getUri()};
+		int uSex = 1;
+		if(curUser.getSex().equals("female"))
+			uSex = 0;
+		Object[] paramValues = { curUser.getId(), uSex, curMusic.getUri()};
 		String naiveResult = WebService.getInstance().runFunction(
 				ServerParam.INTERESET_GP_URL, "getRecommandedMusicUser", paramValues);
 		if (naiveResult.equals(""))
@@ -104,6 +114,10 @@ public class InterestGroup {
 			List<String> naiveUserProfileUnits = SetSerialization.deserialize1(naiveUserProfile);
 			User rmdUserInfo = new User(Integer.valueOf(naiveUserProfileUnits.get(0)));
 			rmdUserInfo.setName(naiveUserProfileUnits.get(1));
+			String sex = "male";
+			if(Integer.valueOf(naiveUserProfileUnits.get(2))==0)
+				sex = "female";
+			rmdUserInfo.setSex(sex);
 			List<String> naiveMusicUnits = SetSerialization.deserialize1(naiveMusic);
 			if(naiveMusicUnits.size()==1) {
 				naiveMusicUnits.add("NO NAME");

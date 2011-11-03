@@ -89,7 +89,10 @@ public class MediaArtistInterest extends MediaInterest  {
 		}
 		
 		public void execute() {
-			Object[] paramValues = {user.getId(),user.getName(),mediaInst.getUri(),mediaInst.getMediaType(),artistInst.getUri()};
+			int sex=0;
+			if(user.getSex().equals("male"))
+				sex=1;
+			Object[] paramValues = {user.getId(),user.getName(),sex,mediaInst.getUri(),mediaInst.getMediaType(),artistInst.getUri()};
 			WebService.getInstance().runFunction(ServerParam.INTERESET_GP_URL,
 					"addInterest", paramValues);
 		}
