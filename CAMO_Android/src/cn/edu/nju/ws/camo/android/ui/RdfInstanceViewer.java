@@ -199,8 +199,11 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 		button_like = (ImageButton)findViewById(R.id.button_like);
 		button_dislike = (ImageButton)findViewById(R.id.button_dislike);
 		button_addToPlayList = (ImageButton) findViewById(R.id.button_addToPlayList);
-
-		
+		String classType = currentUri.getClassType();
+		if(RdfFactory.getInstance().isMovieCls(classType) || RdfFactory.getInstance().isMusicCls(classType)) {
+			button_addToPlayList.setVisibility(View.VISIBLE);
+		}
+			
 		int signedType = ((CAMO_Application)getApplication()).getSignedType(currentUri);
 		switch(signedType) {
 		case PreferList.LIKED:
