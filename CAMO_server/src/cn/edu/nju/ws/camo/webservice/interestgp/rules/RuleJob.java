@@ -1,4 +1,4 @@
-package cn.edu.nju.ws.camo.webservice.interestgp;
+package cn.edu.nju.ws.camo.webservice.interestgp.rules;
 
 public class RuleJob extends Thread {
 	

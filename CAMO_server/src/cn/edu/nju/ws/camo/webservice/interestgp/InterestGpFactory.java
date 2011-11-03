@@ -19,6 +19,10 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import cn.edu.nju.ws.camo.webservice.connect.DBConnFactory;
+import cn.edu.nju.ws.camo.webservice.interestgp.rules.CooperatorMovieRuleJob;
+import cn.edu.nju.ws.camo.webservice.interestgp.rules.RuleJob;
+import cn.edu.nju.ws.camo.webservice.interestgp.rules.SeriesMusicRuleJob;
+import cn.edu.nju.ws.camo.webservice.interestgp.rules.SpouseMovieRuleJob;
 import cn.edu.nju.ws.camo.webservice.util.SetSerialization;
 import cn.edu.nju.ws.camo.webservice.view.LabelAndTypeFinder;
 import cn.edu.nju.ws.camo.webservice.view.UriInjection;
