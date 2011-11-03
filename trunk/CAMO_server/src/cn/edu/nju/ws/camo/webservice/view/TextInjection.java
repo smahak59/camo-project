@@ -254,7 +254,7 @@ public class TextInjection
 		TextInjection query = new TextInjection();
 		query.setQueryMode(TextInjection.MODE_DOWN);	//down, up, all
 		
-		Iterator<Entry<String, Map<String, List<String[]>>>> queryItr = query.query("Hier kommt Alex").entrySet().iterator();
+		Iterator<Entry<String, Map<String, List<String[]>>>> queryItr = query.query("jackson").entrySet().iterator();
 		while(queryItr.hasNext()) {
 			Entry<String, Map<String, List<String[]>>> queryEntry = queryItr.next();
 			if(queryEntry.getValue().size()>0)
