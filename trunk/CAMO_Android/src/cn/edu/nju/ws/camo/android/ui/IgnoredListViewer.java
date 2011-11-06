@@ -84,7 +84,7 @@ public class IgnoredListViewer extends Activity{
     }
     public void onCreateContextMenu(ContextMenu menu, View v,  
             ContextMenuInfo menuInfo) {             	
-        menu.add(0, 0, 0, "Delete");        
+        menu.add(0, 0, 0, "Cancel Ignored User");        
     }  
     
     public boolean onContextItemSelected(MenuItem item) {  
@@ -93,7 +93,7 @@ public class IgnoredListViewer extends Activity{
     	User curUser = ((CAMO_Application)getApplication()).getCurrentUser();
     	new InterestGroup(curUser).getUserRecommandedCmd(ignoredUserList.get(position)).execute();
     	ignoredUserList.remove(position);
-    	Toast.makeText(IgnoredListViewer.this, "deleted", Toast.LENGTH_SHORT).show();
+    	Toast.makeText(IgnoredListViewer.this, "Canceled!", Toast.LENGTH_SHORT).show();
     	listView_ignoredUserList.setAdapter(new ListViewAdapter());
     	
     	return true;
