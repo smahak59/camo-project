@@ -35,7 +35,7 @@ public class InterestGroup {
 		return new RmdUserCmd(curUser, user);
 	}
 	
-	public List<User> getIgnoredUsers(User curUser) {
+	public static List<User> getIgnoredUsers(User curUser) {
 		List<User> users = new ArrayList<User>();
 		Object[] paramValues = { curUser.getId()};
 		String naiveResult = WebService.getInstance().runFunction(
