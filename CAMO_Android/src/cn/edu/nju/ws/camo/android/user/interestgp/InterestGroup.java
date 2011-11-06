@@ -35,6 +35,27 @@ public class InterestGroup {
 		return new RmdUserCmd(curUser, user);
 	}
 	
+	public List<User> getIgnoredUsers(User curUser) {
+		List<User> users = new ArrayList<User>();
+		Object[] paramValues = { curUser.getId()};
+		String naiveResult = WebService.getInstance().runFunction(
+				ServerParam.INTERESET_GP_URL, "getIgnoredUsers", paramValues);
+		if (naiveResult.equals(""))
+			return users;
+		if (naiveResult.equals(ServerParam.NETWORK_ERROR1))
+			return users;
+		List<String> naiveUserList = SetSerialization.deserialize2(naiveResult);
+		for(String naiveUser : naiveUserList) {
+			List<String> naiveTermList = SetSerialization.deserialize1(naiveUser);
+			User user = new User(Integer.valueOf(naiveTermList.get(0)));
+			user.setName(naiveTermList.get(1));
+			user.setEmail(naiveTermList.get(2));
+			user.setSex(naiveTermList.get(3));
+			users.add(user);
+		}
+		return users;
+	}
+	
 	/**
 	 * 根据目前用户正在观看的movie推荐用户
 	 * @param curMovie: 
