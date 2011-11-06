@@ -8,6 +8,7 @@
 	   <TextView android:gravity="center" android:text="My Friends" android:layout_height="wrap_content" android:id="@+id/textView_userInfoTitle" android:textSize="30dip" android:textColor="#FFFFFF" android:layout_centerVertical="true" android:layout_alignParentLeft="true" android:layout_width="match_parent"></TextView>
 	</RelativeLayout>
     <LinearLayout android:layout_width="match_parent" android:id="@+id/linearLayout1" android:orientation="vertical" android:layout_height="wrap_content" android:layout_below="@+id/relativeLayout2" android:layout_alignParentLeft="true">
+        <ImageView android:id="@+id/imageView_userPortrait" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center"></ImageView>
         <TextView android:textSize="20dip" android:layout_height="wrap_content" android:id="@+id/textView_profileTitle" android:background="#454545" android:text="Profile" android:layout_width="match_parent"></TextView>
         <TextView android:textSize="20dip" android:layout_height="wrap_content" android:id="@+id/textView_userName" android:layout_marginLeft="10dip" android:text="Name:" android:layout_width="wrap_content"></TextView>
         <TextView android:textSize="20dip" android:layout_height="wrap_content" android:id="@+id/textView_userSex" android:layout_marginLeft="10dip" android:text="Sex:" android:layout_width="wrap_content"></TextView>
