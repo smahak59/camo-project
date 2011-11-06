@@ -47,6 +47,10 @@ public class CAMO_Application extends Application {
 		playList = new PlayList(context);
 	}
 	
+	public void ignoreUser(User rmdedUser) {
+		rmdFeedbackList.remove(rmdedUser);
+		ignoredList.add(rmdedUser);
+	}
 	
 	public PlayList getPlayList() {
 		return playList;

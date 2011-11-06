@@ -16,17 +16,17 @@ import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TabHost;
+import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.TabHost.TabSpec;
 import cn.edu.nju.ws.camo.android.R;
 import cn.edu.nju.ws.camo.android.mediaplayer.PlayList;
 import cn.edu.nju.ws.camo.android.rdf.Property;
@@ -231,12 +231,12 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 		//View Down Tab
 		TabSpec tabSpec = tabHost.newTabSpec("tab_viewDown");
 		tabSpec.setContent(R.id.listView_Down);
-		tabSpec.setIndicator("View Objects");
+		tabSpec.setIndicator("View Objects",getResources().getDrawable(R.drawable.down));
 		tabHost.addTab(tabSpec);
 		//View Up Tab
 		tabSpec = tabHost.newTabSpec("tab_viewUp");
 		tabSpec.setContent(R.id.listView_Up);
-		tabSpec.setIndicator("View Subjects");
+		tabSpec.setIndicator("View Subjects",getResources().getDrawable(R.drawable.up));
 		tabHost.addTab(tabSpec);
 		
 	}
