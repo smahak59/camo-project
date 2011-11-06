@@ -17,11 +17,11 @@
         <TableRow android:id="@+id/tableRow1" android:layout_width="wrap_content" android:layout_height="wrap_content">
             <RelativeLayout android:layout_width="wrap_content" android:id="@+id/relativeLayout1" android:layout_gravity="center" android:layout_height="wrap_content">
                 <ImageButton android:layout_width="wrap_content" android:id="@+id/imageButton_contactUser" android:background="#00000000" android:src="@drawable/accept" android:layout_height="wrap_content"></ImageButton>
-                <TextView android:layout_height="wrap_content" android:id="@+id/textView1" android:layout_width="wrap_content" android:text="Contact" android:layout_centerVertical="true" android:textSize="20dip" android:layout_toRightOf="@+id/imageButton_contactUser"></TextView>
+                <TextView android:layout_height="wrap_content" android:id="@+id/textView1" android:layout_width="wrap_content" android:text="Contact" android:layout_centerVertical="true" android:textSize="20dip" android:layout_toRightOf="@+id/imageButton_contactUser" android:layout_marginLeft="5dip"></TextView>
             </RelativeLayout>
             <RelativeLayout android:layout_width="wrap_content" android:id="@+id/relativeLayout3" android:layout_height="wrap_content" android:layout_gravity="center">
                 <ImageButton android:layout_width="wrap_content" android:id="@+id/imageButton_ignoreUser" android:background="#00000000" android:src="@drawable/ignore" android:layout_height="wrap_content"></ImageButton>
-                <TextView android:layout_height="wrap_content" android:id="@+id/textView2" android:layout_width="wrap_content" android:text="Ignore" android:layout_centerVertical="true" android:textSize="20dip" android:layout_toRightOf="@+id/imageButton_ignoreUser"></TextView>
+                <TextView android:layout_height="wrap_content" android:id="@+id/textView2" android:layout_width="wrap_content" android:text="Ignore" android:layout_centerVertical="true" android:textSize="20dip" android:layout_toRightOf="@+id/imageButton_ignoreUser" android:layout_marginLeft="5dip"></TextView>
             </RelativeLayout>
         </TableRow>
     </TableLayout>
