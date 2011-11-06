@@ -76,6 +76,7 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
     	CAMO_app.initCurrentUser();
     	CAMO_app.initPreferList();	
     	CAMO_app.initFriendList();
+    	CAMO_app.initIgnoredList();
     	CAMO_app.initPlayList(this);
 	}
 

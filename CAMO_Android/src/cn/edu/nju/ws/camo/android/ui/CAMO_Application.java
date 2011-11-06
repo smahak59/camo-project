@@ -15,6 +15,7 @@ import cn.edu.nju.ws.camo.android.user.friends.Friends;
 import cn.edu.nju.ws.camo.android.user.interestgp.RmdFeedback;
 import cn.edu.nju.ws.camo.android.user.interestgp.RmdFeedbackList;
 import cn.edu.nju.ws.camo.android.user.preference.DislikePrefer;
+import cn.edu.nju.ws.camo.android.user.preference.IgnoredUserList;
 import cn.edu.nju.ws.camo.android.user.preference.LikePrefer;
 import cn.edu.nju.ws.camo.android.user.preference.PreferList;
 
@@ -23,6 +24,7 @@ public class CAMO_Application extends Application {
 	private PreferList preferList;
 	private FriendList friendList;
 	private PlayList playList;
+	private IgnoredUserList ignoredList;
 	private RmdFeedbackList rmdFeedbackList;
 	private ArrayList<Triple> triplesDown;
 	private ArrayList<Triple> triplesUp;
@@ -44,6 +46,7 @@ public class CAMO_Application extends Application {
 	public void initPlayList(Context context) {
 		playList = new PlayList(context);
 	}
+	
 	
 	public PlayList getPlayList() {
 		return playList;
@@ -77,6 +80,10 @@ public class CAMO_Application extends Application {
 		preferList = new PreferList(currentUser);
 		preferList.initPreferLists();
 	}
+	public void initIgnoredList() {
+		ignoredList = new IgnoredUserList(currentUser);
+		ignoredList.initIgnoredUserList();
+	}
 	
 	public void initFriendList() {
 		friendList = new FriendList(currentUser);
@@ -101,6 +108,14 @@ public class CAMO_Application extends Application {
 	
 	public boolean friendListIsLoaded() {
 		return friendList.isLoaded();
+	}
+	
+	public boolean ignoredListIsLoaded() {
+		return ignoredList.isLoaded();
+	}
+	
+	public List<User> getIgnoredUserList() {
+		return ignoredList.getIgnoredUserList();
 	}
 	
 	public int addToPlayList(UriInstance inst) {
