@@ -5,8 +5,7 @@
       android:versionName="1.0">
     <uses-sdk android:minSdkVersion="9" />
 
-    <application android:icon="@drawable/icon" android:label="@string/app_name" 
-    			 android:name=".ui.CAMO_Application">
+    <application android:icon="@drawable/icon" android:label="@string/app_name" android:name=".ui.CAMO_Application">
         <activity android:name=".ui.CAMO_AndroidActivity"
                   android:label="@string/app_name">
             <intent-filter>
@@ -31,6 +30,8 @@
         <activity android:name=".ui.RecommandedUserListViewer">
         </activity>
         <activity android:name=".ui.PlayListViewer">
+        </activity>
+        <activity android:name=".ui.IgnoredListViewer">
         </activity>
 
     </application>
