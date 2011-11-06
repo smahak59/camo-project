@@ -1,5 +1,6 @@
 package cn.edu.nju.ws.camo.android.user.interestgp;
 
+import java.util.Iterator;
 import java.util.List;
 
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
@@ -31,6 +32,16 @@ public class RmdFeedbackList {
 			return false;
 		else
 			return true;
+	}
+	
+	public void remove(User rmdedUser) {
+		Iterator<RmdFeedback> iter = rmdFeedbackList.iterator();
+		while(iter.hasNext()) {
+			RmdFeedback curFeedback = iter.next();
+			if(curFeedback.getUserInterest().getUser().getId() == rmdedUser.getId()) {
+				iter.remove();
+			}				
+		}
 	}
 	
 	public List<RmdFeedback> getRmdFeedbackList() {
