@@ -1,6 +1,5 @@
 package cn.edu.nju.ws.camo.webservice.connect;
 
-import java.util.Set;
 
 public class Param
 {	
@@ -66,10 +65,12 @@ public class Param
 	// user
 	public static String USER_URL = null;
 	public static String USER_SQL = null;
+	public static String USER_NAME = null;
 	
 	// istgp
 	public static String ISTGP_URL = null;
 	public static String ISTGP_SQL = null;
+	public static String ISTGP_NAME = null;
 	
 	//server address
 	public static String SERVER_ADDRE = null;

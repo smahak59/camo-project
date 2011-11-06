@@ -207,6 +207,10 @@ public class Config
 		String s2 = prop.getProperty("user_sql");
 		if (s2 != null && s2.trim().length() != 0)
 			Param.USER_SQL = s2;
+		
+		String s3 = prop.getProperty("user_name");
+		if (s3 != null && s3.trim().length() != 0)
+			Param.USER_NAME = s3;
 	}
 	
 	private static void setISTGP(Properties prop)
@@ -218,6 +222,10 @@ public class Config
 		String s2 = prop.getProperty("istgp_sql");
 		if (s2 != null && s2.trim().length() != 0)
 			Param.ISTGP_SQL = s2;
+		
+		String s3 = prop.getProperty("istgp_name");
+		if (s3 != null && s3.trim().length() != 0)
+			Param.ISTGP_NAME = s3;
 	}
 	
 	private static void setSERVER(Properties prop)

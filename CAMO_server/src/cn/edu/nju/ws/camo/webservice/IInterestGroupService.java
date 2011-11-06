@@ -19,5 +19,7 @@ public interface IInterestGroupService {
 	
 	public String setRecommandedUserRmd(int uid1, int uid2);
 	
+	public String getIgnoredUsers(int uid);
+	
 	public String testConnection();
 }

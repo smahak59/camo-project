@@ -27,6 +27,7 @@ private static BasicDataSource dataSrc = null;
 		
 		dataSrc.setTestOnBorrow(true);
 		dataSrc.setValidationQuery(Param.USER_SQL);
+		
 	}
 
 	@Override
