@@ -21,11 +21,13 @@ import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import cn.edu.nju.ws.camo.android.R;
 import cn.edu.nju.ws.camo.android.rdf.InstViewManager;
+import cn.edu.nju.ws.camo.android.rdf.RdfFactory;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 
 public class SearchViewer extends Activity {
@@ -162,10 +164,20 @@ public class SearchViewer extends Activity {
 
 		public View getChildView(int groupPosition, int childPosition,
 				boolean isLastChild, View convertView, ViewGroup parent) {
+			UriInstance curInst = (UriInstance)getChild(groupPosition, childPosition);
             LayoutInflater inflator = (LayoutInflater) SearchViewer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View itemView = inflator.inflate(R.layout.search_result_item, null);
-			TextView textView_preferName = (TextView) itemView.findViewById(R.id.textView_searchResultItemName);
-			textView_preferName.setText(((UriInstance)getChild(groupPosition, childPosition)).getName());
+			TextView textView_searchResult = (TextView) itemView.findViewById(R.id.textView_searchResultItemName);
+			ImageView imageView_instType = (ImageView) itemView.findViewById(R.id.imageView_instType);
+			String classType = curInst.getClassType();
+			if(RdfFactory.getInstance().isActorCls(classType) || RdfFactory.getInstance().isArtistCls(classType))
+				imageView_instType.setImageDrawable(getResources().getDrawable(R.drawable.type_artist));
+			else if(RdfFactory.getInstance().isMovieCls(classType) || curInst.getMediaType().equals("movie"))
+				imageView_instType.setImageDrawable(getResources().getDrawable(R.drawable.type_movie));
+			else if(RdfFactory.getInstance().isMusicCls(classType) || curInst.getMediaType().equals("music"))
+				imageView_instType.setImageDrawable(getResources().getDrawable(R.drawable.type_music));
+			textView_searchResult.setText(curInst.getName());
+			
 			return itemView;
 		}
 
