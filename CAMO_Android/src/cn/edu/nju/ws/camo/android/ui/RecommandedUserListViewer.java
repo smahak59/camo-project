@@ -7,6 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -26,14 +29,14 @@ public class RecommandedUserListViewer extends Activity{
 	
 	private ListView listView_rmdUser;
 	private List<RmdFeedback> rmdFeedbackList;
-	private Button button_viewIgnored;
+
 	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rmd_user_list_viewer);
-        initComponents();
+        setTitle("Recommended Users");
     }
     
     public void onStart() {
@@ -41,18 +44,25 @@ public class RecommandedUserListViewer extends Activity{
         initRmdFeedbackList();
         initListView();
     }
+    
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	super.onCreateOptionsMenu(menu);
+    	MenuInflater menuInflater = getMenuInflater();
+    	menuInflater.inflate(R.menu.menu, menu);
+    	return true;
+    }
+    
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	switch(item.getItemId()) {
+    	case R.id.item_viewIgnoredList:
+			Intent ignoredIntend = new Intent(RecommandedUserListViewer.this, IgnoredListViewer.class);
+			startActivity(ignoredIntend);
+    		break;
+    	}
+    	return true;
+    }
+ 
 
-	private void initComponents() {		
-		button_viewIgnored = (Button) findViewById(R.id.button_viewIgnored);
-		
-		button_viewIgnored.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent ignoredIntend = new Intent(RecommandedUserListViewer.this, IgnoredListViewer.class);
-				startActivity(ignoredIntend);
-			}
-		});
-	}
 
 	private void initRmdFeedbackList() {
 		rmdFeedbackList = ((CAMO_Application)getApplication()).getRmdFeedbackList();		

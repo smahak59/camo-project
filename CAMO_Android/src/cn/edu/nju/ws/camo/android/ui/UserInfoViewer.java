@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 import cn.edu.nju.ws.camo.android.R;
 import cn.edu.nju.ws.camo.android.user.User;
 import cn.edu.nju.ws.camo.android.user.interestgp.InterestGroup;
@@ -64,6 +65,9 @@ public class UserInfoViewer extends Activity implements OnClickListener{
 		case R.id.imageButton_ignoreUser:
 			User curUser = ((CAMO_Application) getApplication()).getCurrentUser();
 			new InterestGroup(curUser).getUserIgnoreCmd(user).execute();
+			((CAMO_Application)getApplication()).ignoreUser(user);
+			Toast.makeText(UserInfoViewer.this, "Ignored!", Toast.LENGTH_SHORT).show();
+			UserInfoViewer.this.finish();
 			break;
 		}
 		
