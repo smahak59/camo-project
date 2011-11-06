@@ -13,9 +13,9 @@
 	<LinearLayout android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/linearLayout1" android:orientation="vertical">
 		<SeekBar android:layout_height="wrap_content" android:id="@+id/seekBar1" android:layout_width="match_parent"></SeekBar>
 		<LinearLayout android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/linearLayout2" android:layout_gravity="center">
-			<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/imageButton_prev" android:src="@android:drawable/ic_media_previous"></ImageButton>
-			<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/imageButton_play" android:src="@android:drawable/ic_media_play"></ImageButton>
-			<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/imageButton_next" android:src="@android:drawable/ic_media_next"></ImageButton>
+			<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/imageButton_prev" android:src="@+drawable/prev" android:background="#00000000"></ImageButton>
+			<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/imageButton_play" android:src="@+drawable/play" android:background="#00000000" android:layout_marginLeft="5dip" android:layout_marginRight="5dip"></ImageButton>
+			<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/imageButton_next" android:src="@+drawable/next" android:background="#00000000"></ImageButton>
 		</LinearLayout>
 	</LinearLayout>
 	<RelativeLayout android:id="@+id/relativeLayout1" android:layout_width="match_parent" android:layout_height="match_parent">
@@ -25,15 +25,8 @@
    		</LinearLayout>
    		
    		<RelativeLayout android:id="@+id/relativeLayout_movie" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_above="@+id/button_recommandedUser">
+   			<TextView android:textSize="20dip" android:layout_height="wrap_content" android:id="@+id/textView_actorListTitle" android:background="#454545" android:layout_width="match_parent" android:text="Actors"></TextView>
 		<ListView android:id="@+id/listView_actorList" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_below="@+id/textView_actorListTitle" android:layout_above="@+id/button_recommandedUser"></ListView>
-		 <TextView android:layout_height="wrap_content" 
-        android:id="@+id/textView_actorListTitle" 
-        android:text="Actors" 
-        android:layout_width="match_parent"
-        android:background="#454545"
-        android:textSize="20dip"
-        >
-        </TextView>
         </RelativeLayout>
         
         <RelativeLayout android:id="@+id/relativeLayout_music" android:layout_width="match_parent" android:layout_height="wrap_content">
