@@ -197,7 +197,6 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		linearLayout_loading.setVisibility(View.VISIBLE);   	
 
     	new LoadActorListTask().execute("");
-		//loadActorListTask.execute("");
 		
     }
     

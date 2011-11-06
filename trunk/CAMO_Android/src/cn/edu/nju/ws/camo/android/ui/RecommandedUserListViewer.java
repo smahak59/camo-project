@@ -129,9 +129,18 @@ public class RecommandedUserListViewer extends Activity{
 				List<RmdFeedback> curList = rmdFeedbackMap.get(curRuleId);
 				for(int i = 0; i < curList.size(); i++) {
 					itemViews[curItemPos++] = makeItemView(curList.get(i));
-					itemPos.add(itemIndex++);
+					itemPos.add(indexOfList(curList.get(i)));
 				}
 			}
+		}
+		
+		private int indexOfList(RmdFeedback rmdFeedback) {
+			for(int i = 0; i < rmdFeedbackList.size(); i++) {
+				if(rmdFeedbackList.get(i).equals(rmdFeedback)) {
+					return i;
+				}
+			}
+			return -1;
 		}
 		
 		
