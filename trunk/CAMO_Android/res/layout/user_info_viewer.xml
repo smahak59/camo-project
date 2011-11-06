@@ -1,49 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
-  android:orientation="vertical"
   android:layout_width="match_parent"
   android:layout_height="match_parent">
   
 	<RelativeLayout android:layout_height="wrap_content" android:id="@+id/relativeLayout2" android:layout_width="match_parent" android:layout_gravity="center" android:gravity="center" android:background="@drawable/title_bar">
 	   <TextView android:gravity="center" android:text="My Friends" android:layout_height="wrap_content" android:id="@+id/textView_userInfoTitle" android:textSize="30dip" android:textColor="#FFFFFF" android:layout_centerVertical="true" android:layout_alignParentLeft="true" android:layout_width="match_parent"></TextView>
 	</RelativeLayout>
-	
-    <LinearLayout android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/linearLayout1" android:orientation="vertical">
-        <TextView android:layout_height="wrap_content" 
-        android:id="@+id/textView_profileTitle" 
-        android:text="Profile" 
-        android:layout_width="match_parent"
-        android:background="#454545"
-        android:textSize="20dip">
-        </TextView>
-        
-        <TextView 
-        android:layout_height="wrap_content" 
-        android:layout_width="wrap_content"  
-        android:id="@+id/textView_userName" 
-        android:text="Name:"
-        android:textSize="20dip"
-        android:layout_marginLeft="10dip">
-        </TextView>
-        <TextView 
-        android:layout_height="wrap_content" 
-        android:layout_width="wrap_content" 
-        android:id="@+id/textView_userSex" 
-        android:text="Sex:"
-        android:textSize="20dip"
-        android:layout_marginLeft="10dip">
-        </TextView>
-        <TextView 
-        android:layout_height="wrap_content" 
-        android:layout_width="wrap_content" 
-        android:id="@+id/textView_userEmail" 
-        android:visibility="gone"
-        android:text="Email:"
-        android:textSize="20dip"
-        android:layout_marginLeft="10dip">
-        </TextView>
+    <LinearLayout android:layout_width="match_parent" android:id="@+id/linearLayout1" android:orientation="vertical" android:layout_height="wrap_content" android:layout_below="@+id/relativeLayout2" android:layout_alignParentLeft="true">
+        <TextView android:textSize="20dip" android:layout_height="wrap_content" android:id="@+id/textView_profileTitle" android:background="#454545" android:text="Profile" android:layout_width="match_parent"></TextView>
+        <TextView android:textSize="20dip" android:layout_height="wrap_content" android:id="@+id/textView_userName" android:layout_marginLeft="10dip" android:text="Name:" android:layout_width="wrap_content"></TextView>
+        <TextView android:textSize="20dip" android:layout_height="wrap_content" android:id="@+id/textView_userSex" android:layout_marginLeft="10dip" android:text="Sex:" android:layout_width="wrap_content"></TextView>
+        <TextView android:textSize="20dip" android:visibility="gone" android:layout_height="wrap_content" android:id="@+id/textView_userEmail" android:layout_marginLeft="10dip" android:text="Email:" android:layout_width="wrap_content"></TextView>
     </LinearLayout>
+    <TableLayout android:id="@+id/tableLayout1" android:stretchColumns="*" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true" android:layout_marginBottom="10dip">
+        <TableRow android:id="@+id/tableRow1" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <RelativeLayout android:layout_width="wrap_content" android:id="@+id/relativeLayout1" android:layout_gravity="center" android:layout_height="wrap_content">
+                <ImageButton android:layout_width="wrap_content" android:id="@+id/imageButton_contactUser" android:background="#00000000" android:src="@drawable/accept" android:layout_height="wrap_content"></ImageButton>
+                <TextView android:layout_height="wrap_content" android:id="@+id/textView1" android:layout_width="wrap_content" android:text="Contact" android:layout_centerVertical="true" android:textSize="20dip" android:layout_toRightOf="@+id/imageButton_contactUser"></TextView>
+            </RelativeLayout>
+            <RelativeLayout android:layout_width="wrap_content" android:id="@+id/relativeLayout3" android:layout_height="wrap_content" android:layout_gravity="center">
+                <ImageButton android:layout_width="wrap_content" android:id="@+id/imageButton_ignoreUser" android:background="#00000000" android:src="@drawable/ignore" android:layout_height="wrap_content"></ImageButton>
+                <TextView android:layout_height="wrap_content" android:id="@+id/textView2" android:layout_width="wrap_content" android:text="Ignore" android:layout_centerVertical="true" android:textSize="20dip" android:layout_toRightOf="@+id/imageButton_ignoreUser"></TextView>
+            </RelativeLayout>
+        </TableRow>
+    </TableLayout>
 
     
-</LinearLayout>
+</RelativeLayout>
