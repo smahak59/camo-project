@@ -61,6 +61,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 	private RelativeLayout relativeLayout_movie;
 	private ImageButton imageButton_favMusic;
 	private boolean isFavoredMedia;
+	private boolean playButtonStatus;
 	//private boolean canChangeMedia;
 	
 //	private LoadActorListTask loadActorListTask;
@@ -87,7 +88,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		relativeLayout_movie.setVisibility(View.GONE);
 		relativeLayout_music.setVisibility(View.GONE);
 		button_recommandedUser.setVisibility(View.GONE);
-		if(playList.length() == 0) {
+		if(playList.size() == 0) {
 			imageButton_detailInfo.setEnabled(false);
 			imageButton_next.setEnabled(false);
 			imageButton_prev.setEnabled(false);			
@@ -156,6 +157,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
     	setTitle("Media Player");
 		currentUser = ((CAMO_Application)getApplication()).getCurrentUser();    	
         actorList = new ArrayList<UriInstance>();
+        playButtonStatus = true;
         textView_mediaPlayerTitle = (TextView) findViewById(R.id.textView_mediaPlayerTitle);        
         button_recommandedUser = (Button) findViewById(R.id.button_recommandedUser);
         imageButton_detailInfo = (ImageButton) findViewById(R.id.imageButton_detailInfo);
@@ -172,10 +174,17 @@ public class MediaPlayer extends Activity implements OnClickListener {
         imageButton_detailInfo.setOnTouchListener(CAMO_AndroidActivity.touchListener);
         imageButton_playList.setOnTouchListener(CAMO_AndroidActivity.touchListener);
         
+        
         imageButton_detailInfo.setOnClickListener(this);
         imageButton_playList.setOnClickListener(this);
         imageButton_prev.setOnClickListener(this);
         imageButton_next.setOnClickListener(this);
+        imageButton_play.setOnClickListener(this);
+        
+        imageButton_prev.setOnTouchListener(CAMO_AndroidActivity.touchListener);
+        imageButton_next.setOnTouchListener(CAMO_AndroidActivity.touchListener);
+        imageButton_play.setOnTouchListener(CAMO_AndroidActivity.touchListener);
+        
         button_recommandedUser.setOnClickListener(this);
         imageButton_favMusic.setOnClickListener(this);        
 
@@ -299,17 +308,27 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		case R.id.imageButton_detailInfo:			
 			new RdfInstanceLoader(MediaPlayer.this, currentPlaying).loadRdfInstance();
 			break;
+		case R.id.imageButton_play:
+			if(playButtonStatus) {
+				imageButton_play.setImageDrawable(getResources().getDrawable(R.drawable.pause));
+				playButtonStatus = false;
+			}
+			else {
+				imageButton_play.setImageDrawable(getResources().getDrawable(R.drawable.play));
+				playButtonStatus = true;
+			}
+			break;
 		case R.id.imageButton_next:
-			//if(canChangeMedia) {
-				playList.next();
-				initCurrentPlaying();
-			//}
+				if(playList.size() < 2)
+					break;
+			playList.next();
+			initCurrentPlaying();
 			break;
 		case R.id.imageButton_prev:
-			//if(canChangeMedia) {
-				playList.prev();
-				initCurrentPlaying();
-			//}
+			if(playList.size() < 2)
+				break;
+			playList.prev();
+			initCurrentPlaying();
 			break;
 		case R.id.button_recommandedUser:			
 			Intent recommandedUserIntent = new Intent(MediaPlayer.this, RecommandedUserListViewer.class);
@@ -321,8 +340,6 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		case R.id.imageButton_playList:
 			Intent playListIntent = new Intent(MediaPlayer.this, PlayListViewer.class);
 			startActivity(playListIntent);			
-			
-			//imageButton_playList.showContextMenu();
 			break;
 		}
 		

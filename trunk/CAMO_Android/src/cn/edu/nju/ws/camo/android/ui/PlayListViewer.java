@@ -54,8 +54,8 @@ public class PlayListViewer extends Activity{
 		private TextView[] textView_mediaName;
 		
 		public ListViewAdapter() {
-			itemViews = new View[playList.length()];
-			textView_mediaName = new TextView[playList.length()];
+			itemViews = new View[playList.size()];
+			textView_mediaName = new TextView[playList.size()];
 			for(int i = 0; i < itemViews.length; i++) {
 				itemViews[i] = makeListItemView(i);
 			}
@@ -72,7 +72,7 @@ public class PlayListViewer extends Activity{
 		}
 		
 		public void setCurrentPlaying() {
-			if(playList.length() == 0) {
+			if(playList.size() == 0) {
 				return;
 			}
 			for(int i = 0; i < textView_mediaName.length; i++)

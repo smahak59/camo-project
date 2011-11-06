@@ -1,6 +1,11 @@
 package cn.edu.nju.ws.camo.android.ui;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,14 +16,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import cn.edu.nju.ws.camo.android.R;
 import cn.edu.nju.ws.camo.android.user.User;
 import cn.edu.nju.ws.camo.android.user.interestgp.InterestGroup;
@@ -29,6 +33,8 @@ public class RecommandedUserListViewer extends Activity{
 	
 	private ListView listView_rmdUser;
 	private List<RmdFeedback> rmdFeedbackList;
+	private Map<Integer, List<RmdFeedback>> rmdFeedbackMap;
+	private List<Integer> itemPos;
 
 	
     /** Called when the activity is first created. */
@@ -65,7 +71,19 @@ public class RecommandedUserListViewer extends Activity{
 
 
 	private void initRmdFeedbackList() {
-		rmdFeedbackList = ((CAMO_Application)getApplication()).getRmdFeedbackList();		
+		rmdFeedbackList = ((CAMO_Application)getApplication()).getRmdFeedbackList();
+		rmdFeedbackMap = new HashMap<Integer, List<RmdFeedback>>();
+		itemPos = new ArrayList<Integer>();
+		for(int i = 0; i < rmdFeedbackList.size(); i++) {
+			RmdFeedback curFeedback = rmdFeedbackList.get(i);
+			int curKey = curFeedback.getRuleId();
+			List<RmdFeedback> curList = rmdFeedbackMap.get(curKey);
+			if(curList == null) {
+				curList = new ArrayList<RmdFeedback>();
+			}
+			curList.add(curFeedback);
+			rmdFeedbackMap.put(curKey, curList);
+		}
 	}
 
 	private void initListView() {
@@ -76,7 +94,14 @@ public class RecommandedUserListViewer extends Activity{
 
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				User selectedUser = rmdFeedbackList.get(arg2).getUserInterest().getUser();
+				
+				int index = itemPos.get(arg2);
+				if(index == -1)
+					return;
+				RmdFeedback selectedFeedback = rmdFeedbackList.get(index);
+
+				User selectedUser = selectedFeedback.getUserInterest().getUser();
+				
 				Intent viewUserIntent = new Intent(RecommandedUserListViewer.this, UserInfoViewer.class);
 				Bundle viewUserBundle = new Bundle();
 				viewUserBundle.putSerializable(SerKeys.SER_USER, selectedUser);
@@ -87,25 +112,45 @@ public class RecommandedUserListViewer extends Activity{
 		});
 	}
 	
+	
 	private class ListViewAdapter extends BaseAdapter {
 		View[] itemViews;
 		
 		public ListViewAdapter() {
-			itemViews = new View[rmdFeedbackList.size()];
-			for(int i = 0; i < rmdFeedbackList.size(); i++) {
-				itemViews[i] = makeItemView(rmdFeedbackList.get(i));
+			itemViews = new View[rmdFeedbackList.size() + rmdFeedbackMap.keySet().size()];
+			Set<Integer> ruldIdSet = rmdFeedbackMap.keySet();
+			Iterator<Integer> iter = ruldIdSet.iterator();
+			int curItemPos = 0;
+			int itemIndex = 0;
+			while(iter.hasNext()) {
+				int curRuleId = iter.next();
+				itemViews[curItemPos++] = makeRuleTitle(curRuleId);
+				itemPos.add(-1);
+				List<RmdFeedback> curList = rmdFeedbackMap.get(curRuleId);
+				for(int i = 0; i < curList.size(); i++) {
+					itemViews[curItemPos++] = makeItemView(curList.get(i));
+					itemPos.add(itemIndex++);
+				}
 			}
 		}
 		
 		
 		
+		private View makeRuleTitle(int curRuleId) {
+			LayoutInflater inflater = (LayoutInflater) RecommandedUserListViewer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View itemView = inflater.inflate(R.layout.rmd_user_list_group_title, null);
+			TextView textView_rmdRule = (TextView) itemView.findViewById(R.id.textView_rmdRule);
+			textView_rmdRule.setText(InterestGroup.getRuleSuggestion(curRuleId));
+			return itemView;
+		}
+
+
+
 		private View makeItemView(RmdFeedback rmdFeedback) {
 			LayoutInflater inflater = (LayoutInflater) RecommandedUserListViewer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View itemView = inflater.inflate(R.layout.rmd_user_list_item, null);
 			TextView textView_rmdUserName = (TextView) itemView.findViewById(R.id.textView_rmdUserName);
-			TextView textView_rmdRule = (TextView) itemView.findViewById(R.id.textView_rmdRule);
 			textView_rmdUserName.setText(rmdFeedback.getUserInterest().getUser().getName());
-			textView_rmdRule.setText(InterestGroup.getRuleSuggestion(rmdFeedback.getRuleId()));
 			return itemView;
 		} 
 
