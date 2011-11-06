@@ -38,6 +38,10 @@ public class InterestGroupService implements IInterestGroupService {
 		else
 			return "0";
 	}
+	
+	public String getIgnoredUsers(int uid) {
+		return InterestGpFactory.getInstance().getIgnoredUsers(uid);
+	}
 
 	public String getFavoredArtist(int uid, String media) {
 		return InterestGpFactory.getInstance().getFavorArtist(uid, media);

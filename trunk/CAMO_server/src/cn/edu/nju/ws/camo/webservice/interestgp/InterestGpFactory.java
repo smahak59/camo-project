@@ -19,6 +19,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import cn.edu.nju.ws.camo.webservice.connect.DBConnFactory;
+import cn.edu.nju.ws.camo.webservice.connect.Param;
 import cn.edu.nju.ws.camo.webservice.interestgp.rules.CooperatorMovieRuleJob;
 import cn.edu.nju.ws.camo.webservice.interestgp.rules.RuleJob;
 import cn.edu.nju.ws.camo.webservice.interestgp.rules.SeriesMusicRuleJob;
@@ -187,6 +188,36 @@ public class InterestGpFactory {
 			return false;
 		}
 		return true;
+	}
+	
+	public String getIgnoredUsers(int uid) {
+		String users = "";
+		List<String> userList = new ArrayList<String>();
+		try {
+			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.ISTGP_CONN);
+			String sqlStr = "select user.id,user.name,user.email,user.sex from "+Param.ISTGP_NAME+".ignore_rmd_request join("+Param.USER_NAME+".user) on(ignore_rmd_request.u_to=user.id) where ignore_rmd_request.u_from=? order by ignore_rmd_request.in_time desc";
+			PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
+			stmt.setInt(1, uid);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				List<String> terms = new ArrayList<String>();
+				String sex = "male";
+				if(rs.getInt(4)==0)
+					sex = "female";
+				terms.add(String.valueOf(rs.getInt(1)));
+				terms.add(rs.getString(2));
+				terms.add(rs.getString(3));
+				terms.add(sex);
+				userList.add(SetSerialization.serialize1(terms));
+			}
+			users = SetSerialization.serialize2(userList);
+			rs.close();
+			stmt.close();
+			sourceConn.close();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+		return users;
 	}
 	
 	public boolean setRecommandedUserRmd(int uid1, int uid2) {
