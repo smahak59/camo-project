@@ -64,7 +64,7 @@ public class PlayList {
 		list.clear();
 	}
 	
-	public int length(){
+	public int size(){
 		return list.size();
 	}
 		
