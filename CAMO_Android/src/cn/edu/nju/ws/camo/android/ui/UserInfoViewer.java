@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import cn.edu.nju.ws.camo.android.R;
@@ -21,6 +22,7 @@ public class UserInfoViewer extends Activity implements OnClickListener{
 	private TextView textView_userEmail;
 	private ImageButton imageButton_contactUser;
 	private ImageButton imageButton_ignoreUser;
+	private ImageView imageView_userPortrait;
 	
     /** Called when the activity is first created. */
     @Override
@@ -43,6 +45,7 @@ public class UserInfoViewer extends Activity implements OnClickListener{
 		textView_userEmail = (TextView) findViewById(R.id.textView_userEmail);
 		imageButton_contactUser = (ImageButton) findViewById(R.id.imageButton_contactUser);
 		imageButton_ignoreUser = (ImageButton) findViewById(R.id.imageButton_ignoreUser);
+		imageView_userPortrait = (ImageView) findViewById(R.id.imageView_userPortrait);
 		
 		imageButton_contactUser.setOnTouchListener(CAMO_AndroidActivity.touchListener);
 		imageButton_ignoreUser.setOnTouchListener(CAMO_AndroidActivity.touchListener);
@@ -54,6 +57,12 @@ public class UserInfoViewer extends Activity implements OnClickListener{
 		textView_userName.setText("Name: " + user.getName());
 		textView_userSex.setText("Sex: " + user.getSex());
 		textView_userEmail.setText("Email: " + user.getEmail());
+		if(user.getSex().equals("female")) {
+			imageView_userPortrait.setImageDrawable(getResources().getDrawable(R.drawable.female));
+		}
+		else {
+			imageView_userPortrait.setImageDrawable(getResources().getDrawable(R.drawable.male));
+		}
 		
 	}
 
