@@ -16,6 +16,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -211,6 +214,23 @@ public class MediaPlayer extends Activity implements OnClickListener {
 				new RdfInstanceLoader(MediaPlayer.this, actorList.get(arg2)).loadRdfInstance();
 			}
 		});
+    }
+    
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	super.onCreateOptionsMenu(menu);
+    	MenuInflater menuInflater = getMenuInflater();
+    	menuInflater.inflate(R.menu.menu, menu);
+    	return true;
+    }
+    
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	switch(item.getItemId()) {
+    	case R.id.item_viewIgnoredList:
+			Intent ignoredIntend = new Intent(MediaPlayer.this, IgnoredListViewer.class);
+			startActivity(ignoredIntend);
+    		break;
+    	}
+    	return true;
     }
     
     private class ActorListViewAdapter extends BaseAdapter {
