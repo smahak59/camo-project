@@ -31,6 +31,10 @@ public class IgnoredUserList {
 		new LoadFriendListTask().execute("");		
 	}
 	
+	public void add(User user) {
+		ignoredUserList.add(user);
+	}
+	
 	public List<User> getIgnoredUserList() {
 		return ignoredUserList;
 	}
