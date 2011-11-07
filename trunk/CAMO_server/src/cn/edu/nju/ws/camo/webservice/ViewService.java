@@ -36,7 +36,7 @@ public class ViewService implements IViewService {
 			ArrayList<String> propList = new ArrayList<String>();
 			ArrayList<LabelAndTypeFinder> finderList = new ArrayList<LabelAndTypeFinder>();
 			BlockingQueue<Runnable> bkQueue = new LinkedBlockingQueue<Runnable>();
-			ThreadPoolExecutor threadExec = new ThreadPoolExecutor(3, 5, 7, TimeUnit.DAYS, bkQueue);   
+			ThreadPoolExecutor threadExec = new ThreadPoolExecutor(8, 10, 7, TimeUnit.DAYS, bkQueue);   
 			for(String[] triple : triples) {
 				try {
 					LabelAndTypeFinder newFinder = new LabelAndTypeFinder(triple[2]);
@@ -82,7 +82,7 @@ public class ViewService implements IViewService {
 			ArrayList<String> propList = new ArrayList<String>();
 			ArrayList<LabelAndTypeFinder> finderList = new ArrayList<LabelAndTypeFinder>();
 			BlockingQueue<Runnable> bkQueue = new LinkedBlockingQueue<Runnable>();
-			ThreadPoolExecutor threadExec = new ThreadPoolExecutor(3, 5, 7, TimeUnit.DAYS, bkQueue);   
+			ThreadPoolExecutor threadExec = new ThreadPoolExecutor(8, 10, 7, TimeUnit.DAYS, bkQueue);   
 			for(String[] triple : triples) {
 				try {
 					LabelAndTypeFinder newFinder = new LabelAndTypeFinder(triple[0]);
