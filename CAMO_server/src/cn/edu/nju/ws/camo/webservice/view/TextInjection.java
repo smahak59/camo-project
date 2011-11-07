@@ -3,7 +3,9 @@ package cn.edu.nju.ws.camo.webservice.view;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -25,6 +27,7 @@ public class TextInjection
 	public static final int MODE_DOWN=1;
 	public static final int MODE_UP=2;
 	public static final int MODE_ALL=0;
+	
 	
 	private String initSearchWords(String searchStr)
 	{
@@ -117,75 +120,135 @@ public class TextInjection
 		return ipvSet;
 	}
 	
+//	public Map<String, String[]> queryForUri(String searchStr, String mediaType) throws Throwable {
+//		long oldTime = new Date().getTime();
+//		String searchWords = initSearchWords(searchStr);
+//		Map<String, String[]> instSet = new HashMap<String, String[]>();
+////		List<MediaInstChecker> mediaCheckerList = new ArrayList<MediaInstChecker>();
+//		
+////		BlockingQueue<Runnable> bkQueue = new LinkedBlockingQueue<Runnable>();
+////		ThreadPoolExecutor threadExec = new ThreadPoolExecutor(8, 9, 7, TimeUnit.DAYS, bkQueue);
+//		if (searchWords.equals(""))
+//			return instSet;
+//
+//		Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.FUSE_CONN);
+//
+//		String sqlStr1 = "SELECT uri,label,inst_type FROM inst_" + mediaType
+//					   + " WHERE MATCH(label) AGAINST (? IN BOOLEAN MODE) LIMIT 3";
+//		PreparedStatement stmt1 = sourceConn.prepareStatement(sqlStr1);
+//		stmt1.setString(1, searchWords);
+//		ResultSet rs1 = stmt1.executeQuery();
+//		while (rs1.next()) {
+//			String[] value = {rs1.getString(2).trim(),rs1.getString(3).trim()};
+//			instSet.put(rs1.getString(1).trim(), value);
+//		}
+//		rs1.close();
+//		stmt1.close();
+//		System.out.println("Time Cost: " + (new Date().getTime()-oldTime)/1000);
+//
+//		String sqlStr3 = "SELECT uri,label,inst_type FROM inst_dbpedia " 
+//					   + "WHERE MATCH(label) AGAINST (? IN BOOLEAN MODE) LIMIT 3";
+//		PreparedStatement stmt3 = sourceConn.prepareStatement(sqlStr3);
+//		stmt3.setString(1, searchWords);
+//		ResultSet rs3 = stmt3.executeQuery();
+//		while (rs3.next()) {
+////			String s = rs3.getString(1).trim();
+//			String[] value = {rs1.getString(2).trim(),rs1.getString(3).trim()};
+//			instSet.put(rs3.getString(1).trim(), value);
+////			MediaInstChecker mediaChecker = new MediaInstChecker(s);
+////			threadExec.execute(mediaChecker);
+////			mediaCheckerList.add(mediaChecker);
+//		}
+//		rs3.close();
+//		stmt3.close();
+//		System.out.println("Time Cost: " + (new Date().getTime()-oldTime)/1000);
+//
+////		threadExec.shutdown();
+////		threadExec.awaitTermination(7, TimeUnit.DAYS);
+//		
+////		rmNotMedia(instSet, mediaCheckerList, mediaType);
+//		rmCorefs(instSet, mediaType);
+////		UriInjection.initLabelAndType(instSet);
+//		
+//		long newTime = new Date().getTime();
+//		System.out.println("Time Cost: " + (newTime-oldTime)/1000);
+//		return instSet;
+//	}
+	
 	public Map<String, String[]> queryForUri(String searchStr, String mediaType) throws Throwable {
+		long oldTime = new Date().getTime();
 		String searchWords = initSearchWords(searchStr);
 		Map<String, String[]> instSet = new HashMap<String, String[]>();
-		List<MediaInstChecker> mediaCheckerList = new ArrayList<MediaInstChecker>();
-		
-		BlockingQueue<Runnable> bkQueue = new LinkedBlockingQueue<Runnable>();
-		ThreadPoolExecutor threadExec = new ThreadPoolExecutor(8, 9, 7, TimeUnit.DAYS, bkQueue);
 		if (searchWords.equals(""))
 			return instSet;
-
-		Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.FUSE_CONN);
-
-		String sqlStr1 = "SELECT uri FROM inst_" + mediaType
-					   + " WHERE MATCH(uri) AGAINST (? IN BOOLEAN MODE) or MATCH(label) AGAINST (? IN BOOLEAN MODE) LIMIT 3";
-		PreparedStatement stmt1 = sourceConn.prepareStatement(sqlStr1);
-		stmt1.setString(1, searchWords);
-		stmt1.setString(2, searchWords);
-		ResultSet rs1 = stmt1.executeQuery();
-		while (rs1.next()) {
-			String[] value = {"",""};
-			instSet.put(rs1.getString(1).trim(), value);
-		}
-		rs1.close();
-		stmt1.close();
-
-		String sqlStr3 = "SELECT uri FROM inst_dbpedia " 
-					   + "WHERE MATCH(uri) AGAINST (? IN BOOLEAN MODE) or MATCH(label) AGAINST (? IN BOOLEAN MODE) LIMIT 3";
-		PreparedStatement stmt3 = sourceConn.prepareStatement(sqlStr3);
-		stmt3.setString(1, searchWords);
-		stmt3.setString(2, searchWords);
-		ResultSet rs3 = stmt3.executeQuery();
-		while (rs3.next()) {
-			String s = rs3.getString(1).trim();
-			String[] value = {"",""};
-			instSet.put(rs3.getString(1).trim(), value);
-			MediaInstChecker mediaChecker = new MediaInstChecker(s);
-			threadExec.execute(mediaChecker);
-			mediaCheckerList.add(mediaChecker);
-		}
-		rs3.close();
-		stmt3.close();
-
-		threadExec.shutdown();
-		threadExec.awaitTermination(7, TimeUnit.DAYS);
 		
-		rmNotMedia(instSet, mediaCheckerList, mediaType);
+		FullTextSearcher seacher1 = new FullTextSearcher(mediaType, searchWords);
+		seacher1.start();
+		FullTextSearcher seacher2 = new FullTextSearcher("dbpedia", searchWords);
+		seacher2.start();
+		seacher1.join();
+		seacher2.join();
+		
+		instSet.putAll(seacher1.getInstSet());
+		instSet.putAll(seacher2.getInstSet());
+
 		rmCorefs(instSet, mediaType);
-		UriInjection.initLabelAndType(instSet);
+		long newTime = new Date().getTime();
+		System.out.println("Time Cost: " + (newTime-oldTime));
 		return instSet;
 	}
 	
-	
-	
-	private void rmNotMedia(Map<String, String[]> instSet, List<MediaInstChecker> mediaCheckerList, String mediaType) {
-		for (MediaInstChecker checker : mediaCheckerList) {
-			String inst = checker.getInst();
-			if (checker.isMedia() == false) {
-				instSet.remove(inst);
-			} else {
-				if(mediaType.equals("movie") && checker.isMovie() == 0){
-					instSet.remove(inst);
-				} else if(mediaType.equals("music") && checker.isMusic() == 0) {
-					instSet.remove(inst);
-				} else if(mediaType.equals("photo") && checker.isPhoto() == 0) {
-					instSet.remove(inst);
+	class FullTextSearcher extends Thread {
+		private Map<String, String[]> instSet = new HashMap<String, String[]>();
+		private String mediaType;
+		private String searchWords;
+		FullTextSearcher(String mediaType, String searchWords) {
+			this.mediaType = mediaType;
+			this.searchWords = searchWords;
+		}
+		
+		@Override
+		public void run() {
+			try {
+				Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.FUSE_CONN);
+				String sqlStr = "SELECT uri,label,inst_type FROM inst_" + mediaType
+				   + " WHERE MATCH(label) AGAINST (? IN BOOLEAN MODE) LIMIT 3";
+				PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
+				stmt.setString(1, searchWords);
+				ResultSet rs = stmt.executeQuery();
+				while (rs.next()) {
+					String[] value = {rs.getString(2).trim(),rs.getString(3).trim()};
+					instSet.put(rs.getString(1).trim(), value);
 				}
+				rs.close();
+				stmt.close();
+			} catch (Throwable e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
+		public Map<String, String[]> getInstSet() {
+			return this.instSet;
+		}
 	}
+	
+	
+//	private void rmNotMedia(Map<String, String[]> instSet, List<MediaInstChecker> mediaCheckerList, String mediaType) {
+//		for (MediaInstChecker checker : mediaCheckerList) {
+//			String inst = checker.getInst();
+//			if (checker.isMedia() == false) {
+//				instSet.remove(inst);
+//			} else {
+//				if(mediaType.equals("movie") && checker.isMovie() == 0){
+//					instSet.remove(inst);
+//				} else if(mediaType.equals("music") && checker.isMusic() == 0) {
+//					instSet.remove(inst);
+//				} else if(mediaType.equals("photo") && checker.isPhoto() == 0) {
+//					instSet.remove(inst);
+//				}
+//			}
+//		}
+//	}
 	
 	private void rmNotMedia(Set<String> instSet, List<MediaInstChecker> mediaCheckerList, String mediaType) 
 	{
@@ -252,26 +315,38 @@ public class TextInjection
 	{
 		Config.initParam(); 
 		TextInjection query = new TextInjection();
-		query.setQueryMode(TextInjection.MODE_DOWN);	//down, up, all
+		Map<String, String[]> result1 = query.queryForUri("avtar", "music");
+		Map<String, String[]> result2 = query.queryForUri("avtar", "movie");
+//		Iterator<Entry<String, String[]>> itr = result1.entrySet().iterator();
+//		while(itr.hasNext()) {
+//			Entry<String, String[]> entry = itr.next();
+//			System.out.println(entry.getKey());
+//			System.out.println(entry.getValue()[0]);
+//			System.out.println(entry.getValue()[1]);
+//			System.out.println("");
+//		}
 		
-		Iterator<Entry<String, Map<String, List<String[]>>>> queryItr = query.query("jackson").entrySet().iterator();
-		while(queryItr.hasNext()) {
-			Entry<String, Map<String, List<String[]>>> queryEntry = queryItr.next();
-			if(queryEntry.getValue().size()>0)
-				System.out.println(queryEntry.getKey() + "\n");
-			Iterator<Entry<String, List<String[]>>> instItr = queryEntry.getValue().entrySet().iterator();
-			while(instItr.hasNext()) {
-				Entry<String, List<String[]>> instEntry = instItr.next();
-				System.out.println(instEntry.getKey() + "\n");
-				for(String[] triple : instEntry.getValue()) {
-					System.out.println(triple[0]);
-					System.out.println(triple[1]);
-					System.out.println(triple[2]);
-					System.out.println("");
-				}
-				System.out.println("");
-			}
-			System.out.println("");
-		}
+		
+//		query.setQueryMode(TextInjection.MODE_DOWN);	//down, up, all
+		
+//		Iterator<Entry<String, Map<String, List<String[]>>>> queryItr = query.query("jackson").entrySet().iterator();
+//		while(queryItr.hasNext()) {
+//			Entry<String, Map<String, List<String[]>>> queryEntry = queryItr.next();
+//			if(queryEntry.getValue().size()>0)
+//				System.out.println(queryEntry.getKey() + "\n");
+//			Iterator<Entry<String, List<String[]>>> instItr = queryEntry.getValue().entrySet().iterator();
+//			while(instItr.hasNext()) {
+//				Entry<String, List<String[]>> instEntry = instItr.next();
+//				System.out.println(instEntry.getKey() + "\n");
+//				for(String[] triple : instEntry.getValue()) {
+//					System.out.println(triple[0]);
+//					System.out.println(triple[1]);
+//					System.out.println(triple[2]);
+//					System.out.println("");
+//				}
+//				System.out.println("");
+//			}
+//			System.out.println("");
+//		}
 	}
 }
