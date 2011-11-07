@@ -6,14 +6,15 @@
   android:layout_height="match_parent" android:weightSum="1">
    
     <RelativeLayout android:layout_height="wrap_content" android:id="@+id/relativeLayout1" android:layout_width="match_parent" android:layout_gravity="center" android:gravity="center" android:background="@drawable/title_bar">
-        <ImageButton android:layout_centerVertical="true" android:id="@+id/button_addToPlayList" android:layout_height="wrap_content" android:src="@+drawable/add" android:layout_marginLeft="10dip" android:visibility="gone" android:layout_width="wrap_content" android:background="@android:color/transparent" android:layout_alignParentLeft="true"></ImageButton>
-        <LinearLayout android:orientation="vertical" android:id="@+id/linearLayout3" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_alignParentTop="true" android:layout_alignParentRight="true">
-            <ImageButton android:id="@+id/button_like" android:layout_height="match_parent" android:src="@+drawable/like_off" android:layout_width="wrap_content" android:background="@android:color/transparent"></ImageButton>
-            <ImageButton android:id="@+id/button_dislike" android:layout_height="match_parent" android:src="@+drawable/dislike_off" android:layout_width="wrap_content" android:background="@android:color/transparent"></ImageButton>
+        <ImageButton android:layout_centerVertical="true" android:id="@+id/button_addToPlayList" android:layout_height="wrap_content" android:layout_marginLeft="10dip" android:visibility="gone" android:layout_width="wrap_content" android:background="@android:color/transparent" android:layout_alignParentLeft="true" android:src="@drawable/add"></ImageButton>
+        <LinearLayout android:layout_centerVertical="true" android:orientation="vertical" android:id="@+id/linearLayout3" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_alignParentRight="true">
+            <ImageButton android:id="@+id/button_like" android:layout_height="match_parent" android:layout_width="wrap_content" android:background="@android:color/transparent" android:src="@drawable/like_off"></ImageButton>
+            <ImageButton android:id="@+id/button_dislike" android:layout_height="match_parent" android:src="@drawable/dislike_off" android:layout_width="wrap_content" android:background="@android:color/transparent"></ImageButton>
         </LinearLayout>
-        <TextView android:gravity="center" android:text="" android:layout_height="wrap_content" android:id="@+id/textView_instTitle" android:textSize="30dip" android:textColor="#FFFFFF" android:layout_centerVertical="true" android:layout_alignParentLeft="true" android:layout_width="match_parent" android:layout_toLeftOf="@+id/linearLayout3"></TextView>
+        <TextView android:gravity="center" android:text="" android:layout_height="wrap_content" android:id="@+id/textView_instTitle" android:textSize="30dip" android:textColor="#FFFFFF" android:layout_centerVertical="true" android:layout_width="match_parent" android:layout_toLeftOf="@+id/linearLayout3" android:layout_toRightOf="@+id/button_addToPlayList"></TextView>
     </RelativeLayout>
 	
+
 	<TabHost android:id="@+id/tab_host"
         android:layout_width="fill_parent" android:layout_height="fill_parent">
         <RelativeLayout
@@ -31,8 +32,6 @@
                 />
         </RelativeLayout>
     </TabHost>
-
-    
    
     
 </LinearLayout>
