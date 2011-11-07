@@ -62,22 +62,18 @@ public class IgnoredListViewer extends Activity{
 			return itemView;
 		}
 
-		@Override
 		public int getCount() {
 			return itemViews.length;
 		}
 
-		@Override
 		public Object getItem(int arg0) {
 			return itemViews[arg0];
 		}
 
-		@Override
 		public long getItemId(int arg0) {
 			return arg0;
 		}
 
-		@Override
 		public View getView(int arg0, View arg1, ViewGroup arg2) {
 			return itemViews[arg0];
 		}
