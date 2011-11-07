@@ -23,8 +23,8 @@ public class CorefFinder extends Thread
 		try {
 			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.FUSE_CONN);
 			String sqlStr = "SELECT uri, source FROM coref_inst_" + mediaType 
-						  + " WHERE group_id IN " 
-						  + "(SELECT group_id FROM coref_inst_" + mediaType + " WHERE uri=?)";
+						  + " WHERE group_id = " 
+						  + "(SELECT DISTINCT group_id FROM coref_inst_" + mediaType + " WHERE uri=?)";
 			PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
 			stmt.setString(1, uri);
 			ResultSet rs = stmt.executeQuery();

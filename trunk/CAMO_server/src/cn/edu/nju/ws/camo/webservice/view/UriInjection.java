@@ -1,6 +1,7 @@
 package cn.edu.nju.ws.camo.webservice.view;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -57,8 +58,6 @@ public class UriInjection
 		}
 		if (corefs.size() == 0)
 			corefs.put(inst, connType);
-		
-//		System.out.println(corefs + "\n");
 	}
 	
 	private void rmProp(Map<String, List<String[]>> instPropList, String inst, String prop) 
@@ -228,6 +227,7 @@ public class UriInjection
 	
 	public static void main(String[] args) throws Throwable 
 	{
+		long oldTime = new Date().getTime();
 		Config.initParam(); 
 		UriInjection query = new UriInjection("http://dbpedia.org/resource/Hier_kommt_Alex");
 		System.out.println("\n==========Query Down=========\n");
@@ -240,6 +240,8 @@ public class UriInjection
 		for(String[] triple : triplesUp) {
 			System.out.println(triple[0] + "\n" + triple[1] + "\n" + triple[2] + "\n");
 		}
+		long newTime = new Date().getTime();
+		System.out.println("Time Cost: " + (newTime-oldTime));
 	}
 	
 }
