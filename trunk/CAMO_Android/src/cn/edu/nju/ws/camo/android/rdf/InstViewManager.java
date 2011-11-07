@@ -138,7 +138,7 @@ public class InstViewManager {
 		for (String naiveInstInfo : naiveInstInfos) { // instance
 			List<String> terms = SetSerialization.deserialize1(naiveInstInfo);
 			String inst = terms.get(0);
-			String label = terms.get(1);
+			String label = SetSerialization.instNameNomalize(terms.get(1));
 			String clsType = terms.get(2);
 			UriInstance newInst = RdfFactory.getInstance().createInstance(inst, mediaType, clsType, label);
 			instList.add(newInst);
