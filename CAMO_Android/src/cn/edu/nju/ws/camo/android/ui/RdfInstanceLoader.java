@@ -62,8 +62,6 @@ public class RdfInstanceLoader {
 					newUriBundle.putSerializable(SerKeys.SER_URI, currentUri);
 					((CAMO_Application)(context.getApplicationContext())).setTriplesDown(triplesDown);
 					((CAMO_Application)(context.getApplicationContext())).setTriplesUp(triplesUp);
-					//newUriBundle.putSerializable(SerKeys.SER_TRIPLES_DOWN, triplesDown);
-					//newUriBundle.putSerializable(SerKeys.SER_TRIPLES_UP, triplesUp);
 					newUriIntent.putExtras(newUriBundle);
 					context.startActivity(newUriIntent);
 					progressDialog.dismiss();
