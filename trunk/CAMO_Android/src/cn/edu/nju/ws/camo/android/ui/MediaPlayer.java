@@ -22,8 +22,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -32,10 +30,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import cn.edu.nju.ws.camo.android.R;
 import cn.edu.nju.ws.camo.android.mediaplayer.PlayList;
 import cn.edu.nju.ws.camo.android.rdf.InstViewManager;
+import cn.edu.nju.ws.camo.android.rdf.RdfFactory;
 import cn.edu.nju.ws.camo.android.rdf.Triple;
 import cn.edu.nju.ws.camo.android.rdf.UriInstWithNeigh;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
@@ -131,7 +129,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 	private void initPlayList() {
         playList = ((CAMO_Application)getApplication()).getPlayList();
         
-//        
+        
 //        UriInstance currentPlayingUri1 = RdfFactory.getInstance().createInstance("http://dbpedia.org/resource/Daughters_Who_Pay", "movie");
 //        currentPlayingUri1.setName("Daughters Who Pay");
 //        UriInstance currentPlayingUri2 = RdfFactory.getInstance().createInstance("http://dbpedia.org/resource/Azzurro%23Die_Toten_Hosen_cover", "music");
@@ -199,7 +197,6 @@ public class MediaPlayer extends Activity implements OnClickListener {
     	listView_actorList = (ListView) findViewById(R.id.listView_actorList);
     	ActorListViewAdapter adapter = new ActorListViewAdapter();
     	listView_actorList.setAdapter(adapter);
-    	
     }
     
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -221,15 +218,11 @@ public class MediaPlayer extends Activity implements OnClickListener {
     
     private class ActorListViewAdapter extends BaseAdapter {
     	View[] itemViews;
-    	ImageButton[] likeActorButtons;
-    	ImageButton[] actorDetailButtons;
     	boolean[] likeActorButtonsOn;
     	
     	public ActorListViewAdapter() {    		
     		itemViews = new View[actorList.size()];
     		likeActorButtonsOn = new boolean[actorList.size()];
-    		likeActorButtons = new ImageButton[actorList.size()];
-    		actorDetailButtons = new ImageButton[actorList.size()];
     		for(int i = 0; i < actorList.size(); i++) {
     			if(favoredActorList.contains(actorList.get(i))) {
     				likeActorButtonsOn[i] = true;
@@ -241,48 +234,48 @@ public class MediaPlayer extends Activity implements OnClickListener {
     		}
     	}
     	
-		private View makeItemView(final int position) {
+		private View makeItemView(int position) {
 			UriInstance uriInstance = actorList.get(position);
 			LayoutInflater inflater = (LayoutInflater)MediaPlayer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View item = inflater.inflate(R.layout.actor_list_item, null);
-//			item.setFocusable(false);
+			item.setFocusableInTouchMode(false);
+			item.setFocusable(false);
 			TextView textView_actorName = (TextView) item.findViewById(R.id.textView_actorName);
-			likeActorButtons[position] = (ImageButton) item.findViewById(R.id.imageButton_likeActor);
-			actorDetailButtons[position] = (ImageButton) item.findViewById(R.id.imageButton_actorDetail);
-			
+			ImageButton imageButton_likeActor = (ImageButton) item.findViewById(R.id.imageButton_likeActor);
+			ImageButton imageButton_actorDetail = (ImageButton) item.findViewById(R.id.imageButton_actorDetail);
+			imageButton_likeActor.setTag(position);
+			imageButton_actorDetail.setTag(position);
 			if(likeActorButtonsOn[position]) {
-				likeActorButtons[position].setImageDrawable(getResources().getDrawable(R.drawable.fav_on));
+				imageButton_likeActor.setImageDrawable(getResources().getDrawable(R.drawable.fav_on));
 			}
-//			likeActorButtons[position].setFocusable(false);
-//			actorDetailButtons[position].setFocusable(false);
-			likeActorButtons[position].setOnClickListener(new ButtonOnClickListener(position));			
-			actorDetailButtons[position].setOnClickListener(new ButtonOnClickListener(position));
-			
-			actorDetailButtons[position].setOnTouchListener(CAMO_AndroidActivity.touchListener);
+			imageButton_likeActor.setOnClickListener(new ButtonOnClickListener());
+			imageButton_actorDetail.setOnClickListener(new ButtonOnClickListener());
+			imageButton_actorDetail.setOnTouchListener(CAMO_AndroidActivity.touchListener);
 			textView_actorName.setText(uriInstance.getName());
 			return item;
 		}
 		
 		class ButtonOnClickListener implements OnClickListener {
 			private int position;
-			ButtonOnClickListener(int pos) {
-				position = pos;
-			}
-			public void onClick(View v) {				
-				switch(v.getId()) {
+
+			public void onClick(View v) {
+
+				ImageButton imageButton = (ImageButton)v;
+				position = (Integer) imageButton.getTag();
+				switch(imageButton.getId()) {
 				case R.id.imageButton_actorDetail:
 					new RdfInstanceLoader(MediaPlayer.this, actorList.get(position)).loadRdfInstance();
 					break;
 				case R.id.imageButton_likeActor:
 					if(likeActorButtonsOn[position]) {
 						likeActorButtonsOn[position] = false;
-						likeActorButtons[position].setImageDrawable(getResources().getDrawable(R.drawable.fav_off));
+						imageButton.setImageDrawable(getResources().getDrawable(R.drawable.fav_off));
 						MediaArtistInterest mediaArtistInterest = new MediaArtistInterest(currentUser, currentPlaying, actorList.get(position));
 						mediaArtistInterest.getDeleteCmd().execute();
 					}
 					else {
 						likeActorButtonsOn[position] = true;
-						likeActorButtons[position].setImageDrawable(getResources().getDrawable(R.drawable.fav_on));
+						imageButton.setImageDrawable(getResources().getDrawable(R.drawable.fav_on));
 						MediaArtistInterest mediaArtistInterest = new MediaArtistInterest(currentUser, currentPlaying, actorList.get(position));
 						mediaArtistInterest.getCreateCmd().execute();												
 					}
@@ -453,4 +446,5 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			actorList.add(actorMap.get(nameIter.next()));
 		}		
 	}
+	
 }
