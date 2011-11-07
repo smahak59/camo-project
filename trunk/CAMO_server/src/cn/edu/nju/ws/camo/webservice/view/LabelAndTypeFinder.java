@@ -1,8 +1,11 @@
 package cn.edu.nju.ws.camo.webservice.view;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
 import cn.edu.nju.ws.camo.webservice.connect.Config;
+import cn.edu.nju.ws.camo.webservice.connect.DBConnFactory;
 import cn.edu.nju.ws.camo.webservice.connect.JenaSDBOp;
 import cn.edu.nju.ws.camo.webservice.connect.SDBConnFactory;
 import cn.edu.nju.ws.camo.webservice.util.SetSerialization;
@@ -54,8 +57,48 @@ public class LabelAndTypeFinder extends Thread {
 		return localName;
 	}
 	
+	private boolean findLabelAndTypeFromDB() {
+		boolean finded = false;
+		ArrayList<String> labelAndType = new ArrayList<String>();
+		int connType = -1;
+		if(uri.startsWith("http://")==false) {
+			result = uri;
+			return false;
+		}
+		try {
+			connType = SDBConnFactory.getConnType(uri);
+			if(connType == -1) {
+				result = uri;
+				return false;
+			}
+			String mediaType = SDBConnFactory.getMediaType(connType);
+			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.FUSE_CONN);
+			String sqlStr = "SELECT label,inst_type FROM inst_" + mediaType + " WHERE uri=?";
+			PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
+			stmt.setString(1, uri);
+			java.sql.ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				this.label = rs.getString(1);
+				this.type = rs.getString(2);
+				labelAndType.add(uri);
+				labelAndType.add(label);
+				labelAndType.add(type);
+				this.result = SetSerialization.serialize1(labelAndType);
+				finded = true;
+			}
+			rs.close();
+			stmt.close();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return finded;
+	}
+	
 	@Override
 	public void run() {
+		if(findLabelAndTypeFromDB())
+			return;
 		String labelName = "";
 		String type = "";
 		ArrayList<String> labelAndType = new ArrayList<String>();

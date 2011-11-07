@@ -91,9 +91,11 @@ public class UriInjection
 			DownPropFinder newFinder = new DownPropFinder(entry.getKey(), entry.getValue());
 			newFinder.start();
 			propThedList.add(newFinder);
-			CoPropFinder newCoFinder = new CoPropFinder(entry.getKey(), mediaType);
-			newCoFinder.start();
-			coPropThedList.add(newCoFinder);
+			if(corefs.size()>1) {
+				CoPropFinder newCoFinder = new CoPropFinder(entry.getKey(), mediaType);
+				newCoFinder.start();
+				coPropThedList.add(newCoFinder);
+			}
 		}
 		for (DownPropFinder tmpFinder : propThedList) {
 			tmpFinder.join();
@@ -153,45 +155,44 @@ public class UriInjection
 			ipvList.addAll(finder.getTripleList());
 		}
 		
-		List<String[]> rmIpvList = new ArrayList<String[]>();	//{s,p}
-		List<CoPropFinder> coPFList = new ArrayList<CoPropFinder>();
-		BlockingQueue<Runnable> bkQueue2 = new LinkedBlockingQueue<Runnable>();
-		ThreadPoolExecutor threadExec2 = new ThreadPoolExecutor(8, 9, 7, TimeUnit.DAYS, bkQueue2);
-		for(String[] tmpIpv : ipvList) {
-			CoPropFinder newCoFinder = new CoPropFinder(tmpIpv[0], tmpIpv[1], mediaType);
-			coPFList.add(newCoFinder);
-			threadExec2.execute(newCoFinder);
-		}
-		threadExec2.shutdown();
-		threadExec2.awaitTermination(7, TimeUnit.DAYS);
-//		while (!threadExec2.isTerminated()) {
-//			Thread.sleep(10);
-//		}
-		for(CoPropFinder tmpFinder : coPFList) {
-			String tmpInst = tmpFinder.getInst();
-			String tmpProp = tmpFinder.getProp();
-			boolean hasRemoved = false;
-			for(String[] tmpRmSp : rmIpvList) {
-				if(tmpRmSp[0].equals(tmpInst) && tmpRmSp[1].equals(tmpProp)) {
-					hasRemoved = true;
-					break;
+		if(corefs.size()>1) {
+			List<String[]> rmIpvList = new ArrayList<String[]>();	//{s,p}
+			List<CoPropFinder> coPFList = new ArrayList<CoPropFinder>();
+			BlockingQueue<Runnable> bkQueue2 = new LinkedBlockingQueue<Runnable>();
+			ThreadPoolExecutor threadExec2 = new ThreadPoolExecutor(8, 9, 7, TimeUnit.DAYS, bkQueue2);
+			for(String[] tmpIpv : ipvList) {
+				CoPropFinder newCoFinder = new CoPropFinder(tmpIpv[0], tmpIpv[1], mediaType);
+				coPFList.add(newCoFinder);
+				threadExec2.execute(newCoFinder);
+			}
+			threadExec2.shutdown();
+			threadExec2.awaitTermination(7, TimeUnit.DAYS);
+			for(CoPropFinder tmpFinder : coPFList) {
+				String tmpInst = tmpFinder.getInst();
+				String tmpProp = tmpFinder.getProp();
+				boolean hasRemoved = false;
+				for(String[] tmpRmSp : rmIpvList) {
+					if(tmpRmSp[0].equals(tmpInst) && tmpRmSp[1].equals(tmpProp)) {
+						hasRemoved = true;
+						break;
+					}
+				}
+				if(hasRemoved == false) {
+					List<String[]> newList = tmpFinder.getCorefSet().get(tmpProp);
+					if(newList.size()>0) {
+						rmIpvList.addAll(newList);
+					}
+				} else {
+					continue;
 				}
 			}
-			if(hasRemoved == false) {
-				List<String[]> newList = tmpFinder.getCorefSet().get(tmpProp);
-				if(newList.size()>0) {
-					rmIpvList.addAll(newList);
-				}
-			} else {
-				continue;
-			}
-		}
-		for(String[] rmIpv : rmIpvList) {
-			Iterator<String[]> itr = ipvList.iterator();
-			while(itr.hasNext()) {
-				String[] ipv = itr.next();
-				if(ipv[0].equals(rmIpv[0]) && ipv[1].equals(rmIpv[1])) {
-					itr.remove();
+			for(String[] rmIpv : rmIpvList) {
+				Iterator<String[]> itr = ipvList.iterator();
+				while(itr.hasNext()) {
+					String[] ipv = itr.next();
+					if(ipv[0].equals(rmIpv[0]) && ipv[1].equals(rmIpv[1])) {
+						itr.remove();
+					}
 				}
 			}
 		}
@@ -230,6 +231,7 @@ public class UriInjection
 		long oldTime = new Date().getTime();
 		Config.initParam(); 
 		UriInjection query = new UriInjection("http://dbpedia.org/resource/Hier_kommt_Alex");
+		System.out.println("Time Cost: " + ( new Date().getTime()-oldTime));
 		System.out.println("\n==========Query Down=========\n");
 		List<String[]> triplesDown = query.queryDown();
 		for(String[] triple : triplesDown) {
@@ -240,8 +242,7 @@ public class UriInjection
 		for(String[] triple : triplesUp) {
 			System.out.println(triple[0] + "\n" + triple[1] + "\n" + triple[2] + "\n");
 		}
-		long newTime = new Date().getTime();
-		System.out.println("Time Cost: " + (newTime-oldTime));
+		System.out.println("Time Cost: " + ( new Date().getTime()-oldTime));
 	}
 	
 }
