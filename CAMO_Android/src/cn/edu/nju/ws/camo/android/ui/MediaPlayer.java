@@ -65,10 +65,6 @@ public class MediaPlayer extends Activity implements OnClickListener {
 	private ImageButton imageButton_favMusic;
 	private boolean isFavoredMedia;
 	private boolean playButtonStatus;
-	//private boolean canChangeMedia;
-	
-//	private LoadActorListTask loadActorListTask;
-//	private GetRecommandedUserTask getRmdUserTask;
 
 	
 	
@@ -108,10 +104,6 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		textView_mediaPlayerTitle.setText(currentPlaying.getName());
 		actorList.clear();
 		
-//		if(loadActorListTask == null)
-//			loadActorListTask = new LoadActorListTask();
-//		if(getRmdUserTask == null)
-//			getRmdUserTask = new GetRecommandedUserTask();
 		
 
 
@@ -130,8 +122,8 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		}
 		else if(mediaType.equals("movie")) {
 			imageView_current.setImageDrawable(getResources().getDrawable(R.drawable.movie));
-			loadActorList();
 			relativeLayout_movie.setVisibility(View.VISIBLE);
+			loadActorList();
 		}
 		
 	}
@@ -207,13 +199,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
     	listView_actorList = (ListView) findViewById(R.id.listView_actorList);
     	ActorListViewAdapter adapter = new ActorListViewAdapter();
     	listView_actorList.setAdapter(adapter);
-    	listView_actorList.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				Toast.makeText(MediaPlayer.this, "clicked: " + arg2, Toast.LENGTH_SHORT).show();
-				new RdfInstanceLoader(MediaPlayer.this, actorList.get(arg2)).loadRdfInstance();
-			}
-		});
+    	
     }
     
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -259,6 +245,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			UriInstance uriInstance = actorList.get(position);
 			LayoutInflater inflater = (LayoutInflater)MediaPlayer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View item = inflater.inflate(R.layout.actor_list_item, null);
+//			item.setFocusable(false);
 			TextView textView_actorName = (TextView) item.findViewById(R.id.textView_actorName);
 			likeActorButtons[position] = (ImageButton) item.findViewById(R.id.imageButton_likeActor);
 			actorDetailButtons[position] = (ImageButton) item.findViewById(R.id.imageButton_actorDetail);
@@ -266,6 +253,8 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			if(likeActorButtonsOn[position]) {
 				likeActorButtons[position].setImageDrawable(getResources().getDrawable(R.drawable.fav_on));
 			}
+//			likeActorButtons[position].setFocusable(false);
+//			actorDetailButtons[position].setFocusable(false);
 			likeActorButtons[position].setOnClickListener(new ButtonOnClickListener(position));			
 			actorDetailButtons[position].setOnClickListener(new ButtonOnClickListener(position));
 			
@@ -382,17 +371,13 @@ public class MediaPlayer extends Activity implements OnClickListener {
 	}
 	
 	private void getRecommandedUser() {
-		//canChangeMedia = false;
-//		button_recommandedUser.setVisibility(View.GONE);
 		new GetRecommandedUserTask().execute(currentPlaying.getMediaType());
-//		getRmdUserTask.execute(currentPlaying.getMediaType());
 	}
 	
 	class GetRecommandedUserTask extends AsyncTask <String, Void, String>{
 
 		@Override
 		protected String doInBackground(String... params) {
-			//button_recommandedUser.setVisibility(View.GONE);
 			if(isCancelled())
 				return null;
 			if(params[0].equals("music"))
@@ -408,7 +393,6 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			else {
 				button_recommandedUser.setVisibility(View.GONE);
 			}
-			//canChangeMedia = true;
 		}
 	}
 	
@@ -438,10 +422,8 @@ public class MediaPlayer extends Activity implements OnClickListener {
 					getRecommandedUser();
 				}
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (XmlPullParserException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return null;
