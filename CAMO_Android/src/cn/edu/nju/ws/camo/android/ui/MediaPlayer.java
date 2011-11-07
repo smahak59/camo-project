@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -130,18 +131,18 @@ public class MediaPlayer extends Activity implements OnClickListener {
         playList = ((CAMO_Application)getApplication()).getPlayList();
         
         
-//        UriInstance currentPlayingUri1 = RdfFactory.getInstance().createInstance("http://dbpedia.org/resource/Daughters_Who_Pay", "movie");
-//        currentPlayingUri1.setName("Daughters Who Pay");
-//        UriInstance currentPlayingUri2 = RdfFactory.getInstance().createInstance("http://dbpedia.org/resource/Azzurro%23Die_Toten_Hosen_cover", "music");
-//        currentPlayingUri2.setName("Die Toten Hosen cover");
-//        UriInstance currentPlayingUri3 = RdfFactory.getInstance().createInstance("http://dbpedia.org/resource/The_Woodsman", "movie");
-//        currentPlayingUri3.setName("The Woodsman");
-//
-//
-//
-//        playList.add(currentPlayingUri1);
-//        playList.add(currentPlayingUri2); 
-//        playList.add(currentPlayingUri3); 
+        UriInstance currentPlayingUri1 = RdfFactory.getInstance().createInstance("http://dbpedia.org/resource/Daughters_Who_Pay", "movie");
+        currentPlayingUri1.setName("Daughters Who Pay");
+        UriInstance currentPlayingUri2 = RdfFactory.getInstance().createInstance("http://dbpedia.org/resource/Azzurro%23Die_Toten_Hosen_cover", "music");
+        currentPlayingUri2.setName("Die Toten Hosen cover");
+        UriInstance currentPlayingUri3 = RdfFactory.getInstance().createInstance("http://dbpedia.org/resource/The_Woodsman", "movie");
+        currentPlayingUri3.setName("The Woodsman");
+
+
+
+        playList.add(currentPlayingUri1);
+        playList.add(currentPlayingUri2); 
+        playList.add(currentPlayingUri3); 
     }
     
 
@@ -238,8 +239,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			UriInstance uriInstance = actorList.get(position);
 			LayoutInflater inflater = (LayoutInflater)MediaPlayer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View item = inflater.inflate(R.layout.actor_list_item, null);
-			item.setFocusableInTouchMode(false);
-			item.setFocusable(false);
+
 			TextView textView_actorName = (TextView) item.findViewById(R.id.textView_actorName);
 			ImageButton imageButton_likeActor = (ImageButton) item.findViewById(R.id.imageButton_likeActor);
 			ImageButton imageButton_actorDetail = (ImageButton) item.findViewById(R.id.imageButton_actorDetail);
@@ -262,6 +262,8 @@ public class MediaPlayer extends Activity implements OnClickListener {
 
 				ImageButton imageButton = (ImageButton)v;
 				position = (Integer) imageButton.getTag();
+				if(actorList.size() == 0)
+					return;
 				switch(imageButton.getId()) {
 				case R.id.imageButton_actorDetail:
 					new RdfInstanceLoader(MediaPlayer.this, actorList.get(position)).loadRdfInstance();
@@ -381,12 +383,19 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			return null;
 		}
 		protected void onPostExecute(String result) {
-			if(((CAMO_Application)getApplication()).rmdFeedbackNotEmpty())
-				button_recommandedUser.setVisibility(View.VISIBLE);
-			else {
-				button_recommandedUser.setVisibility(View.GONE);
-			}
+			changeVisibility();
 		}
+	}
+	
+	synchronized private void changeVisibility() {
+		long start = System.nanoTime();
+		if(((CAMO_Application)getApplication()).rmdFeedbackNotEmpty()) 
+			button_recommandedUser.setVisibility(View.VISIBLE);
+		else {
+			button_recommandedUser.setVisibility(View.GONE);
+		}
+		long end = System.nanoTime() - start;
+		Log.v("********************", "Time:" + end);
 	}
 	
 	class LoadActorListTask extends AsyncTask <String,Void,String>{

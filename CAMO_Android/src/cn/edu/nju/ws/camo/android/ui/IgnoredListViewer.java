@@ -94,8 +94,7 @@ public class IgnoredListViewer extends Activity{
     	new InterestGroup(curUser).getUserRecommandedCmd(ignoredUserList.get(position)).execute();
     	ignoredUserList.remove(position);
     	Toast.makeText(IgnoredListViewer.this, "Canceled!", Toast.LENGTH_SHORT).show();
-    	listView_ignoredUserList.setAdapter(new ListViewAdapter());
-    	
+    	IgnoredListViewer.this.finish();
     	return true;
     }
 }
