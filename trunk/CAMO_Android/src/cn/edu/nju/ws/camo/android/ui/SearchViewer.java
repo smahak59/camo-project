@@ -49,6 +49,7 @@ public class SearchViewer extends Activity {
 		expandableListView_searchResult = (ExpandableListView) findViewById(R.id.expandableListView_searchResult);
 		imageButton_search = (ImageButton) findViewById(R.id.button_search);
 		editText_searchKey = (EditText) findViewById(R.id.editText_searchKey);
+		imageButton_search.setOnTouchListener(CAMO_AndroidActivity.touchListener);
 		imageButton_search.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				searchKey = editText_searchKey.getText().toString().trim();
