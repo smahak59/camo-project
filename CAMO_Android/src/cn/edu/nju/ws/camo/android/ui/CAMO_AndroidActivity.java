@@ -12,6 +12,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -232,7 +235,29 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 		new LoginTask().execute(params);
 	}
 	
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		MenuInflater menuInflater = getMenuInflater();
+		menuInflater.inflate(R.menu.main_menu, menu);
+		return true;
+	}
+
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.item_logout:
+			mainPanel.setVisibility(View.GONE);
+			loginPanel.setVisibility(View.VISIBLE);
+			CAMO_app.logout();
+			break;
+		case R.id.item_exit:
+			break;
+		}
+		return true;
+	}
+	
 	private void loginSuc() {
+		editText_email.setText("");
+		editText_password.setText("");		
 		loginPanel.setVisibility(View.GONE);
 		mainPanel.setVisibility(View.VISIBLE);
 		

@@ -149,6 +149,10 @@ public class CAMO_Application extends Application {
 		return likePreferList;
 	}
 	
+	public void logout() {
+		currentUser = null;		
+	}
+	
 	public List<DislikePrefer> getDislikePreferList(int type) {
 		List<DislikePrefer> dislikePreferList = null;
 		switch(type) {
