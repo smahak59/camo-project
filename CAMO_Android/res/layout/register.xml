@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent" android:layout_height="match_parent">
+	<TableLayout android:stretchColumns="1"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:id="@+id/tableLayout1" android:layout_gravity="center" android:layout_marginLeft="10dip" android:layout_marginRight="10dip" android:layout_marginTop="50dip" android:layout_marginBottom="10dip">
+		<TableRow android:id="@+id/tableRow1" android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<TextView android:layout_height="wrap_content"
+				android:layout_gravity="center" android:text="Username:" android:id="@+id/textView1"
+				android:layout_width="wrap_content"></TextView>
+			<EditText android:layout_height="wrap_content" android:id="@+id/editText_regUsername"
+				android:layout_width="wrap_content">
+				<requestFocus></requestFocus>
+			</EditText>
+		</TableRow>
+		<TableRow android:id="@+id/tableRow2" android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<TextView android:layout_height="wrap_content"
+				android:layout_gravity="center" android:text="Password:" android:id="@+id/textView2"
+				android:layout_width="wrap_content"></TextView>
+			<EditText android:inputType="textPassword"
+				android:layout_height="wrap_content" android:id="@+id/editText_regPassword"
+				android:layout_width="wrap_content"></EditText>
+		</TableRow>
+		<TableRow android:id="@+id/tableRow3" android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<RelativeLayout android:layout_gravity="center">
+				<TextView android:layout_height="wrap_content"
+					android:layout_gravity="center" android:text="Password"
+					android:id="@+id/textView_password" android:layout_width="wrap_content"></TextView>
+				<TextView android:layout_height="wrap_content"
+					android:layout_below="@+id/textView_password" android:text="(confirm):"
+					android:id="@+id/textView3" android:layout_width="wrap_content"></TextView>
+			</RelativeLayout>
+			<EditText android:inputType="textPassword"
+				android:layout_height="wrap_content" android:id="@+id/editText_regPasswordConfirm"
+				android:layout_width="wrap_content"></EditText>
+		</TableRow>
+		<TableRow android:id="@+id/tableRow4" android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<TextView android:text="E-mail:" android:id="@+id/textView4"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:layout_gravity="center"></TextView>
+			<EditText android:inputType="textEmailAddress"
+				android:layout_height="wrap_content" android:id="@+id/editText_regEmail"
+				android:layout_width="wrap_content"></EditText>
+		</TableRow>
+		<TableRow android:id="@+id/tableRow5" android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<TextView android:layout_width="wrap_content" android:text="Gender:"
+				android:id="@+id/textView5" android:layout_height="wrap_content"
+				android:layout_gravity="center"></TextView>
+			<Spinner android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/spinner_regGender"></Spinner>
+		</TableRow>
+	</TableLayout>
+
+	<TableLayout android:stretchColumns="*"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:id="@+id/tableLayout2" android:layout_below="@+id/tableLayout1"
+		android:layout_centerHorizontal="true" android:layout_margin="20dip"
+		android:layout_marginTop="20dp">
+		<TableRow android:id="@+id/tableRow6" android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<Button android:background="@drawable/btn_blue"
+				android:layout_height="wrap_content" style="@style/ButtonText"
+				android:id="@+id/button_regConfirm" android:text="Confirm"
+				android:layout_width="match_parent"></Button>
+			<Button android:background="@drawable/btn_blue"
+				android:layout_height="wrap_content" style="@style/ButtonText"
+				android:id="@+id/button_regCancel" android:text="Cancel "
+				android:layout_width="match_parent"></Button>
+		</TableRow>
+	</TableLayout>
+
+</RelativeLayout>
