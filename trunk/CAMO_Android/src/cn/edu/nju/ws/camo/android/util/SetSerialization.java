@@ -132,7 +132,7 @@ public class SetSerialization {
 		int endIdx = str.indexOf("^^");
 		if (endIdx > 0)
 			result = str.substring(0, endIdx);
-		endIdx = result.indexOf("@en");
+		endIdx = result.indexOf("@");
 		if (endIdx > 0)
 			result = str.substring(0, endIdx);
 		endIdx = result.indexOf("(");

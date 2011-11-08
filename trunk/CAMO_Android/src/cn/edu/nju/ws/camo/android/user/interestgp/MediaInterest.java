@@ -59,7 +59,7 @@ public class MediaInterest {
 		}
 		
 		public void execute() {
-			Object[] paramValues = {user.getId(),mediaInst.getUri(),""};
+			Object[] paramValues = {user.getId(),mediaInst.getUri(),mediaInst.getMediaType(),""};
 			WebService.getInstance().runFunction(ServerParam.INTERESET_GP_URL,
 					"delInterest", paramValues);
 		}
