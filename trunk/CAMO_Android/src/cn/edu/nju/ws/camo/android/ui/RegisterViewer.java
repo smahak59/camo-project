@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -28,9 +29,7 @@ public class RegisterViewer extends Activity implements OnClickListener {
 	private Spinner spinner_gender;
 	private ProgressDialog progressDialog;
 
-	private static final String[] genders = { "Male", "Female" };
 
-	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.register);
@@ -46,6 +45,11 @@ public class RegisterViewer extends Activity implements OnClickListener {
 		editText_passwordConfirm = (EditText) findViewById(R.id.editText_regPasswordConfirm);
 		editText_email = (EditText) findViewById(R.id.editText_regEmail);
 		spinner_gender = (Spinner) findViewById(R.id.spinner_regGender);
+
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+				this, R.array.genders, R.layout.spinner_item);
+		adapter.setDropDownViewResource(R.layout.spinner_item_dropdown);
+		spinner_gender.setAdapter(adapter);
 
 		button_confirm.setOnClickListener(this);
 		button_cancel.setOnClickListener(this);
@@ -69,26 +73,28 @@ public class RegisterViewer extends Activity implements OnClickListener {
 		String password = editText_password.getText().toString().trim();
 		String passwordConfirm = editText_passwordConfirm.getText().toString()
 				.trim();
-		String sex = "male";
-		
-		if(!password.equals(passwordConfirm)) {
+		String sex = spinner_gender.getSelectedItem().toString();
+
+		if (!password.equals(passwordConfirm)) {
 			return;
 		}
 
 		String[] params = { name, password, email, sex };
-		
-		progressDialog = new ProgressDialog(this);			  
-		progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);  			
-		progressDialog.setMessage("Loading...");  
+
+		progressDialog = new ProgressDialog(this);
+		progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		progressDialog.setMessage("Loading...");
 		progressDialog.setCancelable(false);
 		progressDialog.show();
 
 		class RegTask extends AsyncTask<String, Void, String> {
 			int regStatus;
+
 			@Override
 			protected String doInBackground(String... params) {
 				try {
-					regStatus = UserManager.getInstance().addUser(params[0], params[1], params[2], params[3]);
+					regStatus = UserManager.getInstance().addUser(params[0],
+							params[1], params[2], params[3]);
 				} catch (IOException e) {
 					e.printStackTrace();
 				} catch (XmlPullParserException e) {
@@ -99,17 +105,19 @@ public class RegisterViewer extends Activity implements OnClickListener {
 
 			protected void onPostExecute(String result) {
 				progressDialog.dismiss();
-				if(regStatus == 0) {
-					Toast.makeText(RegisterViewer.this, "Registration failed!", Toast.LENGTH_SHORT).show();
-				}
-				else if(regStatus == 1) {
-					Toast.makeText(RegisterViewer.this, "Registration successfully!", Toast.LENGTH_SHORT).show();
+				if (regStatus == 0) {
+					Toast.makeText(RegisterViewer.this, "Registration failed!",
+							Toast.LENGTH_SHORT).show();
+				} else if (regStatus == 1) {
+					Toast.makeText(RegisterViewer.this,
+							"Registration successfully!", Toast.LENGTH_SHORT)
+							.show();
 					RegisterViewer.this.finish();
 				}
 			}
 
 		}
-		
+
 		new RegTask().execute(params);
 	}
 }
