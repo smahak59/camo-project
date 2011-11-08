@@ -60,6 +60,10 @@ public class CAMO_Application extends Application {
 		return rmdFeedbackList.notEmpty();
 	}
 	
+	public void setUser(User user) {
+		currentUser = user;
+	}
+	
 	public void initCurrentUser() {
 		currentUser = new User(7);
 		currentUser.setName("cxjia");

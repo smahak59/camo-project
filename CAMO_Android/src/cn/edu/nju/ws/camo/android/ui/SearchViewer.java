@@ -65,15 +65,13 @@ public class SearchViewer extends Activity {
 						try {
 							searchResultMusic = InstViewManager.searchInst(params[0], "music");						
 							searchResultMovie = InstViewManager.searchInst(params[0], "movie");
-							searchResultPhoto = InstViewManager.searchInst(params[0], "photo");
+							//searchResultPhoto = InstViewManager.searchInst(params[0], "photo");
 							trimResult(searchResultMusic);
 							trimResult(searchResultMovie);
-							trimResult(searchResultPhoto);
+							//trimResult(searchResultPhoto);
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						} catch (XmlPullParserException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						return null;
@@ -139,10 +137,10 @@ public class SearchViewer extends Activity {
 				group.add("Movie");
 				resultLists.add(setToArrayList(searchResultMovie));
 			}
-			if(searchResultPhoto.size() != 0) { 
-				group.add("Photo");
-				resultLists.add(setToArrayList(searchResultPhoto));
-			}					
+//			if(searchResultPhoto.size() != 0) { 
+//				group.add("Photo");
+//				resultLists.add(setToArrayList(searchResultPhoto));
+//			}					
 		}
 		
 		private ArrayList<UriInstance> setToArrayList(
