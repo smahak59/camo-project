@@ -3,22 +3,28 @@ package cn.edu.nju.ws.camo.android.ui;
  * @author Cunxin Jia
  *
  */
+import java.io.IOException;
+
+import org.xmlpull.v1.XmlPullParserException;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TableLayout;
 import android.widget.Toast;
 import cn.edu.nju.ws.camo.android.R;
 import cn.edu.nju.ws.camo.android.connect.ServerConfig;
+import cn.edu.nju.ws.camo.android.user.User;
+import cn.edu.nju.ws.camo.android.user.UserManager;
 import cn.edu.nju.ws.camo.android.util.UtilConfig;
 import cn.edu.nju.ws.camo.android.util.UtilParam;
 
@@ -29,6 +35,15 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 	private ImageButton imageButton_viewMediaPlayer;
 	private ImageButton imageButton_viewSearch;
 	private ProgressDialog progressDialog;
+	private EditText editText_email;
+	private EditText editText_password;
+	private Button button_login;
+	private Button button_register;
+	private TableLayout loginPanel;
+	private TableLayout mainPanel;
+
+	
+	
 	//private ImageButton imageButton_viewFriendList;	
 
 
@@ -41,7 +56,7 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
     	initServerParams();
     	initViewComponents();
     	testConnection();
-    	initUserData();       
+    	       
     }   
     
     private void testConnection() {
@@ -76,7 +91,7 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 	}
 
 	private void initUserData() {
-    	CAMO_app.initCurrentUser();
+    	//CAMO_app.initCurrentUser();
     	CAMO_app.initPreferList();	
     	CAMO_app.initFriendList();
     	CAMO_app.initIgnoredList();
@@ -93,12 +108,18 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 
 
 	private void initViewComponents() {
+		loginPanel = (TableLayout) findViewById(R.id.tableLayout_loginPanel);
+		mainPanel = (TableLayout) findViewById(R.id.tableLayout_mainPanel);
     	imageButton_viewLike =  (ImageButton) findViewById(R.id.imageButton_viewLike);
     	imageButton_viewDislike = (ImageButton) findViewById(R.id.imageButton_viewDislike);
     	imageButton_viewMediaPlayer = (ImageButton) findViewById(R.id.imageButton_viewMediaPlayer);
     	imageButton_viewSearch = (ImageButton) findViewById(R.id.imageButton_viewSearch);
+    	button_login = (Button) findViewById(R.id.button_login);
+    	button_register = (Button) findViewById(R.id.button_register);
+    	editText_email = (EditText) findViewById(R.id.editText_loginEmail);
+    	editText_password = (EditText) findViewById(R.id.editText_loginPassword);
 
-    	
+    	                   
     	imageButton_viewLike.setEnabled(false);
     	imageButton_viewDislike.setEnabled(false);
     	imageButton_viewMediaPlayer.setEnabled(false);
@@ -108,6 +129,8 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
     	imageButton_viewDislike.setOnClickListener(this);
     	imageButton_viewMediaPlayer.setOnClickListener(this);
     	imageButton_viewSearch.setOnClickListener(this);
+    	button_login.setOnClickListener(this);
+    	button_register.setOnClickListener(this);
 
     	imageButton_viewLike.setOnTouchListener(touchListener);
     	imageButton_viewDislike.setOnTouchListener(touchListener);
@@ -119,7 +142,6 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 
 	/**onClick Listener*/
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		switch(v.getId()) {			
 		case R.id.imageButton_viewLike:
 			if(!CAMO_app.preferListIsLoaded()) {
@@ -147,6 +169,13 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 			Intent viewSearchIntent = new Intent(this, SearchViewer.class);			
 			startActivity(viewSearchIntent);
 			break;
+		case R.id.button_login:
+			loginProcess();
+			break;
+		case R.id.button_register:
+			Intent registerIntent = new Intent(this, RegisterViewer.class);
+			startActivity(registerIntent);
+			break;
 //		case R.id.button_viewFriendList:
 //			if(!CAMO_app.preferListIsLoaded()) {
 //				Toast.makeText(CAMO_AndroidActivity.this, "My Friends is loading...", Toast.LENGTH_SHORT).show();
@@ -157,6 +186,56 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 //			}
 //			break;
 		}
+	}
+	
+	private void loginProcess() {
+		String email = editText_email.getText().toString().trim();
+		String password = editText_password.getText().toString().trim();
+//		if(email.equals("") || password.equals(""))
+//			return;
+		String[] params = {email, password};
+		
+		progressDialog = new ProgressDialog(this);			  
+		progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);  			
+		progressDialog.setMessage("Loading...");  
+		progressDialog.setCancelable(false);
+		progressDialog.show();
+		
+		class LoginTask extends AsyncTask<String,Void,String> {
+			private User loginUser;
+			@Override
+			protected String doInBackground(String... arg0) {
+				try {
+					loginUser = UserManager.getInstance().getUser(arg0[0], arg0[1]);
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (XmlPullParserException e) {
+					e.printStackTrace();
+				}
+				return null;
+			}
+			
+			protected void onPostExecute(String result) {
+				progressDialog.dismiss();
+				if(loginUser != null) {
+					CAMO_app.setUser(loginUser);
+					initUserData();
+					Toast.makeText(CAMO_AndroidActivity.this, "Login successfully!", Toast.LENGTH_SHORT).show();
+					loginSuc();
+				}
+				else {
+					Toast.makeText(CAMO_AndroidActivity.this, "Email or Password error!", Toast.LENGTH_SHORT).show();
+				}					
+			}			
+		}
+		
+		new LoginTask().execute(params);
+	}
+	
+	private void loginSuc() {
+		loginPanel.setVisibility(View.GONE);
+		mainPanel.setVisibility(View.VISIBLE);
+		
 	}
 
 	public static final OnTouchListener touchListener = new OnTouchListener() { 
@@ -172,6 +251,7 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 			}
 			return false;
 		} 
+
 
 	};
 	
