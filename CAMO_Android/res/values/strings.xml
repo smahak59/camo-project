@@ -18,5 +18,10 @@
 	    <item name="android:shadowDy">1</item>
 	    <item name="android:shadowRadius">2</item>
 	</style>
+	<string-array name="genders">
+		<item>male</item>
+		<item>female</item>
+	</string-array>
+	<string name="gender">Please choose your gender</string>
 </resources>
 
