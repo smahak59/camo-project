@@ -125,25 +125,25 @@ public class MediaPlayer extends Activity implements OnClickListener {
 	private void initPlayList() {
 		playList = ((CAMO_Application) getApplication()).getPlayList();
 
-		UriInstance currentPlayingUri1 = RdfFactory.getInstance()
-				.createInstance(
-						"http://dbpedia.org/resource/Daughters_Who_Pay",
-						"movie");
-		currentPlayingUri1.setName("Daughters Who Pay");
-		UriInstance currentPlayingUri2 = RdfFactory
-				.getInstance()
-				.createInstance(
-						"http://dbpedia.org/resource/Azzurro%23Die_Toten_Hosen_cover",
-						"music");
-		currentPlayingUri2.setName("Die Toten Hosen cover");
-		UriInstance currentPlayingUri3 = RdfFactory.getInstance()
-				.createInstance("http://dbpedia.org/resource/The_Woodsman",
-						"movie");
-		currentPlayingUri3.setName("The Woodsman");
-
-		playList.add(currentPlayingUri1);
-		playList.add(currentPlayingUri2);
-		playList.add(currentPlayingUri3);
+//		UriInstance currentPlayingUri1 = RdfFactory.getInstance()
+//				.createInstance(
+//						"http://dbpedia.org/resource/Daughters_Who_Pay",
+//						"movie");
+//		currentPlayingUri1.setName("Daughters Who Pay");
+//		UriInstance currentPlayingUri2 = RdfFactory
+//				.getInstance()
+//				.createInstance(
+//						"http://dbpedia.org/resource/Azzurro%23Die_Toten_Hosen_cover",
+//						"music");
+//		currentPlayingUri2.setName("Die Toten Hosen cover");
+//		UriInstance currentPlayingUri3 = RdfFactory.getInstance()
+//				.createInstance("http://dbpedia.org/resource/The_Woodsman",
+//						"movie");
+//		currentPlayingUri3.setName("The Woodsman");
+//
+//		playList.add(currentPlayingUri1);
+//		playList.add(currentPlayingUri2);
+//		playList.add(currentPlayingUri3);
 	}
 
 	private void initComponents() {

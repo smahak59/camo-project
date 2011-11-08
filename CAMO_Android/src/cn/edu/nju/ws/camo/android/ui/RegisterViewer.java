@@ -56,7 +56,6 @@ public class RegisterViewer extends Activity implements OnClickListener {
 		button_cancel.setOnClickListener(this);
 	}
 
-	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.button_regConfirm:
