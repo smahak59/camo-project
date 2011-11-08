@@ -69,7 +69,8 @@ public class PreferList {
 		}
 		new LoadPreferListTask().execute("");
 		
-	}
+	}	
+
 	
 	public boolean isLoaded()  {
 		return loaded;
