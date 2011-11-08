@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 import cn.edu.nju.ws.camo.android.R;
+import cn.edu.nju.ws.camo.android.user.User;
 import cn.edu.nju.ws.camo.android.user.UserManager;
 
 public class RegisterViewer extends Activity implements OnClickListener {
@@ -66,6 +67,14 @@ public class RegisterViewer extends Activity implements OnClickListener {
 			break;
 		}
 	}
+	
+	private void initUserData() {
+		CAMO_Application CAMO_app = (CAMO_Application)getApplication();
+    	CAMO_app.initPreferList();	
+    	CAMO_app.initFriendList();
+    	CAMO_app.initIgnoredList();
+    	CAMO_app.initPlayList(this);
+	}
 
 	private void registerProcess() {
 		String email = editText_email.getText().toString().trim();
@@ -76,6 +85,7 @@ public class RegisterViewer extends Activity implements OnClickListener {
 		String sex = spinner_gender.getSelectedItem().toString();
 
 		if (!password.equals(passwordConfirm)) {
+			Toast.makeText(RegisterViewer.this, "Please check password!", Toast.LENGTH_SHORT).show();
 			return;
 		}
 
@@ -95,6 +105,11 @@ public class RegisterViewer extends Activity implements OnClickListener {
 				try {
 					regStatus = UserManager.getInstance().addUser(params[0],
 							params[1], params[2], params[3]);
+					User newUser = UserManager.getInstance().getUser(params[2]);					
+					if(newUser != null) {
+						((CAMO_Application)getApplication()).setUser(newUser);
+						initUserData();
+					}
 				} catch (IOException e) {
 					e.printStackTrace();
 				} catch (XmlPullParserException e) {
