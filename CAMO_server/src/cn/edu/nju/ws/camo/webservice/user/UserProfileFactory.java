@@ -37,7 +37,7 @@ public class UserProfileFactory {
 			return false;
 		}
 		try {
-			if(getUserByMail(email).length() == 0)
+			if(getUserByMail(email).length() > 0)
 				return true;
 			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.USER_CONN);
 			String sqlStr = "insert into user(pwd,name,email,sex) values(?,?,?,?)";
