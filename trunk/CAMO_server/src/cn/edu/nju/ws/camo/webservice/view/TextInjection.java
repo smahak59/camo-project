@@ -226,7 +226,6 @@ public class TextInjection
 				stmt.close();
 				sourceConn.close();
 			} catch (Throwable e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -327,8 +326,8 @@ public class TextInjection
 	{
 		Config.initParam(); 
 		TextInjection query = new TextInjection();
-//		Map<String, String[]> result1 = query.queryForUri("three idiots", "music");
-		Map<String, String[]> result2 = query.queryForUri("three idiots", "movie");
+//		Map<String, String[]> result1 = query.queryForUri("Memories of Murder", "music");
+		Map<String, String[]> result2 = query.queryForUri("Memories of Murder", "movie");
 		Iterator<Entry<String, String[]>> itr = result2.entrySet().iterator();
 		while(itr.hasNext()) {
 			Entry<String, String[]> entry = itr.next();

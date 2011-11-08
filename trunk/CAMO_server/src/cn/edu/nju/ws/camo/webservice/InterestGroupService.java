@@ -15,8 +15,8 @@ public class InterestGroupService implements IInterestGroupService {
 			return "0";
 	}
 
-	public String delInterest(int uid, String media, String artist) {
-		boolean success = InterestGpFactory.getInstance().delInterest(uid, media, artist);
+	public String delInterest(int uid, String media, String mediaType, String artist) {
+		boolean success = InterestGpFactory.getInstance().delInterest(uid, media, mediaType, artist);
 		if(success)
 			return "1";
 		else

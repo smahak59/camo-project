@@ -7,7 +7,7 @@ public interface IInterestGroupService {
 
 	public String addInterest(int uid, String userName, int userSex, String media, String mediaType, String artist);
 	
-	public String delInterest(int uid, String media, String artist);
+	public String delInterest(int uid, String media, String mediaType, String artist);
 	
 	public String getFavoredArtist(int uid, String media);
 	
