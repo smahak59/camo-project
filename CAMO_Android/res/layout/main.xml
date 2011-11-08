@@ -68,9 +68,9 @@
 		android:layout_width="261dp" android:layout_gravity="center">
 		<TableRow android:id="@+id/tableRow3" android:layout_width="wrap_content"
 			android:layout_height="wrap_content">
-			<TextView android:text="Username:" android:id="@+id/textView2"
+			<TextView android:text="Email:" android:id="@+id/textView2"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
-			<EditText android:id="@+id/editText1" android:layout_width="match_parent"
+			<EditText android:id="@+id/editText_loginEmail" android:layout_width="match_parent"
 				android:layout_height="wrap_content">
 				<requestFocus></requestFocus>
 			</EditText>
@@ -80,7 +80,7 @@
 			<TextView android:text="Password:" android:id="@+id/textView3"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 			<EditText android:inputType="textPassword"
-				android:layout_height="wrap_content" android:id="@+id/editText2"
+				android:layout_height="wrap_content" android:id="@+id/editText_loginPassword"
 				android:layout_width="match_parent"></EditText>
 		</TableRow>
 		<TableRow android:id="@+id/tableRow5" android:layout_width="wrap_content"
