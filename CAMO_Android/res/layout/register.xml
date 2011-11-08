@@ -70,11 +70,11 @@
 			<Button android:background="@drawable/btn_blue"
 				android:layout_height="wrap_content" style="@style/ButtonText"
 				android:id="@+id/button_regConfirm" android:text="Confirm"
-				android:layout_width="match_parent"></Button>
+				android:layout_width="1dip"></Button>
 			<Button android:background="@drawable/btn_blue"
 				android:layout_height="wrap_content" style="@style/ButtonText"
 				android:id="@+id/button_regCancel" android:text="Cancel "
-				android:layout_width="match_parent"></Button>
+				android:layout_width="1dip"></Button>
 		</TableRow>
 	</TableLayout>
 
