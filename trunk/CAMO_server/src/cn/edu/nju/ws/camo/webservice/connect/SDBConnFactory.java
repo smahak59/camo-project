@@ -24,6 +24,8 @@ public class SDBConnFactory
 	public static final String MUSIC = "music";
 	public static final String MOVIE = "movie";
 	public static final String PHOTO = "photo";
+	public static final String DBP = "dbpedia";
+	
 	public static final String DBP_PREFIX = "http://dbpedia.org";
 	public static final String JMD_PREFIX = "http://dbtune.org/jamendo";
 	public static final String MAG_PREFIX = "http://dbtune.org/magnatune";
@@ -217,6 +219,9 @@ public class SDBConnFactory
 				break;
 			case SDBConnFactory.WDF_CONN:
 				mediaType = PHOTO;
+				break;
+			case SDBConnFactory.DBP_CONN:
+				mediaType = DBP;
 				break;
 		}
 		return mediaType;

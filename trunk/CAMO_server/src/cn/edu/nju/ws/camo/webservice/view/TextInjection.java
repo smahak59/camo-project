@@ -176,7 +176,7 @@ public class TextInjection
 //	}
 	
 	public Map<String, String[]> queryForUri(String searchStr, String mediaType) throws Throwable {
-		long oldTime = new Date().getTime();
+//		long oldTime = new Date().getTime();
 		String searchWords = initSearchWords(searchStr);
 		Map<String, String[]> instSet = new HashMap<String, String[]>();
 		if (searchWords.equals(""))
@@ -193,8 +193,8 @@ public class TextInjection
 		instSet.putAll(seacher2.getInstSet());
 
 		rmCorefs(instSet, mediaType);
-		long newTime = new Date().getTime();
-		System.out.println("Time Cost: " + (newTime-oldTime));
+//		long newTime = new Date().getTime();
+//		System.out.println("Time Cost: " + (newTime-oldTime));
 		return instSet;
 	}
 	
@@ -318,14 +318,14 @@ public class TextInjection
 		TextInjection query = new TextInjection();
 		Map<String, String[]> result1 = query.queryForUri("avtar", "music");
 		Map<String, String[]> result2 = query.queryForUri("avtar", "movie");
-//		Iterator<Entry<String, String[]>> itr = result1.entrySet().iterator();
-//		while(itr.hasNext()) {
-//			Entry<String, String[]> entry = itr.next();
-//			System.out.println(entry.getKey());
-//			System.out.println(entry.getValue()[0]);
-//			System.out.println(entry.getValue()[1]);
-//			System.out.println("");
-//		}
+		Iterator<Entry<String, String[]>> itr = result2.entrySet().iterator();
+		while(itr.hasNext()) {
+			Entry<String, String[]> entry = itr.next();
+			System.out.println(entry.getKey());
+			System.out.println(entry.getValue()[0]);
+			System.out.println(entry.getValue()[1]);
+			System.out.println("");
+		}
 		
 		
 //		query.setQueryMode(TextInjection.MODE_DOWN);	//down, up, all

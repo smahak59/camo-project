@@ -230,18 +230,19 @@ public class UriInjection
 	{
 		long oldTime = new Date().getTime();
 		Config.initParam(); 
-		UriInjection query = new UriInjection("http://dbpedia.org/resource/Hier_kommt_Alex");
+		UriInjection query = new UriInjection("http://data.linkedmdb.org/resource/film/66990");
 		System.out.println("Time Cost: " + ( new Date().getTime()-oldTime));
 		System.out.println("\n==========Query Down=========\n");
 		List<String[]> triplesDown = query.queryDown();
-		for(String[] triple : triplesDown) {
-			System.out.println(triple[0] + "\n" + triple[1] + "\n" + triple[2] + "\n");
-		}
+//		for(String[] triple : triplesDown) {
+//			System.out.println(triple[0] + "\n" + triple[1] + "\n" + triple[2] + "\n");
+//		}
+		System.out.println("Time Cost: " + ( new Date().getTime()-oldTime));
 		System.out.println("\n==========Query Up=========\n");
 		List<String[]> triplesUp = query.queryUp();
-		for(String[] triple : triplesUp) {
-			System.out.println(triple[0] + "\n" + triple[1] + "\n" + triple[2] + "\n");
-		}
+//		for(String[] triple : triplesUp) {
+//			System.out.println(triple[0] + "\n" + triple[1] + "\n" + triple[2] + "\n");
+//		}
 		System.out.println("Time Cost: " + ( new Date().getTime()-oldTime));
 	}
 	
