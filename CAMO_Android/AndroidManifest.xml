@@ -33,6 +33,8 @@
         </activity>
         <activity android:name=".ui.IgnoredListViewer">
         </activity>
+        <activity android:name=".ui.RegisterViewer">
+        </activity>
 
     </application>
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
