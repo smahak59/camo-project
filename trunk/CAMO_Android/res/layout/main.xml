@@ -1,34 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:weightSum="1">
-    <ImageView android:layout_gravity="center" android:src="@drawable/logo" android:id="@+id/imageView1" android:layout_height="210dp" android:layout_weight="0.73" android:layout_width="match_parent"></ImageView>
-	
-	<TableLayout android:id="@+id/tableLayout1" android:layout_height="wrap_content" android:layout_width="wrap_content" android:stretchColumns="*">
-		<TableRow android:id="@+id/tableRow1" android:layout_width="wrap_content" android:layout_height="wrap_content">
-			
-			<LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:id="@+id/linearLayout1" android:layout_height="wrap_content">
-				<ImageButton android:id="@+id/imageButton_viewSearch" android:background="#00000000" android:layout_height="wrap_content" android:src="@drawable/menu_search" android:layout_width="wrap_content" android:layout_gravity="center"></ImageButton>
-				<TextView android:text="Search" android:textSize="20dip" android:id="@+id/textView1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center"></TextView>
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:weightSum="1">
+	<ImageView android:layout_gravity="center" android:src="@drawable/logo"
+		android:id="@+id/imageView1" android:layout_height="210dp"
+		android:layout_width="match_parent" android:layout_weight="0.86"></ImageView>
+
+	<TableLayout android:visibility="gone" android:id="@+id/tableLayout_mainPanel"
+		android:layout_height="wrap_content" android:layout_width="wrap_content"
+		android:stretchColumns="*">
+		<TableRow android:id="@+id/tableRow1" android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+
+			<LinearLayout android:orientation="vertical"
+				android:layout_width="wrap_content" android:id="@+id/linearLayout1"
+				android:layout_height="wrap_content">
+				<ImageButton android:id="@+id/imageButton_viewSearch"
+					android:background="#00000000" android:layout_height="wrap_content"
+					android:src="@drawable/menu_search" android:layout_width="wrap_content"
+					android:layout_gravity="center"></ImageButton>
+				<TextView android:text="Search" android:textSize="20dip"
+					android:id="@+id/textView1" android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:layout_gravity="center"></TextView>
 			</LinearLayout>
-			<LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:id="@+id/linearLayout1" android:layout_height="wrap_content">
-				<ImageButton android:id="@+id/imageButton_viewMediaPlayer" android:background="#00000000" android:layout_height="wrap_content" android:src="@drawable/menu_player" android:layout_width="wrap_content" android:layout_gravity="center"></ImageButton>
-				<TextView android:text="Media Player" android:textSize="20dip" android:id="@+id/textView1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center"></TextView>
+			<LinearLayout android:orientation="vertical"
+				android:layout_width="wrap_content" android:id="@+id/linearLayout1"
+				android:layout_height="wrap_content">
+				<ImageButton android:id="@+id/imageButton_viewMediaPlayer"
+					android:background="#00000000" android:layout_height="wrap_content"
+					android:src="@drawable/menu_player" android:layout_width="wrap_content"
+					android:layout_gravity="center"></ImageButton>
+				<TextView android:text="Media Player" android:textSize="20dip"
+					android:id="@+id/textView1" android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:layout_gravity="center"></TextView>
 			</LinearLayout>
 
 		</TableRow>
-		<TableRow android:id="@+id/tableRow2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="15dip">
-			<LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:id="@+id/linearLayout1" android:layout_height="wrap_content">
-				<ImageButton android:id="@+id/imageButton_viewLike" android:background="#00000000" android:layout_height="wrap_content" android:src="@drawable/menu_like" android:layout_width="wrap_content" android:layout_gravity="center"></ImageButton>
-				<TextView android:text="My Like" android:textSize="20dip" android:id="@+id/textView1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center"></TextView>
+		<TableRow android:id="@+id/tableRow2" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_marginTop="15dip">
+			<LinearLayout android:orientation="vertical"
+				android:layout_width="wrap_content" android:id="@+id/linearLayout1"
+				android:layout_height="wrap_content">
+				<ImageButton android:id="@+id/imageButton_viewLike"
+					android:background="#00000000" android:layout_height="wrap_content"
+					android:src="@drawable/menu_like" android:layout_width="wrap_content"
+					android:layout_gravity="center"></ImageButton>
+				<TextView android:text="My Like" android:textSize="20dip"
+					android:id="@+id/textView1" android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:layout_gravity="center"></TextView>
 			</LinearLayout>
 
-			<LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:id="@+id/linearLayout1" android:layout_height="wrap_content">
-				<ImageButton android:id="@+id/imageButton_viewDislike" android:background="#00000000" android:layout_height="wrap_content" android:src="@drawable/menu_dislike" android:layout_width="wrap_content" android:layout_gravity="center"></ImageButton>
-				<TextView android:text="My Dislike" android:textSize="20dip" android:id="@+id/textView1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center"></TextView>
+			<LinearLayout android:orientation="vertical"
+				android:layout_width="wrap_content" android:id="@+id/linearLayout1"
+				android:layout_height="wrap_content">
+				<ImageButton android:id="@+id/imageButton_viewDislike"
+					android:background="#00000000" android:layout_height="wrap_content"
+					android:src="@drawable/menu_dislike" android:layout_width="wrap_content"
+					android:layout_gravity="center"></ImageButton>
+				<TextView android:text="My Dislike" android:textSize="20dip"
+					android:id="@+id/textView1" android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:layout_gravity="center"></TextView>
 			</LinearLayout>
-		</TableRow>		
+		</TableRow>
 	</TableLayout>
+	<TableLayout android:stretchColumns="1"
+		android:layout_height="wrap_content" android:id="@+id/tableLayout_loginPanel"
+		android:layout_width="261dp" android:layout_gravity="center">
+		<TableRow android:id="@+id/tableRow3" android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<TextView android:text="Username:" android:id="@+id/textView2"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<EditText android:id="@+id/editText1" android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+				<requestFocus></requestFocus>
+			</EditText>
+		</TableRow>
+		<TableRow android:id="@+id/tableRow4" android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<TextView android:text="Password:" android:id="@+id/textView3"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<EditText android:inputType="textPassword"
+				android:layout_height="wrap_content" android:id="@+id/editText2"
+				android:layout_width="match_parent"></EditText>
+		</TableRow>
+		<TableRow android:id="@+id/tableRow5" android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<Button android:layout_span="2" android:background="@drawable/btn_blue"
+				style="@style/ButtonText" android:text="Login" android:id="@+id/button_login"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+		</TableRow>
+		<TableRow android:id="@+id/tableRow6" android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<Button android:layout_span="2" android:layout_height="wrap_content"
+				android:background="@drawable/btn_blue" style="@style/ButtonText"
+				android:id="@+id/button_register" android:layout_width="wrap_content"
+				android:text="Register"></Button>
+		</TableRow>
+	</TableLayout>
+
 </LinearLayout>
