@@ -229,7 +229,7 @@ public class UriInjection
 	public static void main(String[] args) throws Throwable 
 	{
 		Config.initParam(); 
-		UriInjection query = new UriInjection("http://dbpedia.org/resource/Girls%27_Generation%27s_Hello_Baby");
+		UriInjection query = new UriInjection("http://dbpedia.org/resource/Transformers_%28film_series%29");
 		System.out.println("\n==========Query Down=========\n");
 		List<String[]> triplesDown = query.queryDown();
 		for(String[] triple : triplesDown) {

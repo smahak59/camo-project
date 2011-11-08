@@ -188,7 +188,6 @@ public class TextInjection
 		seacher2.start();
 		seacher1.join();
 		seacher2.join();
-		
 		instSet.putAll(seacher1.getInstSet());
 		instSet.putAll(seacher2.getInstSet());
 
@@ -212,7 +211,7 @@ public class TextInjection
 			try {
 				Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.FUSE_CONN);
 				String sqlStr = "SELECT uri,label,inst_type FROM inst_" + connType
-				   + " WHERE MATCH(label) AGAINST (? IN BOOLEAN MODE) LIMIT 3";
+				   + " WHERE MATCH(label) AGAINST (? IN BOOLEAN MODE) LIMIT 50";
 				PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
 				stmt.setString(1, searchWords);
 				ResultSet rs = stmt.executeQuery();
@@ -221,6 +220,8 @@ public class TextInjection
 						String[] value = {rs.getString(2).trim(),rs.getString(3).trim()};
 						instSet.put(rs.getString(1).trim(), value);
 					}
+					if(instSet.size()>3)
+						break;
 				}
 				rs.close();
 				stmt.close();
@@ -327,7 +328,7 @@ public class TextInjection
 		Config.initParam(); 
 		TextInjection query = new TextInjection();
 //		Map<String, String[]> result1 = query.queryForUri("Memories of Murder", "music");
-		Map<String, String[]> result2 = query.queryForUri("Memories of Murder", "movie");
+		Map<String, String[]> result2 = query.queryForUri("Transformers", "movie");
 		Iterator<Entry<String, String[]>> itr = result2.entrySet().iterator();
 		while(itr.hasNext()) {
 			Entry<String, String[]> entry = itr.next();
