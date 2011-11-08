@@ -64,13 +64,6 @@ public class CAMO_Application extends Application {
 		currentUser = user;
 	}
 	
-	public void initCurrentUser() {
-		currentUser = new User(7);
-		currentUser.setName("cxjia");
-		currentUser.setEmail("ymr674@gmail.com");
-		currentUser.setSex("b");
-	}
-	
 	public int getSignedType(UriInstance uri) {
 		return preferList.getSignedType(uri);
 	}

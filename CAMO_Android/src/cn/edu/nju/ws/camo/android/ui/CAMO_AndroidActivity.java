@@ -60,7 +60,19 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
     	initViewComponents();
     	testConnection();
     	       
-    }   
+    }
+    
+    public void onStart() {
+    	super.onStart();
+    	if(CAMO_app.getCurrentUser() == null) {
+    		loginPanel.setVisibility(View.VISIBLE);
+    		mainPanel.setVisibility(View.GONE);
+    	}
+    	else {
+    		loginPanel.setVisibility(View.GONE);
+    		mainPanel.setVisibility(View.VISIBLE);
+    	}
+    }
     
     private void testConnection() {
 		class TestTask extends AsyncTask<Void, Void, Boolean[]> {
@@ -94,7 +106,6 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 	}
 
 	private void initUserData() {
-    	//CAMO_app.initCurrentUser();
     	CAMO_app.initPreferList();	
     	CAMO_app.initFriendList();
     	CAMO_app.initIgnoredList();
@@ -194,8 +205,10 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 	private void loginProcess() {
 		String email = editText_email.getText().toString().trim();
 		String password = editText_password.getText().toString().trim();
-//		if(email.equals("") || password.equals(""))
-//			return;
+		if(email.equals("") || password.equals("")) {
+			Toast.makeText(CAMO_AndroidActivity.this, "Please enter email and password!s", Toast.LENGTH_SHORT).show();
+			return;
+		}
 		String[] params = {email, password};
 		
 		progressDialog = new ProgressDialog(this);			  
@@ -250,6 +263,7 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 			CAMO_app.logout();
 			break;
 		case R.id.item_exit:
+			android.os.Process.killProcess(android.os.Process.myPid());
 			break;
 		}
 		return true;
