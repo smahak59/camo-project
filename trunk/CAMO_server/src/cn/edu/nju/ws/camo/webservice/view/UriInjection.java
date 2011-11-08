@@ -1,7 +1,6 @@
 package cn.edu.nju.ws.camo.webservice.view;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -229,7 +228,7 @@ public class UriInjection
 	public static void main(String[] args) throws Throwable 
 	{
 		Config.initParam(); 
-		UriInjection query = new UriInjection("http://dbpedia.org/resource/Transformers_%28film_series%29");
+		UriInjection query = new UriInjection("http://dbpedia.org/resource/Taxi_Driver_%281954_film%29");
 		System.out.println("\n==========Query Down=========\n");
 		List<String[]> triplesDown = query.queryDown();
 		for(String[] triple : triplesDown) {
