@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 import cn.edu.nju.ws.camo.webservice.connect.Config;
 import cn.edu.nju.ws.camo.webservice.connect.DBConnFactory;
+import cn.edu.nju.ws.camo.webservice.util.MediaType;
 
 public class TextInjection 
 {
@@ -176,15 +177,14 @@ public class TextInjection
 //	}
 	
 	public Map<String, String[]> queryForUri(String searchStr, String mediaType) throws Throwable {
-//		long oldTime = new Date().getTime();
 		String searchWords = initSearchWords(searchStr);
 		Map<String, String[]> instSet = new HashMap<String, String[]>();
 		if (searchWords.equals(""))
 			return instSet;
 		
-		FullTextSearcher seacher1 = new FullTextSearcher(mediaType, searchWords);
+		FullTextSearcher seacher1 = new FullTextSearcher(mediaType, mediaType, searchWords);
 		seacher1.start();
-		FullTextSearcher seacher2 = new FullTextSearcher("dbpedia", searchWords);
+		FullTextSearcher seacher2 = new FullTextSearcher("dbpedia", mediaType, searchWords);
 		seacher2.start();
 		seacher1.join();
 		seacher2.join();
@@ -193,16 +193,16 @@ public class TextInjection
 		instSet.putAll(seacher2.getInstSet());
 
 		rmCorefs(instSet, mediaType);
-//		long newTime = new Date().getTime();
-//		System.out.println("Time Cost: " + (newTime-oldTime));
 		return instSet;
 	}
 	
 	class FullTextSearcher extends Thread {
 		private Map<String, String[]> instSet = new HashMap<String, String[]>();
+		private String connType;
 		private String mediaType;
 		private String searchWords;
-		FullTextSearcher(String mediaType, String searchWords) {
+		FullTextSearcher(String connType, String mediaType, String searchWords) {
+			this.connType = connType;
 			this.mediaType = mediaType;
 			this.searchWords = searchWords;
 		}
@@ -211,14 +211,16 @@ public class TextInjection
 		public void run() {
 			try {
 				Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.FUSE_CONN);
-				String sqlStr = "SELECT uri,label,inst_type FROM inst_" + mediaType
+				String sqlStr = "SELECT uri,label,inst_type FROM inst_" + connType
 				   + " WHERE MATCH(label) AGAINST (? IN BOOLEAN MODE) LIMIT 3";
 				PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
 				stmt.setString(1, searchWords);
 				ResultSet rs = stmt.executeQuery();
 				while (rs.next()) {
-					String[] value = {rs.getString(2).trim(),rs.getString(3).trim()};
-					instSet.put(rs.getString(1).trim(), value);
+					if(isLegalType(rs.getString(3).trim(), mediaType)) {
+						String[] value = {rs.getString(2).trim(),rs.getString(3).trim()};
+						instSet.put(rs.getString(1).trim(), value);
+					}
 				}
 				rs.close();
 				stmt.close();
@@ -228,9 +230,18 @@ public class TextInjection
 				e.printStackTrace();
 			}
 		}
+		private boolean isLegalType(String instType, String mediaType) {
+			if(mediaType.equals("movie")) {
+				return MediaType.isMovie(instType);
+			} else if(mediaType.equals("music")) {
+				return MediaType.isMusic(instType);
+			}
+			return true;
+		}
 		public Map<String, String[]> getInstSet() {
 			return this.instSet;
 		}
+		
 	}
 	
 	
@@ -316,8 +327,8 @@ public class TextInjection
 	{
 		Config.initParam(); 
 		TextInjection query = new TextInjection();
-		Map<String, String[]> result1 = query.queryForUri("avtar", "music");
-		Map<String, String[]> result2 = query.queryForUri("avtar", "movie");
+//		Map<String, String[]> result1 = query.queryForUri("three idiots", "music");
+		Map<String, String[]> result2 = query.queryForUri("three idiots", "movie");
 		Iterator<Entry<String, String[]>> itr = result2.entrySet().iterator();
 		while(itr.hasNext()) {
 			Entry<String, String[]> entry = itr.next();
