@@ -3,9 +3,7 @@ package cn.edu.nju.ws.camo.webservice.view;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -220,7 +218,7 @@ public class TextInjection
 						String[] value = {rs.getString(2).trim(),rs.getString(3).trim()};
 						instSet.put(rs.getString(1).trim(), value);
 					}
-					if(instSet.size()>3)
+					if(instSet.size()>=3)
 						break;
 				}
 				rs.close();
