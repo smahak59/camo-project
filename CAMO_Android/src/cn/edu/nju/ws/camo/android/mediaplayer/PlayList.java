@@ -5,8 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import android.content.Context;
-import android.util.Log;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
+import cn.edu.nju.ws.camo.android.user.User;
 
 public class PlayList {
 	
@@ -16,7 +16,7 @@ public class PlayList {
 	
 	private List<UriInstance> list = null;
 	private int currentPlaying = 0;
-	public PlayList(Context context){
+	public PlayList(Context context, User curUser){
 		list = new ArrayList<UriInstance>();
 		PlayListDatabase db = new PlayListDatabase(context);
 		db.create_table();
@@ -79,6 +79,10 @@ public class PlayList {
 
 	public UriInstance getInstance(int k){
 		return list.get(k);
+	}
+	
+	public List<UriInstance> getPlayList() {
+		return list;
 	}
 	
 	public void exit(Context context){
