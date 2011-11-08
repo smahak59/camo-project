@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import cn.edu.nju.ws.camo.webservice.connect.DBConnFactory;
+import cn.edu.nju.ws.camo.webservice.util.Encryption;
 import cn.edu.nju.ws.camo.webservice.util.SetSerialization;
 
 public class UserProfileFactory {
@@ -24,7 +25,8 @@ public class UserProfileFactory {
 		name = SetSerialization.rmIllegal(name);
 		email = SetSerialization.rmIllegal(email);
 		sex = SetSerialization.rmIllegal(sex);
-		pwd = SetSerialization.rmIllegal(pwd);
+//		pwd = SetSerialization.rmIllegal(pwd);
+		pwd = Encryption.createPassword(pwd);
 		if(pwd.length()>200)
 			return false;
 		int sexInt = -1;
@@ -120,7 +122,8 @@ public class UserProfileFactory {
 	public String getUserByPwd(String email, String pwd) {
 		String userInfo = "";
 		email = SetSerialization.rmIllegal(email);
-		pwd = SetSerialization.rmIllegal(pwd);
+//		pwd = SetSerialization.rmIllegal(pwd);
+		pwd = Encryption.createPassword(pwd);
 		ArrayList<String> valueList = new ArrayList<String>();
 		try {
 			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.USER_CONN);
