@@ -1,9 +1,15 @@
 package cn.edu.nju.ws.camo.webservice.view;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
-import cn.edu.nju.ws.camo.webservice.connect.*;
+import cn.edu.nju.ws.camo.webservice.connect.DBConnFactory;
+import cn.edu.nju.ws.camo.webservice.connect.SDBConnFactory;
 
 public class CorefFinder extends Thread
 {
@@ -42,6 +48,16 @@ public class CorefFinder extends Thread
 	public Map<String, Integer> getCorefs() 
 	{
 		return corefs;
+	}
+	
+	public String getDBPCoref() throws Throwable {
+		Iterator<Entry<String, Integer>> itr = corefs.entrySet().iterator();
+		while(itr.hasNext()) {
+			Entry<String, Integer> entry = itr.next();
+			if(SDBConnFactory.getConnType(entry.getKey())==SDBConnFactory.DBP_CONN)
+				return entry.getKey();
+		}
+		return null;
 	}
 	
 	public String getMediaType()

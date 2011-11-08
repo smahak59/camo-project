@@ -20,11 +20,13 @@ import java.util.concurrent.TimeUnit;
 
 import cn.edu.nju.ws.camo.webservice.connect.DBConnFactory;
 import cn.edu.nju.ws.camo.webservice.connect.Param;
+import cn.edu.nju.ws.camo.webservice.connect.SDBConnFactory;
 import cn.edu.nju.ws.camo.webservice.interestgp.rules.CooperatorMovieRuleJob;
 import cn.edu.nju.ws.camo.webservice.interestgp.rules.RuleJob;
 import cn.edu.nju.ws.camo.webservice.interestgp.rules.SeriesMusicRuleJob;
 import cn.edu.nju.ws.camo.webservice.interestgp.rules.SpouseMovieRuleJob;
 import cn.edu.nju.ws.camo.webservice.util.SetSerialization;
+import cn.edu.nju.ws.camo.webservice.view.CorefFinder;
 import cn.edu.nju.ws.camo.webservice.view.LabelAndTypeFinder;
 import cn.edu.nju.ws.camo.webservice.view.UriInjection;
 
@@ -40,9 +42,23 @@ public class InterestGpFactory {
 	}
 	
 	public boolean addInterest(int uid, String userName, int userSex, String media, String mediaType, String artist) {
-		media = SetSerialization.rmIllegal(media);
-		artist = SetSerialization.rmIllegal(artist);
 		try {
+			if(SDBConnFactory.getConnType(media)!=SDBConnFactory.DBP_CONN && 
+					SDBConnFactory.getConnType(artist)!=SDBConnFactory.DBP_CONN) {
+				CorefFinder mediaFinder1 = new CorefFinder(media,mediaType);
+				mediaFinder1.start();
+				CorefFinder mediaFinder2 = new CorefFinder(artist,mediaType);
+				mediaFinder2.start();
+				mediaFinder1.join();
+				mediaFinder2.join();
+				String dbpMedia = mediaFinder1.getDBPCoref();
+				String dbpArtist = mediaFinder2.getDBPCoref();
+				if(dbpMedia!=null)
+					media = dbpMedia;
+				if(dbpArtist!=null)
+					artist = dbpArtist;
+			}
+			
 			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.ISTGP_CONN);
 			String sqlStr = "insert into media_favor(u_id,u_name,u_sex,media,media_type,artist,in_time) values(?,?,?,?,?,?,?)";
 			PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
@@ -64,10 +80,28 @@ public class InterestGpFactory {
 		return true;
 	}
 
-	public boolean delInterest(int uid, String media, String artist) {
-		media = SetSerialization.rmIllegal(media);
-		artist = SetSerialization.rmIllegal(artist);
+	public boolean delInterest(int uid, String media, String mediaType, String artist) {
+		if(artist==null || artist.length()==0)
+			return delInterest(uid, mediaType);
 		try {
+			if(SDBConnFactory.getConnType(media)!=SDBConnFactory.DBP_CONN && 
+					SDBConnFactory.getConnType(artist)!=SDBConnFactory.DBP_CONN) {
+				CorefFinder mediaFinder1 = new CorefFinder(media,mediaType);
+				mediaFinder1.start();
+				CorefFinder mediaFinder2 = new CorefFinder(artist,mediaType);
+				mediaFinder2.start();
+				mediaFinder1.join();
+				mediaFinder2.join();
+				String dbpMedia = mediaFinder1.getDBPCoref();
+				String dbpArtist = mediaFinder2.getDBPCoref();
+				System.out.println(dbpMedia);
+				System.out.println(dbpArtist);
+				if(dbpMedia!=null)
+					media = dbpMedia;
+				if(dbpArtist!=null)
+					artist = dbpArtist;
+			}
+			
 			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.ISTGP_CONN);
 			String sqlStr = "delete from media_favor where u_id=? and media=? and artist=?";
 			PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
@@ -84,12 +118,37 @@ public class InterestGpFactory {
 		return true;
 	}
 	
+	private boolean delInterest(int uid, String media)  {
+		try {
+			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.ISTGP_CONN);
+			String sqlStr = "delete from media_favor where u_id=? and media=?";
+			PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
+			stmt.setInt(1, uid);
+			stmt.setString(2, media);
+			stmt.executeUpdate();
+			stmt.close();
+			sourceConn.close();
+		} catch (Throwable e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
 	public String getFavorArtist(int uid, String media) {
 		String result = "";
 		List<String> artistList = new ArrayList<String>();
 		Map<String, String[]> artistSet = new HashMap<String, String[]>();
-		media = SetSerialization.rmIllegal(media);
 		try {
+			if(SDBConnFactory.getConnType(media)!=SDBConnFactory.DBP_CONN) {
+				CorefFinder mediaFinder1 = new CorefFinder(media,"movie");
+				mediaFinder1.start();
+				mediaFinder1.join();
+				String dbpMedia = mediaFinder1.getDBPCoref();
+				if(dbpMedia!=null)
+					media = dbpMedia;
+			}
+			
 			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.ISTGP_CONN);
 			String sqlStr = "select artist from media_favor where u_id=? and media=? order by in_time desc";
 			PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
@@ -128,8 +187,16 @@ public class InterestGpFactory {
 	
 	public boolean isFavoredMedia(int uid, String media) {
 		boolean result = false;
-		media = SetSerialization.rmIllegal(media);
 		try {
+			if(SDBConnFactory.getConnType(media)!=SDBConnFactory.DBP_CONN) {
+				CorefFinder mediaFinder1 = new CorefFinder(media,"music");
+				mediaFinder1.start();
+				mediaFinder1.join();
+				String dbpMedia = mediaFinder1.getDBPCoref();
+				if(dbpMedia!=null)
+					media = dbpMedia;
+			}
+			
 			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.ISTGP_CONN);
 			String sqlStr = "select * from media_favor where u_id=? and media=? limit 1";
 			PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
@@ -240,6 +307,19 @@ public class InterestGpFactory {
 	public String getRecommandedUserForMusic(int uid, int sex, String music) {
 		String result = "";
 		List<String> resultList = new ArrayList<String>();
+		try {
+			if(SDBConnFactory.getConnType(music)!=SDBConnFactory.DBP_CONN) {
+				CorefFinder mediaFinder1 = new CorefFinder(music,"music");
+				mediaFinder1.start();
+				mediaFinder1.join();
+				String dbpMedia = mediaFinder1.getDBPCoref();
+				if(dbpMedia!=null)
+					music = dbpMedia;
+			}
+		}  catch (Throwable e) {
+			e.printStackTrace();
+		}
+		
 		Thread rmdRule1Finder = new RmdCommomMediaLikedUserFinder(uid, music);
 		if(RuleJob.COMMOM_ROLE_RULE)
 			rmdRule1Finder.start();
@@ -332,6 +412,19 @@ public class InterestGpFactory {
 	public String getRecommandedUserForMovie(int uid, int sex, String movie) {
 		String result = "";		
 		List<String> resultList = new ArrayList<String>();
+		try {
+			if(SDBConnFactory.getConnType(movie)!=SDBConnFactory.DBP_CONN) {
+				CorefFinder mediaFinder1 = new CorefFinder(movie,"movie");
+				mediaFinder1.start();
+				mediaFinder1.join();
+				String dbpMedia = mediaFinder1.getDBPCoref();
+				if(dbpMedia!=null)
+					movie = dbpMedia;
+			}
+		}  catch (Throwable e) {
+			e.printStackTrace();
+		}
+		
 		Thread rmdRule1Finder = new RmdCommomRoleLikedUserFinder(uid, movie);
 		if(RuleJob.COMMOM_ROLE_RULE)
 			rmdRule1Finder.start();

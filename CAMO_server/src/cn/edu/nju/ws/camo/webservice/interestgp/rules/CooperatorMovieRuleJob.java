@@ -39,11 +39,13 @@ public class CooperatorMovieRuleJob extends MovieRuleJob {
 		
 		private int connType; 
 		private String actorProp;
+		private String filmCls;
 		private Map<String,Set<String>> artistToMovie = new HashMap<String, Set<String>>();
 		
-		public ArtistToMovieFinder(int connType, String actorProp) {
+		public ArtistToMovieFinder(int connType, String filmCls, String actorProp) {
 			this.connType = connType;
 			this.actorProp = actorProp;
+			this.filmCls = filmCls;
 		}
 		
 		@Override
@@ -51,7 +53,7 @@ public class CooperatorMovieRuleJob extends MovieRuleJob {
 			try {
 				SDBConnection sdbc = SDBConnFactory.getInstance().sdbConnect(connType);
 				String qstr = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> " + 
-						"SELECT ?x ?y WHERE { ?x rdf:type <http://dbpedia.org/ontology/Film> . " +
+						"SELECT ?x ?y WHERE { ?x rdf:type <"+filmCls+"> . " +
 						"?x <" + actorProp + "> ?y . }";
 				QueryExecution qe = JenaSDBOp.query(sdbc, DatabaseType.MySQL, qstr);
 				ResultSet rs = qe.execSelect();
@@ -116,18 +118,18 @@ public class CooperatorMovieRuleJob extends MovieRuleJob {
 						for(String addedMovie : addedMovies) {
 							if(cooperators.containsKey(addedMovie)) {
 								cooperators.get(addedMovie).put(artist1, artist2);
-//								System.out.println(addedMovie);
-//								System.out.println(artist1);
-//								System.out.println(artist2);
-//								System.out.println("");
+								System.out.println(addedMovie);
+								System.out.println(artist1);
+								System.out.println(artist2);
+								System.out.println("");
 							} else {
 								Map<String, String> artistPair = new HashMap<String, String>();
 								artistPair.put(artist1, artist2);
 								cooperators.put(addedMovie, artistPair);
-//								System.out.println(addedMovie);
-//								System.out.println(artist1);
-//								System.out.println(artist2);
-//								System.out.println("");
+								System.out.println(addedMovie);
+								System.out.println(artist1);
+								System.out.println(artist2);
+								System.out.println("");
 							}
 						}
 					}
@@ -192,9 +194,9 @@ public class CooperatorMovieRuleJob extends MovieRuleJob {
 	
 	@Override
 	public void run() {
-		ArtistToMovieFinder dbpFinder = new ArtistToMovieFinder(SDBConnFactory.DBP_CONN, "http://dbpedia.org/ontology/starring");
+		ArtistToMovieFinder dbpFinder = new ArtistToMovieFinder(SDBConnFactory.DBP_CONN, "http://dbpedia.org/ontology/Film", "http://dbpedia.org/ontology/starring");
 		dbpFinder.start();
-		ArtistToMovieFinder lmdbFinder = new ArtistToMovieFinder(SDBConnFactory.LMDB_CONN, "http://data.linkedmdb.org/resource/movie/actor");
+		ArtistToMovieFinder lmdbFinder = new ArtistToMovieFinder(SDBConnFactory.LMDB_CONN, "http://data.linkedmdb.org/resource/movie/Film", "http://data.linkedmdb.org/resource/movie/actor");
 		lmdbFinder.start();
 		try {
 			dbpFinder.join();
@@ -204,6 +206,7 @@ public class CooperatorMovieRuleJob extends MovieRuleJob {
 		}
 		Map<String,Set<String>> dbpArtistToMovie = dbpFinder.getArtistToMovie();
 		Map<String,Set<String>> lmdbArtistToMovie = lmdbFinder.getArtistToMovie();
+		System.out.println(lmdbArtistToMovie.size());
 		
 		//remove coreferent actors  
 		List<CorefFinder> finderList = new ArrayList<CorefFinder>();
@@ -242,7 +245,6 @@ public class CooperatorMovieRuleJob extends MovieRuleJob {
 			coFinder1.join();
 			coFinder2.join();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		Map<String, Map<String, String>> cooperators1 = coFinder1.getCooperators();
