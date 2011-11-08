@@ -1,0 +1,9 @@
+http://dbpedia.org/ontology/Film
+http://data.linkedmdb.org/resource/movie/Film
+http://dbpedia.org/ontology/VoiceActor
+http://dbpedia.org/ontology/AdultActor
+http://dbpedia.org/ontology/Actor
+http://data.linkedmdb.org/resource/movie/Actor
+http://dbtropes.org/resource/Main/VoiceActors
+http://data.linkedmdb.org/resource/movie/actor
+http://dbpedia.org/ontology/starring

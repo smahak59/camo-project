@@ -1,0 +1,9 @@
+http://dbpedia.org/ontology/Single
+http://dbpedia.org/ontology/Album
+http://dbpedia.org/ontology/Song
+http://purl.org/ontology/mo/Track
+http://dbpedia.org/ontology/Artist
+http://dbpedia.org/ontology/Band
+http://dbpedia.org/ontology/MusicalArtist
+http://purl.org/ontology/mo/MusicArtist
+http://dbtropes.org/resource/Main/VoiceActors
