@@ -175,6 +175,7 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 				
 				else if (triplesDown.get(arg2).getPredicate().getName().equals("Homepage") || 
 						triplesDown.get(arg2).getPredicate().getName().equals("Photo Collection") ||
+						triplesDown.get(arg2).getPredicate().getName().equals("Photo") ||
 						triplesDown.get(arg2).getPredicate().getName().equals("Page")) {
 					Uri uri = Uri.parse(selected.getName()); 
 					Intent homepageIntent = new Intent(Intent.ACTION_VIEW, uri);
