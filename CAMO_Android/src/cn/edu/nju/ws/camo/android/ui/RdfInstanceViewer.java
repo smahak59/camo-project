@@ -402,6 +402,7 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 			textView_object.setText(objectString);	
 			if(predicateString.equals("Homepage") || 
 			   predicateString.equals("Photo Collection") ||
+			   predicateString.equals("Photo") ||
 			   predicateString.equals("Page")) {
 				String homepageUrl = "<a href = \"" + objectString + "\">" + objectString + "</a>";
 				textView_object.setText(Html.fromHtml(homepageUrl)); 
