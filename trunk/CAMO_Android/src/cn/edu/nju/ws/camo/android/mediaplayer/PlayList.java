@@ -16,14 +16,17 @@ public class PlayList {
 	
 	private List<UriInstance> list = null;
 	private int currentPlaying = 0;
-	public PlayList(Context context, User curUser){
+	private int userID = 0;
+	public PlayList(Context context,User user){
 		list = new ArrayList<UriInstance>();
 		PlayListDatabase db = new PlayListDatabase(context);
-		db.create_table();
-		int length = db.length();
-		for(int i = 0; i < length; i++){
-			list.add(db.queryFromID(i));
-		}
+		userID = user.getId();
+//		//db.create_table();
+//		int length = db.length();
+//		for(int i = 0; i < length; i++){
+//			list.add(db.queryFromUserID(userID));
+//		}
+		list = db.queryFromUserID(userID);
 	}
 	
 	public UriInstance getCurrentPlaying() {
@@ -94,7 +97,7 @@ public class PlayList {
 		Iterator<UriInstance> it = list.iterator();
 		for(int i = 0; i < list.size(); i++){
 			UriInstance ins = it.next();
-			db.insert(i, ins.getUri(),ins.getClassType(),ins.getName(),ins.getMediaType());
+			db.insert(i,userID, ins.getUri(),ins.getClassType(),ins.getName(),ins.getMediaType());
 		}
 		
 	}
