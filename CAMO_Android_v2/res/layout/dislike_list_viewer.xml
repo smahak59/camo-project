@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="fill_parent" 
+    android:layout_height="fill_parent"> 
+ 
+    <ListView android:id="@+id/listView_dislikeViewer_Artist" 
+    	android:layout_width="match_parent" 
+  		android:layout_height="wrap_content">
+    </ListView>
+    <ListView android:id="@+id/listView_dislikeViewer_Music" 
+    	android:layout_width="match_parent" 
+  		android:layout_height="wrap_content">
+    </ListView>
+    <ListView android:id="@+id/listView_dislikeViewer_Movie" 
+    	android:layout_width="match_parent" 
+  		android:layout_height="wrap_content">
+    </ListView>
+    <ListView android:id="@+id/listView_dislikeViewer_Photo" 
+    	android:layout_width="match_parent" 
+  		android:layout_height="wrap_content">
+    </ListView> 
+</FrameLayout> 
