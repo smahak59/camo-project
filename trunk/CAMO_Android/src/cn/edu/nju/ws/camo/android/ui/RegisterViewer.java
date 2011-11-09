@@ -92,7 +92,7 @@ public class RegisterViewer extends Activity implements OnClickListener {
 
 		progressDialog = new ProgressDialog(this);
 		progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-		progressDialog.setMessage("Loading...");
+		progressDialog.setMessage("Registering...");
 		progressDialog.setCancelable(false);
 		progressDialog.show();
 

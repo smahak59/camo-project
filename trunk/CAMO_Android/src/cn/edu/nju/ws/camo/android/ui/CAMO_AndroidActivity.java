@@ -86,6 +86,8 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 			protected void onPostExecute(Boolean[] status) {
 				progressDialog.dismiss();
 				if(status[0]) {
+					button_login.setEnabled(true);
+					button_register.setEnabled(true);
 			    	imageButton_viewLike.setEnabled(true);
 			    	imageButton_viewDislike.setEnabled(true);
 			    	imageButton_viewMediaPlayer.setEnabled(true);
@@ -134,6 +136,8 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
     	editText_password = (EditText) findViewById(R.id.editText_loginPassword);
 
     	                   
+    	button_login.setEnabled(false);
+    	button_register.setEnabled(false);
     	imageButton_viewLike.setEnabled(false);
     	imageButton_viewDislike.setEnabled(false);
     	imageButton_viewMediaPlayer.setEnabled(false);
@@ -213,7 +217,7 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 		
 		progressDialog = new ProgressDialog(this);			  
 		progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);  			
-		progressDialog.setMessage("Loading...");  
+		progressDialog.setMessage("Login...");  
 		progressDialog.setCancelable(false);
 		progressDialog.show();
 		

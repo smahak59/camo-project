@@ -1,5 +1,8 @@
 package cn.edu.nju.ws.camo.android.ui;
-
+/**
+ * @author Cunxin Jia
+ * 
+ */
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +47,7 @@ public class CAMO_Application extends Application {
 	}
 	
 	public void initPlayList(Context context) {
-		playList = new PlayList(context);
+		playList = new PlayList(context, currentUser);
 	}
 	
 	public void ignoreUser(User rmdedUser) {
