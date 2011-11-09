@@ -280,7 +280,7 @@ public class InstViewManager {
 				if (naiveSubject.size() == 3) {
 					subject = RdfFactory.getInstance().createInstance(
 							naiveSubject.get(0), mediaType,
-							naiveSubject.get(2), naiveSubject.get(1));
+							naiveSubject.get(2), SetSerialization.instNameNomalize(naiveSubject.get(1)));
 				} else {
 					String subjectStr = naiveSubject.get(0);
 					subject = RdfFactory.getInstance().createInstance(
