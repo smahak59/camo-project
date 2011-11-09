@@ -88,7 +88,7 @@ public class PlayList {
 		return list;
 	}
 	
-	public void exit(Context context){
+	public void close(Context context){
 		PlayListDatabase db = new PlayListDatabase(context);
 		int length = db.length();
 		for(int i = 0; i < length; i++){
