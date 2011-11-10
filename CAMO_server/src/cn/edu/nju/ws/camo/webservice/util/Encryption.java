@@ -51,6 +51,6 @@ public class Encryption {
     }
     
     public static void main(String[] args) {
-    	System.out.println(Encryption.createPassword(""));
+    	System.out.println(Encryption.createPassword("test"));
     }
 }

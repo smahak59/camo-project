@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -174,11 +175,13 @@ public class TextInjection
 //		return instSet;
 //	}
 	
-	public Map<String, String[]> queryForUri(String searchStr, String mediaType) throws Throwable {
+	//{uri,label,type,sim}
+	public List<String[]> queryForUri(String searchStr, String mediaType) throws Throwable {
 		String searchWords = initSearchWords(searchStr);
-		Map<String, String[]> instSet = new HashMap<String, String[]>();
+		Map<String, Object[]> instSet = new HashMap<String, Object[]>();
+		List<String[]> instList = new ArrayList<String[]>();
 		if (searchWords.equals(""))
-			return instSet;
+			return instList;
 		
 		FullTextSearcher seacher1 = new FullTextSearcher(mediaType, mediaType, searchWords);
 		seacher1.start();
@@ -188,13 +191,32 @@ public class TextInjection
 		seacher2.join();
 		instSet.putAll(seacher1.getInstSet());
 		instSet.putAll(seacher2.getInstSet());
-
+		
 		rmCorefs(instSet, mediaType);
-		return instSet;
+		for(Entry<String, Object[]> entry : instSet.entrySet()) {
+			String uri = entry.getKey();
+			String label = (String)entry.getValue()[0];
+			String instType = (String)entry.getValue()[1];
+			double sim = (Double)entry.getValue()[2];
+			String[] newTerm = {uri,label,instType,String.valueOf(sim)};
+			int idx = 0;
+			for(;idx<instList.size();idx++) {
+				double curSim = Double.valueOf(instList.get(idx)[3]);
+				if(sim>curSim) {
+					instList.add(idx, newTerm);
+					idx++;
+					break;
+				}
+			}
+			if(idx==instList.size()) {
+				instList.add(newTerm);
+			}
+		}
+		return instList;
 	}
 	
 	class FullTextSearcher extends Thread {
-		private Map<String, String[]> instSet = new HashMap<String, String[]>();
+		private Map<String, Object[]> instSet = new HashMap<String, Object[]>();
 		private String connType;
 		private String mediaType;
 		private String searchWords;
@@ -208,14 +230,15 @@ public class TextInjection
 		public void run() {
 			try {
 				Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.FUSE_CONN);
-				String sqlStr = "SELECT uri,label,inst_type FROM inst_" + connType
-				   + " WHERE MATCH(label) AGAINST (? IN BOOLEAN MODE) LIMIT 50";
+				String sqlStr = "SELECT uri,label,inst_type,MATCH(label) AGAINST (?) as mt FROM inst_" + connType
+				   + " WHERE MATCH(label) AGAINST (? IN BOOLEAN MODE) ORDER BY mt desc LIMIT 50";
 				PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
 				stmt.setString(1, searchWords);
+				stmt.setString(2, searchWords);
 				ResultSet rs = stmt.executeQuery();
 				while (rs.next()) {
 					if(isLegalType(rs.getString(3).trim(), mediaType)) {
-						String[] value = {rs.getString(2).trim(),rs.getString(3).trim()};
+						Object[] value = {rs.getString(2).trim(),rs.getString(3).trim(),rs.getDouble(4)};
 						instSet.put(rs.getString(1).trim(), value);
 					}
 					if(instSet.size()>=3)
@@ -236,7 +259,7 @@ public class TextInjection
 			}
 			return true;
 		}
-		public Map<String, String[]> getInstSet() {
+		public Map<String, Object[]> getInstSet() {
 			return this.instSet;
 		}
 		
@@ -278,7 +301,7 @@ public class TextInjection
 		}
 	}
 	
-	private void rmCorefs(Map<String, String[]> instSet, String mediaType) throws Throwable {
+	private void rmCorefs(Map<String, Object[]> instSet, String mediaType) throws Throwable {
 		List<CorefFinder> finderList = new ArrayList<CorefFinder>();
 		for (String inst : instSet.keySet()) {
 			CorefFinder coFinder = new CorefFinder(inst, mediaType);
@@ -325,14 +348,13 @@ public class TextInjection
 	{
 		Config.initParam(); 
 		TextInjection query = new TextInjection();
-//		Map<String, String[]> result1 = query.queryForUri("Memories of Murder", "music");
-		Map<String, String[]> result2 = query.queryForUri("Transformers", "movie");
-		Iterator<Entry<String, String[]>> itr = result2.entrySet().iterator();
-		while(itr.hasNext()) {
-			Entry<String, String[]> entry = itr.next();
-			System.out.println(entry.getKey());
-			System.out.println(entry.getValue()[0]);
-			System.out.println(entry.getValue()[1]);
+//		List<String[]> result1 = query.queryForUri("Memories of Murder", "music");
+		List<String[]> result2 = query.queryForUri("Island of Fire", "movie");
+		for(String[] instInfo : result2) {
+			System.out.println(instInfo[0]);
+			System.out.println(instInfo[1]);
+			System.out.println(instInfo[2]);
+			System.out.println(instInfo[3]);
 			System.out.println("");
 		}
 		
