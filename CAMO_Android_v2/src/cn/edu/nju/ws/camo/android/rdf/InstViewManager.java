@@ -125,9 +125,9 @@ public class InstViewManager {
 		return instWithNeigh;
 	}
 	
-	public static Set<UriInstance> searchInst(String searchText,
+	public static List<UriInstance> searchInst(String searchText,
 			String mediaType) throws IOException, XmlPullParserException {
-		Set<UriInstance> instList = new HashSet<UriInstance>();
+		List<UriInstance> instList = new ArrayList<UriInstance>();
 		Object[] params = { searchText, mediaType };
 		String naiveResult = WebService.getInstance().runFunction(
 				ServerParam.VIEW_URL, "textView", params);
