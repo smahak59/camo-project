@@ -118,14 +118,12 @@ public class ViewService implements IViewService {
 		try {
 			TextInjection query = new TextInjection();
 			query.setQueryMode(TextInjection.MODE_DOWN);	//down, up, all
-			Map<String, String[]> instToTriples = query.queryForUri(searchText, mediaType);
-			Iterator<Entry<String, String[]>> itr = instToTriples.entrySet().iterator();
-			while(itr.hasNext()) {
-				Entry<String, String[]> entry = itr.next();
+			List<String[]> instToTriples = query.queryForUri(searchText, mediaType);
+			for(String[] instInfo : instToTriples) {
 				List<String> termList = new ArrayList<String>();
-				String inst = entry.getKey();
-				String label = entry.getValue()[0];
-				String clsType = entry.getValue()[1];
+				String inst = instInfo[0];
+				String label = instInfo[1];
+				String clsType = instInfo[2];
 				termList.add(inst);
 				termList.add(label);
 				termList.add(clsType);
