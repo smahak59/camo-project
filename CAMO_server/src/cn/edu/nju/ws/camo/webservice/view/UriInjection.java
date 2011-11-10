@@ -1,6 +1,7 @@
 package cn.edu.nju.ws.camo.webservice.view;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -19,7 +20,7 @@ import cn.edu.nju.ws.camo.webservice.connect.SDBConnFactory;
 public class UriInjection 
 {
 	
-	private String[] mediaTypeSet = { SDBConnFactory.MUSIC, SDBConnFactory.MOVIE, SDBConnFactory.PHOTO };
+	private String[] mediaTypeSet = { SDBConnFactory.MUSIC, SDBConnFactory.MOVIE };
 	private String inst;
 	private Map<String, Integer> corefs;	// (inst, {prop, value})
 	private String mediaType;
@@ -228,7 +229,9 @@ public class UriInjection
 	public static void main(String[] args) throws Throwable 
 	{
 		Config.initParam(); 
+		Long oldTime = new Date().getTime();
 		UriInjection query = new UriInjection("http://dbpedia.org/resource/Taxi_Driver_%281954_film%29");
+		System.out.println(new Date().getTime()-oldTime);
 		System.out.println("\n==========Query Down=========\n");
 		List<String[]> triplesDown = query.queryDown();
 		for(String[] triple : triplesDown) {
@@ -239,5 +242,6 @@ public class UriInjection
 		for(String[] triple : triplesUp) {
 			System.out.println(triple[0] + "\n" + triple[1] + "\n" + triple[2] + "\n");
 		}
+		System.out.println(new Date().getTime()-oldTime);
 	}
 }
