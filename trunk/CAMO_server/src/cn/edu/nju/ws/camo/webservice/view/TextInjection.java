@@ -238,7 +238,10 @@ public class TextInjection
 				ResultSet rs = stmt.executeQuery();
 				while (rs.next()) {
 					if(isLegalType(rs.getString(3).trim(), mediaType)) {
-						Object[] value = {rs.getString(2).trim(),rs.getString(3).trim(),rs.getDouble(4)};
+						double sim = rs.getDouble(4);
+						if(connType.equals("dbpedia")==false)
+							sim=sim/10;
+						Object[] value = {rs.getString(2).trim(),rs.getString(3).trim(),sim};
 						instSet.put(rs.getString(1).trim(), value);
 					}
 					if(instSet.size()>=3)
@@ -346,9 +349,10 @@ public class TextInjection
 	
 	public static void main(String[] args) throws Throwable 
 	{
+		Long oldTime = new Date().getTime();
 		Config.initParam(); 
 		TextInjection query = new TextInjection();
-//		List<String[]> result1 = query.queryForUri("Memories of Murder", "music");
+		List<String[]> result1 = query.queryForUri("Memories of Murder", "music");
 		List<String[]> result2 = query.queryForUri("Island of Fire", "movie");
 		for(String[] instInfo : result2) {
 			System.out.println(instInfo[0]);
@@ -357,7 +361,7 @@ public class TextInjection
 			System.out.println(instInfo[3]);
 			System.out.println("");
 		}
-		
+		System.out.println(new Date().getTime()-oldTime);
 		
 //		query.setQueryMode(TextInjection.MODE_DOWN);	//down, up, all
 		
