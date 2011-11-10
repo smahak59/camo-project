@@ -155,7 +155,7 @@ public class InterestGroup {
 	}
 	
 	private void initRuleToSuggest() {
-		rulesToSuggest.put(0, "share other interests");
+		rulesToSuggest.put(0, "chat to share other interests");
 		rulesToSuggest.put(1, "choose a day to date");
 		rulesToSuggest.put(2, "play games of double players");
 		rulesToSuggest.put(11, "share CDs with each other");
