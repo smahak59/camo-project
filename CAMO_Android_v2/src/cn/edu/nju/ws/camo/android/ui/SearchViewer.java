@@ -34,9 +34,8 @@ public class SearchViewer extends Activity {
 	private ImageButton imageButton_search;
 	private EditText editText_searchKey;
 	private String searchKey;
-	private Set<UriInstance> searchResultMusic;
-	private Set<UriInstance> searchResultMovie;
-	private Set<UriInstance> searchResultPhoto;
+	private List<UriInstance> searchResultMusic;
+	private List<UriInstance> searchResultMovie;
 	private ExpandableListView expandableListView_searchResult;
 	private ExpandableListViewAdapter expandableListViewAdapter;
     public void onCreate(Bundle savedInstanceState) {    
@@ -78,7 +77,7 @@ public class SearchViewer extends Activity {
 					}
 					
 					
-					private void trimResult(Set<UriInstance> searchResult) {
+					private void trimResult(List<UriInstance> searchResult) {
 						Iterator<UriInstance> iter = searchResult.iterator();
 						while(iter.hasNext()) {
 							if(iter.next().getName().equals("")) {
@@ -124,34 +123,21 @@ public class SearchViewer extends Activity {
 	
 	private class ExpandableListViewAdapter extends BaseExpandableListAdapter {
 		List<String> group;
-		ArrayList<ArrayList<UriInstance>> resultLists;
+		ArrayList<List<UriInstance>> resultLists;
 		
 		public ExpandableListViewAdapter() {
-			resultLists = new ArrayList<ArrayList<UriInstance>>();
+			resultLists = new ArrayList<List<UriInstance>>();
 			group = new ArrayList<String>();
 			if(searchResultMusic.size() != 0) { 
 				group.add("Music");
-				resultLists.add(setToArrayList(searchResultMusic));
+				resultLists.add(searchResultMusic);
 			}
 			if(searchResultMovie.size() != 0) { 
 				group.add("Movie");
-				resultLists.add(setToArrayList(searchResultMovie));
+				resultLists.add(searchResultMovie);
 			}
-//			if(searchResultPhoto.size() != 0) { 
-//				group.add("Photo");
-//				resultLists.add(setToArrayList(searchResultPhoto));
-//			}					
 		}
 		
-		private ArrayList<UriInstance> setToArrayList(
-				Set<UriInstance> set) {
-			ArrayList<UriInstance> arrayList = new ArrayList<UriInstance>();
-			Iterator<UriInstance> iter = set.iterator();
-			while(iter.hasNext()) {
-				arrayList.add(iter.next());
-			}
-			return arrayList;
-		}
 
 		public Object getChild(int groupPosition, int childPosition) {
 			return resultLists.get(groupPosition).get(childPosition);

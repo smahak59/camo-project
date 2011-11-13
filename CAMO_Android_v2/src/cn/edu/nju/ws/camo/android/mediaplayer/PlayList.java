@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import android.content.Context;
+import android.util.Log;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 import cn.edu.nju.ws.camo.android.user.User;
 
@@ -16,14 +17,18 @@ public class PlayList {
 	
 	private List<UriInstance> list = null;
 	private int currentPlaying = 0;
-	public PlayList(Context context, User curUser){
+	private int userID = 0;
+	public PlayList(Context context,User user){
 		list = new ArrayList<UriInstance>();
 		PlayListDatabase db = new PlayListDatabase(context);
-		db.create_table();
-		int length = db.length();
-		for(int i = 0; i < length; i++){
-			list.add(db.queryFromID(i));
-		}
+		userID = user.getId();
+//		//db.create_table();
+//		int length = db.length();
+//		for(int i = 0; i < length; i++){
+//			list.add(db.queryFromUserID(userID));
+//		}
+		list = db.queryFromUserID(userID);
+		Log.v("&&&&&&&&&&&&&&&&&&&&&", "listSize:" + list.size());
 	}
 	
 	public UriInstance getCurrentPlaying() {
@@ -85,7 +90,7 @@ public class PlayList {
 		return list;
 	}
 	
-	public void exit(Context context){
+	public void close(Context context){
 		PlayListDatabase db = new PlayListDatabase(context);
 		int length = db.length();
 		for(int i = 0; i < length; i++){
@@ -94,7 +99,7 @@ public class PlayList {
 		Iterator<UriInstance> it = list.iterator();
 		for(int i = 0; i < list.size(); i++){
 			UriInstance ins = it.next();
-			db.insert(i, ins.getUri(),ins.getClassType(),ins.getName(),ins.getMediaType());
+			db.insert(i,userID, ins.getUri(),ins.getClassType(),ins.getName(),ins.getMediaType());
 		}
 		
 	}
