@@ -30,6 +30,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
@@ -65,7 +66,10 @@ public class MediaPlayer extends Activity implements OnClickListener {
 	private ImageButton imageButton_prev;
 	private ImageButton imageButton_play;
 	private ImageButton imageButton_next;
+	private ImageButton imageButton_favMusic;
+	private TextView textView_actorListTitle;
 	private Gallery gallery_recommended;
+	private RelativeLayout relativeLayout_music;
 	private boolean playButtonStatus;
 	private boolean isFavoredMedia;
 
@@ -104,10 +108,13 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		imageButton_prev = (ImageButton) findViewById(R.id.imageButton_prev);
 		imageButton_next = (ImageButton) findViewById(R.id.imageButton_next);
 		imageButton_play = (ImageButton) findViewById(R.id.imageButton_play);
+		imageButton_favMusic = (ImageButton) findViewById(R.id.imageButton_favMusic);
 		listView_actorList = (ListView) findViewById(R.id.listView_actorList);
 		listView_playList = (ListView) findViewById(R.id.listView_playList);
 		listView_mediaInfo = (ListView) findViewById(R.id.listView_mediaInfo);
 		gallery_recommended = (Gallery) findViewById(R.id.gallery_recommended);
+		relativeLayout_music = (RelativeLayout) findViewById(R.id.relativeLayout_music);
+		textView_actorListTitle = (TextView) findViewById(R.id.textView_actorListTitle);
 		
 
 		imageView_current = (ImageView) findViewById(R.id.imageView_current);
@@ -115,6 +122,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		imageButton_prev.setOnClickListener(this);
 		imageButton_next.setOnClickListener(this);
 		imageButton_play.setOnClickListener(this);
+		imageButton_favMusic.setOnClickListener(this);
 
 		imageButton_prev.setOnTouchListener(CAMO_AndroidActivity.touchListener);
 		imageButton_next.setOnTouchListener(CAMO_AndroidActivity.touchListener);
@@ -215,25 +223,28 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		mediaInfo.clear();
 		rmdFeedbackList.clear();
 		gallery_recommended.setVisibility(View.INVISIBLE);
+		relativeLayout_music.setVisibility(View.INVISIBLE);
+		listView_actorList.setVisibility(View.INVISIBLE);
+		textView_actorListTitle.setVisibility(View.INVISIBLE);
 		loadMediaInfo();
 		if (mediaType.equals("music")) {
 			imageView_current.setImageDrawable(getResources().getDrawable(
 					R.drawable.music));
 			if (MediaInterest.isFavoredMedia(currentUser, currentPlaying)) {
 				isFavoredMedia = true;
-				// imageButton_favMusic.setImageDrawable(getResources()
-				// .getDrawable(R.drawable.fav_on));
+				imageButton_favMusic.setImageDrawable(getResources()
+				 .getDrawable(R.drawable.fav_on));
 				getRecommendedUser();
 			} else {
 				isFavoredMedia = false;
-				// imageButton_favMusic.setImageDrawable(getResources()
-				// .getDrawable(R.drawable.fav_off));
+				imageButton_favMusic.setImageDrawable(getResources()
+				 .getDrawable(R.drawable.fav_off));
 			}
-			// relativeLayout_music.setVisibility(View.VISIBLE);
+			 relativeLayout_music.setVisibility(View.VISIBLE);
 		} else if (mediaType.equals("movie")) {
 			imageView_current.setImageDrawable(getResources().getDrawable(
 					R.drawable.movie));
-			// relativeLayout_movie.setVisibility(View.VISIBLE);
+			//relativeLayout_movie.setVisibility(View.VISIBLE);
 			loadActorList();
 		}
 	}
@@ -308,7 +319,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 	private void loadActorList() {
 
 		LinearLayout linearLayout_loading = (LinearLayout) findViewById(R.id.linearLayout_loading);
-		listView_actorList.setVisibility(View.INVISIBLE);
+		
 		linearLayout_loading.setVisibility(View.VISIBLE);
 
 		new LoadActorListTask().execute("");
@@ -496,6 +507,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			linearLayout_loading.setVisibility(View.GONE);
 			initActorListView();
 			listView_actorList.setVisibility(View.VISIBLE);
+			textView_actorListTitle.setVisibility(View.VISIBLE);
 			// relativeLayout_movie.setVisibility(View.VISIBLE);
 		}
 	}
@@ -664,6 +676,29 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			adapter.setCurrentPlaying();
 			initCurrentPlaying();
 			break;
+		case R.id.imageButton_favMusic:
+			toggleFavorMusicButton();
+			break;
 		}
+	}
+	
+	private void toggleFavorMusicButton() {
+		MediaInterest mediaInterest = new MediaInterest(currentUser,
+				currentPlaying);
+		if (isFavoredMedia) {
+			mediaInterest.getDeleteCmd().execute();
+			imageButton_favMusic.setImageDrawable(getResources().getDrawable(
+					R.drawable.fav_off));
+			gallery_recommended.setVisibility(View.INVISIBLE);
+			
+			isFavoredMedia = false;
+		} else {
+			mediaInterest.getCreateCmd().execute();
+			imageButton_favMusic.setImageDrawable(getResources().getDrawable(
+					R.drawable.fav_on));
+			getRecommendedUser();
+			isFavoredMedia = true;
+		}
+
 	}
 }
