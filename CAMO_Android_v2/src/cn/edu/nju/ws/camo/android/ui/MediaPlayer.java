@@ -100,6 +100,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		currentUser = ((CAMO_Application) getApplication()).getCurrentUser();
 		actorList = new ArrayList<UriInstance>();
 		mediaInfo = new ArrayList<Triple>();
+		rmdFeedbackList = new ArrayList<RmdFeedback>();
 		imageButton_prev = (ImageButton) findViewById(R.id.imageButton_prev);
 		imageButton_next = (ImageButton) findViewById(R.id.imageButton_next);
 		imageButton_play = (ImageButton) findViewById(R.id.imageButton_play);
@@ -212,6 +213,8 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		this.setTitle(currentPlaying.getName());
 		actorList.clear();
 		mediaInfo.clear();
+		rmdFeedbackList.clear();
+		gallery_recommended.setVisibility(View.INVISIBLE);
 		loadMediaInfo();
 		if (mediaType.equals("music")) {
 			imageView_current.setImageDrawable(getResources().getDrawable(
@@ -341,6 +344,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 	private void initRecommendedGallery() {
 		GalleryAdapter adapter = new GalleryAdapter();
 		gallery_recommended.setAdapter(adapter);
+		gallery_recommended.setVisibility(View.VISIBLE);
 	}
 
 	private void initActorListView() {
@@ -547,7 +551,14 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			ImageView imageView_recoPotrait = (ImageView)item.findViewById(R.id.imageView_reco_portrait);
 			TextView textView_recoUser = (TextView) item.findViewById(R.id.textView_reco_user);
 			TextView textView_recoRule = (TextView) item.findViewById(R.id.textView_reco_rule);
-			imageView_recoPotrait.setImageResource(R.drawable.male_s);
+			
+			String gender = rmdFeedbackList.get(i).getUserInterest().getUser().getSex();
+			if(gender.equals("male")) {
+				imageView_recoPotrait.setImageResource(R.drawable.male_s);
+			}
+			else if(gender.equals("female")){
+				imageView_recoPotrait.setImageResource(R.drawable.female_s);
+			}
 			textView_recoUser.setText(rmdFeedbackList.get(i).getUserInterest().getUser().getName());
 			textView_recoRule.setText(InterestGroup.getRuleSuggestion(rmdFeedbackList.get(i).getRuleId()));
 			return item;
