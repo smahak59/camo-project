@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="match_parent"
+	android:layout_height="match_parent" android:weightSum="1">
+	<RelativeLayout android:layout_alignParentTop="true"
+		android:layout_height="wrap_content" android:id="@+id/relativeLayout3"
+		android:layout_width="match_parent" android:layout_gravity="center"
+		android:gravity="center" android:background="@drawable/title_bar">
+		<ImageButton android:layout_height="wrap_content"
+			android:layout_width="wrap_content" android:id="@+id/imageButton_playList"
+			android:src="@drawable/playlist" android:background="@android:color/transparent"
+			android:layout_centerVertical="true" android:layout_alignParentLeft="true"
+			android:layout_marginRight="5dp"></ImageButton>
+		<TextView android:gravity="center" android:text="Playing:"
+			android:layout_height="wrap_content" android:id="@+id/textView_mediaPlayerTitle"
+			android:textSize="20dip" android:textColor="#FFFFFF"
+			android:layout_centerVertical="true" android:layout_alignParentLeft="true"
+			android:layout_width="match_parent"></TextView>
+		<ImageButton android:layout_height="wrap_content"
+			android:layout_width="wrap_content" android:id="@+id/imageButton_detailInfo"
+			android:src="@drawable/info" android:background="@android:color/transparent"
+			android:layout_centerVertical="true" android:layout_alignParentRight="true"
+			android:layout_marginRight="5dp"></ImageButton>
+	</RelativeLayout>
+	<ImageView android:layout_below="@+id/relativeLayout3"
+		android:id="@+id/imageView_current" android:layout_height="wrap_content"
+		android:layout_width="match_parent" android:layout_marginTop="5dip"></ImageView>
+	<LinearLayout android:layout_below="@+id/imageView_current"
+		android:layout_height="wrap_content" android:layout_width="match_parent"
+		android:id="@+id/linearLayout1" android:orientation="vertical">
+		<SeekBar android:layout_height="wrap_content" android:id="@+id/seekBar1"
+			android:layout_width="match_parent"></SeekBar>
+		<LinearLayout android:layout_height="wrap_content"
+			android:layout_width="wrap_content" android:id="@+id/linearLayout2"
+			android:layout_gravity="center" android:layout_marginTop="10dip"
+			android:layout_marginBottom="10dip">
+			<ImageButton android:layout_height="wrap_content"
+				android:layout_width="wrap_content" android:id="@+id/imageButton_prev"
+				android:src="@drawable/prev" android:background="#00000000"></ImageButton>
+			<ImageButton android:layout_height="wrap_content"
+				android:layout_width="wrap_content" android:id="@+id/imageButton_play"
+				android:src="@drawable/play" android:background="#00000000"
+				android:layout_marginLeft="10dip" android:layout_marginRight="10dip"></ImageButton>
+			<ImageButton android:layout_height="wrap_content"
+				android:layout_width="wrap_content" android:id="@+id/imageButton_next"
+				android:src="@drawable/next" android:background="#00000000"></ImageButton>
+		</LinearLayout>
+	</LinearLayout>
+	<RelativeLayout android:layout_below="@+id/linearLayout1"
+		android:id="@+id/relativeLayout1" android:layout_width="match_parent"
+		android:layout_height="match_parent" android:layout_above="@+id/button_recommandedUser">
+		<LinearLayout android:layout_height="wrap_content"
+			android:layout_width="match_parent" android:id="@+id/linearLayout_loading"
+			android:weightSum="1" android:visibility="gone" android:gravity="center"
+			android:layout_centerInParent="true">
+			<ProgressBar android:id="@+id/progressBar2"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></ProgressBar>
+			<TextView android:layout_marginLeft="15dip"
+				android:id="@+id/textView_loadingText" android:text="Loading..."
+				android:layout_height="match_parent" android:layout_width="wrap_content"
+				android:textSize="30dip" android:gravity="center_vertical"></TextView>
+		</LinearLayout>
+
+		<RelativeLayout android:id="@+id/relativeLayout_movie"
+			android:layout_width="match_parent" android:layout_height="match_parent"
+			android:layout_above="@+id/button_recommandedUser">
+			<TextView android:textSize="20dip" android:layout_height="wrap_content"
+				android:id="@+id/textView_actorListTitle" android:background="#454545"
+				android:layout_width="match_parent" android:text="Actors"></TextView>
+			<ListView android:id="@+id/listView_actorList"
+				android:layout_width="match_parent" android:layout_height="match_parent"
+				android:layout_below="@+id/textView_actorListTitle"
+				android:layout_above="@+id/button_recommandedUser"></ListView>
+		</RelativeLayout>
+
+		<RelativeLayout android:id="@+id/relativeLayout_music"
+			android:layout_width="match_parent" android:layout_height="wrap_content">
+			<ImageButton android:background="@android:color/transparent"
+				android:layout_width="wrap_content" android:id="@+id/imageButton_favMusic"
+				android:layout_height="wrap_content" android:src="@drawable/fav_off"
+				android:layout_alignParentTop="true"
+				android:layout_alignParentRight="true"></ImageButton>
+			<TextView android:layout_width="wrap_content" android:text="I like this song!"
+				android:textSize="20dip" android:id="@+id/textView_likeMusicTitle"
+				android:layout_height="wrap_content" android:layout_alignParentTop="true"
+				android:layout_alignParentLeft="true" android:layout_marginLeft="23dp"></TextView>
+		</RelativeLayout>
+
+	</RelativeLayout>
+	<Button style="@style/ButtonText"
+		android:layout_alignParentBottom="true" android:text="People you may like to know"
+		android:layout_height="wrap_content" android:background="@drawable/btn_blue"
+		android:id="@+id/button_recommandedUser" android:layout_width="match_parent"></Button>
+
+</RelativeLayout>
