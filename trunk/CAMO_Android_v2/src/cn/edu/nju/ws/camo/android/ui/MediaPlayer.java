@@ -12,15 +12,31 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
+import android.graphics.Camera;
+import android.graphics.Canvas;
+import android.graphics.LinearGradient;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Shader.TileMode;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.Transformation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
@@ -34,6 +50,7 @@ import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
+import android.widget.Toast;
 import cn.edu.nju.ws.camo.android.R;
 import cn.edu.nju.ws.camo.android.mediaplayer.PlayList;
 import cn.edu.nju.ws.camo.android.rdf.InstViewManager;
@@ -47,6 +64,7 @@ import cn.edu.nju.ws.camo.android.user.interestgp.MediaArtistInterest;
 import cn.edu.nju.ws.camo.android.user.interestgp.MediaInterest;
 import cn.edu.nju.ws.camo.android.user.interestgp.RmdFeedback;
 import cn.edu.nju.ws.camo.android.user.interestgp.RmdFeedbackList;
+import cn.edu.nju.ws.camo.android.util.SerKeys;
 
 public class MediaPlayer extends Activity implements OnClickListener {
 
@@ -79,7 +97,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		initTabs();
 		initComponents();
 		initPlayList();
-		initCurrentPlaying();
+		initCurrentPlaying();	
 	}
 
 	private void initTabs() {
@@ -115,7 +133,6 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		gallery_recommended = (Gallery) findViewById(R.id.gallery_recommended);
 		relativeLayout_music = (RelativeLayout) findViewById(R.id.relativeLayout_music);
 		textView_actorListTitle = (TextView) findViewById(R.id.textView_actorListTitle);
-		
 
 		imageView_current = (ImageView) findViewById(R.id.imageView_current);
 
@@ -216,6 +233,8 @@ public class MediaPlayer extends Activity implements OnClickListener {
 	}
 
 	private void initCurrentPlaying() {
+		if(playList.size() == 0)
+			return;
 		currentPlaying = playList.getCurrentPlaying();
 		String mediaType = currentPlaying.getMediaType();
 		this.setTitle(currentPlaying.getName());
@@ -233,18 +252,18 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			if (MediaInterest.isFavoredMedia(currentUser, currentPlaying)) {
 				isFavoredMedia = true;
 				imageButton_favMusic.setImageDrawable(getResources()
-				 .getDrawable(R.drawable.fav_on));
+						.getDrawable(R.drawable.fav_on));
 				getRecommendedUser();
 			} else {
 				isFavoredMedia = false;
 				imageButton_favMusic.setImageDrawable(getResources()
-				 .getDrawable(R.drawable.fav_off));
+						.getDrawable(R.drawable.fav_off));
 			}
-			 relativeLayout_music.setVisibility(View.VISIBLE);
+			relativeLayout_music.setVisibility(View.VISIBLE);
 		} else if (mediaType.equals("movie")) {
 			imageView_current.setImageDrawable(getResources().getDrawable(
 					R.drawable.movie));
-			//relativeLayout_movie.setVisibility(View.VISIBLE);
+			// relativeLayout_movie.setVisibility(View.VISIBLE);
 			loadActorList();
 		}
 	}
@@ -319,13 +338,13 @@ public class MediaPlayer extends Activity implements OnClickListener {
 	private void loadActorList() {
 
 		LinearLayout linearLayout_loading = (LinearLayout) findViewById(R.id.linearLayout_loading);
-		
+
 		linearLayout_loading.setVisibility(View.VISIBLE);
 
 		new LoadActorListTask().execute("");
 
 	}
-	
+
 	private void getRecommendedUser() {
 		new GetRecommendedUserTask().execute(currentPlaying.getMediaType());
 	}
@@ -347,15 +366,48 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		}
 
 		protected void onPostExecute(String result) {
-			rmdFeedbackList = ((CAMO_Application) getApplication()).getRmdFeedbackList();
+			rmdFeedbackList = ((CAMO_Application) getApplication())
+					.getRmdFeedbackList();
 			initRecommendedGallery();
 		}
 	}
-	
+
 	private void initRecommendedGallery() {
 		GalleryAdapter adapter = new GalleryAdapter();
 		gallery_recommended.setAdapter(adapter);
 		gallery_recommended.setVisibility(View.VISIBLE);
+		gallery_recommended.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				User selectedUser = rmdFeedbackList.get(arg2).getUserInterest().getUser();
+				Intent viewUserIntent = new Intent(MediaPlayer.this, UserInfoViewer.class);
+				Bundle viewUserBundle = new Bundle();
+				viewUserBundle.putSerializable(SerKeys.SER_USER, selectedUser);
+				viewUserIntent.putExtras(viewUserBundle);
+				startActivity(viewUserIntent);
+				
+			}
+		});
+	}
+	
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		MenuInflater menuInflater = getMenuInflater();
+		menuInflater.inflate(R.menu.menu, menu);
+		return true;
+	}
+
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.item_viewIgnoredList:
+			Intent ignoredIntend = new Intent(MediaPlayer.this,
+					IgnoredListViewer.class);
+			startActivity(ignoredIntend);
+			break;
+		}
+		return true;
 	}
 
 	private void initActorListView() {
@@ -552,27 +604,33 @@ public class MediaPlayer extends Activity implements OnClickListener {
 
 		public GalleryAdapter() {
 			itemViews = new View[rmdFeedbackList.size()];
-			for(int i = 0; i < itemViews.length; i++) {
+			for (int i = 0; i < itemViews.length; i++) {
 				itemViews[i] = makeItemView(i);
 			}
 		}
-		
+
 		private View makeItemView(int i) {
-			LayoutInflater inflater = (LayoutInflater) MediaPlayer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			LayoutInflater inflater = (LayoutInflater) MediaPlayer.this
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View item = inflater.inflate(R.layout.gallery_item, null);
-			ImageView imageView_recoPotrait = (ImageView)item.findViewById(R.id.imageView_reco_portrait);
-			TextView textView_recoUser = (TextView) item.findViewById(R.id.textView_reco_user);
-			TextView textView_recoRule = (TextView) item.findViewById(R.id.textView_reco_rule);
-			
-			String gender = rmdFeedbackList.get(i).getUserInterest().getUser().getSex();
-			if(gender.equals("male")) {
+			ImageView imageView_recoPotrait = (ImageView) item
+					.findViewById(R.id.imageView_reco_portrait);
+			TextView textView_recoUser = (TextView) item
+					.findViewById(R.id.textView_reco_user);
+			TextView textView_recoRule = (TextView) item
+					.findViewById(R.id.textView_reco_rule);
+
+			String gender = rmdFeedbackList.get(i).getUserInterest().getUser()
+					.getSex();
+			if (gender.equals("male")) {
 				imageView_recoPotrait.setImageResource(R.drawable.male_s);
-			}
-			else if(gender.equals("female")){
+			} else if (gender.equals("female")) {
 				imageView_recoPotrait.setImageResource(R.drawable.female_s);
 			}
-			textView_recoUser.setText(rmdFeedbackList.get(i).getUserInterest().getUser().getName());
-			textView_recoRule.setText(InterestGroup.getRuleSuggestion(rmdFeedbackList.get(i).getRuleId()));
+			textView_recoUser.setText(rmdFeedbackList.get(i).getUserInterest()
+					.getUser().getName());
+			textView_recoRule.setText(InterestGroup
+					.getRuleSuggestion(rmdFeedbackList.get(i).getRuleId()));
 			return item;
 		}
 
@@ -681,7 +739,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			break;
 		}
 	}
-	
+
 	private void toggleFavorMusicButton() {
 		MediaInterest mediaInterest = new MediaInterest(currentUser,
 				currentPlaying);
@@ -690,7 +748,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			imageButton_favMusic.setImageDrawable(getResources().getDrawable(
 					R.drawable.fav_off));
 			gallery_recommended.setVisibility(View.INVISIBLE);
-			
+
 			isFavoredMedia = false;
 		} else {
 			mediaInterest.getCreateCmd().execute();
@@ -701,4 +759,5 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		}
 
 	}
+
 }

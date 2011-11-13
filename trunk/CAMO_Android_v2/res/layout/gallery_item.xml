@@ -14,7 +14,7 @@
 	<TextView android:id="@+id/textView_reco_rule"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
 		android:text="user" android:textSize="10dip" android:gravity="center_horizontal"
-		android:textColor="#ffffffff"
+		android:textColor="#EF7100"
 		android:layout_gravity="center_horizontal" />
 
 </LinearLayout>

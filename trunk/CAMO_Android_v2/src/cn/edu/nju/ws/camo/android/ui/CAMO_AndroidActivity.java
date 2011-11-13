@@ -210,7 +210,7 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 		String email = editText_email.getText().toString().trim();
 		String password = editText_password.getText().toString().trim();
 		if(email.equals("") || password.equals("")) {
-			Toast.makeText(CAMO_AndroidActivity.this, "Please enter email and password!s", Toast.LENGTH_SHORT).show();
+			Toast.makeText(CAMO_AndroidActivity.this, "Please enter email and password!", Toast.LENGTH_SHORT).show();
 			return;
 		}
 		String[] params = {email, password};
