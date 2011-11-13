@@ -113,8 +113,8 @@
 								android:text="Recommendation" android:layout_alignParentTop="true"></TextView>
 							<Gallery android:id="@+id/gallery_recommended"
 								android:layout_width="match_parent" android:spacing="5dip"
-								android:layout_height="match_parent" android:layout_below="@+id/textView_recommendedTitle">
-							</Gallery>
+								android:layout_height="match_parent" android:layout_below="@+id/textView_recommendedTitle"/>
+							
 						</RelativeLayout>
 					</RelativeLayout>
 				</FrameLayout>
