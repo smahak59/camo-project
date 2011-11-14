@@ -13,20 +13,8 @@ import org.xmlpull.v1.XmlPullParserException;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
-import android.graphics.BitmapFactory;
-import android.graphics.Camera;
-import android.graphics.Canvas;
-import android.graphics.LinearGradient;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Shader.TileMode;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -36,11 +24,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.animation.Transformation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.Gallery;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -50,7 +38,6 @@ import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
-import android.widget.Toast;
 import cn.edu.nju.ws.camo.android.R;
 import cn.edu.nju.ws.camo.android.mediaplayer.PlayList;
 import cn.edu.nju.ws.camo.android.rdf.InstViewManager;
@@ -59,7 +46,6 @@ import cn.edu.nju.ws.camo.android.rdf.Triple;
 import cn.edu.nju.ws.camo.android.rdf.UriInstWithNeigh;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 import cn.edu.nju.ws.camo.android.user.User;
-import cn.edu.nju.ws.camo.android.user.interestgp.InterestGroup;
 import cn.edu.nju.ws.camo.android.user.interestgp.MediaArtistInterest;
 import cn.edu.nju.ws.camo.android.user.interestgp.MediaInterest;
 import cn.edu.nju.ws.camo.android.user.interestgp.RmdFeedback;
@@ -90,6 +76,8 @@ public class MediaPlayer extends Activity implements OnClickListener {
 	private RelativeLayout relativeLayout_music;
 	private boolean playButtonStatus;
 	private boolean isFavoredMedia;
+	private Button button_recPrev;
+	private Button button_recNext;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -133,6 +121,9 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		gallery_recommended = (Gallery) findViewById(R.id.gallery_recommended);
 		relativeLayout_music = (RelativeLayout) findViewById(R.id.relativeLayout_music);
 		textView_actorListTitle = (TextView) findViewById(R.id.textView_actorListTitle);
+		
+		button_recNext = (Button) findViewById(R.id.button_recNext);
+		button_recPrev = (Button) findViewById(R.id.button_recPrev);
 
 		imageView_current = (ImageView) findViewById(R.id.imageView_current);
 
@@ -140,6 +131,8 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		imageButton_next.setOnClickListener(this);
 		imageButton_play.setOnClickListener(this);
 		imageButton_favMusic.setOnClickListener(this);
+		button_recNext.setOnClickListener(this);
+		button_recPrev.setOnClickListener(this);
 
 		imageButton_prev.setOnTouchListener(CAMO_AndroidActivity.touchListener);
 		imageButton_next.setOnTouchListener(CAMO_AndroidActivity.touchListener);
@@ -390,6 +383,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 				
 			}
 		});
+		
 	}
 	
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -627,10 +621,10 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			} else if (gender.equals("female")) {
 				imageView_recoPotrait.setImageResource(R.drawable.female_s);
 			}
-			textView_recoUser.setText(rmdFeedbackList.get(i).getUserInterest()
-					.getUser().getName());
-			textView_recoRule.setText(InterestGroup
-					.getRuleSuggestion(rmdFeedbackList.get(i).getRuleId()));
+			String userName = rmdFeedbackList.get(i).getUserInterest().getUser().getName();
+			String rule = rmdFeedbackList.get(i).getRule().getSuggest();
+			textView_recoUser.setText(userName);
+			textView_recoRule.setText(rule);
 			return item;
 		}
 
@@ -736,6 +730,10 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			break;
 		case R.id.imageButton_favMusic:
 			toggleFavorMusicButton();
+			break;
+		case R.id.button_recNext:
+			break;
+		case R.id.button_recPrev:
 			break;
 		}
 	}
