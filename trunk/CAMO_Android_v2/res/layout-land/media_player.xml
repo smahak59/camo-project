@@ -111,10 +111,21 @@
 								android:layout_height="wrap_content" android:id="@+id/textView_recommendedTitle"
 								android:background="#454545" android:layout_width="match_parent"
 								android:text="Recommendation" android:layout_alignParentTop="true"></TextView>
-							<Gallery android:id="@+id/gallery_recommended"
-								android:layout_width="match_parent" android:spacing="5dip"
-								android:layout_height="match_parent" android:layout_below="@+id/textView_recommendedTitle"/>
-							
+							<RelativeLayout android:layout_below="@+id/textView_recommendedTitle"
+								android:id="@+id/relativeLayout6" android:layout_width="wrap_content"
+								android:layout_height="wrap_content">
+								<Button android:id="@+id/button_recPrev"
+									android:layout_height="match_parent" android:layout_width="wrap_content"
+									android:text="Prev" android:layout_alignParentLeft="true"></Button>
+								<Gallery android:id="@+id/gallery_recommended"
+									android:layout_width="match_parent" android:spacing="5dip"
+									android:layout_height="match_parent" android:layout_toLeftOf="@+id/button_recNext"
+									android:layout_toRightOf="@+id/button_recPrev" />
+								<Button android:id="@+id/button_recNext"
+									android:layout_height="match_parent" android:layout_width="wrap_content"
+									android:text="Next" android:layout_alignParentRight="true"></Button>
+
+							</RelativeLayout>
 						</RelativeLayout>
 					</RelativeLayout>
 				</FrameLayout>
