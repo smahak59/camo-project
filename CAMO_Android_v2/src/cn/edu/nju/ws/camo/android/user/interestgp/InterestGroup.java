@@ -2,9 +2,7 @@ package cn.edu.nju.ws.camo.android.user.interestgp;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import cn.edu.nju.ws.camo.android.command.Command;
 import cn.edu.nju.ws.camo.android.connect.ServerParam;
@@ -17,14 +15,14 @@ import cn.edu.nju.ws.camo.android.util.SetSerialization;
 public class InterestGroup {
 
 	private User curUser = null;
-	private static Map<Integer, String> rulesToSuggest = null;
+//	private static Map<Integer, String> rulesToSuggest = null;
 	
 	public InterestGroup(User user) {
 		this.curUser = user;
-		if(rulesToSuggest == null) {
-			rulesToSuggest = new HashMap<Integer, String>();
-			initRuleToSuggest();
-		}
+//		if(rulesToSuggest == null) {
+//			rulesToSuggest = new HashMap<Integer, String>();
+//			initRuleToSuggest();
+//		}
 	}
 	
 	public Command getUserIgnoreCmd(User user) {
@@ -154,16 +152,16 @@ public class InterestGroup {
 		return rmdUserList;
 	}
 	
-	private void initRuleToSuggest() {
-		rulesToSuggest.put(0, "chat to share other interests");
-		rulesToSuggest.put(1, "choose a day to date");
-		rulesToSuggest.put(2, "play games of double players");
-		rulesToSuggest.put(11, "share CDs with each other");
-	}
+//	private void initRuleToSuggest() {
+//		rulesToSuggest.put(0, "chat to share other interests");
+//		rulesToSuggest.put(1, "choose a day to date");
+//		rulesToSuggest.put(2, "play games of double players");
+//		rulesToSuggest.put(11, "share CDs with each other");
+//	}
 	
-	public static String getRuleSuggestion(int ruleId) {
-		return rulesToSuggest.get(ruleId);
-	}
+//	public static String getRuleSuggestion(int ruleId) {
+//		return rulesToSuggest.get(ruleId);
+//	}
 	
 	class IgnoreRmdUserCmd implements Command {
 		
