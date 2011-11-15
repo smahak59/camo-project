@@ -391,6 +391,7 @@ public class RdfInstanceViewer extends Activity implements OnClickListener{
 			LayoutInflater inflater = (LayoutInflater)RdfInstanceViewer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View itemView = inflater.inflate(R.layout.rdf_instance_viewer_list_item, null);			
 			String predicateString = triple.getPredicate().getName();
+			Log.v("&&&&&&&&&&&&&&", "predicate: " + predicateString);
 			Resource objectResource = triple.getObject();
 			String objectString = objectResource.getName();
 			TextView textView_predicate = (TextView) itemView.findViewById(R.id.textView_predicate);

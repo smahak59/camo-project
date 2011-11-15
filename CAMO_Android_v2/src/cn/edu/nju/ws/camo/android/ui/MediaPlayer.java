@@ -392,7 +392,11 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				if(arg2 == adapter.getCount() - 1) {
+				if(adapter.getCount() < 2) {
+					imageButton_recPrev.setVisibility(View.INVISIBLE);
+					imageButton_recNext.setVisibility(View.INVISIBLE);
+				}
+				else if(arg2 == adapter.getCount() - 1) {
 					imageButton_recPrev.setVisibility(View.VISIBLE);
 					imageButton_recNext.setVisibility(View.INVISIBLE);
 					

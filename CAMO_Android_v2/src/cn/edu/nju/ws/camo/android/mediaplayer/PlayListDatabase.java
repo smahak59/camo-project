@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import cn.edu.nju.ws.camo.android.rdf.RdfFactory;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 
@@ -42,24 +43,30 @@ public class PlayListDatabase {
 //			}
 //	}
 	
-	//id的值最好连续，这样方便遍历
-	public void insert(int id,int userID,String uri,String classType,String name,String mediaType){
+	public int insert(int userID,String uri,String classType,String name,String mediaType){
 		ContentValues value = new ContentValues();
+		
 		value.put("userID", userID);
-		value.put("id",id);
 		value.put("uri",uri);
 		value.put("classType",classType);
 		value.put("name",name);
 		value.put("mediaType", mediaType);
-		DatabaseHelper dbHelper = new DatabaseHelper(context,"CAMO_db1");
+		DatabaseHelper dbHelper = new DatabaseHelper(context,"CAMO_db");
 		SQLiteDatabase db= dbHelper.getWritableDatabase();
 		db.insert("playList", null, value);
+		int id = -1;
+		Cursor cursor = db.query("playList", new String[]{"id"}, "userID=? AND uri=?", new String[]{Integer.toString(userID), uri}, null, null, null);
+		while(cursor.moveToNext()){
+			id = cursor.getInt(cursor.getColumnIndex("id"));	
+		}		
 		dbHelper.close();
+		
+		return id;
 	}
 	
 	public void delete(int id)
 	{
-		DatabaseHelper dbHelper = new DatabaseHelper(context,"CAMO_db1");
+		DatabaseHelper dbHelper = new DatabaseHelper(context,"CAMO_db");
 		SQLiteDatabase db= dbHelper.getWritableDatabase();
 		db.delete("playList", "id=?", new String[]{Integer.toString(id)});
 		dbHelper.close();
@@ -111,32 +118,34 @@ public class PlayListDatabase {
 		if(len == 0)return true;
 		else return false;
 	}
-	//在使用该函数之前最好先判断数据库中movieList这个表是否为空
-	public List<UriInstance> queryFromUserID(int userID){
-		DatabaseHelper dbHelper = new DatabaseHelper(context,"CAMO_db1");
+	public List<PlayListEntry> queryFromUserID(int userID){
+		DatabaseHelper dbHelper = new DatabaseHelper(context,"CAMO_db");
 		SQLiteDatabase db= dbHelper.getWritableDatabase();
-		Cursor cursor = db.query("playList", new String[]{"userID","uri","classType","name","mediaType"}, "userID=?", new String[]{Integer.toString(userID)}, null, null, null);
+		Cursor cursor = db.query("playList", new String[]{"id","userID","uri","classType","name","mediaType"}, "userID=?", new String[]{Integer.toString(userID)}, null, null, null);
 		//UriInstance item = new UriInstance();
 		String uri=null;
 		String classType=null;
 		String name=null;
 		String mediaType=null;
-		List<UriInstance>  list = new ArrayList<UriInstance>();
+		int id = 0;
+		List<PlayListEntry>  list = new ArrayList<PlayListEntry>();
 		while(cursor.moveToNext()){
+			id = cursor.getInt(cursor.getColumnIndex("id"));
 			uri = cursor.getString(cursor.getColumnIndex("uri"));
 			classType = cursor.getString(cursor.getColumnIndex("classType"));
 			name = cursor.getString(cursor.getColumnIndex("name"));
 			mediaType = cursor.getString(cursor.getColumnIndex("mediaType"));
 			RdfFactory factory = RdfFactory.getInstance();
 			UriInstance item= factory.createInstance(uri,mediaType,classType,name);
-			list.add(item);
+			PlayListEntry entry = new PlayListEntry(item, id, userID);
+			list.add(entry);
 		}
 		dbHelper.close();
 		return list;
 	}
 	
 	public int length(){
-		DatabaseHelper dbHelper = new DatabaseHelper(context,"CAMO_db1");
+		DatabaseHelper dbHelper = new DatabaseHelper(context,"CAMO_db");
 		SQLiteDatabase db= dbHelper.getWritableDatabase();
 		Cursor cursor = db.query("playList", new String[]{"COUNT(*)"}, null,null, null, null, null);
 		int length=0;

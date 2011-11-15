@@ -255,7 +255,6 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 	
 	public void onDestroy() {
 		super.onDestroy();
-		CAMO_app.closePlayList(CAMO_AndroidActivity.this);
 	}
     
 	
@@ -270,7 +269,6 @@ public class CAMO_AndroidActivity extends Activity implements OnClickListener {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.item_logout:
-			CAMO_app.closePlayList(CAMO_AndroidActivity.this);
 			mainPanel.setVisibility(View.GONE);
 			loginPanel.setVisibility(View.VISIBLE);
 			CAMO_app.logout();
