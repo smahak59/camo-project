@@ -73,11 +73,14 @@ public class CoPropFinder extends Thread
 		try {
 			List<String[]> spList = new ArrayList<String[]>();
 			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.FUSE_CONN);
+//			String sqlStr = "SELECT prop1.uri_inst, prop1.uri_prop "
+//				  + "FROM coref_inst_prop_" + mediaType + " AS prop1 " 
+//				  + "JOIN(coref_inst_prop_" + mediaType + " AS prop2) " 
+//				  + "ON(prop1.group_id=prop2.group_id) " 
+//				  + "WHERE prop2.uri_inst=? and prop2.uri_prop=?";
 			String sqlStr = "SELECT prop1.uri_inst, prop1.uri_prop "
 				  + "FROM coref_inst_prop_" + mediaType + " AS prop1 " 
-				  + "JOIN(coref_inst_prop_" + mediaType + " AS prop2) " 
-				  + "ON(prop1.group_id=prop2.group_id) " 
-				  + "WHERE prop2.uri_inst=? and prop2.uri_prop=?";
+				  + "where prop1.group_id=(select group_id from coref_inst_prop_" + mediaType + " AS prop2 where prop2.uri_inst=? and prop2.uri_prop=?)";
 			PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
 			stmt.setString(1, inst);
 			stmt.setString(2, prop);
