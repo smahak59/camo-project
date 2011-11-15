@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import android.content.Context;
+import android.util.Log;
 import cn.edu.nju.ws.camo.android.rdf.UriInstance;
 import cn.edu.nju.ws.camo.android.user.User;
 
@@ -27,6 +28,7 @@ public class PlayList {
 //			list.add(db.queryFromUserID(userID));
 //		}
 		list = db.queryFromUserID(userID);
+		Log.v("&&&&&&&&&&&&&&&&&&&&&", "listSize:" + list.size());
 	}
 	
 	public UriInstance getCurrentPlaying() {

@@ -48,6 +48,7 @@ public class CAMO_Application extends Application {
 	
 	public void initPlayList(Context context) {
 		playList = new PlayList(context, currentUser);
+		Log.v("&&&&&&&&&&&&&&&&", "size: " + playList.size());
 	}
 	
 	public void ignoreUser(User rmdedUser) {
@@ -65,6 +66,10 @@ public class CAMO_Application extends Application {
 	
 	public void setUser(User user) {
 		currentUser = user;
+	}
+	
+	public void closePlayList(Context context) {
+		playList.close(context);
 	}
 	
 	public int getSignedType(UriInstance uri) {
@@ -146,7 +151,7 @@ public class CAMO_Application extends Application {
 	}
 	
 	public void logout() {
-		currentUser = null;		
+		currentUser = null;
 	}
 	
 	public List<DislikePrefer> getDislikePreferList(int type) {
