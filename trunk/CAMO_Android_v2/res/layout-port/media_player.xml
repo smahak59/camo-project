@@ -111,16 +111,20 @@
 							<RelativeLayout android:layout_below="@+id/textView_recommendedTitle"
 								android:id="@+id/relativeLayout6" android:layout_width="wrap_content"
 								android:layout_height="wrap_content">
-								<Button android:id="@+id/button_recPrev"
+								<ImageButton android:id="@+id/button_recPrev"
 									android:layout_height="match_parent" android:layout_width="wrap_content"
-									android:text="Prev" android:layout_alignParentLeft="true"></Button>
+									android:src="@drawable/backward"
+									android:layout_alignParentLeft="true"
+									android:background="#00000000"></ImageButton>
 								<Gallery android:id="@+id/gallery_recommended"
 									android:layout_width="match_parent" android:spacing="5dip"
 									android:layout_height="match_parent" android:layout_toLeftOf="@+id/button_recNext"
 									android:layout_toRightOf="@+id/button_recPrev" />
-								<Button android:id="@+id/button_recNext"
+								<ImageButton android:id="@+id/button_recNext"
 									android:layout_height="match_parent" android:layout_width="wrap_content"
-									android:text="Next" android:layout_alignParentRight="true"></Button>
+									android:src="@drawable/forward"
+									android:layout_alignParentRight="true"
+									android:background="#00000000"></ImageButton>
 
 							</RelativeLayout>
 						</RelativeLayout>
