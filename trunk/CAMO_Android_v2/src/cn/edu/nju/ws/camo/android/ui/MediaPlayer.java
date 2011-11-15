@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.Gallery;
@@ -76,8 +77,8 @@ public class MediaPlayer extends Activity implements OnClickListener {
 	private RelativeLayout relativeLayout_music;
 	private boolean playButtonStatus;
 	private boolean isFavoredMedia;
-	private Button button_recPrev;
-	private Button button_recNext;
+	private ImageButton imageButton_recPrev;
+	private ImageButton imageButton_recNext;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -122,8 +123,8 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		relativeLayout_music = (RelativeLayout) findViewById(R.id.relativeLayout_music);
 		textView_actorListTitle = (TextView) findViewById(R.id.textView_actorListTitle);
 		
-		button_recNext = (Button) findViewById(R.id.button_recNext);
-		button_recPrev = (Button) findViewById(R.id.button_recPrev);
+		imageButton_recNext = (ImageButton) findViewById(R.id.button_recNext);
+		imageButton_recPrev = (ImageButton) findViewById(R.id.button_recPrev);
 
 		imageView_current = (ImageView) findViewById(R.id.imageView_current);
 
@@ -131,12 +132,15 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		imageButton_next.setOnClickListener(this);
 		imageButton_play.setOnClickListener(this);
 		imageButton_favMusic.setOnClickListener(this);
-		button_recNext.setOnClickListener(this);
-		button_recPrev.setOnClickListener(this);
+		imageButton_recNext.setOnClickListener(this);
+		imageButton_recPrev.setOnClickListener(this);
 
 		imageButton_prev.setOnTouchListener(CAMO_AndroidActivity.touchListener);
 		imageButton_next.setOnTouchListener(CAMO_AndroidActivity.touchListener);
 		imageButton_play.setOnTouchListener(CAMO_AndroidActivity.touchListener);
+		imageButton_recNext.setOnTouchListener(CAMO_AndroidActivity.touchListener);
+		imageButton_recPrev.setOnTouchListener(CAMO_AndroidActivity.touchListener);
+		
 	}
 
 	private void initPlayList() {
@@ -366,7 +370,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 	}
 
 	private void initRecommendedGallery() {
-		GalleryAdapter adapter = new GalleryAdapter();
+		final GalleryAdapter adapter = new GalleryAdapter();
 		gallery_recommended.setAdapter(adapter);
 		gallery_recommended.setVisibility(View.VISIBLE);
 		gallery_recommended.setOnItemClickListener(new OnItemClickListener() {
@@ -382,6 +386,35 @@ public class MediaPlayer extends Activity implements OnClickListener {
 				startActivity(viewUserIntent);
 				
 			}
+		});
+		gallery_recommended.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				if(arg2 == adapter.getCount() - 1) {
+					imageButton_recPrev.setVisibility(View.VISIBLE);
+					imageButton_recNext.setVisibility(View.INVISIBLE);
+					
+				}
+				else if(arg2 == 0) {
+					imageButton_recPrev.setVisibility(View.INVISIBLE);
+					imageButton_recNext.setVisibility(View.VISIBLE);
+					
+				}
+				else {
+					imageButton_recPrev.setVisibility(View.VISIBLE);
+					imageButton_recNext.setVisibility(View.VISIBLE);
+				}
+				
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		
 		});
 		
 	}
@@ -732,8 +765,12 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			toggleFavorMusicButton();
 			break;
 		case R.id.button_recNext:
+			int selected_n = gallery_recommended.getSelectedItemPosition();
+			gallery_recommended.setSelection(selected_n + 1, true);
 			break;
 		case R.id.button_recPrev:
+			int selected_p = gallery_recommended.getSelectedItemPosition();
+			gallery_recommended.setSelection(selected_p - 1, true);			
 			break;
 		}
 	}
