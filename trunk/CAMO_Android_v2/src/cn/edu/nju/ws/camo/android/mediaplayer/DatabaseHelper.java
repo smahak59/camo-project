@@ -22,8 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
-		db.execSQL("CREATE TABLE playList(id INT PRIMAARY KEY,userID int,uri VARCHAR(50),classType VARCHAR(20),name VARCHAR(30),mediaType VARCHAR(20) )");
-		
+		db.execSQL("CREATE TABLE playList(id INTEGER PRIMARY KEY AUTOINCREMENT,userID int,uri VARCHAR(50),classType VARCHAR(20),name VARCHAR(30),mediaType VARCHAR(20) )");
 	}
 
 	@Override

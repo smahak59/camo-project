@@ -68,11 +68,6 @@ public class CAMO_Application extends Application {
 		currentUser = user;
 	}
 	
-	public void closePlayList(Context context) {
-		if(playList != null)
-			playList.close(context);
-	}
-	
 	public int getSignedType(UriInstance uri) {
 		return preferList.getSignedType(uri);
 	}
