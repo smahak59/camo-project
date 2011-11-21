@@ -1,6 +1,8 @@
 package cn.edu.nju.ws.camo.android.user.interestgp.rule;
 
-public abstract class RmdRule {
+import java.io.Serializable;
+
+public abstract class RmdRule implements Serializable{
 	
 	private int ruleId;
 	private String rulesToSuggest;

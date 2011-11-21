@@ -1,5 +1,7 @@
 package cn.edu.nju.ws.camo.android.user.interestgp;
 
+import java.io.Serializable;
+
 import cn.edu.nju.ws.camo.android.command.Command;
 import cn.edu.nju.ws.camo.android.connect.ServerParam;
 import cn.edu.nju.ws.camo.android.connect.WebService;
@@ -11,7 +13,7 @@ import cn.edu.nju.ws.camo.android.user.User;
  * @author Warren
  *
  */
-public class MediaInterest {
+public class MediaInterest implements Serializable{
 
 	protected User user;
 	protected UriInstance mediaInst;

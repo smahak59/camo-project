@@ -370,7 +370,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		protected void onPostExecute(String result) {
 			rmdFeedbackList = ((CAMO_Application) getApplication())
 					.getRmdFeedbackList();
-			if(!rmdFeedbackList.isEmpty()) {
+			if(rmdFeedbackList != null && !rmdFeedbackList.isEmpty()) {
 				initRecommendedGallery();
 			}
 		}
@@ -386,10 +386,10 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				User selectedUser = rmdFeedbackList.get(arg2).getUserInterest().getUser();
+				RmdFeedback selectedFeedback = rmdFeedbackList.get(arg2);
 				Intent viewUserIntent = new Intent(MediaPlayer.this, UserInfoViewer.class);
 				Bundle viewUserBundle = new Bundle();
-				viewUserBundle.putSerializable(SerKeys.SER_USER, selectedUser);
+				viewUserBundle.putSerializable(SerKeys.SER_RMD_FEEDBACK, selectedFeedback);
 				viewUserIntent.putExtras(viewUserBundle);
 				startActivity(viewUserIntent);
 				
