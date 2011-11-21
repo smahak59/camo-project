@@ -114,8 +114,7 @@
 								<ImageButton android:id="@+id/button_recPrev"
 									android:layout_height="match_parent" android:layout_width="wrap_content"
 									android:src="@drawable/backward"
-									android:layout_alignParentLeft="true"
-									android:background="#00000000"></ImageButton>
+									android:layout_alignParentLeft="true" android:background="#00000000"></ImageButton>
 								<Gallery android:id="@+id/gallery_recommended"
 									android:layout_width="match_parent" android:spacing="5dip"
 									android:layout_height="match_parent" android:layout_toLeftOf="@+id/button_recNext"
@@ -123,9 +122,20 @@
 								<ImageButton android:id="@+id/button_recNext"
 									android:layout_height="match_parent" android:layout_width="wrap_content"
 									android:src="@drawable/forward"
-									android:layout_alignParentRight="true"
-									android:background="#00000000"></ImageButton>
-
+									android:layout_alignParentRight="true" android:background="#00000000"></ImageButton>
+							</RelativeLayout>
+							<RelativeLayout android:layout_width="match_parent"
+								android:layout_height="match_parent" android:id="@+id/relativeLayout_hint"
+								android:layout_below="@+id/textView_recommendedTitle">
+								<TextView android:id="@+id/textView1"
+									android:text="Try to click         you may find people you'd like to know."
+									android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+								<ImageView android:src="@drawable/fav_on"
+									android:layout_width="wrap_content" android:id="@+id/imageView1"
+									android:layout_height="wrap_content"
+									android:layout_alignParentTop="true"
+									android:layout_alignParentLeft="true"
+									android:layout_marginLeft="69dp"></ImageView>
 							</RelativeLayout>
 						</RelativeLayout>
 					</RelativeLayout>
