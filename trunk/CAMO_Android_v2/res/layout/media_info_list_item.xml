@@ -3,20 +3,20 @@
   xmlns:android="http://schemas.android.com/apk/res/android" 
   android:layout_width="match_parent"
   android:layout_height="wrap_content">  
-  <TextView android:id="@+id/textView_predicate"
+  <TextView android:id="@+id/textView_mediaInfoPredicate"
   	android:layout_width="match_parent"
   	android:layout_height="wrap_content"
   	android:layout_marginLeft="10dip"
   	android:text="predicate"
   	android:textColor="#EF7100">
   </TextView>
-  <TextView android:id="@+id/textView_object"
+  <TextView android:id="@+id/textView_mediaInfoObject"
   	android:layout_width="match_parent"
   	android:layout_height="wrap_content"
   	android:layout_marginLeft="20dip"
   	android:text="object"
   	android:textSize="15dip"
-  	android:layout_below="@+id/textView_predicate">
+  	android:layout_below="@+id/textView_mediaInfoPredicate">
   </TextView>
 
     
