@@ -12,14 +12,21 @@ import android.widget.Toast;
 import cn.edu.nju.ws.camo.android.R;
 import cn.edu.nju.ws.camo.android.user.User;
 import cn.edu.nju.ws.camo.android.user.interestgp.InterestGroup;
+import cn.edu.nju.ws.camo.android.user.interestgp.RmdFeedback;
+import cn.edu.nju.ws.camo.android.user.interestgp.rule.CooperatorMovieRule;
+import cn.edu.nju.ws.camo.android.user.interestgp.rule.RmdRule;
+import cn.edu.nju.ws.camo.android.user.interestgp.rule.SpouseMovieRule;
 import cn.edu.nju.ws.camo.android.util.SerKeys;
 
 public class UserInfoViewer extends Activity implements OnClickListener{
+	private RmdFeedback rmdFeedback;
 	private User user;
 	private TextView textView_userInfoTitle;
 	private TextView textView_userName;
 	private TextView textView_userSex;
 	private TextView textView_userEmail;
+	private TextView textView_rmdRule;
+	private TextView textView_rmdLocation;
 	private ImageButton imageButton_contactUser;
 	private ImageButton imageButton_ignoreUser;
 	private ImageView imageView_userPortrait;
@@ -35,7 +42,8 @@ public class UserInfoViewer extends Activity implements OnClickListener{
 
 	private void initUserData() {
 		Intent intent = getIntent();
-		user = (User) intent.getSerializableExtra(SerKeys.SER_USER);		
+		rmdFeedback = (RmdFeedback) intent.getSerializableExtra(SerKeys.SER_RMD_FEEDBACK);
+		user = rmdFeedback.getUserInterest().getUser();
 	}
 
 	private void initComponents() {
@@ -43,6 +51,8 @@ public class UserInfoViewer extends Activity implements OnClickListener{
 		textView_userName = (TextView) findViewById(R.id.textView_userName);
 		textView_userSex = (TextView) findViewById(R.id.textView_userSex);
 		textView_userEmail = (TextView) findViewById(R.id.textView_userEmail);
+		textView_rmdRule = (TextView) findViewById(R.id.textView_rmdRule);
+		textView_rmdLocation = (TextView) findViewById(R.id.textView_rmdLocation);
 		imageButton_contactUser = (ImageButton) findViewById(R.id.imageButton_contactUser);
 		imageButton_ignoreUser = (ImageButton) findViewById(R.id.imageButton_ignoreUser);
 		imageView_userPortrait = (ImageView) findViewById(R.id.imageView_userPortrait);
@@ -57,7 +67,18 @@ public class UserInfoViewer extends Activity implements OnClickListener{
 		textView_userName.setText("Name: " + user.getName());
 		textView_userSex.setText("Sex: " + user.getSex());
 		textView_userEmail.setText("Email: " + user.getEmail());
-		if(user.getSex().equals("female")) {
+		RmdRule rmdRule = rmdFeedback.getRule();
+		textView_rmdRule.setText("Activity: " + rmdRule.getSuggest());
+		if(rmdRule instanceof SpouseMovieRule) {
+			textView_rmdLocation.setVisibility(View.VISIBLE);
+			textView_rmdLocation.setText("Location: " + ((SpouseMovieRule)rmdRule).getRmdLocation());
+		}
+		else if(rmdRule instanceof CooperatorMovieRule) {
+			textView_rmdLocation.setVisibility(View.VISIBLE);
+			textView_rmdLocation.setText("Game: " + ((CooperatorMovieRule)rmdRule).getRmdGame());
+		}
+		
+		if(user.getSex().equals("female")) { 
 			imageView_userPortrait.setImageDrawable(getResources().getDrawable(R.drawable.female));
 		}
 		else {

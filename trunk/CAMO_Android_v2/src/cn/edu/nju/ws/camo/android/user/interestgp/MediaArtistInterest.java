@@ -1,5 +1,6 @@
 package cn.edu.nju.ws.camo.android.user.interestgp;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import cn.edu.nju.ws.camo.android.util.SetSerialization;
  * @author Warren
  *
  */
-public class MediaArtistInterest extends MediaInterest  {
+public class MediaArtistInterest extends MediaInterest implements Serializable{
 
 	protected UriInstance actorInst; 
 	

@@ -1,6 +1,8 @@
 package cn.edu.nju.ws.camo.android.user.interestgp;
 
-public class RmdFeedbackForMusic extends RmdFeedback {
+import java.io.Serializable;
+
+public class RmdFeedbackForMusic extends RmdFeedback implements Serializable {
 
 	private MediaInterest userInterest;
 	
