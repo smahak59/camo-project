@@ -10,6 +10,8 @@ import java.util.Set;
 
 import org.xmlpull.v1.XmlPullParserException;
 
+import android.util.Log;
+
 import cn.edu.nju.ws.camo.android.connect.ServerParam;
 import cn.edu.nju.ws.camo.android.connect.WebService;
 import cn.edu.nju.ws.camo.android.util.SetSerialization;
@@ -301,8 +303,12 @@ public class InstViewManager {
 	}
 	
 	private static void setPropName(Property prop) {
+		Log.v("*********", "orP:" + UtilParam.PROP_TO_NAME_DOWN.get(prop.getUri()));
+		Log.v("*********", "orSize:" + UtilParam.PROP_TO_NAME_DOWN.size());
+		
 		if(UtilParam.PROP_TO_NAME_DOWN.containsKey(prop.getUri()))
 			prop.setName(UtilParam.PROP_TO_NAME_DOWN.get(prop.getUri()));
+		
 	}
 	
 	private static void setUpPropTrans(Property prop) {
