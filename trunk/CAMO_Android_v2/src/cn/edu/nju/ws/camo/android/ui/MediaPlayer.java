@@ -424,7 +424,6 @@ public class MediaPlayer extends Activity implements OnClickListener {
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
 				
 			}
 		

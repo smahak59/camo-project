@@ -164,22 +164,18 @@ public class DislikeListViewer extends TabActivity implements OnItemClickListene
 		}
 
 		public int getCount() {
-			// TODO Auto-generated method stub
 			return itemViews.length;
 		}
 
 		public Object getItem(int position) {
-			// TODO Auto-generated method stub
 			return itemViews[position];
 		}
 
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
 			return position;
 		}
 
 		public View getView(int position, View convertView, ViewGroup parent) {
-			// TODO Auto-generated method stub		
 				return itemViews[position];
 		
 		}
@@ -188,7 +184,6 @@ public class DislikeListViewer extends TabActivity implements OnItemClickListene
 	}
 
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		// TODO Auto-generated method stub
 		int currentTab = getTabHost().getCurrentTab();
 		UriInstance targetUri;
 		switch (currentTab) {

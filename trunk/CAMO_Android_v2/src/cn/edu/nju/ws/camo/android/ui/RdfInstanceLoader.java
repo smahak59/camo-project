@@ -79,10 +79,8 @@ public class RdfInstanceLoader {
 					trimTriples(triplesDown);
 					mergeDuplicatesDown(triplesDown);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (XmlPullParserException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -99,10 +97,8 @@ public class RdfInstanceLoader {
 					trimTriples(triplesUp);
 					mergeDuplicatesUp(triplesUp);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (XmlPullParserException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}		
 				
