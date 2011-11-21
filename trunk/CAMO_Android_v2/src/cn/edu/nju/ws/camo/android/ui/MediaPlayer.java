@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -710,15 +711,18 @@ public class MediaPlayer extends Activity implements OnClickListener {
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View item = inflater.inflate(R.layout.media_info_list_item, null);
 			TextView textView_pre = (TextView) item
-					.findViewById(R.id.textView_predicate);
+					.findViewById(R.id.textView_mediaInfoPredicate);
 			TextView textView_obj = (TextView) item
-					.findViewById(R.id.textView_object);
+					.findViewById(R.id.textView_mediaInfoObject);
+			
 			if (i == itemViews.length - 1) {
 				textView_pre.setText("");
 				textView_obj.setText("More Information...");
 			} else {
-				textView_pre.setText(mediaInfo.get(i).getPredicate().getName());
-				textView_obj.setText(mediaInfo.get(i).getObject().getName());
+				String preString = mediaInfo.get(i).getPredicate().getName();
+				String objString = mediaInfo.get(i).getObject().getName();
+				textView_pre.setText(preString);
+				textView_obj.setText(objString);
 			}
 			return item;
 		}

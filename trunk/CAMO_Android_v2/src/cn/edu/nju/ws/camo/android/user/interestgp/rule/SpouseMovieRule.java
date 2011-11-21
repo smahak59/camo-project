@@ -30,7 +30,6 @@ public class SpouseMovieRule extends RmdRule implements Serializable{
 	
 	private void initDateLocation() throws IOException {
 		if(locationList.size()==0) {
-			UtilParam.PROP_TO_NAME_DOWN = new HashMap<String, String>();
 			InputStream in = UtilParam.ASSETS.open("date.list");
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			String line = "";

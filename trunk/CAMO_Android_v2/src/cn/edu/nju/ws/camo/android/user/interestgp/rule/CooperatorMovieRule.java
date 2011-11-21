@@ -30,7 +30,6 @@ public class CooperatorMovieRule extends RmdRule implements Serializable{
 	
 	private void initGame() throws IOException {
 		if(gameList.size()==0) {
-			UtilParam.PROP_TO_NAME_DOWN = new HashMap<String, String>();
 			InputStream in = UtilParam.ASSETS.open("game.list");
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			String line = "";
