@@ -75,6 +75,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 	private TextView textView_actorListTitle;
 	private Gallery gallery_recommended;
 	private RelativeLayout relativeLayout_music;
+	private RelativeLayout relativeLayout_hint;
 	private boolean playButtonStatus;
 	private boolean isFavoredMedia;
 	private ImageButton imageButton_recPrev;
@@ -121,6 +122,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		listView_mediaInfo = (ListView) findViewById(R.id.listView_mediaInfo);
 		gallery_recommended = (Gallery) findViewById(R.id.gallery_recommended);
 		relativeLayout_music = (RelativeLayout) findViewById(R.id.relativeLayout_music);
+		relativeLayout_hint = (RelativeLayout) findViewById(R.id.relativeLayout_hint);
 		textView_actorListTitle = (TextView) findViewById(R.id.textView_actorListTitle);
 		
 		imageButton_recNext = (ImageButton) findViewById(R.id.button_recNext);
@@ -244,6 +246,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		relativeLayout_music.setVisibility(View.INVISIBLE);
 		listView_actorList.setVisibility(View.INVISIBLE);
 		textView_actorListTitle.setVisibility(View.INVISIBLE);
+		relativeLayout_hint.setVisibility(View.VISIBLE);
 		loadMediaInfo();
 		if (mediaType.equals("music")) {
 			imageView_current.setImageDrawable(getResources().getDrawable(
@@ -367,7 +370,9 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		protected void onPostExecute(String result) {
 			rmdFeedbackList = ((CAMO_Application) getApplication())
 					.getRmdFeedbackList();
-			initRecommendedGallery();
+			if(!rmdFeedbackList.isEmpty()) {
+				initRecommendedGallery();
+			}
 		}
 	}
 
@@ -375,6 +380,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		final GalleryAdapter adapter = new GalleryAdapter();
 		gallery_recommended.setAdapter(adapter);
 		gallery_recommended.setVisibility(View.VISIBLE);
+		relativeLayout_hint.setVisibility(View.INVISIBLE);
 		gallery_recommended.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
