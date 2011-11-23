@@ -230,7 +230,7 @@ public class UriInjection
 	{
 		Config.initParam(); 
 		Long oldTime = new Date().getTime();
-		UriInjection query = new UriInjection("http://data.linkedmdb.org/resource/film/34781");
+		UriInjection query = new UriInjection("http://dbpedia.org/resource/Island_of_Fire");
 		System.out.println(new Date().getTime()-oldTime);
 		System.out.println("\n==========Query Down=========\n");
 		List<String[]> triplesDown = query.queryDown();
