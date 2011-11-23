@@ -30,10 +30,10 @@ public class DBPrep_MySQL {
 	}
 
 	public void loadUserSchema() {
-		String sqlTabStr1 = "CREATE TABLE user (id int NOT NULL AUTO_INCREMENT, pwd varchar(255) NOT NULL, name varchar(255) NOT NULL, email varchar(255) DEFAULT NULL, sex bit(1) DEFAULT NULL,"
+		String sqlTabStr1 = "CREATE TABLE user (id int NOT NULL AUTO_INCREMENT, pwd varchar(255) NOT NULL, name varchar(255) NOT NULL, email varchar(255) NOT NULL, sex bit(1) NOT NULL,"
 				+ " PRIMARY KEY (id), KEY email_idx (email), KEY name_idx (name))"
 				+ " ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin";
-		String sqlTabStr2 = "CREATE TABLE preference (uid int NOT NULL, inst text , media_type varchar(255) DEFAULT NULL, inst_type text, label_name text, u_action int(11) DEFAULT NULL, subscribe bit(1) DEFAULT NULL, u_time timestamp DEFAULT NULL, KEY uid_idx (uid), KEY inst_idx (inst(200)))"
+		String sqlTabStr2 = "CREATE TABLE preference (uid int NOT NULL, inst text NOT NULL, media_type varchar(255) NOT NULL, inst_type text NOT NULL, label_name text NOT NULL, u_action int(11) NOT NULL, subscribe bit(1) DEFAULT NULL, u_time timestamp NOT NULL, KEY uid_idx (uid), KEY inst_idx (inst(200)))"
 				+ " ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin";
 		String sqlTabStr3 = "CREATE TABLE friends (u_id1 int NOT NULL, u_id2 int NOT NULL, f_time timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP, KEY id1_idx (u_id1), KEY id2_idx (u_id2))"
 				+ " ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin";
