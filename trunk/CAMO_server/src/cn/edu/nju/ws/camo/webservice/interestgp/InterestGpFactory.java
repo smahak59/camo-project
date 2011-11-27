@@ -43,8 +43,8 @@ public class InterestGpFactory {
 	
 	public boolean addInterest(int uid, String userName, int userSex, String media, String mediaType, String artist) {
 		try {
-			if(SDBConnFactory.getConnType(media)!=SDBConnFactory.DBP_CONN && 
-					SDBConnFactory.getConnType(artist)!=SDBConnFactory.DBP_CONN) {
+			if(SDBConnFactory.getInstance().getOntoName(media).equals("DBP")==false && 
+					SDBConnFactory.getInstance().getOntoName(artist).equals("DBP")==false) {
 				CorefFinder mediaFinder1 = new CorefFinder(media,mediaType);
 				mediaFinder1.start();
 				CorefFinder mediaFinder2 = new CorefFinder(artist,mediaType);
@@ -84,8 +84,8 @@ public class InterestGpFactory {
 		if(artist==null || artist.length()==0)
 			return delInterest(uid, mediaType);
 		try {
-			if(SDBConnFactory.getConnType(media)!=SDBConnFactory.DBP_CONN && 
-					SDBConnFactory.getConnType(artist)!=SDBConnFactory.DBP_CONN) {
+			if(SDBConnFactory.getInstance().getOntoName(media).equals("DBP")==false && 
+					SDBConnFactory.getInstance().getOntoName(artist).equals("DBP")==false) {
 				CorefFinder mediaFinder1 = new CorefFinder(media,mediaType);
 				mediaFinder1.start();
 				CorefFinder mediaFinder2 = new CorefFinder(artist,mediaType);
@@ -140,7 +140,7 @@ public class InterestGpFactory {
 		List<String> artistList = new ArrayList<String>();
 		Map<String, String[]> artistSet = new HashMap<String, String[]>();
 		try {
-			if(SDBConnFactory.getConnType(media)!=SDBConnFactory.DBP_CONN) {
+			if(SDBConnFactory.getInstance().getOntoName(media).equals("DBP")==false) {
 				CorefFinder mediaFinder1 = new CorefFinder(media,"movie");
 				mediaFinder1.start();
 				mediaFinder1.join();
@@ -188,7 +188,7 @@ public class InterestGpFactory {
 	public boolean isFavoredMedia(int uid, String media) {
 		boolean result = false;
 		try {
-			if(SDBConnFactory.getConnType(media)!=SDBConnFactory.DBP_CONN) {
+			if(SDBConnFactory.getInstance().getOntoName(media).equals("DBP")==false) {
 				CorefFinder mediaFinder1 = new CorefFinder(media,"music");
 				mediaFinder1.start();
 				mediaFinder1.join();
@@ -308,7 +308,7 @@ public class InterestGpFactory {
 		String result = "";
 		List<String> resultList = new ArrayList<String>();
 		try {
-			if(SDBConnFactory.getConnType(music)!=SDBConnFactory.DBP_CONN) {
+			if(SDBConnFactory.getInstance().getOntoName(music).equals("DBP")==false) {
 				CorefFinder mediaFinder1 = new CorefFinder(music,"music");
 				mediaFinder1.start();
 				mediaFinder1.join();
@@ -413,7 +413,7 @@ public class InterestGpFactory {
 		String result = "";		
 		List<String> resultList = new ArrayList<String>();
 		try {
-			if(SDBConnFactory.getConnType(movie)!=SDBConnFactory.DBP_CONN) {
+			if(SDBConnFactory.getInstance().getOntoName(movie).equals("DBP")==false) {
 				CorefFinder mediaFinder1 = new CorefFinder(movie,"movie");
 				mediaFinder1.start();
 				mediaFinder1.join();

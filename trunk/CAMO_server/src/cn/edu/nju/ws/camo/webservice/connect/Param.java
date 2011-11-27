@@ -81,7 +81,14 @@ public class Param
 	public static final String JHP = "JHP";
 	public static final String LMDB = "LMDB";
 	public static final String TROP = "TROP";
-	public static final String WDF = "WDF";
+	
+	//extended
+	public String EXTENDED_URL(String dbName) {
+		return MYSQL_DB_URL+dbName;
+	}
+	public String EXTENDED_SQL(String dbName) {
+		return "SHOW PROCESSLIST";
+	}
 	
 //	public static Set<String> MEDIA_CLASS = null;
 }

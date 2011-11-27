@@ -37,13 +37,13 @@ public class CooperatorMovieRuleJob extends MovieRuleJob {
 	
 	class ArtistToMovieFinder extends Thread {
 		
-		private int connType; 
+		private String ontoName; 
 		private String actorProp;
 		private String filmCls;
 		private Map<String,Set<String>> artistToMovie = new HashMap<String, Set<String>>();
 		
-		public ArtistToMovieFinder(int connType, String filmCls, String actorProp) {
-			this.connType = connType;
+		public ArtistToMovieFinder(String ontoName, String filmCls, String actorProp) {
+			this.ontoName = ontoName;
 			this.actorProp = actorProp;
 			this.filmCls = filmCls;
 		}
@@ -51,7 +51,7 @@ public class CooperatorMovieRuleJob extends MovieRuleJob {
 		@Override
 		public void run() {
 			try {
-				SDBConnection sdbc = SDBConnFactory.getInstance().sdbConnect(connType);
+				SDBConnection sdbc = SDBConnFactory.getInstance().sdbConnect(ontoName);
 				String qstr = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> " + 
 						"SELECT ?x ?y WHERE { ?x rdf:type <"+filmCls+"> . " +
 						"?x <" + actorProp + "> ?y . }";
@@ -75,8 +75,8 @@ public class CooperatorMovieRuleJob extends MovieRuleJob {
 			}
 		}
 
-		public int getConnType() {
-			return connType;
+		public String getOntoName() {
+			return ontoName;
 		}
 
 		public Map<String, Set<String>> getArtistToMovie() {
@@ -194,9 +194,9 @@ public class CooperatorMovieRuleJob extends MovieRuleJob {
 	
 	@Override
 	public void run() {
-		ArtistToMovieFinder dbpFinder = new ArtistToMovieFinder(SDBConnFactory.DBP_CONN, "http://dbpedia.org/ontology/Film", "http://dbpedia.org/ontology/starring");
+		ArtistToMovieFinder dbpFinder = new ArtistToMovieFinder("DBP", "http://dbpedia.org/ontology/Film", "http://dbpedia.org/ontology/starring");
 		dbpFinder.start();
-		ArtistToMovieFinder lmdbFinder = new ArtistToMovieFinder(SDBConnFactory.LMDB_CONN, "http://data.linkedmdb.org/resource/movie/Film", "http://data.linkedmdb.org/resource/movie/actor");
+		ArtistToMovieFinder lmdbFinder = new ArtistToMovieFinder("LMDB", "http://data.linkedmdb.org/resource/movie/Film", "http://data.linkedmdb.org/resource/movie/actor");
 		lmdbFinder.start();
 		try {
 			dbpFinder.join();

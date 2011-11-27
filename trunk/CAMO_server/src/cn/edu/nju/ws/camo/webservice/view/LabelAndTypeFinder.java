@@ -66,12 +66,7 @@ public class LabelAndTypeFinder extends Thread {
 			return false;
 		}
 		try {
-			connType = SDBConnFactory.getConnType(uri);
-			if(connType == -1) {
-				result = uri;
-				return false;
-			}
-			String mediaType = SDBConnFactory.getMediaType(connType);
+			String mediaType = SDBConnFactory.getInstance().getMediaType(SDBConnFactory.getInstance().getOntoName(uri));
 			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.FUSE_CONN);
 			String sqlStr = "SELECT label,inst_type FROM inst_" + mediaType + " WHERE uri=?";
 			PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
@@ -104,21 +99,21 @@ public class LabelAndTypeFinder extends Thread {
 		String labelName = "";
 		String type = "";
 		ArrayList<String> labelAndType = new ArrayList<String>();
-		int connType = -1;
+		String ontoName = "";
 		if(uri.startsWith("http://")==false) {
 			result = uri;
 			return;
 		}
 		try {
-			connType = SDBConnFactory.getConnType(uri);
+			ontoName = SDBConnFactory.getInstance().getOntoName(uri);
 			
-			if(connType == -1) {
+			if(ontoName.length()==0) {
 				result = uri;
 				return;
 			}
-			SDBConnection sdbc = SDBConnFactory.getInstance().sdbConnect(connType);
+			SDBConnection sdbc = SDBConnFactory.getInstance().sdbConnect(ontoName);
 			String queryStr = "SELECT ?p ?o WHERE { <" + URIref.encode(uri) + "> ?p ?o }";
-			QueryExecution qe = JenaSDBOp.query(sdbc, SDBConnFactory.getInstance().sdbConnectType(connType), queryStr);
+			QueryExecution qe = JenaSDBOp.query(sdbc, SDBConnFactory.getInstance().sdbConnectType(ontoName), queryStr);
 			ResultSet rs = qe.execSelect();
 			while (rs.hasNext()) {
 				QuerySolution qs = rs.nextSolution();
@@ -152,7 +147,7 @@ public class LabelAndTypeFinder extends Thread {
 			result = uri;
 			return;
 		}
-		if(labelName.length()==0 && connType == SDBConnFactory.DBP_CONN) {
+		if(labelName.length()==0 && ontoName.equals("DBP")) {
 			labelName = getSpecialLocalName(uri).replaceAll("_", " ");
 		}
 		labelAndType.add(uri);

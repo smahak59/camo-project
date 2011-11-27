@@ -30,7 +30,7 @@ public class SpouseMovieRuleJob extends MovieRuleJob {
 	private Map<String, Map<String, String>> mineDBPMovie() {
 		Map<String, Map<String, String>> movieToSpouse = new HashMap<String, Map<String,String>>();
 		try {
-			SDBConnection sdbc = SDBConnFactory.getInstance().sdbConnect(SDBConnFactory.DBP_CONN);
+			SDBConnection sdbc = SDBConnFactory.getInstance().sdbConnect("DBP");
 			String qstr = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> " + 
 					"SELECT ?x ?y ?z WHERE { ?x rdf:type <http://dbpedia.org/ontology/Film> . " +
 					"?x <http://dbpedia.org/ontology/starring> ?y . " +
