@@ -9,10 +9,6 @@ public interface IViewService {
 	
 	public String instViewUp(String inst);
 	
-	public String textViewDown(String searchText, String mediaType);
-	
-	public String textViewUp(String searchText, String mediaType);
-	
 	public String textView(String searchText, String mediaType);
 	
 	public String testConnection();
