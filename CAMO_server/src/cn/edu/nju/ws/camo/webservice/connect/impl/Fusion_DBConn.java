@@ -22,7 +22,7 @@ public class Fusion_DBConn extends AbsDBConn
 		dataSrc.setPassword(Param.MYSQL_DB_PWD);
 		
 		dataSrc.setMaxActive(30);
-		dataSrc.setMinIdle(1);
+		dataSrc.setMinIdle(3);
 		dataSrc.setDefaultTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 		
 		dataSrc.setTestOnBorrow(true);
@@ -30,7 +30,7 @@ public class Fusion_DBConn extends AbsDBConn
 	}
 
 	@Override
-	synchronized public Connection connect() throws Throwable
+	public Connection connect() throws Throwable
 	{
 		if (dataSrc == null)
 			init();

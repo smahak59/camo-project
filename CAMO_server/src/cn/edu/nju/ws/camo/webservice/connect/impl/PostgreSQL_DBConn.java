@@ -24,7 +24,7 @@ private static BasicDataSource ds = null;
 		ds.setPassword(Param.PGSQL_DB_PWD);
 		
 		ds.setMaxActive(30);
-		ds.setMinIdle(1);
+		ds.setMinIdle(3);
 		ds.setDefaultTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
 		
 		ds.setTestOnBorrow(true);

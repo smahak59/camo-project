@@ -1,6 +1,7 @@
 package cn.edu.nju.ws.camo.webservice.connect;
 
 import java.sql.*;
+import java.util.Date;
 
 import cn.edu.nju.ws.camo.webservice.connect.impl.*;
 
@@ -25,7 +26,8 @@ public class DBConnFactory
 	}
 	
 	public Connection dbConnect(int sourceFrom) throws Throwable
-	{
+	{	
+//		Long oldTime = new Date().getTime();
 		Connection conn = null;
 		switch (sourceFrom) {
 			case DBConnFactory.FUSE_CONN:
@@ -47,6 +49,8 @@ public class DBConnFactory
 				conn = null;
 				break;
 		}
+//		System.out.print("Connection:");
+//		System.out.println(new Date().getTime()-oldTime);
 		return conn;
 	}
 }

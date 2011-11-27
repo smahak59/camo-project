@@ -29,6 +29,7 @@ public class ViewService implements IViewService {
 		try {
 			UriInjection query = new UriInjection(inst);
 			triples = query.queryDown();
+			query.close();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -75,6 +76,7 @@ public class ViewService implements IViewService {
 		try {
 			UriInjection query = new UriInjection(inst);
 			triples = query.queryUp();
+			query.close();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
