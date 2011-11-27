@@ -352,7 +352,7 @@ public class TextInjection
 		Long oldTime = new Date().getTime();
 		Config.initParam(); 
 		TextInjection query = new TextInjection();
-		List<String[]> result1 = query.queryForUri("memories of murder", "movie");
+		List<String[]> result1 = query.queryForUri("spider man", "movie");
 		for(String[] instInfo : result1) {
 			System.out.println(instInfo[0]);
 			System.out.println(instInfo[1]);

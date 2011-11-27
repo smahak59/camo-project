@@ -67,6 +67,8 @@ public class LabelAndTypeFinder extends Thread {
 		}
 		try {
 			String mediaType = SDBConnFactory.getInstance().getMediaType(SDBConnFactory.getInstance().getOntoName(uri));
+			if(mediaType == null)
+				return finded;
 			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.FUSE_CONN);
 			String sqlStr = "SELECT label,inst_type FROM inst_" + mediaType + " WHERE uri=?";
 			PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
@@ -107,7 +109,7 @@ public class LabelAndTypeFinder extends Thread {
 		try {
 			ontoName = SDBConnFactory.getInstance().getOntoName(uri);
 			
-			if(ontoName.length()==0) {
+			if(ontoName==null || ontoName.length()==0) {
 				result = uri;
 				return;
 			}

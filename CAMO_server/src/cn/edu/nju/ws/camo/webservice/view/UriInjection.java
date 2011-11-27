@@ -141,9 +141,11 @@ public class UriInjection
 				String p = entry2.getKey();
 				if(propToDbpProp.containsKey(p)) {
 					p = propToDbpProp.get(p);
-					for(String v : entry2.getValue()) {
-						ipvList.add(new String[]{inst,p,v});
-					}
+				}
+				if(p.startsWith("http://dbpedia.org")==false)
+					continue;
+				for(String v : entry2.getValue()) {
+					ipvList.add(new String[]{inst,p,v});
 				}
 			}
 		}
@@ -285,7 +287,7 @@ public class UriInjection
 	{
 		Config.initParam(); 
 		Long oldTime = new Date().getTime();
-		UriInjection query = new UriInjection("http://data.linkedmdb.org/resource/film_genre/47");
+		UriInjection query = new UriInjection("http://dbpedia.org/resource/Spider-Man_3");
 		System.out.println("\n==========Query Down=========\n");
 		List<String[]> triplesDown = query.queryDown();
 		for(String[] triple : triplesDown) {

@@ -25,19 +25,8 @@ public class Debug {
 		Long oldTime = new Date().getTime();
 		Config.initParam();
 		ViewService service = new ViewService();
-//		for(int i=0; i<100; i++) {
-//			System.out.println(i);
-			System.out.println(service.instViewDown("http://dbpedia.org/resource/Island_of_Fire"));
-			System.out.println(service.instViewUp("http://dbpedia.org/resource/Island_of_Fire"));
-//		service.textView("avatar", "movie");
-//		service.textView("avatar", "music");
-			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.MYSQL_CONN);
-			String sqlStr = "flush table";
-			PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
-			stmt.execute();
-			stmt.close();
-			sourceConn.close();
-//		}
+		service.instViewDown("http://dbpedia.org/resource/Spider-Man_3");
+		service.instViewUp("http://dbpedia.org/resource/Spider-Man_3");
 		System.out.println(new Date().getTime()-oldTime);
 	}
 }
