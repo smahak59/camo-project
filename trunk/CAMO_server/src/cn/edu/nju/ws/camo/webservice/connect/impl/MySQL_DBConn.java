@@ -24,7 +24,7 @@ public class MySQL_DBConn extends AbsDBConn {
 		ds.setPassword(Param.MYSQL_DB_PWD);
 		
 		ds.setMaxActive(30);
-		ds.setMinIdle(1);
+		ds.setMinIdle(3);
 		ds.setDefaultTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
 		
 		ds.setTestOnBorrow(true);

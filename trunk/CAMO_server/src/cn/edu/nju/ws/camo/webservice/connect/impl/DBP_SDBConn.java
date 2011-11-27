@@ -23,7 +23,7 @@ public class DBP_SDBConn extends AbsDBConn
 		dataSrc.setPassword(Param.PGSQL_DB_PWD);
 		
 		dataSrc.setMaxActive(30);
-		dataSrc.setMinIdle(1);
+		dataSrc.setMinIdle(3);
 		dataSrc.setDefaultTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 		
 		dataSrc.setTestOnBorrow(true);

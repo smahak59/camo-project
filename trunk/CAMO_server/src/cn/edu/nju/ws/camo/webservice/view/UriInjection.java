@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,6 +21,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import cn.edu.nju.ws.camo.webservice.connect.Config;
+import cn.edu.nju.ws.camo.webservice.connect.DBConnFactory;
 import cn.edu.nju.ws.camo.webservice.connect.SDBConnFactory;
 import cn.edu.nju.ws.camo.webservice.util.ISub;
 
@@ -29,6 +32,7 @@ public class UriInjection
 	private String inst;
 	private Map<String, Integer> corefs;	// (inst, {prop, value})
 	private String mediaType;
+	private Connection corefConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.FUSE_CONN);
 	
 	private static Map<String, String> propToDbpProp = new HashMap<String, String>();
 	
@@ -44,7 +48,9 @@ public class UriInjection
 			List<CorefFinder> typeObtThread = new ArrayList<CorefFinder>();
 			for (String tmpMedia : mediaTypeSet) {
 				CorefFinder newThread = new CorefFinder(inst, tmpMedia);
+				newThread.setConnection(corefConn);
 				newThread.start();
+				newThread.join();
 				typeObtThread.add(newThread);
 			}
 			for (CorefFinder tmpTypeObt : typeObtThread) {
@@ -61,6 +67,7 @@ public class UriInjection
 			if (mediaType.equals(""))
 				return;
 			CorefFinder newThread = new CorefFinder(inst, mediaType);
+			newThread.setConnection(corefConn);
 			newThread.start();
 			newThread.join();
 			corefs = newThread.getCorefs();
@@ -86,6 +93,7 @@ public class UriInjection
 	
 	public List<String[]> queryDown() throws Throwable 
 	{
+		Long oldTime = new Date().getTime();
 		List<String[]> ipvList = new ArrayList<String[]>();		//{s,p,v}
 		Map<String, Map<String, Set<String>>> instPropList = new HashMap<String, Map<String, Set<String>>>();
 		if(mediaType.equals(""))
@@ -93,7 +101,6 @@ public class UriInjection
 		Iterator<Entry<String, Integer>> itr1 = corefs.entrySet().iterator();
 		List<DownPropFinder> propThedList = new ArrayList<DownPropFinder>();
 		List<CoPropFinder> coPropThedList = new ArrayList<CoPropFinder>();
-//		Set<String> rmCoPropSet = new HashSet<String>();
 		while (itr1.hasNext()) {
 			Entry<String, Integer> entry = itr1.next();
 			DownPropFinder newFinder = new DownPropFinder(entry.getKey(), entry.getValue());
@@ -101,7 +108,9 @@ public class UriInjection
 			propThedList.add(newFinder);
 			if(corefs.size()>1 && entry.getKey().startsWith("http://dbpedia.org")) {	//only consider dbp
 				CoPropFinder newCoFinder = new CoPropFinder(entry.getKey(), mediaType);
+				newCoFinder.setConnection(corefConn);
 				newCoFinder.start();
+				newCoFinder.join();
 				coPropThedList.add(newCoFinder);
 			}
 		}
@@ -109,6 +118,7 @@ public class UriInjection
 			tmpFinder.join();
 			instPropList.put(tmpFinder.getInst(), tmpFinder.getPropList());
 		}
+		
 		for (CoPropFinder tmpFinder : coPropThedList) {		//only dbp(center)
 			tmpFinder.join();
 			// remove redundant properties
@@ -126,7 +136,7 @@ public class UriInjection
 					if(instPropList.get(tmpInst2)==null) {
 						continue;
 					}
-					combineValueCoref(instPropList.get(dbpInst1).get(dbpProp), instPropList.get(tmpInst2).get(prop2));
+					combineValueCoref(instPropList.get(dbpInst1).get(dbpProp), instPropList.get(tmpInst2).get(prop2), corefConn);
 					instPropList.get(tmpInst2).remove(prop2);
 				}
 			}
@@ -152,27 +162,23 @@ public class UriInjection
 		return ipvList;
 	}
 	
-	private void combineValueCoref(Set<String> valueSet1, Set<String> valueSet2) throws InterruptedException {
+	private void combineValueCoref(Set<String> valueSet1, Set<String> valueSet2, Connection corefConn) throws InterruptedException {
 		if(valueSet1.iterator().next().startsWith("http")==false && valueSet2.iterator().next().startsWith("http")==false) {
 			combineSimilaryLiteralValue(valueSet1, valueSet2);
 			return;
 		}
-		
 		List<CorefFinder> finderList = new ArrayList<CorefFinder>();
 		BlockingQueue<Runnable> bkQueue1 = new LinkedBlockingQueue<Runnable>();
-		ThreadPoolExecutor threadExec1 = new ThreadPoolExecutor(8, 9, 7, TimeUnit.DAYS, bkQueue1);
+		ThreadPoolExecutor threadExec1 = new ThreadPoolExecutor(1, 1, 7, TimeUnit.DAYS, bkQueue1);
 		for(String value : valueSet1) {
 			CorefFinder newThread = new CorefFinder(value, mediaType);
+			newThread.setConnection(corefConn);
 			threadExec1.execute(newThread);
 			finderList.add(newThread);
 		}
 		threadExec1.shutdown();
 		threadExec1.awaitTermination(7, TimeUnit.DAYS);
 		for(CorefFinder finder : finderList) {
-			for(String tmpU : finder.getCorefs().keySet()) {
-				if(valueSet2.contains(tmpU))
-					System.out.println("aaaa: " + tmpU);
-			}
 			valueSet2.removeAll(finder.getCorefs().keySet());
 		}
 		valueSet1.addAll(valueSet2);
@@ -214,9 +220,10 @@ public class UriInjection
 			List<String[]> rmIpvList = new ArrayList<String[]>();	//{s,p}
 			List<CoPropFinder> coPFList = new ArrayList<CoPropFinder>();
 			BlockingQueue<Runnable> bkQueue2 = new LinkedBlockingQueue<Runnable>();
-			ThreadPoolExecutor threadExec2 = new ThreadPoolExecutor(8, 9, 7, TimeUnit.DAYS, bkQueue2);
+			ThreadPoolExecutor threadExec2 = new ThreadPoolExecutor(1, 1, 7, TimeUnit.DAYS, bkQueue2);
 			for(String[] tmpIpv : ipvList) {
 				CoPropFinder newCoFinder = new CoPropFinder(tmpIpv[0], tmpIpv[1], mediaType);
+				newCoFinder.setConnection(corefConn);
 				coPFList.add(newCoFinder);
 				threadExec2.execute(newCoFinder);
 			}
@@ -260,6 +267,10 @@ public class UriInjection
 		return ipvList;
 	}
 	
+	public void close() throws SQLException {
+		corefConn.close();
+	} 
+	
 	public String getInst()
 	{
 		return getInst();
@@ -288,17 +299,31 @@ public class UriInjection
 		Config.initParam(); 
 		Long oldTime = new Date().getTime();
 		UriInjection query = new UriInjection("http://dbpedia.org/resource/Spider-Man_3");
+		System.out.println(new Date().getTime()-oldTime);
+		
 		System.out.println("\n==========Query Down=========\n");
 		List<String[]> triplesDown = query.queryDown();
-		for(String[] triple : triplesDown) {
-			System.out.println(triple[0] + "\n" + triple[1] + "\n" + triple[2] + "\n");
-		}
+//		for(String[] triple : triplesDown) {
+//			System.out.println(triple[0] + "\n" + triple[1] + "\n" + triple[2] + "\n");
+//		}
 		System.out.println(new Date().getTime()-oldTime);
 		System.out.println("\n==========Query Up=========\n");
 		List<String[]> triplesUp = query.queryUp();
-		for(String[] triple : triplesUp) {
-			System.out.println(triple[0] + "\n" + triple[1] + "\n" + triple[2] + "\n");
-		}
+//		for(String[] triple : triplesUp) {
+//			System.out.println(triple[0] + "\n" + triple[1] + "\n" + triple[2] + "\n");
+//		}
+		query.close();
 		System.out.println(new Date().getTime()-oldTime);
+		
+//		for(int i=0; i<100; i++) {
+//			Long oldTime2 = new Date().getTime();
+//			System.out.println("No." + i);
+//			query = new UriInjection("http://dbpedia.org/resource/Spider-Man_3");
+//			List<String[]> triplesDown2 = query.queryDown();
+//			List<String[]> triplesUp2 = query.queryUp();
+//			query.close();
+//			System.out.println(new Date().getTime()-oldTime2);
+//		}
+//		System.out.println(new Date().getTime()-oldTime);
 	}
 }

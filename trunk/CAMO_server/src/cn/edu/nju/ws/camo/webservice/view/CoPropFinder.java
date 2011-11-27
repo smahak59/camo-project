@@ -11,6 +11,7 @@ public class CoPropFinder extends Thread
 	private String prop = "";
 	private String mediaType = "";
 	private Map<String, List<String[]>> instPropSet; // (sourceProp, List(inst,prop))
+	private Connection sourceConn = null;
 
 	public CoPropFinder(String uri, String mediaType)
 	{
@@ -39,7 +40,11 @@ public class CoPropFinder extends Thread
 	
 	private void findCoProp1() {
 		try {
-			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.FUSE_CONN);
+			boolean connGiven = true;
+			if(sourceConn == null) {
+				sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.FUSE_CONN);
+				connGiven = false;
+			}
 			String sqlStr = "SELECT prop1.uri_inst, prop1.uri_prop, prop2.uri_prop "
 						  + "FROM coref_inst_prop_" + mediaType + " AS prop1 " 
 						  + "JOIN(coref_inst_prop_" + mediaType + " AS prop2) " 
@@ -63,21 +68,25 @@ public class CoPropFinder extends Thread
 			}
 			rs.close();
 			stmt.close();
-			sourceConn.close();
+			if(connGiven == false)
+				sourceConn.close();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 	}
 	
+	public void setConnection (Connection givenConn) {
+		this.sourceConn = givenConn;
+	}
+	
 	private void findCoProp2() {
 		try {
 			List<String[]> spList = new ArrayList<String[]>();
-			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.FUSE_CONN);
-//			String sqlStr = "SELECT prop1.uri_inst, prop1.uri_prop "
-//				  + "FROM coref_inst_prop_" + mediaType + " AS prop1 " 
-//				  + "JOIN(coref_inst_prop_" + mediaType + " AS prop2) " 
-//				  + "ON(prop1.group_id=prop2.group_id) " 
-//				  + "WHERE prop2.uri_inst=? and prop2.uri_prop=?";
+			boolean connGiven = true;
+			if(sourceConn == null) {
+				sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.FUSE_CONN);
+				connGiven = false;
+			}
 			String sqlStr = "SELECT prop1.uri_inst, prop1.uri_prop "
 				  + "FROM coref_inst_prop_" + mediaType + " AS prop1 " 
 				  + "where prop1.group_id=(select group_id from coref_inst_prop_" + mediaType + " AS prop2 where prop2.uri_inst=? and prop2.uri_prop=?)";
@@ -93,7 +102,8 @@ public class CoPropFinder extends Thread
 			instPropSet.put(prop, spList);
 			rs.close();
 			stmt.close();
-			sourceConn.close();
+			if(connGiven == false)
+				sourceConn.close();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}

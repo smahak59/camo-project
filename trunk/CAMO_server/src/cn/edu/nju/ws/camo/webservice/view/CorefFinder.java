@@ -16,6 +16,7 @@ public class CorefFinder extends Thread
 	private String uri = "";
 	private String mediaType = "";
 	private Map<String, Integer> corefs = new HashMap<String, Integer>();
+	private Connection sourceConn = null;
 	
 	public CorefFinder(String uri, String mediaType) 
 	{
@@ -27,7 +28,11 @@ public class CorefFinder extends Thread
 	public void run() 
 	{
 		try {
-			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.FUSE_CONN);
+			boolean connGiven = true;
+			if(sourceConn == null) {
+				sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.FUSE_CONN);
+				connGiven = false;
+			}
 			String sqlStr = "SELECT uri, source FROM coref_inst_" + mediaType 
 						  + " WHERE group_id = " 
 						  + "(SELECT DISTINCT group_id FROM coref_inst_" + mediaType + " WHERE uri=?)";
@@ -40,11 +45,16 @@ public class CorefFinder extends Thread
 			
 			rs.close();
 			stmt.close();
-			sourceConn.close();
+			if(connGiven == false)
+				sourceConn.close();
 			
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void setConnection (Connection givenConn) {
+		this.sourceConn = givenConn;
 	}
 	
 	public Map<String, Integer> getCorefs() 
