@@ -15,8 +15,6 @@ public class Property extends Resource {
 		this.name = "";
 	}
 	
-	
-
 	public String getName() {
 		return name;
 	}
@@ -28,5 +26,21 @@ public class Property extends Resource {
 
 	public String getUri() {
 		return uri;
+	}
+	
+	@Override
+	public int hashCode() {
+		return this.uri.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Property) {
+			Property prop = (Property) obj;
+			if (this.uri.equals(prop.uri)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

@@ -40,6 +40,7 @@ public class InstViewManager {
 				ServerParam.VIEW_URL, "instViewDown", params);
 		if (naiveResult.equals("") || naiveResult.equals(ServerParam.NETWORK_ERROR1))
 			return null;
+		Map<Property, Set<String>> propToValues = new HashMap<Property, Set<String>>();
 		List<String> naiveTriples = SetSerialization.deserialize3(naiveResult);
 		for (String naiveTriple : naiveTriples) {
 			List<String> naiveResources = SetSerialization
@@ -75,6 +76,21 @@ public class InstViewManager {
 							SetSerialization.instNameNomalize(valueStr), mediaType);
 				}
 			}
+			if(value instanceof UriInstance && ((UriInstance)value).getName().trim().length()>0) {
+				if(propToValues.containsKey(property) && propToValues.get(property).contains(((UriInstance)value).getName().trim().toLowerCase())) {
+					continue;
+				} else {
+					if(propToValues.containsKey(property)) {
+						propToValues.get(property).add(((UriInstance)value).getName().trim().toLowerCase());
+					} else {
+						Set<String> valueSet = new HashSet<String>();
+						valueSet.add(((UriInstance)value).getName().trim().toLowerCase());
+						propToValues.put(property, valueSet);
+					}
+				}
+			}
+			if(property.getName().length()==0)
+				continue;
 			Triple triple = RdfFactory.getInstance().createTriple(inst,
 					property, value);
 			instWithNeigh.addTripleDown(triple);
@@ -147,156 +163,6 @@ public class InstViewManager {
 		}
 		return instList;
 	}
-
-	/**
-	 * @param searchText
-	 *            : 搜索的关键字，以空格分隔
-	 * @param mediaType
-	 *            : movie/music/photo
-	 * @return 搜索到的instance与其详细信息的映射(以instance为subject)
-	 * @throws IOException
-	 * @throws XmlPullParserException
-	 */
-	public static Map<UriInstance, UriInstWithNeigh> searchInstDown(String searchText,
-			String mediaType) throws IOException, XmlPullParserException {
-		Map<UriInstance, UriInstWithNeigh> result = new HashMap<UriInstance, UriInstWithNeigh>();
-		Object[] params = { searchText, mediaType };
-		String naiveResult = WebService.getInstance().runFunction(
-				ServerParam.VIEW_URL, "textViewDown", params);
-		if (naiveResult.equals("") || naiveResult.equals(ServerParam.NETWORK_ERROR1))
-			return result;
-		List<String> naiveInstInfos = SetSerialization
-				.deserialize5(naiveResult);
-		for (String naiveInstInfo : naiveInstInfos) { // instance
-			UriInstance inst = null;
-			UriInstWithNeigh instWithNeigh = null;
-			List<String> naiveInstTerm = SetSerialization
-					.deserialize4(naiveInstInfo);
-			List<String> instLabelType = SetSerialization
-					.deserialize1(naiveInstTerm.get(0));
-			if (instLabelType.size() == 3) {
-				inst = RdfFactory.getInstance().createInstance(
-						instLabelType.get(0), mediaType, instLabelType.get(2),
-						instLabelType.get(1));
-			} else {
-				String instStr = instLabelType.get(0);
-				inst = RdfFactory.getInstance().createInstance(instStr,
-						mediaType);
-			}
-			instWithNeigh = RdfFactory.getInstance().createInstWithNeigh(inst);
-			List<String> naiveTriples = SetSerialization
-					.deserialize3(naiveInstTerm.get(1));
-			for (String naiveTriple : naiveTriples) { // triples
-				List<String> naiveResources = SetSerialization
-						.deserialize2(naiveTriple); // (p,o)
-				Property property = RdfFactory.getInstance().createProperty(
-						naiveResources.get(0), mediaType); // p
-				if(isExProp(property))
-					continue;
-				setPropName(property);
-				Resource object = null; // o
-				List<String> naiveObject = new ArrayList<String>();
-				if (naiveResources.size() > 1) {
-					naiveObject = SetSerialization.deserialize1(naiveResources
-							.get(1));
-				} else
-					continue;
-				if (naiveObject.size() == 3) {
-					object = RdfFactory.getInstance().createInstance(
-							naiveObject.get(0), mediaType, naiveObject.get(2),
-							SetSerialization.instNameNomalize(naiveObject.get(1)));
-				} else {
-					String objectStr = naiveObject.get(0);
-					if (objectStr.startsWith("http://")) {
-						object = RdfFactory.getInstance().createInstance(
-								objectStr, mediaType);
-						if(property.getUri().equals("http://xmlns.com/foaf/0.1/homepage") || 
-								property.getUri().equals("http://dbpedia.org/property/hasPhotoCollection") ||
-								property.getUri().equals("http://xmlns.com/foaf/0.1/img") ||
-								property.getUri().equals("http://xmlns.com/foaf/0.1/page"))
-							object = RdfFactory.getInstance().createLiteral(objectStr, mediaType);
-					} else {
-						object = RdfFactory.getInstance().createLiteral(
-								SetSerialization.instNameNomalize(objectStr), mediaType);
-					}
-				}
-				Triple triple = RdfFactory.getInstance().createTriple(inst,
-						property, object);
-				instWithNeigh.addTripleDown(triple);
-			}
-			result.put(inst, instWithNeigh);
-		}
-		return result;
-	}
-
-	/**
-	 * @param searchText
-	 *            : 搜索的关键字，以空格分隔
-	 * @param mediaType
-	 *            : movie/music/photo
-	 * @return 搜索到的instance与其详细信息的映射(以instance为object)
-	 * @throws IOException
-	 * @throws XmlPullParserException
-	 */
-	public static Map<UriInstance, UriInstWithNeigh> searchInstUp(String searchText,
-			String mediaType) throws IOException, XmlPullParserException {
-		Map<UriInstance, UriInstWithNeigh> result = new HashMap<UriInstance, UriInstWithNeigh>();
-		Object[] params = { searchText, mediaType };
-		String naiveResult = WebService.getInstance().runFunction(
-				ServerParam.VIEW_URL, "textViewUp", params);
-		if (naiveResult.equals("") || naiveResult.equals(ServerParam.NETWORK_ERROR1))
-			return result;
-		List<String> naiveInstInfos = SetSerialization
-				.deserialize5(naiveResult);
-		for (String naiveInstInfo : naiveInstInfos) { // instance
-			UriInstance inst = null;
-			UriInstWithNeigh instWithNeigh = null;
-			List<String> naiveInstTerm = SetSerialization
-					.deserialize4(naiveInstInfo);
-			List<String> instLabelType = SetSerialization
-					.deserialize1(naiveInstTerm.get(0));
-			if (instLabelType.size() == 3) {
-				inst = RdfFactory.getInstance().createInstance(
-						instLabelType.get(0), mediaType, instLabelType.get(2),
-						instLabelType.get(1));
-			} else {
-				String instStr = instLabelType.get(0);
-				inst = RdfFactory.getInstance().createInstance(instStr,
-						mediaType);
-			}
-			instWithNeigh = RdfFactory.getInstance().createInstWithNeigh(inst);
-			List<String> naiveTriples = SetSerialization
-					.deserialize3(naiveInstTerm.get(1));
-			for (String naiveTriple : naiveTriples) { // triples
-				List<String> naiveResources = SetSerialization
-						.deserialize2(naiveTriple); // (s,p)
-				Property property = RdfFactory.getInstance().createProperty(
-						naiveResources.get(0), mediaType); // p
-				if(isExProp(property))
-					continue;
-				setPropName(property);
-				setUpPropTrans(property);
-				UriInstance subject = null; // s
-				List<String> naiveSubject = SetSerialization
-						.deserialize1(naiveResources.get(1));
-				if (naiveSubject.size() == 3) {
-					subject = RdfFactory.getInstance().createInstance(
-							naiveSubject.get(0), mediaType,
-							naiveSubject.get(2), SetSerialization.instNameNomalize(naiveSubject.get(1)));
-				} else {
-					String subjectStr = naiveSubject.get(0);
-					subject = RdfFactory.getInstance().createInstance(
-							subjectStr, mediaType);
-				}
-				Triple triple = RdfFactory.getInstance().createTriple(subject,
-						property, inst);
-				instWithNeigh.addTripleUp(triple);
-			}
-			result.put(inst, instWithNeigh);
-		}
-		return result;
-	}
-
 	
 	private static boolean isExProp(Property prop) {
 		return UtilParam.EXCLUDED_PROPS.contains(prop.getUri());
@@ -307,7 +173,7 @@ public class InstViewManager {
 		Log.v("*********", "orSize:" + UtilParam.PROP_TO_NAME_DOWN.size());
 		
 		if(UtilParam.PROP_TO_NAME_DOWN.containsKey(prop.getUri()))
-			prop.setName(UtilParam.PROP_TO_NAME_DOWN.get(prop.getUri()));
+			prop.setName(UtilParam.PROP_TO_NAME_DOWN.get(prop.getUri()).trim());
 		
 	}
 	
