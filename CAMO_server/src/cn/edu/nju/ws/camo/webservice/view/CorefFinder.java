@@ -34,12 +34,14 @@ public class CorefFinder extends Thread
 			PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
 			stmt.setString(1, uri);
 			ResultSet rs = stmt.executeQuery();
+			
 			while(rs.next()) 
 				corefs.put(rs.getString(1), rs.getInt(2));
 			
 			rs.close();
 			stmt.close();
 			sourceConn.close();
+			
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -50,11 +52,15 @@ public class CorefFinder extends Thread
 		return corefs;
 	}
 	
+	public boolean isCoref(String uri) {
+		return corefs.containsKey(uri);
+	}
+	
 	public String getDBPCoref() throws Throwable {
 		Iterator<Entry<String, Integer>> itr = corefs.entrySet().iterator();
 		while(itr.hasNext()) {
 			Entry<String, Integer> entry = itr.next();
-			if(SDBConnFactory.getConnType(entry.getKey())==SDBConnFactory.DBP_CONN)
+			if(SDBConnFactory.getInstance().getOntoName(entry.getKey()).equals("DBP"))
 				return entry.getKey();
 		}
 		return null;

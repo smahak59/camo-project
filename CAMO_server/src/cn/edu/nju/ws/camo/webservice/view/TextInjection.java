@@ -352,9 +352,8 @@ public class TextInjection
 		Long oldTime = new Date().getTime();
 		Config.initParam(); 
 		TextInjection query = new TextInjection();
-		List<String[]> result1 = query.queryForUri("Memories of Murder", "music");
-		List<String[]> result2 = query.queryForUri("Island of Fire", "movie");
-		for(String[] instInfo : result2) {
+		List<String[]> result1 = query.queryForUri("memories of murder", "movie");
+		for(String[] instInfo : result1) {
 			System.out.println(instInfo[0]);
 			System.out.println(instInfo[1]);
 			System.out.println(instInfo[2]);

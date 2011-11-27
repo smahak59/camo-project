@@ -35,7 +35,7 @@ public class SeriesMusicRuleJob extends MusicRuleJob {
 		List<Set<String>> gpList = new ArrayList<Set<String>>();
 		try {
 			List<String> musics = new ArrayList<String>();
-			SDBConnection sdbc = SDBConnFactory.getInstance().sdbConnect(SDBConnFactory.DBP_CONN);
+			SDBConnection sdbc = SDBConnFactory.getInstance().sdbConnect("DBP");
 			String[] musicClasses = {"http://dbpedia.org/ontology/Single","http://dbpedia.org/ontology/Song","http://dbpedia.org/ontology/Album"};
 			for(String musicClass : musicClasses) {
 				String qstr = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> " + 
@@ -165,7 +165,7 @@ public class SeriesMusicRuleJob extends MusicRuleJob {
 			String curMusic = music;
 			musicGp.add(curMusic);
 			try {
-				SDBConnection sdbc = SDBConnFactory.getInstance().sdbConnect(SDBConnFactory.DBP_CONN);
+				SDBConnection sdbc = SDBConnFactory.getInstance().sdbConnect("DBP");
 				while(curMusic != null) {
 					String qstr = "SELECT distinct ?x WHERE { <" + curMusic + "> <http://dbpedia.org/ontology/subsequentWork> ?x }";
 					QueryExecution qe = JenaSDBOp.query(sdbc, DatabaseType.MySQL, qstr);

@@ -69,7 +69,7 @@ public class MediaInstChecker implements Runnable
 	public void run() 
 	{
 		try {
-			SDBConnection sdbc = SDBConnFactory.getInstance().sdbConnect(SDBConnFactory.DBP_CONN);
+			SDBConnection sdbc = SDBConnFactory.getInstance().sdbConnect("DBP");
 			String qstr = "PREFIX dbpedia: <http://dbpedia.org/ontology/> " 
 						+ "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> " 
 						+ "SELECT ?y WHERE { <" + URIref.encode(inst) + "> rdf:type ?y }";

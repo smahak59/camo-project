@@ -11,7 +11,7 @@ public class DownPropFinder extends Thread
 {	
 	private String instance = "";
 	private int connType = -1;
-	private List<String[]> propertyList = new ArrayList<String[]>();
+	private Map<String, Set<String>> propertyList = new HashMap<String, Set<String>>();
 
 	public DownPropFinder(String instance, int connType)
 	{
@@ -31,7 +31,14 @@ public class DownPropFinder extends Thread
 				QuerySolution qs = rs.nextSolution();
 				String p = qs.get("p").toString();
 				String o = qs.get("o").toString();
-				propertyList.add(new String[]{p, o});
+				if(propertyList.containsKey(p)) {
+					Set<String> valueList = propertyList.get(p);
+					valueList.add(o);
+				} else {
+					Set<String> valueList = new HashSet<String>();
+					valueList.add(o);
+					propertyList.put(p, valueList);
+				}
 			}
 			conn.close();
 		} catch (Throwable e) {
@@ -44,7 +51,7 @@ public class DownPropFinder extends Thread
 		return instance;
 	}
 	
-	public List<String[]> getPropList() 
+	public Map<String, Set<String>> getPropList() 
 	{
 		return propertyList;
 	}
