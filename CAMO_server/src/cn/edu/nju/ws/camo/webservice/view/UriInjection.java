@@ -89,11 +89,12 @@ public class UriInjection
 				propToDbpProp.put(terms[0].trim(), terms[1].trim());
 			}
 		}
+		reader.close();
 	}
 	
 	public List<String[]> queryDown() throws Throwable 
 	{
-		Long oldTime = new Date().getTime();
+//		Long oldTime = new Date().getTime();
 		List<String[]> ipvList = new ArrayList<String[]>();		//{s,p,v}
 		Map<String, Map<String, Set<String>>> instPropList = new HashMap<String, Map<String, Set<String>>>();
 		if(mediaType.equals(""))
@@ -114,11 +115,12 @@ public class UriInjection
 				coPropThedList.add(newCoFinder);
 			}
 		}
+//		System.out.println(new Date().getTime()-oldTime);
 		for (DownPropFinder tmpFinder : propThedList) {
 			tmpFinder.join();
 			instPropList.put(tmpFinder.getInst(), tmpFinder.getPropList());
 		}
-		
+//		System.out.println(new Date().getTime()-oldTime);
 		for (CoPropFinder tmpFinder : coPropThedList) {		//only dbp(center)
 			tmpFinder.join();
 			// remove redundant properties
@@ -141,7 +143,7 @@ public class UriInjection
 				}
 			}
 		}
-		
+//		System.out.println(new Date().getTime()-oldTime);
 		Iterator<Entry<String, Map<String, Set<String>>>> itr2 = instPropList.entrySet().iterator();
 		while (itr2.hasNext()) {
 			Entry<String, Map<String, Set<String>>> entry = itr2.next();
@@ -167,6 +169,7 @@ public class UriInjection
 			combineSimilaryLiteralValue(valueSet1, valueSet2);
 			return;
 		}
+//		Long oldTime = new Date().getTime();
 		List<CorefFinder> finderList = new ArrayList<CorefFinder>();
 		BlockingQueue<Runnable> bkQueue1 = new LinkedBlockingQueue<Runnable>();
 		ThreadPoolExecutor threadExec1 = new ThreadPoolExecutor(1, 1, 7, TimeUnit.DAYS, bkQueue1);
@@ -182,6 +185,8 @@ public class UriInjection
 			valueSet2.removeAll(finder.getCorefs().keySet());
 		}
 		valueSet1.addAll(valueSet2);
+//		System.out.print("Coref: ");
+//		System.out.println(new Date().getTime()-oldTime);
 	}
 	
 	private void combineSimilaryLiteralValue(Set<String> valueSet1, Set<String> valueSet2) {

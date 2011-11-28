@@ -24,7 +24,10 @@ public class DownPropFinder extends Thread
 	{
 		try {
 			String qstrForProp = "SELECT ?p ?o WHERE { <" + instance + "> ?p ?o }";
+//			Long oldTime = new Date().getTime();
 			SDBConnection conn = SDBConnFactory.getInstance().sdbConnect(connType);
+//			System.out.print("Down: ");
+//			System.out.println(new Date().getTime()-oldTime);
 			QueryExecution qe = JenaSDBOp.query(conn, SDBConnFactory.getInstance().sdbConnectType(connType), qstrForProp);
 			ResultSet rs = qe.execSelect();
 			while (rs.hasNext()) {
