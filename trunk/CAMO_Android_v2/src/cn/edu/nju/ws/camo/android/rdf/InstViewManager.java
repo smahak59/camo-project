@@ -75,9 +75,8 @@ public class InstViewManager {
 			}
 			if(value instanceof UriInstance && ((UriInstance)value).getName().trim().length()>0) {
 				if(propToValues.containsKey(property) && propToValues.get(property).containsKey(((UriInstance)value).getName().trim().toLowerCase())) {
-					UriInstance oldInst = propToValues.get(property).get(((UriInstance)value).getName().trim().toLowerCase());
 					if(((UriInstance)value).getUri().startsWith("http://dbpedia.org")) {
-						oldInst = (UriInstance)value;
+						propToValues.get(property).put(((UriInstance)value).getName().trim().toLowerCase(),(UriInstance)value);
 					}
 					continue;
 				} else {
