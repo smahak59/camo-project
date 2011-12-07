@@ -3,15 +3,12 @@ package cn.edu.nju.ws.camo.android.rdf;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.util.Log;
-
 import cn.edu.nju.ws.camo.android.connect.ServerParam;
 import cn.edu.nju.ws.camo.android.connect.WebService;
 import cn.edu.nju.ws.camo.android.util.SetSerialization;
@@ -40,7 +37,7 @@ public class InstViewManager {
 				ServerParam.VIEW_URL, "instViewDown", params);
 		if (naiveResult.equals("") || naiveResult.equals(ServerParam.NETWORK_ERROR1))
 			return null;
-		Map<Property, Set<String>> propToValues = new HashMap<Property, Set<String>>();
+		Map<Property, Map<String, UriInstance>> propToValues = new HashMap<Property, Map<String, UriInstance>>();
 		List<String> naiveTriples = SetSerialization.deserialize3(naiveResult);
 		for (String naiveTriple : naiveTriples) {
 			List<String> naiveResources = SetSerialization
@@ -77,14 +74,18 @@ public class InstViewManager {
 				}
 			}
 			if(value instanceof UriInstance && ((UriInstance)value).getName().trim().length()>0) {
-				if(propToValues.containsKey(property) && propToValues.get(property).contains(((UriInstance)value).getName().trim().toLowerCase())) {
+				if(propToValues.containsKey(property) && propToValues.get(property).containsKey(((UriInstance)value).getName().trim().toLowerCase())) {
+					UriInstance oldInst = propToValues.get(property).get(((UriInstance)value).getName().trim().toLowerCase());
+					if(((UriInstance)value).getUri().startsWith("http://dbpedia.org")) {
+						oldInst = (UriInstance)value;
+					}
 					continue;
 				} else {
 					if(propToValues.containsKey(property)) {
-						propToValues.get(property).add(((UriInstance)value).getName().trim().toLowerCase());
+						propToValues.get(property).put(((UriInstance)value).getName().trim().toLowerCase(),(UriInstance)value);
 					} else {
-						Set<String> valueSet = new HashSet<String>();
-						valueSet.add(((UriInstance)value).getName().trim().toLowerCase());
+						Map<String, UriInstance> valueSet = new HashMap<String, UriInstance>();
+						valueSet.put(((UriInstance)value).getName().trim().toLowerCase(),(UriInstance)value);
 						propToValues.put(property, valueSet);
 					}
 				}
