@@ -43,7 +43,7 @@ public class InterestGpFactory {
 	
 	public boolean addInterest(int uid, String userName, int userSex, String media, String mediaType, String artist) {
 		try {
-			if(SDBConnFactory.getInstance().getOntoName(media).equals("DBP")==false && 
+			if(SDBConnFactory.getInstance().getOntoName(media).equals("DBP")==false || 
 					SDBConnFactory.getInstance().getOntoName(artist).equals("DBP")==false) {
 				CorefFinder mediaFinder1 = new CorefFinder(media,mediaType);
 				mediaFinder1.start();
@@ -84,7 +84,7 @@ public class InterestGpFactory {
 		if(artist==null || artist.length()==0)
 			return delInterest(uid, mediaType);
 		try {
-			if(SDBConnFactory.getInstance().getOntoName(media).equals("DBP")==false && 
+			if(SDBConnFactory.getInstance().getOntoName(media).equals("DBP")==false || 
 					SDBConnFactory.getInstance().getOntoName(artist).equals("DBP")==false) {
 				CorefFinder mediaFinder1 = new CorefFinder(media,mediaType);
 				mediaFinder1.start();
