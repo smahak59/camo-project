@@ -88,7 +88,6 @@ public class LabelAndTypeFinder extends Thread {
 			sourceConn.close();
 		} catch (Throwable e) {
 			// TODO Auto-generated catch block
-			System.out.println(connType);
 			e.printStackTrace();
 		}
 		return finded;

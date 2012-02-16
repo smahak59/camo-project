@@ -94,8 +94,6 @@ public class InterestGpFactory {
 				mediaFinder2.join();
 				String dbpMedia = mediaFinder1.getDBPCoref();
 				String dbpArtist = mediaFinder2.getDBPCoref();
-				System.out.println(dbpMedia);
-				System.out.println(dbpArtist);
 				if(dbpMedia!=null)
 					media = dbpMedia;
 				if(dbpArtist!=null)
