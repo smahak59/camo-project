@@ -85,6 +85,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.media_player);
+		setTitle("Media Player");
 		initTabs();
 		initComponents();
 		initPlayList();
@@ -373,6 +374,12 @@ public class MediaPlayer extends Activity implements OnClickListener {
 					.getRmdFeedbackList();
 			if(rmdFeedbackList != null && !rmdFeedbackList.isEmpty()) {
 				initRecommendedGallery();
+			}
+			else {
+				gallery_recommended.setVisibility(View.INVISIBLE);
+				relativeLayout_hint.setVisibility(View.VISIBLE);
+				imageButton_recNext.setVisibility(View.INVISIBLE);
+				imageButton_recPrev.setVisibility(View.INVISIBLE);
 			}
 		}
 	}
