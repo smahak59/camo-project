@@ -42,6 +42,8 @@ public class InterestGpFactory {
 	}
 	
 	public boolean addInterest(int uid, String userName, int userSex, String media, String mediaType, String artist) {
+		if(artist==null || artist.length()==0)
+			return addInterest(uid, userName, userSex, media, mediaType);
 		try {
 			if(SDBConnFactory.getInstance().getOntoName(media).equals("DBP")==false || 
 					SDBConnFactory.getInstance().getOntoName(artist).equals("DBP")==false) {
@@ -79,10 +81,41 @@ public class InterestGpFactory {
 		}
 		return true;
 	}
-
+	
+	private boolean addInterest(int uid, String userName, int userSex, String media, String mediaType) {
+		try {
+			if(SDBConnFactory.getInstance().getOntoName(media).equals("DBP")==false) {
+				CorefFinder mediaFinder1 = new CorefFinder(media,mediaType);
+				mediaFinder1.start();
+				mediaFinder1.join();
+				String dbpMedia = mediaFinder1.getDBPCoref();
+				if(dbpMedia!=null)
+					media = dbpMedia;
+			}
+			
+			Connection sourceConn = DBConnFactory.getInstance().dbConnect(DBConnFactory.ISTGP_CONN);
+			String sqlStr = "insert into media_favor(u_id,u_name,u_sex,media,media_type,in_time) values(?,?,?,?,?,?)";
+			PreparedStatement stmt = sourceConn.prepareStatement(sqlStr);
+			Timestamp curTime = new Timestamp(System.currentTimeMillis());
+			stmt.setInt(1, uid);
+			stmt.setString(2, userName);
+			stmt.setInt(3, userSex);
+			stmt.setString(4, media);
+			stmt.setString(5, mediaType);
+			stmt.setTimestamp(6, curTime);
+			stmt.executeUpdate();
+			stmt.close();
+			sourceConn.close();
+		} catch (Throwable e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
 	public boolean delInterest(int uid, String media, String mediaType, String artist) {
 		if(artist==null || artist.length()==0)
-			return delInterest(uid, mediaType);
+			return delInterest(uid, media);
 		try {
 			if(SDBConnFactory.getInstance().getOntoName(media).equals("DBP")==false || 
 					SDBConnFactory.getInstance().getOntoName(artist).equals("DBP")==false) {
