@@ -79,6 +79,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 	private RelativeLayout relativeLayout_hint;
 	private boolean playButtonStatus;
 	private boolean isFavoredMedia;
+	private boolean PNButtonsStatus;
 	private ImageButton imageButton_recPrev;
 	private ImageButton imageButton_recNext;
 
@@ -95,12 +96,12 @@ public class MediaPlayer extends Activity implements OnClickListener {
 	private void initTabs() {
 		tabHost = (TabHost) findViewById(R.id.tabHost_mediaPlayer);
 		tabHost.setup();
-		tabHost.addTab(tabHost.newTabSpec("PlayList").setIndicator("Play List")
-				.setContent(R.id.tab_playList));
 		tabHost.addTab(tabHost.newTabSpec("MediaInfo")
 				.setIndicator("Media Info").setContent(R.id.tab_mediaInfo));
 		tabHost.addTab(tabHost.newTabSpec("Interest").setIndicator("Interest")
 				.setContent(R.id.tab_interest));
+		tabHost.addTab(tabHost.newTabSpec("PlayList").setIndicator("Play List")
+				.setContent(R.id.tab_playList));
 		TabWidget tabWidget = tabHost.getTabWidget();
 		for (int i = 0; i < tabWidget.getChildCount(); i++) {
 			TextView tv = (TextView) tabWidget.getChildAt(i).findViewById(
@@ -111,6 +112,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 
 	private void initComponents() {
 		playButtonStatus = true;
+		PNButtonsStatus = true;
 		currentUser = ((CAMO_Application) getApplication()).getCurrentUser();
 		actorList = new ArrayList<UriInstance>();
 		mediaInfo = new ArrayList<Triple>();
@@ -300,6 +302,7 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		protected void onPostExecute(String result) {
 			initMediaInfoListView();
 			listView_mediaInfo.setVisibility(View.VISIBLE);
+			enablePNButtons();
 		}
 
 		private void mergeDuplicatesDown(ArrayList<Triple> triplesDown) {
@@ -770,15 +773,17 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			}
 			break;
 		case R.id.imageButton_next:
-			if (playList.size() < 2)
+			if (playList.size() < 2 || PNButtonsStatus == false)
 				break;
+			disablePNButtons();
 			playList.next();
 			adapter.setCurrentPlaying();
 			initCurrentPlaying();
 			break;
 		case R.id.imageButton_prev:
-			if (playList.size() < 2)
+			if (playList.size() < 2 || PNButtonsStatus == false)
 				break;
+			disablePNButtons();
 			playList.prev();
 			adapter.setCurrentPlaying();
 			initCurrentPlaying();
@@ -795,6 +800,13 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			gallery_recommended.setSelection(selected_p - 1, true);			
 			break;
 		}
+	}
+	private void enablePNButtons() {
+		PNButtonsStatus = true;
+	}
+	
+	private void disablePNButtons() {
+		PNButtonsStatus = false;
 	}
 
 	private void toggleFavorMusicButton() {
