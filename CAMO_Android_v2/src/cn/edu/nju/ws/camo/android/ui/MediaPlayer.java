@@ -243,7 +243,8 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		this.setTitle(currentPlaying.getName());
 		actorList.clear();
 		mediaInfo.clear();
-		rmdFeedbackList.clear();
+		if(rmdFeedbackList != null)
+			rmdFeedbackList.clear();
 		imageButton_recNext.setVisibility(View.INVISIBLE);
 		imageButton_recPrev.setVisibility(View.INVISIBLE);
 		gallery_recommended.setVisibility(View.INVISIBLE);
