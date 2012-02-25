@@ -71,12 +71,12 @@ public class LikeListViewer extends TabActivity implements OnItemClickListener, 
 	        //tabHost.addTab(tabHost.newTabSpec("Artist") 
 	                //.setIndicator("Artist", getResources().getDrawable(R.drawable.tab_artist)) 
 	                //.setContent(R.id.listView_likeViewer_Artist)); 
-	        tabHost.addTab(tabHost.newTabSpec("Music") 
-	                .setIndicator("Music", getResources().getDrawable(R.drawable.tab_music)) 
-	                .setContent(R.id.listView_likeViewer_Music)); 
 	        tabHost.addTab(tabHost.newTabSpec("Movie") 
 	                .setIndicator("Movie", getResources().getDrawable(R.drawable.tab_movie)) 
 	                .setContent(R.id.listView_likeViewer_Movie)); 
+	        tabHost.addTab(tabHost.newTabSpec("Music") 
+	        		.setIndicator("Music", getResources().getDrawable(R.drawable.tab_music)) 
+	        		.setContent(R.id.listView_likeViewer_Music)); 
 	        tabHost.addTab(tabHost.newTabSpec("Photo") 
 	                .setIndicator("Photo", getResources().getDrawable(R.drawable.tab_photo)) 
 	                .setContent(R.id.listView_likeViewer_Photo));
@@ -181,8 +181,8 @@ public class LikeListViewer extends TabActivity implements OnItemClickListener, 
 		UriInstance targetUri;
 		switch (currentTab) {
 		//case 0:targetUri = artistPreferList.get(arg2).getInst();break;
-		case 0:targetUri = musicPreferList.get(arg2).getInst();break;
-		case 1:targetUri = moviePreferList.get(arg2).getInst();break;
+		case 0:targetUri = moviePreferList.get(arg2).getInst();break;
+		case 1:targetUri = musicPreferList.get(arg2).getInst();break;
 		case 2:targetUri = photoPreferList.get(arg2).getInst();break;
 		default: targetUri = null;
 		}
@@ -196,8 +196,8 @@ public class LikeListViewer extends TabActivity implements OnItemClickListener, 
 		UriInstance targetUri;
 		switch (currentTab) {
 		//case 0:targetUri = artistPreferList.get(arg2).getInst();break;
-		case 0:targetUri = musicPreferList.get(arg2).getInst();break;
-		case 1:targetUri = moviePreferList.get(arg2).getInst();break;
+		case 0:targetUri = moviePreferList.get(arg2).getInst();break;
+		case 1:targetUri = musicPreferList.get(arg2).getInst();break;
 		case 2:targetUri = photoPreferList.get(arg2).getInst();break;
 		default: targetUri = null;
 		}

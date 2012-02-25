@@ -7,8 +7,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.xmlpull.v1.XmlPullParserException;
+
 
 import android.app.Activity;
 import android.content.Context;
@@ -37,6 +40,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
@@ -82,6 +86,12 @@ public class MediaPlayer extends Activity implements OnClickListener {
 	private boolean PNButtonsStatus;
 	private ImageButton imageButton_recPrev;
 	private ImageButton imageButton_recNext;
+	
+	private android.media.MediaPlayer mPlayer;
+	private Timer mTimer;
+	private TimerTask mTimerTask;
+	private SeekBar seekBar;
+	private boolean isChanging = false;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -89,9 +99,79 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		setTitle("Media Player");
 		initTabs();
 		initComponents();
+		initMPlayer();
 		initPlayList();
-		initCurrentPlaying();	
+		initCurrentPlaying();
+		
 	}
+	
+	public void onDestroy() {
+		mPlayer.reset();
+		super.onDestroy();		
+	}
+	private void setMusicPlayer() {
+		try {
+			if(currentPlaying.getName().contains("Only"))
+				mPlayer.setDataSource("/mnt/sdcard/only.mp3");
+			else if(currentPlaying.getName().contains("Secret"))
+				mPlayer.setDataSource("/mnt/sdcard/secret.mp3");
+			else if(currentPlaying.getName().contains("Good"))
+				mPlayer.setDataSource("/mnt/sdcard/good.mp3");
+			else
+				return;				
+			mPlayer.prepare();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+		seekBar.setMax(mPlayer.getDuration());
+	}
+	
+	private void initMPlayer() {
+		mPlayer = new android.media.MediaPlayer();
+		seekBar = (SeekBar) findViewById(R.id.seekBar1);		
+		seekBar.setOnSeekBarChangeListener(new SeekBarChangeEvent());
+		seekBar.setMax(mPlayer.getDuration());
+        mTimer = new Timer();    
+        mTimerTask = new TimerTask() {    
+            @Override    
+            public void run() {     
+                if(isChanging==true) {   
+                    return;    
+                }  
+                seekBar.setProgress(mPlayer.getCurrentPosition());  
+            }    
+        };   
+        mTimer.schedule(mTimerTask, 0, 10);
+	}
+	
+	class SeekBarChangeEvent implements SeekBar.OnSeekBarChangeListener{
+
+		@Override
+		public void onProgressChanged(SeekBar seekBar, int progress,
+				boolean fromUser) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onStartTrackingTouch(SeekBar seekBar) {
+	    	isChanging=true;
+		}
+
+		@Override
+		public void onStopTrackingTouch(SeekBar seekBar) {
+			mPlayer.seekTo(seekBar.getProgress());
+	    	isChanging=false;	
+		}
+		  
+	  }
 
 	private void initTabs() {
 		tabHost = (TabHost) findViewById(R.id.tabHost_mediaPlayer);
@@ -158,6 +238,9 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		listView_playList.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
+				if(PNButtonsStatus == false)
+					return;
+				disablePNButtons();
 				playList.playByIndex(arg2);
 				adapter.setCurrentPlaying();
 				initCurrentPlaying();
@@ -253,6 +336,26 @@ public class MediaPlayer extends Activity implements OnClickListener {
 		textView_actorListTitle.setVisibility(View.INVISIBLE);
 		relativeLayout_hint.setVisibility(View.VISIBLE);
 		loadMediaInfo();
+		
+		
+		
+		mPlayer.seekTo(0);
+		mPlayer.pause();
+		mPlayer.reset();
+		
+		if (playButtonStatus == false) {
+			imageButton_play.setImageDrawable(getResources().getDrawable(
+					R.drawable.play));
+			playButtonStatus = true;
+		}
+		
+//		mPlayer.seekTo(0);
+//		seekBar.setProgress(0);
+//		mPlayer.reset();
+		
+		
+		//seekBar.setMax(0);
+				
 		if (mediaType.equals("music")) {
 			imageView_current.setImageDrawable(getResources().getDrawable(
 					R.drawable.music));
@@ -267,6 +370,9 @@ public class MediaPlayer extends Activity implements OnClickListener {
 						.getDrawable(R.drawable.fav_off));
 			}
 			relativeLayout_music.setVisibility(View.VISIBLE);
+			if(true) {
+				setMusicPlayer();
+			}
 		} else if (mediaType.equals("movie")) {
 			imageView_current.setImageDrawable(getResources().getDrawable(
 					R.drawable.movie));
@@ -274,6 +380,8 @@ public class MediaPlayer extends Activity implements OnClickListener {
 			loadActorList();
 		}
 	}
+	
+	
 
 	private void loadMediaInfo() {
 		listView_mediaInfo.setVisibility(View.INVISIBLE);
@@ -767,10 +875,12 @@ public class MediaPlayer extends Activity implements OnClickListener {
 				imageButton_play.setImageDrawable(getResources().getDrawable(
 						R.drawable.pause));
 				playButtonStatus = false;
+				mPlayer.start();
 			} else {
 				imageButton_play.setImageDrawable(getResources().getDrawable(
 						R.drawable.play));
 				playButtonStatus = true;
+				mPlayer.pause();
 			}
 			break;
 		case R.id.imageButton_next:
